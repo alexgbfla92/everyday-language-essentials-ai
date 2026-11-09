@@ -18,7 +18,7 @@ O GitHub distribui o beta. O Codex é a ferramenta de desenvolvimento. O autor c
 
 ## Percurso de referência
 
-Na Central, o aluno escolhe Google Drive e uma pasta pessoal. A configuração só termina após uma gravação de teste seguida de leitura. O aluno informa o idioma e seu objetivo. Em um novo chat, pede o diagnóstico. A Skill localiza o perfil, conduz a atividade e registra a próxima etapa. Quando o aluno volta pelo celular e diz “quero continuar”, o novo chat recupera a missão e o ponto de pausa.
+O aluno começa em um chat pela URL da skill e confirma se o chat está no Projeto. A Central orienta a criação do Projeto e a movimentação desse chat quando necessário. O aluno escolhe onde salvar seus dados e vincula a pasta privada do Drive às fontes do Projeto. A Central verifica criação, atualização, releitura e envio à lixeira de um temporário. Após inicializar os registros, coleta nome, idade e idioma e conduz o diagnóstico geral. Com o resultado salvo, combina contexto, prazo, duração e frequência das aulas e registra o plano e a data de reavaliação. Em outro chat, “fazer aula” consulta os registros para iniciar ou retomar a sessão adequada.
 
 O Google Drive é o destino preferencial. O OneDrive é uma alternativa a validar. Uma pasta local atende a testes no computador com acesso a ela. Retomar em outro aparelho exige que ele consiga ler o mesmo registro atualizado.
 

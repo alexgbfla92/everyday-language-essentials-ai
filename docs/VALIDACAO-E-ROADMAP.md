@@ -2,13 +2,13 @@
 
 ## Primeira prova de conceito
 
-O autor faz o teste na própria conta. Para cada tentativa de primeiro uso, criar um Projeto novo e uma pasta privada vazia no Drive e usar uma missão fictícia. Anotar se o Drive já estava autorizado antes de começar. Registrar data, interface, versão do pacote, permissões solicitadas, passos executados e resultado observado. Todos os cenários abaixo estão pendentes.
+O autor faz o teste na própria conta. Para cada tentativa de primeiro uso, criar um Projeto novo e uma pasta privada vazia no Drive e usar uma missão fictícia. Anotar se o Drive já estava autorizado antes de começar. Registrar data, interface, versão do pacote, permissões solicitadas, passos executados e resultado observado. No ensaio anterior, segundo o relato do autor, a Central respondeu ao prompt com a URL e outro chat reproduziu a saudação. A conversa iniciou uma aula antes da etapa prevista. O novo percurso abaixo aguarda teste na conta do autor.
 
 | Cenário | Critério de aceite |
 | --- | --- |
 | Do GitHub ao primeiro uso | No papel de aluno, o autor parte do link da versão e inicia o setup usando apenas o pacote e o guia publicados, sem terminal. Se precisar consultar o clone ou improvisar um passo, registrar a lacuna, corrigir o guia ou o pacote, publicar a atualização e repetir a instalação. |
-| Setup pelo navegador | Escolher a pasta no Drive, criar um registro de teste e conferir seu conteúdo por leitura. |
-| Diagnóstico e aula | Concluir um diagnóstico curto, abrir um chat para a aula, pausar depois de uma resposta e registrar a próxima pergunta. |
+| Setup pelo navegador | Abrir pela URL fora do Projeto, confirmar a movimentação e vincular a pasta. Verificar criação, atualização, releitura e envio à lixeira do temporário. Com uma operação indisponível, interromper antes do cadastro e exibir os tutoriais. |
+| Diagnóstico e aula | Conferir no Drive nome, idade e idioma recolhidos separadamente. Realizar o diagnóstico geral em até cinco minutos e conferir o resultado antes de definir contexto. Verificar o plano com duração, frequência, prazo e reavaliação. Em novo chat, usar “fazer aula”, pausar após uma resposta e conferir a próxima pergunta. Com vários idiomas ou sessões, verificar a escolha antes de retomar. |
 | Troca de dispositivo | Pelo celular, recuperar a mesma missão e a próxima pergunta. Concluir a sessão. No desktop, conferir que há uma única conclusão. |
 | Uso por voz | Repetir pausa e retomada em voz. Registrar autorizações em tela e verificar a leitura do resultado. |
 | Falha de escrita | Interromper o acesso à pasta, recuperar o resumo por texto e repetir o salvamento após restaurar o acesso. Verificar ausência de duplicatas. |
