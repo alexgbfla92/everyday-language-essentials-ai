@@ -7,7 +7,7 @@ O autor faz o teste na própria conta. Para cada tentativa de primeiro uso, cria
 | Cenário | Critério de aceite |
 | --- | --- |
 | Do GitHub ao primeiro uso | No papel de aluno, o autor parte do link da versão e inicia o setup usando apenas o pacote e o guia publicados, sem terminal. Se precisar consultar o clone ou improvisar um passo, registrar a lacuna, corrigir o guia ou o pacote, publicar a atualização e repetir a instalação. |
-| Setup pelo navegador | Abrir pela URL fora do Projeto, confirmar a movimentação e vincular a pasta. Verificar criação, atualização, releitura e envio à lixeira do temporário. Com uma operação indisponível, interromper antes do cadastro e exibir os tutoriais. |
+| Setup pelo navegador | Abrir pela URL fora do Projeto, confirmar a movimentação e fornecer a pasta. Mesmo sem vínculo às fontes, se o link der acesso, criar, atualizar e reler o temporário antes do cadastro. Tentar a limpeza. Com escrita e releitura verificadas, perguntar o nome mesmo se só a limpeza falhar. Com falha de persistência, parar e informar a operação pendente. |
 | Diagnóstico e aula | Conferir no Drive nome, idade e idioma recolhidos separadamente. Realizar o diagnóstico geral em até cinco minutos e conferir o resultado antes de definir contexto. Verificar o plano com duração, frequência, prazo e reavaliação. Em novo chat, usar “fazer aula”, pausar após uma resposta e conferir a próxima pergunta. Com vários idiomas ou sessões, verificar a escolha antes de retomar. |
 | Troca de dispositivo | Pelo celular, recuperar a mesma missão e a próxima pergunta. Concluir a sessão. No desktop, conferir que há uma única conclusão. |
 | Uso por voz | Repetir pausa e retomada em voz. Registrar autorizações em tela e verificar a leitura do resultado. |

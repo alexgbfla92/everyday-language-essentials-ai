@@ -10,7 +10,7 @@
 | Ponto de pausa | Sessão, etapa alcançada, resposta ou evidência relevante e próxima ação. |
 | Progresso | Referência à sessão concluída e às evidências que justificam cada resultado. |
 
-O mapa de arquivos usado pelo beta está na seção “O que guardar na pasta do aluno” do [SKILL.md](../SKILL.md). Cada resposta pertence ao registro da etapa e deve ser gravada e relida antes de avançar. As respostas anteriores à validação do Drive são persistidas assim que a estrutura estiver disponível. O Projeto mantém a pasta entre suas fontes para localizar a configuração em novos chats. A configuração aponta para a pasta autorizada do aluno. A autorização depende da conta e da interface disponíveis. Uma atualização da Skill deve continuar reconhecendo os registros existentes.
+O mapa de arquivos usado pelo beta está na seção “O que guardar na pasta do aluno” do [SKILL.md](../SKILL.md). Cada resposta pertence ao registro da etapa e deve ser gravada e relida antes de avançar. As respostas anteriores à validação do Drive são persistidas assim que a estrutura estiver disponível. A pasta pode ser vinculada às fontes para localizar a configuração em novos chats. O link fornecido pelo aluno também pode ser usado para localizar e verificar a pasta. A configuração aponta para a pasta autorizada do aluno. A autorização depende da conta e da interface disponíveis. Uma atualização da Skill deve continuar reconhecendo os registros existentes.
 
 ## Escrita e recuperação
 
