@@ -1,12 +1,14 @@
 {
   "name": "everyday-essentials",
   "owner": { "name": "alexgbfla92" },
+  "description": "Everyday Language Essentials AI: central pessoal de idiomas por missão.",
   "plugins": [
     {
       "name": "everyday-language-essentials-ai",
-      "description": "Central pessoal de idiomas com diagnóstico, aulas e progresso no Google Drive.",
+      "description": "Central pessoal de idiomas com diagnóstico, aulas e progresso salvos no Google Drive ou numa pasta local.",
+      "version": "0.3.0",
       "source": "./",
-      "skills": ["."]
+      "skills": ["./"]
     }
   ]
 }

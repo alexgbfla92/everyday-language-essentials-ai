@@ -1,8 +1,10 @@
 # Validação do beta
 
-Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens fictícias e testa as operações propostas ao conector. Ela não mede confiabilidade de rede nem verifica a interação do modelo com um aluno.
+Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens fictícias e testa as operações propostas ao conector. Também cria pastas locais temporárias para testar o modo `--local`: mesma árvore do Drive, cópia fiel dos modelos, repetição sem sobrescrever, conflitos e recusa de links simbólicos e da pasta da skill. Ela não mede confiabilidade de rede nem verifica a interação do modelo com um aluno.
 
 ## Aceite em pasta pessoal de ensaio
+
+Repita o roteiro abaixo em cada combinação de plataforma e adaptador que for publicada (por exemplo ChatGPT com Drive, Codex com pasta local, Claude Code com pasta local, app do Claude com pasta conectada). No app do Claude, confira também se o conector Drive da conta cria e atualiza arquivos antes de usar o adaptador Drive; se não, valide o encaminhamento para pasta local ou modo manual.
 
 1. Pelo mecanismo de instalação disponível na conta, invoque a skill sem o clone aberto. Informe um destino vazio. Crie espanhol e inglês. Confira metadados, pais, MIME, bytes, IDs e revisão da configuração após nova leitura.
 2. Repita o setup. Compare os IDs. Adicione francês; confira que os dados anteriores continuam íntegros. Em cópia de um beta plano, verifique leitura por ID, migração interrompida e retomada sem duplicação.
