@@ -1,28 +1,14 @@
-# Validação e distribuição
+# Validação do beta
 
-## Primeira prova de conceito
+Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens fictícias e testa as operações propostas ao conector. Ela não mede confiabilidade de rede nem verifica a interação do modelo com um aluno.
 
-O autor faz o teste na própria conta. Para cada tentativa de primeiro uso, criar um Projeto novo e uma pasta privada vazia no Drive e usar uma missão fictícia. Anotar se o Drive já estava autorizado antes de começar. Registrar data, interface, versão do pacote, permissões solicitadas, passos executados e resultado observado. No ensaio anterior, segundo o relato do autor, a Central respondeu ao prompt com a URL e outro chat reproduziu a saudação. A conversa iniciou uma aula antes da etapa prevista. O novo percurso abaixo aguarda teste na conta do autor.
+## Aceite em pasta pessoal de ensaio
 
-| Cenário | Critério de aceite |
-| --- | --- |
-| Do GitHub ao primeiro uso | No papel de aluno, o autor parte do link da versão e inicia o setup usando apenas o pacote e o guia publicados, sem terminal. Se precisar consultar o clone ou improvisar um passo, registrar a lacuna, corrigir o guia ou o pacote, publicar a atualização e repetir a instalação. |
-| Setup pelo navegador | Começar com acesso para criar, editar e ler. Na pasta indicada, verificar que Configuração foi criado, atualizado e relido pelo mesmo ID. O cadastro deve chegar à pergunta sobre o nome. Repetir o setup e conferir que há um único registro, com as respostas anteriores preservadas. |
-| Formato dos registros | No primeiro uso, verificar extensão .md, tipo de texto e conteúdo após a releitura no Drive. Em um Projeto com diagnóstico em Google Docs, converter a pedido, comparar o conteúdo, preservar o original e retomar pelo novo ID. Com conector limitado a Docs, conferir que o aluno escolhe como continuar. |
-| Diagnóstico e aula | Conferir no Drive nome, idade e idioma recolhidos separadamente. Realizar o diagnóstico geral em até cinco minutos e conferir o resultado antes de definir contexto. Verificar o plano com duração, frequência, prazo e reavaliação. Em novo chat, usar “fazer aula”, pausar após uma resposta e conferir a próxima pergunta. Com vários idiomas ou sessões, verificar a escolha antes de retomar. |
-| Troca de dispositivo | Pelo celular, recuperar a mesma missão e a próxima pergunta. Concluir a sessão. No desktop, conferir que há uma única conclusão. |
-| Uso por voz | Repetir pausa e retomada em voz. Registrar autorizações em tela e verificar a leitura do resultado. |
-| Falha de escrita | Interromper o acesso à pasta, recuperar o resumo por texto e repetir o salvamento após restaurar o acesso. Verificar ausência de duplicatas. |
-| Aula de teste | Comparar o relatório antes e depois de uma sessão marcada como teste. Os totais pedagógicos devem coincidir. |
+1. Pelo mecanismo de instalação disponível na conta, invoque a skill sem o clone aberto. Informe um destino vazio. Crie espanhol e inglês. Confira metadados, pais, MIME, bytes, IDs e revisão da configuração após nova leitura.
+2. Repita o setup. Compare os IDs. Adicione francês; confira que os dados anteriores continuam íntegros. Em cópia de um beta plano, verifique leitura por ID, migração interrompida e retomada sem duplicação.
+3. Peça aula sem diagnóstico e depois com triagem breve. Observe o encaminhamento. Conclua um diagnóstico regular em texto, confira as limitações anotadas e aprove o plano. Faça uma sessão de teste e compare as métricas antes e depois.
+4. Pause uma aula após F002. No celular, recupere o mesmo ID, revisão e pergunta. Em voz, confirme o que foi efetivamente observado. Encerre e verifique uma única contribuição ao progresso.
+5. Interrompa o acesso após salvar a sessão e antes de atualizar o progresso. Confira o checkpoint, reconcilie pelo ID de operação e valide o reparo. Com um segundo escritor ativo, registre conflitos e suspenda a operação se o conector não oferecer garantias suficientes.
+6. Em chat de progresso, compare as evidências de um idioma sem alterar notas. No Lab, teste um vídeo sem transcrição acessível.
 
-## Ordem de entrega
-
-1. Revisar arquitetura e escolher o primeiro caminho de instalação a experimentar. Definir como um novo chat localizará a pasta do aluno.
-2. Como mantenedor, criar a skill e publicar o pacote e o guia em uma versão identificada no GitHub.
-3. Como aluno, instalar essa versão na própria conta e executar o percurso mínimo com Google Drive do navegador ao celular. Voltar ao computador para conferir a conclusão. Registrar o resultado e os passos manuais por interface.
-4. Ampliar o beta no GitHub depois de corrigir os problemas de instalação e retomada. Avaliar OneDrive, pasta local, Claude e Gemini em testes próprios.
-5. Preparar a submissão ao diretório do ChatGPT ao final, conforme os requisitos vigentes na ocasião.
-
-## Decisões para a primeira revisão
-
-Qual artefato o autor publicará no GitHub para instalar como aluno? Como o Projeto localizará a mesma pasta em um chat novo? Que parte do setup requer ação manual em cada interface? Registrar cada resposta com evidência ou atribuir um teste antes da implementação completa.
+Registre interface, versão, data, ações e resultados em ambiente de teste. A publicação e a distribuição em outras contas dependem desse ensaio.

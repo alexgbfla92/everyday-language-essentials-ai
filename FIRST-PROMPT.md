@@ -1,3 +1,3 @@
-# Primeira conversa no Codex
+# Primeira conversa
 
-Leia o README público, START-HERE.md e os documentos de arquitetura. Sem programar, revise a jornada do próprio autor, que publica a versão no GitHub e, como novo usuário em sua própria conta, instala o beta a partir do link publicado, configura seu Projeto no ChatGPT e retoma uma aula em outro dispositivo. Mostre o fluxo proposto, as capacidades que precisam ser verificadas e o menor teste de ponta a ponta com Google Drive. Termine com os critérios de aceite e as decisões que preciso tomar.
+Use $everyday-language-essentials-ai para configurar minha Central de idiomas. Quero estudar espanhol e inglês. Vou indicar minha pasta pessoal no Google Drive. Prepare a estrutura, confira o que foi salvo e me encaminhe à primeira etapa pendente.

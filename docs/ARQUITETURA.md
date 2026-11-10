@@ -1,27 +1,15 @@
-# Arquitetura da experiência de aprendizagem
+# Arquitetura da Central
 
-## Decisões do planejamento
+O SKILL.md na raiz define a descoberta e encaminha configuração, diagnóstico, aula, retomada ou acompanhamento. A distribuição leva instruções e modelos vazios. O Projeto ou chat guarda uma referência à pasta pessoal. O Drive guarda o que aconteceu com o aluno.
 
-O aluno escolhe um nome para seu Projeto no ChatGPT. Um chat permanente, a Central de Aprendizagem, orienta o setup, apresenta o progresso e permite gerenciar missões. Cada aula tem seu próprio chat. Se o ambiente exigir que o aluno crie o chat manualmente, a Central indica em qual Projeto abri-lo e qual mensagem enviar.
-
-O GitHub distribui o beta. O Codex é a ferramenta de desenvolvimento. O autor cria a skill e publica suas atualizações no GitHub. Para validar o primeiro percurso, ele assume o papel de novo aluno na própria conta, abre o link da versão publicada e usa o ChatGPT pelo navegador, aplicativo de desktop ou celular. O modo de instalação em cada interface é uma questão aberta.
-
-## Componentes propostos
-
-| Componente | Responsabilidade |
+| Camada | Implementação e responsabilidade |
 | --- | --- |
-| Pacote da Skill | Reunir instruções em SKILL.md, metodologia, modelos vazios e exemplos fictícios sob controle de versão. |
-| Projeto do aluno | Organizar os chats e guardar uma referência curta ao espaço de aprendizagem escolhido no setup. |
-| Núcleo pedagógico | Interpretar pedidos naturais, conduzir diagnóstico e aulas e gerar evidências de progresso. |
-| Camada de armazenamento | Localizar o espaço do aluno, ler e gravar registros, identificar conflitos e conferir o que foi salvo. |
-| Integração com o ambiente | Informar que operações de arquivo, interação por voz e autorizações estão disponíveis naquela sessão. |
+| Central | SKILL.md decide a intenção, o idioma e a etapa elegível. |
+| Método | assets/config contém padrões e metodologia. assets/skills contém os oito módulos selecionáveis. |
+| Recursos por idioma | assets/languages contém exemplos, roteiros e modelos localizados. O aluno pode escolher uma ou várias trilhas. |
+| Provisionamento | scripts/provision.py transforma listagens verificadas em operações do conector com pai explícito. Pode ser executado novamente após interrupção. |
+| Persistência | docs/PERSISTENCIA.md define leitura e atualização por ID, isolamento, migração e reparação dos registros derivados. |
 
-## Percurso de referência
+No Codex, disponibilize a pasta completa como skill no diretório de skills do ambiente. No ChatGPT, disponibilize o mesmo pacote pelo mecanismo de skills habilitado na conta e conecte o Drive. A abertura de um link do GitHub ou a inclusão de uma pasta nas fontes de um Projeto, por si só, não comprova instalação nem capacidade de escrita. Verifique essas capacidades na interface efetivamente usada.
 
-O aluno começa em um chat pela URL da skill e confirma se o chat está no Projeto. A Central orienta a criação do Projeto e a movimentação desse chat quando necessário. O aluno escolhe onde salvar seus dados e indica a pasta privada do Drive. Vinculá-la às fontes facilita sua localização futura. A Central cria ou localiza o documento permanente Configuração, atualiza o campo de verificação e relê seu valor pelo ID na pasta indicada. Após inicializar os registros, coleta nome, idade e idioma e conduz o diagnóstico geral. Com o resultado salvo, combina contexto, prazo, duração e frequência das aulas e registra o plano e a data de reavaliação. Em outro chat, “fazer aula” consulta os registros para iniciar ou retomar a sessão adequada.
-
-O Google Drive é o destino preferencial. O OneDrive é uma alternativa a validar. Uma pasta local atende a testes no computador com acesso a ela. Retomar em outro aparelho exige que ele consiga ler o mesmo registro atualizado.
-
-## Portabilidade
-
-Planejar um núcleo comum para ChatGPT, Claude e Gemini. Separar permissões de arquivos, voz e execução de scripts por ambiente. Cada integração só entra no guia de uso depois de um teste reproduzível. O formato final de instalação e o mecanismo de identificação do espaço do aluno permanecem em aberto.
+A instalação pública, permissões na conta de um novo aluno, a experiência móvel e voz exigem ensaio de ponta a ponta. A integração usa as ações oferecidas pela conexão do aluno, sem credenciais no repositório.

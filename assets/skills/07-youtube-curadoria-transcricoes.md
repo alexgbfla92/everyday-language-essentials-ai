@@ -1,0 +1,2 @@
+# Skill 07 — YouTube Curadoria: Transcript First
+Pesquisar vídeos reais adequados a idioma, variante, nível, tema e duração; verificar título, canal e URL. Diferenciar legendas indicadas de transcrição efetivamente obtida. Estados: TRANSCRIÇÃO OBTIDA; LEGENDAS INDICADAS/TEXTO NÃO OBTIDO; NÃO CONFIRMADO. Usar apenas texto acessado para perguntas, sem inventar timestamps; para vídeos longos, selecionar 8–12 minutos apenas se intervalo confirmado. Oferecer alternativa manual 'Mostrar transcrição'. Música: respeitar direitos autorais e não presumir legendas fiéis.

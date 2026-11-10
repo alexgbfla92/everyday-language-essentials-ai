@@ -1,9 +1,7 @@
-# Contrato pedagógico para o beta
+# Contrato pedagógico
 
-Após o setup, a Central conduz um diagnóstico geral de até cinco minutos, inclusive para quem começa do zero. Ofereça tarefas curtas sobre temas familiares e apoio quando o aluno travar. Depois de registrar o resultado, combine o contexto da missão, o prazo real e a disponibilidade. Transforme pedidos pontuais em contextos mais amplos com a concordância do aluno. Registrar o que ele conseguiu fazer e as limitações da observação. Um diagnóstico interrompido recomeça da etapa pendente.
+Os padrões operacionais estão em [defaults](../assets/config/defaults.md) e na [metodologia original](../assets/config/metodologia.md). O [módulo diagnóstico](../assets/skills/00-diagnostic-adaptive-learning.md) combina evidências observadas e o roteiro localizado de cada idioma.
 
-Em uma missão de viagem, por exemplo, o objetivo de uma aula pode ser conseguir trocar um prato no restaurante. O treinador interpreta o atendente, faz uma pergunta no idioma-alvo e espera. O aluno pode pedir ajuda na sua língua. O treinador oferece uma expressão curta, deixa o aluno tentar de novo e encerra a cena quando o pedido estiver compreensível.
+A triagem breve da Central permite iniciar do zero e descobrir necessidades. Para uma aula regular, conclua o diagnóstico adaptativo do idioma e confirme um plano com contexto, prazo e frequência reais. Registre as dimensões não observadas, mesmo quando o aluno pedir um diagnóstico mais curto. Separe evidências de leitura, compreensão oral, produção e interação. Na reavaliação compare tarefas e modalidades comparáveis.
 
-O feedback cita uma ação que funcionou e uma frase que vale repetir na próxima aula. A prática seguinte pode mudar o contexto para verificar se a expressão se mantém útil. O Entertainment Lab pode incorporar temas de interesse escolhidos pelo aluno. Registre apenas habilidades observáveis na modalidade usada.
-
-O acompanhamento distingue tentativa, pausa e conclusão. Use um perfil por idioma e programe uma reavaliação periódica conforme a missão. Marque a sessão de teste na criação e exclua seus eventos dos relatórios, da contagem de aulas e das estimativas de evolução.
+Na simulação, espere a tentativa, ofereça ajuda e deixe o aluno reformular. Relacione o feedback e a próxima prática à tarefa e às falas da sessão. Os critérios e a escala estão no [módulo de avaliação](../assets/skills/05-performance-evaluator.md).

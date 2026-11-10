@@ -1,22 +1,23 @@
-# Estado do aluno e retomada
+# Provisionar a pasta pessoal com o Google Drive
 
-## Registros mínimos propostos
+## Preparar e reconciliar
 
-| Registro | Dados necessários à retomada |
-| --- | --- |
-| Configuração do Projeto | Identificador do espaço pessoal, provedor, referência da pasta e versão do formato. |
-| Missão e perfil | Idioma, objetivo, preferências, diagnóstico mais recente e evidências por habilidade. |
-| Sessão | Identificador estável, missão, modalidade, indicador de teste, estado e última revisão. |
-| Ponto de pausa | Sessão, etapa alcançada, resposta ou evidência relevante e próxima ação. |
-| Progresso | Referência à sessão concluída e às evidências que justificam cada resultado. |
+1. Obtenha o ID e os metadados da pasta dedicada do aluno. Caso ele indique apenas um pai pessoal, liste os filhos, crie ou reutilize uma única subpasta EverydayEssentials e use seu ID. Verifique a cadeia de pais. Distribuição, original, backups de referência e seus descendentes são somente leitura. Recuse destino ambíguo, atalho ou pasta pessoal que não possa identificar. Nunca use busca global por nome para escolher um destino de escrita.
+2. Antes de criar qualquer registro em pasta existente, procure configuração anterior na raiz (inclusive configuracao.md ou Google Doc) e em config/. Leia IDs indexados, idioma, missões e etapas pendentes. No legado plano mantenha a leitura pelos IDs de origem e a etapa salva. Associe registros ao idioma verificado, preserve campos desconhecidos. Para migração, copie para o ramo pessoal correto, compare respostas, evidências, revisão e próxima etapa, depois troque o ponteiro. Falta de idioma ou colisão requer identificação pelo aluno. Preserve o original. Para converter Docs em Markdown, aguarde solicitação específica.
+3. Execute a partir da pasta da skill: `python scripts/provision.py ID_PESSOAL inventario.json en-US es-ES`, usando os idiomas escolhidos. O inventário inicial é `{}`. O resultado pede listagens pelos IDs em list_parent_ids. Para cada pai, liste seus filhos diretos com list_folder e confirme que a listagem está completa (use busca paginada, se necessário). Registre no JSON o ID do pai como chave e a lista de objetos com id, title, mime_type como valor. Uma pasta verificada vazia recebe []. Uma leitura incompleta ou falha nunca equivale a [].
+4. Execute os pedidos em operations com o conector, somente no pai indicado. create_folder cria a pasta; upload_file envia o asset local UTF-8 como Markdown. Confira ID, nome, MIME e pai na releitura e compare o conteúdo dos arquivos novos. Atualize as listagens afetadas e repita o planejador até operations e list_parent_ids ficarem vazios. Existing files retain learner data: nunca reaplique um modelo sobre um arquivo existente. Uma resposta perdida exige nova listagem antes de qualquer repetição. Com homônimos, pare e identifique o objeto correto. Em interface sem execução Python, percorra a árvore assets/config e assets/languages dos idiomas escolhidos na mesma ordem (pais antes dos filhos), incluindo a subpasta planos, com as mesmas verificações.
+5. Grave em config/estado-global.md a versão de esquema 2, ID da raiz, preferência global, idiomas ativos, etapa de setup, índice caminho → ID confirmado e data da última verificação. Preserve campos anteriores. Para adicionar idioma, mescle o novo índice ao existente. Valide escrita alterando um marcador único da execução no mesmo ID com update_file(fileId, file_uri, mime_type), depois releia e compare. Confirme setup somente após releitura. Disponibilize o link da pasta pessoal para o aluno vincular ao Projeto ou retomar em outro chat.
 
-O mapa de arquivos usado pelo beta está na seção “O que guardar na pasta do aluno” do [SKILL.md](../SKILL.md). Cada resposta pertence ao registro da etapa e deve ser gravada e relida antes de avançar. As respostas anteriores à validação do Drive são persistidas assim que a estrutura estiver disponível. A pasta pode ser vinculada às fontes para localizar a configuração em novos chats. O link fornecido pelo aluno também pode ser usado para localizar e verificar a pasta. A configuração aponta para a pasta autorizada do aluno. A autorização depende da conta e da interface disponíveis. Uma atualização da Skill deve continuar reconhecendo os registros existentes.
+## Layout e autoridade dos registros
 
-## Escrita e recuperação
+config/ contém defaults, catálogo, perfil do aluno e estado global. languages/{english,spanish,french}/ contém config.md, conteudo/, diagnosticos/, aulas/, planos/, progresso/historico/ e estado/. Preferências, missões e reavaliações pertencem ao ramo do idioma. O pacote fornece os módulos pedagógicos compartilhados em assets/skills/. Os modelos MODELO.md e o roteiro 09 são materiais de apoio, excluídos de contagens. Sugestões e defaults só passam a ser fatos do aluno depois de confirmados.
 
-1. Ao iniciar, leia a configuração, a missão e a revisão atual da sessão. Se houver duas sessões pendentes compatíveis, peça ao aluno que escolha.
-2. Ao pausar, mudar de etapa ou finalizar, grave o estado com o mesmo identificador de sessão. Releia o registro e confira revisão, etapa e próxima ação antes de confirmar.
-3. Se a conexão cair após a gravação, procure a revisão esperada antes de repetir a operação. A conclusão contribui uma única vez para o progresso.
-4. Se outro dispositivo tiver alterado a sessão, recupere a revisão mais recente e reconcilie as alterações antes de salvar.
-5. Se a escrita ou a leitura falhar, informe qual etapa ficou sem confirmação e entregue um resumo copiável com missão, sessão, etapa e próxima ação. Em voz, permita recuperar esse resumo por texto.
-6. Antes de excluir ou reiniciar registros, mostre o escopo e obtenha confirmação. Em uma migração, copie, confira o destino e só então atualize a referência do Projeto.
+A sessão usa aula-YYYYMMDD-NN.md ou diagnostico-YYYYMMDD-NN.md, com NN livre no pai correto. Registre caminho lógico, ID Drive, ID do plano, variante, modalidade, teste/regular, elegibilidade, revisão, última operação, estado e horário observado. Indexe falas F001… por sessão e preserve interlocutor e apoio. O checkpoint inclui bloco, última troca, último Fxxx, evidências, pendências e próxima pergunta. Os arquivos da sessão e do diagnóstico são as fontes das observações. O registro 08 é o resumo confirmado do idioma. Os três arquivos de estado são derivados e guardam ID, revisão da fonte e data. Use histórico para resumos de ciclos longos, preservando as fontes.
+
+## Salvar, retomar e reparar
+
+Leia o registro e a revisão de base. Prepare uma operação de ID estável por resposta ou conclusão. Releia imediatamente antes de escrever. Se outra revisão interveio, reconcilie pelo ID da operação e pelas falas antes de combinar mudanças. Na ausência de escrita condicional no conector, use um único chat escritor por sessão e um único provisionador por raiz. Não prometa exclusão mútua entre dispositivos. Havendo disputa, suspenda escritas até reconciliar a versão correta.
+
+Atualize os bytes do mesmo ID e MIME. Releia a revisão, operação, evidências e próxima pergunta. Só então derive o progresso e os caches do mesmo idioma. Atualize por ID de sessão e revisão, substituindo a entrada anterior; faça a releitura de cada derivado. Diagnóstico atualiza avaliação por habilidade, aula regular concluída conta uma vez, pausa apenas atualiza retomada e teste nunca altera as métricas. Se uma escrita intermediária falhar, retome pela sessão confirmada e repare apenas os derivados faltantes. Em chat de relatório, sinalize divergências e encaminhe o reparo ao fluxo de retomada.
+
+Se não houver escrita ou releitura, apresente a etapa exata, último ID/revisão confirmados e checkpoint copiável da resposta pendente. Ofereça importação manual do Markdown ou, quando disponível, Google Docs por escolha registrada. Em Docs use edição nativa do mesmo documento e releitura de conteúdo. Ao recuperar o acesso, confirme o arquivo no Drive antes de anunciar progresso salvo.
