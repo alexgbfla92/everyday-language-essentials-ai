@@ -1,0 +1,12 @@
+{
+  "name": "everyday-essentials",
+  "owner": { "name": "alexgbfla92" },
+  "plugins": [
+    {
+      "name": "everyday-language-essentials-ai",
+      "description": "Central pessoal de idiomas com diagnóstico, aulas e progresso no Google Drive.",
+      "source": "./",
+      "skills": ["."]
+    }
+  ]
+}
