@@ -1,6 +1,6 @@
 # MODELO — Clase de español
 
-Identificador de sesión e identificador del archivo en Drive:
+Identificador de sesión e identificador del archivo (ID de Drive o ruta relativa):
 Idioma: español de España (es-ES)
 Tipo: clase regular o de prueba
 Incluir en las métricas: sí/no (no para las pruebas)

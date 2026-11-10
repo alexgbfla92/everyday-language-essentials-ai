@@ -1,6 +1,6 @@
 # MODELO — Diagnóstico inicial de español
 
-Identificador / archivo de Drive:
+Identificador / archivo (ID de Drive o ruta relativa):
 Estado: planificado, en curso, pausado, terminado
 Comprensión auditiva (0–8 min): evidencias, confianza y MCER provisional:
 Expresión e interacción orales (8–18 min): evidencias, confianza y MCER provisional:

@@ -1,6 +1,6 @@
 # TEMPLATE — American English lesson
 
-Session ID and Drive file ID:
+Session ID and file ID (Drive ID or relative path):
 Language: American English (en-US)
 Type: regular lesson or test
 Include in metrics: yes/no (no for tests)

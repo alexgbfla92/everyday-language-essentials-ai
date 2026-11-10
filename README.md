@@ -156,6 +156,16 @@ Para quem tem uma viagem marcada, um encontro importante, uma oportunidade profi
 
 O Everyday Language Essentials AI é uma iniciativa **open source**, pensada para ser usada, adaptada e aprimorada pela comunidade. Cada pessoa escolhe suas missões e o que deseja praticar; a proposta não é impor uma jornada única, mas tornar a prática de idiomas mais acessível, contextualizada e menos intimidante. A disponibilidade de voz, texto e outros recursos depende da plataforma de IA utilizada.
 
+## Como instalar
+
+A mesma skill funciona no Claude, no ChatGPT e no Codex. Seu progresso fica numa pasta pessoal sua, no Google Drive ou no seu computador. No Claude Code, a instalação é uma linha:
+
+```
+/plugin install everyday-language-essentials-ai --marketplace alexgbfla92/everyday-language-essentials-ai
+```
+
+As instruções para cada plataforma estão em [START-HERE.md](START-HERE.md).
+
 ## A filosofia da comunidade
 
 > **Fale o que você sabe. Peça ajuda com o que ainda não sabe. Ouça, repita, ajuste e tente de novo.**

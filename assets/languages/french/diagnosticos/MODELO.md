@@ -1,6 +1,6 @@
 # MODÈLE — Diagnostic initial de français
 
-Identifiant / fichier Drive :
+Identifiant / fichier (ID Drive ou chemin relatif) :
 État : prévu, en cours, en pause, terminé
 Compréhension orale (0–8 min) : preuves, confiance, niveau CECRL provisoire :
 Expression et interaction orales (8–18 min) : preuves, confiance, niveau CECRL provisoire :

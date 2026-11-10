@@ -1,6 +1,6 @@
 # TEMPLATE — Initial American English diagnostic
 
-Session ID / Drive file ID:
+Session ID / file ID (Drive ID or relative path):
 State: planned, active, paused, completed
 Listening (0–8 min): evidence, confidence, provisional CEFR:
 Speaking and interaction (8–18 min): evidence, confidence, provisional CEFR:

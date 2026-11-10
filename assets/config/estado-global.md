@@ -1,6 +1,8 @@
 # Estado global — modelo inicial
 
 status: nao_configurado
+armazenamento: null  # drive | pasta-local | manual
+raiz: null  # ID da pasta no Drive ou caminho local
 idioma_padrao: en-US
 idiomas_habilitados: [fr-FR, es-ES, en-US]
 idiomas_escolhidos_pelo_aluno: []

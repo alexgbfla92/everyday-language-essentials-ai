@@ -1,6 +1,6 @@
 # MODÈLE — Séance de français
 
-Identifiant de séance et identifiant du fichier Drive :
+Identifiant de séance et identifiant du fichier (ID Drive ou chemin relatif) :
 Langue : français de France (fr-FR)
 Type : séance régulière ou séance de test
 Inclure dans les statistiques : oui/non (non pour les tests)
