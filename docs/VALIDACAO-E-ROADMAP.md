@@ -40,12 +40,14 @@ Em pasta pessoal de ensaio, anote operações e tempo de espera de três turnos 
 5. Repita com "terminar a aula": sessão `concluída`, progresso consolidado uma única vez.
 6. Feche o modo voz sem pausar e volte ao texto: a skill deve oferecer Save-Lesson.
 
-## Ensaio do roteiro da aula
+## Ensaio do roteiro da aula e do Entertainment Lab
 
-1. Ao abrir a aula, o roteiro das sete etapas aparece em uma linha, já com o título do vídeo do Lab; em texto, cada mensagem começa com `Etapa n/7 · nome`; em voz, cada troca de etapa é anunciada.
-2. Antes da etapa 1, sem perguntas ao aluno, a sessão já tem a seção Entertainment Lab preenchida, com vídeo ou trecho de 30% a 50% da aula (6 a 10 minutos numa aula de 20) ou o mais próximo disso com o motivo registrado, sempre ligado ao tema e com link `https://www.youtube.com/watch?v=…` (nunca outro site), com um vídeo verificado (título, canal, URL, trecho, transcrição, perguntas, tarefa) ou `pendente` se não houver busca.
-3. Pergunte "em que etapa estamos?" no meio da simulação: etapa atual, o que falta e tempo restante.
-4. Deixe a aula chegar ao fim sem pedir para terminar: depois do feedback, a IA entra sozinha na etapa 6, salva e confirma ("Aula salva na sua Central: …") ou, sem gravação, diz que não salvou e passa o comando Save-Lesson.
-5. Etapa 7: sem nenhuma pesquisa nessa hora, uma única mensagem curta com o Lab já gravado na sessão e uma só pergunta ("agora ou depois?"). Adie e depois use `Lab`: o mesmo plano volta sem novas perguntas.
-6. Repita 4 e 5 no modo voz. Em nenhum momento, depois do feedback, a IA pergunta "quer encerrar?"; a tabela Roteiro da sessão termina com as sete etapas marcadas.
-7. Faça o Lab até o fim: a IA grava o resultado e diz "Lab salvo na sua Central: …". Adie outro Lab: status `adiado` gravado e confirmado. Em voz, sem gravação: a IA diz que não salvou e passa `Save-Lesson lab <sessão> <F>-<F>`; enviado em texto, o resultado do Lab fica gravado.
+A conferência mecânica fica em `skills/everylang/scripts/lab.py` (`pronto` antes da etapa 1, `encerramento` antes de encerrar) e é coberta por `tests/test_lab.py`. Em cada plataforma, ensaie também o comportamento:
+
+1. **Vídeo disponível.** Antes da etapa 1, a sessão tem a seção do Lab com `lab_status: pronto`, link `https://www.youtube.com/watch?v=…`, duração de 30–50% da aula (ou o mais próximo, com motivo), perguntas, tarefa e `lab_verificado_em`; `lab.py pronto` passa; o roteiro da abertura mostra o título.
+2. **Falha na busca.** Sem busca (ou sem vídeo confirmado), a IA diz o que falhou e pergunta se o aluno aceita o Lab pendente **antes** da etapa 1; a etapa 1 só começa depois do "sim", gravado como `pendente_aceito`.
+3. **Início em voz.** Sem acesso a busca e gravação, a IA diz a limitação, não afirma que nada está pronto ou salvo e encaminha `Next-Lesson <idioma>` em texto.
+4. **Retomada.** Ao retomar uma aula com o Lab `a_preparar`, a IA prepara (ou segue o caminho de falha) antes de continuar a etapa salva.
+5. **Pedido de encerramento.** "Quero encerrar" no meio da aula leva à etapa 6 (salvar, reler, próximo passo) e à 7 (material salvo, sem nova pesquisa, uma única pergunta).
+6. **Lab adiado.** "Depois" grava `lab_status: adiado` e `lab_gravacao_confirmada: sim`, confirma "Salvo na sua Central" e `lab.py encerramento` passa. `Lab` retoma o mesmo material depois.
+7. **Next-Lesson.** Com dois idiomas em andamento, pergunta qual; com aula pausada no idioma, pede para encerrá-la (ou retomá-la) antes; senão cria a aula, prepara e verifica o Lab, mostra o resumo das sete etapas com o link do vídeo, grava, confirma e pergunta só "Começamos pela etapa 1?". Com duração avulsa (`Next-Lesson Inglês 5min`), o resumo mostra 5 minutos e as etapas proporcionais, o Lab mira 1,5–2,5 minutos e o padrão do plano continua 20 minutos.

@@ -55,7 +55,7 @@ O Finish-Lesson é a etapa 6 (encerramento) e roda sempre ao fim da aula, mesmo 
 
 Ao terminar o Entertainment Lab (etapa 7) ou um Lab retomado com o comando `Lab`:
 
-1. Grave na seção Entertainment Lab da sessão, numa única escrita: status `feito`, respostas do aluno, frases e diálogos numerados, resultado da tarefa e feedback breve. Se o Lab foi adiado ou recusado, grave só o status.
+1. Grave na seção Entertainment Lab da sessão, numa única escrita: `lab_status: feito`, `lab_resultado` (respostas, tarefa e feedback breve) e as frases e diálogos numerados. Se o Lab foi adiado ou recusado, grave só o `lab_status`. Em todos os casos, depois da releitura e da confirmação ao aluno, grave `lab_gravacao_confirmada: sim`.
 2. Atualize os contadores de frases e diálogos no estado global.
 3. Releia e confirme, em texto ou voz: "Lab salvo na sua Central: <sessão>". O Lab não altera as métricas da aula.
 4. Sem escrita disponível, siga a seção abaixo com `Save-Lesson lab`.
