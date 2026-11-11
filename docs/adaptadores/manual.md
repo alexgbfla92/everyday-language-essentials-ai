@@ -8,7 +8,7 @@ Explique em uma frase o que falta para salvar automaticamente (um conector do Dr
 
 ## Durante a atividade
 
-A cada ponto de retomada, entregue um checkpoint copiável com a etapa exata, o último ID e a revisão confirmados, as falas Fxxx novas, as evidências e a próxima pergunta. Deixe claro que nada foi salvo até o aluno colar o conteúdo no arquivo indicado.
+A cada ponto de retomada, entregue um checkpoint copiável com a etapa exata, o último ID e a revisão confirmados, as frases novas com seus números F e D, as evidências e a próxima pergunta. Deixe claro que nada foi salvo até o aluno colar o conteúdo no arquivo indicado.
 
 ## Retomar
 

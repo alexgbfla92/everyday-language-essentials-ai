@@ -8,6 +8,7 @@ O SKILL.md na raiz define a descoberta e encaminha configuração, diagnóstico,
 | Método | assets/config contém padrões e metodologia. assets/skills contém os oito módulos selecionáveis. |
 | Recursos por idioma | assets/languages contém exemplos, roteiros e modelos localizados. O aluno pode escolher uma ou várias trilhas. |
 | Comandos | docs/COMANDOS.md define Help, Info, Create, Remove, Default e os três Reset-*. scripts/central.py executa esses comandos em pasta local e mantém o registro das Centrais (~/.everylang/centrais.json) com a padrão. |
+| Frases e voz | docs/FRASES-E-VOZ.md define a numeração global de frases (F) e diálogos (D) por idioma, a busca por número e o salvamento ao pausar ou terminar, com Save-Lesson no texto quando o modo voz não consegue gravar. |
 | Provisionamento | scripts/provision.py classifica cada caminho (Markdown, Google Doc ou Google Sheet) e planeja operações do conector Drive a partir de listagens e abas verificadas ou, com `--local`, cria a estrutura diretamente numa pasta local sem sobrescrever. Pode ser executado novamente após interrupção. |
 | Persistência | docs/PERSISTENCIA.md define a escolha do adaptador, leitura e atualização por ID, isolamento, migração e reparação dos registros derivados. |
 | Adaptadores | docs/adaptadores/ contém as operações específicas de [pasta local](adaptadores/pasta-local.md), [Google Drive](adaptadores/drive.md), [OneDrive](adaptadores/onedrive.md) e [modo manual](adaptadores/manual.md). |

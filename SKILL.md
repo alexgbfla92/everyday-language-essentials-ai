@@ -1,6 +1,6 @@
 ---
 name: everylang
-description: Everyday Language Essentials AI (everylang). Configure e gerencie Centrais de idiomas numa pasta pessoal (local, Google Drive ou OneDrive), conduza diagnósticos e aulas por missão, retome sessões e apresente o progresso verificado de inglês, espanhol e francês. Aceita comandos como Help, Info-CentralIdioma, Create-CentralIdioma, Remove-CentralIdioma, Default-CentralIdioma, Reset-Diagnostic, Reset-Lessons e Reset-Progress.
+description: Everyday Language Essentials AI (everylang). Configure e gerencie Centrais de idiomas numa pasta pessoal (local, Google Drive ou OneDrive), conduza diagnósticos e aulas por missão, retome sessões e apresente o progresso verificado de inglês, espanhol e francês. Aceita comandos como Help, Info-CentralIdioma, Create-CentralIdioma, Remove-CentralIdioma, Default-CentralIdioma, Reset-Diagnostic, Reset-Lessons, Reset-Progress, Pause-Lesson, Finish-Lesson e Save-Lesson, e numera cada frase no idioma-alvo para consulta (repita a frase 132).
 ---
 
 # Central de aprendizagem (everylang)
@@ -23,8 +23,17 @@ Reconheça os comandos sem diferenciar maiúsculas, acentos ou hífen, com argum
 | Reset-Diagnostic [idioma\|Todos] | Apaga os diagnósticos do idioma e zera o perfil derivado. | `Reset-Diagnostic Francês` |
 | Reset-Lessons [idioma\|Todos] | Apaga as aulas do idioma e zera o contexto recente. | `Reset-Lessons Inglês` |
 | Reset-Progress [idioma\|Todos] | Zera o registro de progresso, o histórico e os resumos derivados do idioma. | `Reset-Progress Espanhol` |
+| Pause-Lesson | Pausa a aula ou o diagnóstico e salva o ponto exato na Central. | `Pause-Lesson` ou "pausar" |
+| Finish-Lesson | Encerra a aula ou o diagnóstico com feedback e salva tudo, inclusive o progresso. | `Finish-Lesson` ou "terminar a aula" |
+| Save-Lesson [pausar\|concluir] [sessão] [frases] | No modo texto, salva o que ficou pendente do modo voz. | `Save-Lesson pausar aula-20261111-01 F120-F158` |
+| Frase N / Diálogo N | Repete, traduz ou explica uma frase ou um diálogo pelo número. | `repita a frase 132`, `explique a estrutura do diálogo 145` |
+| IDs-Voz on\|off | Liga ou desliga o anúncio dos números das frases no modo voz. | `IDs-Voz off` |
 
-Durante aula ou diagnóstico também valem HELP (apoio no exercício), REPEAT, SLOW DOWN e FRASE Fxxx, descritos abaixo.
+Durante aula ou diagnóstico também valem HELP (apoio no exercício), REPEAT e SLOW DOWN, descritos abaixo.
+
+## Frases numeradas
+
+Toda frase no idioma-alvo, da IA ou do aluno, escrita ou falada, recebe um número único e permanente por idioma (`F132`); blocos de diálogo recebem `D145`. Em texto, prefixe as frases da IA com `[F132]` e abra a resposta com os números das frases do aluno (`Você: F133`). Em voz, anuncie os números de forma curta, salvo `IDs-Voz off`. Grave cada frase na tabela da sessão. Regras, contador e busca por número em [docs/FRASES-E-VOZ.md](docs/FRASES-E-VOZ.md).
 
 ## Escolher onde salvar
 
@@ -44,7 +53,9 @@ Leia os [padrões](assets/config/defaults.md), a [metodologia](assets/config/met
 
 Abra apenas o módulo necessário em assets/skills/: 01 para reuniões (START MEETING), 02 para cotidiano/viagem (START TRAVEL), 03 para comunicação técnica (START TECHNICAL), 04 para compreensão oral (START LISTENING), 05 para FEEDBACK. Na aula, adapte o briefing, prática guiada, simulação, imprevisto e feedback à duração combinada. Use o repertório localizado em conteudo/. Para Entertainment Lab opcional, consulte os módulos 06 e 07 e verifique mídia e transcrição antes de usar trechos.
 
-Durante a atividade, “HELP”, “REPEAT” e “SLOW DOWN” adaptam o apoio; fora de atividade, “Help” mostra a tabela de comandos. “FRASE F014” recupera a fala observada pelo índice daquela sessão. Antes de voz, recupere o checkpoint. Durante a aula ou diagnóstico, reúna resposta, evidência, modalidade e próxima pergunta em uma única atualização verificada do arquivo da sessão. A retomada usa esse arquivo diretamente. Adie a consolidação do progresso e do perfil até a conclusão. Aplique o [protocolo de escrita e recuperação](docs/PERSISTENCIA.md) também ao pausar, concluir ou reavaliar.
+Durante a atividade, “HELP”, “REPEAT” e “SLOW DOWN” adaptam o apoio; fora de atividade, “Help” mostra a tabela de comandos. Pedidos sobre uma frase ou diálogo pelo número seguem [docs/FRASES-E-VOZ.md](docs/FRASES-E-VOZ.md#pedir-algo-sobre-uma-frase-ou-diálogo). Antes de voz, salve e recupere o checkpoint. Durante a aula ou diagnóstico, reúna resposta, evidência, modalidade e próxima pergunta em uma única atualização verificada do arquivo da sessão. A retomada usa esse arquivo diretamente. Adie a consolidação do progresso e do perfil até a conclusão. Aplique o [protocolo de escrita e recuperação](docs/PERSISTENCIA.md) também ao pausar, concluir ou reavaliar.
+
+Pausar ou terminar sempre grava na Central e relê antes de confirmar, em texto ou voz. Se não for possível gravar (por exemplo, no modo voz sem ferramentas), não diga que salvou: dê ao aluno o comando exato `Save-Lesson pausar|concluir <sessão> <F inicial>-<F final>` e explique que deve sair do modo voz e enviá-lo por texto nesta mesma conversa. Procedimento em [docs/FRASES-E-VOZ.md](docs/FRASES-E-VOZ.md#pausar-e-concluir).
 
 ## Acompanhamento
 

@@ -1,6 +1,7 @@
 # MODELO — Clase de español
 
 Identificador de sesión e identificador del archivo (ID de Drive o ruta relativa):
+IDs de frases (F) y de diálogos (D) usados en esta sesión: F? – F? | D? – D?
 Idioma: español de España (es-ES)
 Tipo: clase regular o de prueba
 Incluir en las métricas: sí/no (no para las pruebas)
@@ -11,12 +12,16 @@ Escenario, módulo y objetivo:
 Adaptaciones y nivel de ayuda:
 Duración real observada:
 
-## Índice de frases en español (F001… por clase)
-| ID | Interlocutor y modalidad | Frase observada en español | Fiabilidad |
-|---|---|---|---|
+## Índice de frases (números F globales del idioma; nunca se reutilizan)
+| ID | Diálogo | Interlocutor | Modalidad (texto/voz) | Frase en español | Fiabilidad |
+|---|---|---|---|---|---|
+
+## Diálogos
+| ID | Escenario | Frases |
+|---|---|---|
 
 ## Puntos de continuidad
-| Secuencia | Fecha | Bloque y último turno | Actividades y evidencias | Pendiente y próxima pregunta | Último Fxxx |
+| Secuencia | Fecha | Bloque y último turno | Actividades y evidencias | Pendiente y próxima pregunta | Última F |
 |---|---|---|---|---|---|
 
 ## Cierre

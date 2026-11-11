@@ -7,7 +7,7 @@ Desenvolver a menor competência comunicativa funcional suficiente para compreen
 1. Diagnóstico adaptativo por habilidade: listening, speaking, interação, leitura geral e leitura técnica quando relevante; CEFR provisório com evidência e limitações. Conhecimento técnico pode superar habilidade oral.
 2. Preparação antes da conversa: 3–5 itens lexicais contextualizados, até duas estruturas verbais úteis no idioma-alvo e 1–2 expressões de ação, com sentido e pronúncia adequados à variante. Não impor tempos verbais do inglês a outros idiomas.
 3. Simulação autêntica: uma pergunta por vez; personagens, decisões, interrupções e imprevistos; priorizar êxito comunicativo. Feedback depois, sem correção incessante.
-4. Continuidade: IDs estáveis, índice F001… por sessão, checkpoints verificados e progresso independente por idioma; voz e texto preservam evidências e limitações.
+4. Continuidade: IDs estáveis, numeração global de frases (F) e diálogos (D) por idioma, nunca reutilizada, checkpoints verificados e progresso independente por idioma; voz e texto preservam evidências e limitações.
 5. Metas funcionais e sustentáveis: 90 dias e 20 minutos por padrão, personalizáveis; revisão a cada 14 dias por idioma ou prazo compatível com missão curta.
 
 ## Sessão regular padrão

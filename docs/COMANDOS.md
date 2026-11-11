@@ -94,3 +94,13 @@ MODELO.md e o roteiro 09 nunca são removidos. No Drive, sessões e derivados s�
 4. Antes de apagar, copie tudo o que muda para `_backups/AAAAMMDD-HHMMSS-reset-TIPO-IDIOMA/` dentro da Central e confira a cópia. Pasta local: `reset ... --confirmar` faz isso.
 5. Conector: crie a pasta de backup, copie cada arquivo com a cópia nativa do conector (Docs e Sheets continuam nativos) e confira, mova os removidos para a lixeira (ou, sem essa ação, liste-os para o aluno apagar) e devolva os derivados ao modelo do pacote, relendo cada um. No Drive: Doc por substituição total; Sheet limpando as abas `Resumo` e `Aulas` e regravando as tabelas do modelo (veja o [adaptador](adaptadores/drive.md#remover-e-zerar)).
 6. Informe o que foi zerado, onde está o backup e qual é a próxima etapa do idioma (depois de Reset-Diagnostic, o diagnóstico inicial).
+
+Os resets nunca zeram `contador_frases` nem `contador_dialogos`: os números de frases e diálogos continuam únicos depois de qualquer reset.
+
+## Pause-Lesson, Finish-Lesson e Save-Lesson
+
+Pausam, encerram ou salvam a aula ou o diagnóstico em andamento, em texto ou voz. Se houver mais de uma sessão aberta e o aluno não indicar qual, pergunte. O procedimento completo, inclusive o que fazer quando o modo voz não consegue gravar, está em [FRASES-E-VOZ.md](FRASES-E-VOZ.md#pausar-e-concluir).
+
+## Frase N, Diálogo N e IDs-Voz
+
+Pedidos sobre uma frase ou diálogo pelo número ("repita a frase 132", "explique o diálogo 145") e o anúncio dos números no modo voz seguem [FRASES-E-VOZ.md](FRASES-E-VOZ.md#numeração-de-frases-e-diálogos). `IDs-Voz on|off` grava a preferência em `ids_em_voz` no estado global.
