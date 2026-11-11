@@ -278,5 +278,15 @@ class TemplateTests(unittest.TestCase):
             self.assertIn("https://www.youtube.com/watch?v=", lesson, folder)
             self.assertIn("30–50", lesson, folder)
             self.assertEqual(lesson.count("Save-Lesson"), 2, folder)
+            self.assertIn("| 7 Entertainment Lab", lesson, folder)
+            self.assertIn("| 0 Lab", lesson, folder)
             self.assertIn("(1–5)", diagnostic, folder)
+
+    def test_feedback_module_hands_over_to_closing_and_lab(self):
+        modules = ASSETS / "skills"
+        feedback = (modules / "05-performance-evaluator.md").read_text(encoding="utf-8")
+        self.assertIn("Etapa 7/7 · Entertainment Lab", feedback)
+        for name in ("01-meeting-simulator.md", "02-travel-survival.md", "03-technical-communication.md",
+                     "04-listening-trainer.md"):
+            self.assertIn("Entertainment Lab", (modules / name).read_text(encoding="utf-8"), name)
 

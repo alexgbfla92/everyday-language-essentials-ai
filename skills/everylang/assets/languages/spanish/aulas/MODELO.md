@@ -13,6 +13,18 @@ Escenario, módulo y objetivo:
 Adaptaciones y nivel de ayuda:
 Duración real observada:
 
+## Hoja de ruta (marcar cada etapa; la clase solo termina con las siete hechas)
+| Etapa | Estado |
+|---|---|
+| 0 Lab planificado antes de la etapa 1 (enlace guardado) | pendiente |
+| 1 Briefing | pendiente |
+| 2 Práctica guiada | pendiente |
+| 3 Simulación | pendiente |
+| 4 Imprevisto | pendiente |
+| 5 Comentarios | pendiente |
+| 6 Cierre (guardado y confirmado) | pendiente |
+| 7 Entertainment Lab (presentado; hecho / aplazado / rechazado) | pendiente |
+
 ## Índice de frases (números F globales del idioma; nunca se reutilizan)
 | ID | Diálogo | Interlocutor | Modalidad (texto/voz) | Frase en español | Fiabilidad |
 |---|---|---|---|---|---|
