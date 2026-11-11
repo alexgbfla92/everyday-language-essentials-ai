@@ -243,6 +243,21 @@ cp -R /tmp/everylang-src/skills/everylang ~/.agents/skills/everylang && rm -rf /
 
 Reinicie o app de desktop e chame com `$everylang`.
 
+**Confirmar canal e duração do vídeo do Lab (Codex e app de desktop)**
+
+Os comandos do Codex rodam sem internet por padrão, e por isso a skill não consegue abrir a página do vídeo. Ela pede aprovação para rodar a conferência com acesso à rede: aprove quando aparecer. Para não precisar aprovar toda vez, libere o YouTube em `~/.codex/config.toml` (no Windows, `%USERPROFILE%\.codex\config.toml`):
+
+```toml
+[sandbox_workspace_write]
+network_access = true
+
+[features.network_proxy]
+enabled = true
+domains = { "youtube.com" = "allow", "*.youtube.com" = "allow", "youtu.be" = "allow" }
+```
+
+Reinicie o app depois de salvar. Com a lista `domains`, só os domínios liberados ficam acessíveis aos comandos. Sem acesso ao YouTube, o Lab continua funcionando com link e título vindos da busca, mas avisa que canal e duração não foram confirmados.
+
 ### Codex CLI
 
 Mesmas opções do ChatGPT: como plugin (os dois comandos `codex plugin`), chamado com `$everylang:everylang`; ou como skill avulsa (cópia para `~/.agents/skills/everylang`), chamada com `$everylang`.

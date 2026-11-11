@@ -2,7 +2,7 @@
   "name": "everylang",
   "displayName": "everylang · Everyday Language Essentials AI",
   "description": "Central pessoal de idiomas (inglês, espanhol, francês) com diagnóstico, aulas por missão, frases numeradas, progresso e comandos de gestão; salva no Google Drive (Docs e Sheets nativos) ou numa pasta local.",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "author": {
     "name": "alexgbfla92"
   },
