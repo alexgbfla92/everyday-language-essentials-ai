@@ -171,7 +171,7 @@ Depois de instalar, envie `Help` para ver a versão instalada e todos os comando
 1. Em **Configurações → Plugins → Adicionar marketplace**, informe `alexgbfla92/everyday-language-essentials-ai` e clique em **Sincronizar**.
 2. Instale o plugin **everylang**.
 3. Para salvar no Google Drive, ative em **Configurações → Conectores** os conectores **Google Drive**, **Google Docs** e **Google Sheets**.
-4. Chame com `/everylang:everylang` (por exemplo, `/everylang:everylang Help`).
+4. Chame com `/everylang:everylang` (por exemplo, `/everylang:everylang Help`). Como no ChatGPT, o nome do plugin vem antes do nome da skill; para chamar só com `/everylang`, use a skill avulsa abaixo.
 
 Para atualizar, sincronize o marketplace de novo.
 
@@ -212,11 +212,39 @@ codex plugin marketplace add alexgbfla92/everyday-language-essentials-ai
 codex plugin add everylang@everyday-essentials
 ```
 
-Depois, abra o app de desktop do ChatGPT e confira o **everylang** em **Plugins**. Para chamar a skill, digite `@everylang` ou peça normalmente (por exemplo, "quero fazer uma aula de inglês"). Para atualizar, use `codex plugin marketplace upgrade`.
+Depois, abra o app de desktop do ChatGPT e confira o **everylang** em **Plugins**. Para atualizar, use `codex plugin marketplace upgrade`.
+
+**Como chamar no ChatGPT**
+
+Instalada como plugin, a skill se chama `$everylang:everylang`: o ChatGPT põe o nome do plugin antes do nome da skill, e isso não pode ser desligado. Você também pode só pedir normalmente (por exemplo, "quero fazer uma aula de inglês"), que a skill é acionada.
+
+**Atalho `$everylang` (skill avulsa, só no app de desktop e no Codex)**
+
+Para chamar só com `$everylang`, instale a pasta da skill em vez do plugin. Desinstale o plugin antes, para não ficar com as duas versões. Skill avulsa não aparece no ChatGPT web nem no celular e não se atualiza sozinha (repita os comandos para atualizar).
+
+Windows (PowerShell):
+
+```
+git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai "$env:TEMP\everylang-src"
+New-Item -ItemType Directory -Force "$HOME\.agents\skills" | Out-Null
+Remove-Item -Recurse -Force "$HOME\.agents\skills\everylang" -ErrorAction SilentlyContinue
+Copy-Item -Recurse "$env:TEMP\everylang-src\skills\everylang" "$HOME\.agents\skills\everylang"
+Remove-Item -Recurse -Force "$env:TEMP\everylang-src"
+```
+
+macOS e Linux:
+
+```
+git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai /tmp/everylang-src
+mkdir -p ~/.agents/skills && rm -rf ~/.agents/skills/everylang
+cp -R /tmp/everylang-src/skills/everylang ~/.agents/skills/everylang && rm -rf /tmp/everylang-src
+```
+
+Reinicie o app de desktop e chame com `$everylang`.
 
 ### Codex CLI
 
-Use os mesmos dois comandos da conta individual do ChatGPT e chame com `$everylang`. Outra opção é copiar `skills/everylang` para `~/.agents/skills/everylang`.
+Mesmas opções do ChatGPT: como plugin (os dois comandos `codex plugin`), chamado com `$everylang:everylang`; ou como skill avulsa (cópia para `~/.agents/skills/everylang`), chamada com `$everylang`.
 
 ### Se você instalou uma versão anterior
 
