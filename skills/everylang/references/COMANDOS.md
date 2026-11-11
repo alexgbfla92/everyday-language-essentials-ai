@@ -111,4 +111,4 @@ Durante uma aula ou diagnóstico, mostra a etapa atual (por exemplo, "Etapa 3/7 
 
 ## Lab
 
-Abre o Entertainment Lab planejado para a aula indicada ou, sem argumento, para a última aula do idioma que tenha Lab `planejado`, `adiado` ou `pendente`. Com mais de um idioma possível, pergunte qual. Apresente o plano gravado na sessão sem fazer novas perguntas além de confirmar o início; se estiver `pendente`, escolha e verifique o vídeo agora (em texto). Grave o resultado na mesma sessão.
+Abre o Entertainment Lab planejado para a aula indicada ou, sem argumento, para a última aula do idioma que tenha Lab `planejado`, `adiado` ou `pendente`. Com mais de um idioma possível, pergunte qual. Apresente o plano gravado na sessão sem fazer novas perguntas além de confirmar o início; se estiver `pendente`, escolha e verifique o vídeo agora (em texto). Ao terminar, adiar ou recusar, grave na mesma sessão e confirme a gravação ao aluno, ou dê o comando `Save-Lesson lab` se não for possível gravar (veja [Finish-Lab](FRASES-E-VOZ.md#finish-lab)).

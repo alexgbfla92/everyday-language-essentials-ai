@@ -277,5 +277,6 @@ class TemplateTests(unittest.TestCase):
             self.assertIn("## Entertainment Lab", lesson, folder)
             self.assertIn("https://www.youtube.com/watch?v=", lesson, folder)
             self.assertIn("30–50", lesson, folder)
+            self.assertEqual(lesson.count("Save-Lesson"), 2, folder)
             self.assertIn("(1–5)", diagnostic, folder)
 
