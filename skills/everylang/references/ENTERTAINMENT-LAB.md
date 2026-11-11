@@ -24,6 +24,8 @@ A seção Entertainment Lab do arquivo da aula usa campos com nomes fixos (iguai
 | `lab_itens_da_aula` | itens da aula que o vídeo e a tarefa reutilizam |
 | `lab_pergunta_1` a `lab_pergunta_3` | pelo menos uma pergunta, no máximo três |
 | `lab_tarefa` | uma tarefa curta |
+| `lab_fonte_verificacao` | `pagina_youtube`, `navegador` ou `busca`: de onde vieram título, canal e duração. Só com `busca`, `lab_canal` e `lab_duracao_video_min` podem ser `nao_confirmado(a)` |
+| `lab_evidencia_busca` | só com `busca`: o resultado usado (link do YouTube, título, canal e duração como aparecem) |
 | `lab_verificado_em` | data e hora da releitura do registro salvo |
 | `lab_pendencia_motivo`, `lab_pendencia_aceita_pelo_aluno` | só para `pendente_aceito`: por que falhou e quando o aluno aceitou |
 | `lab_oferecido_na_etapa_7` | `sim` depois da apresentação na etapa 7 |
@@ -37,8 +39,14 @@ O encerramento da aula usa: `encerramento_aula_salva_relida` (`sim`), `encerrame
 Faça isto ao criar a aula, sem perguntas ao aluno, e antes de mostrar a etapa 1:
 
 1. Defina cenário e itens da aula. Pesquise no YouTube um vídeo no idioma e na variante da aula, adequado ao nível e ligado ao tema e aos itens.
-2. Confirme no próprio YouTube: título, canal, link direto, idioma/variante e duração. Não invente duração, transcrição, conteúdo ou timestamps; o que não for confirmado fica registrado como não confirmado.
-3. Duração: o que será assistido (vídeo inteiro ou trecho) deve ter de 30% a 50% da aula (6 a 10 minutos numa aula de 20). A ligação com o conteúdo vem primeiro; se nenhum vídeo ligado ao tema couber, escolha o mais próximo e preencha `lab_motivo_fora_da_faixa`. Use trecho só com início e fim confirmados.
+2. Confirme os dados do vídeo, tentando nesta ordem e parando na primeira que funcionar:
+   1. **Página do YouTube.** Com Python: `python scripts/youtube.py info <link>` lê título, canal e duração na página. Sem Python, abra o link do vídeo. Registre `lab_fonte_verificacao: pagina_youtube`.
+   2. **Navegador** disponível na sessão (navegador do app de desktop, extensão do Chrome): `navegador`.
+   3. **Resultado da busca**, quando o YouTube está bloqueado no ambiente. Use um vídeo cujo link do youtube.com (com o ID) apareça num resultado de busca, direto ou numa página que mostre o ID, e cujo título esteja ligado ao tema. Registre `busca` e copie em `lab_evidencia_busca` o que o resultado mostra. O que o resultado não mostrar fica `nao_confirmado`: em geral o canal (`lab_canal: nao_confirmado`) e a duração (`lab_duracao_video_min: nao_confirmada`). Use o vídeo inteiro (`lab_trecho: inteiro`) e a transcrição `nao_confirmada`, salvo se o resultado mostrar que ela existe. Entre os candidatos, prefira títulos que indiquem conversa curta ligada ao tema da aula.
+
+   Não invente duração, canal, transcrição, conteúdo ou timestamps. A verificação só falha se nem a busca trouxer um link do YouTube com título ligado ao tema.
+
+3. Duração: quando a duração é confirmada, o que será assistido (vídeo inteiro ou trecho) deve ter de 30% a 50% da aula (6 a 10 minutos numa aula de 20). Com a duração `nao_confirmada`, a faixa não pode ser conferida: diga isso ao aluno na etapa 7. A ligação com o conteúdo vem primeiro; se nenhum vídeo ligado ao tema couber, escolha o mais próximo e preencha `lab_motivo_fora_da_faixa`. Use trecho só com início e fim confirmados.
 4. Prepare até 3 perguntas e 1 tarefa curta que reutilizem os itens da aula.
 5. Grave a seção com `lab_status: pronto` e releia o registro salvo.
 6. Confira o registro relido. Com Python: `python scripts/lab.py pronto ARQUIVO` (ou `-` lendo o texto do Doc pela entrada padrão) deve responder `"pode_iniciar": true`. Sem Python, confira os mesmos itens: todos os campos acima preenchidos; link no formato do YouTube; duração dentro da faixa ou motivo preenchido; trecho válido e dentro do vídeo; transcrição com um dos três valores; 1 a 3 perguntas; tarefa.
@@ -46,7 +54,7 @@ Faça isto ao criar a aula, sem perguntas ao aluno, e antes de mostrar a etapa 1
 
 ### Se a verificação falhar
 
-Falha é qualquer caso em que o passo 6 não passa: sem ferramenta de busca, nenhum vídeo confirmado, link fora do YouTube, duração ou trecho não confirmados, ou registro que não pôde ser gravado e relido.
+Falha é qualquer caso em que o passo 6 não passa: sem ferramenta de busca, nenhum vídeo confirmado por página, navegador ou resultado de busca, link fora do YouTube, duração ou trecho não confirmados, ou registro que não pôde ser gravado e relido.
 
 1. **Antes de iniciar a aula**, diga ao aluno em uma ou duas frases o que falhou e pergunte: "Quer começar a aula com o Entertainment Lab pendente? Eu o preparo depois." Não comece a etapa 1 antes da resposta.
 2. Se aceitar: grave `lab_status: pendente_aceito`, `lab_pendencia_motivo` e `lab_pendencia_aceita_pelo_aluno` (com data), releia e siga. Se não aceitar: ofereça tentar de novo ou preparar em texto (`Next-Lesson <idioma>`), sem iniciar a aula.
@@ -54,7 +62,7 @@ Falha é qualquer caso em que o passo 6 não passa: sem ferramenta de busca, nen
 
 ## Etapa 7 (apresentar)
 
-1. Leia a seção salva. Se `lab_status` for `pronto`, apresente imediatamente, numa única mensagem curta: título e canal, link, trecho e duração, a tarefa e as perguntas. Não faça nova pesquisa e não pergunte tema nem duração.
+1. Leia a seção salva. Se `lab_status` for `pronto`, apresente imediatamente, numa única mensagem curta: título e canal, link, trecho e duração, a tarefa e as perguntas. Se canal ou duração estiverem `nao_confirmado(a)`, diga isso em poucas palavras ("duração não confirmada: o YouTube estava inacessível na preparação"). Não faça nova pesquisa e não pergunte tema nem duração.
 2. Faça uma única pergunta: "Quer fazer agora ou deixar para depois?".
 3. Se for `pendente_aceito`, diga que o Lab ficou pendente e pergunte: "Quer que eu prepare agora (em texto) ou deixamos para depois?". Só aqui uma pesquisa no fim é permitida, e só se o aluno pedir.
 4. Grave `lab_oferecido_na_etapa_7: sim`. Conforme a resposta: `em_andamento` (fazer agora), `adiado` (depois) ou `recusado`. Grave, releia e confirme ao aluno.

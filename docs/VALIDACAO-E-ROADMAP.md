@@ -44,7 +44,7 @@ Em pasta pessoal de ensaio, anote operações e tempo de espera de três turnos 
 
 A conferência mecânica fica em `skills/everylang/scripts/lab.py` (`pronto` antes da etapa 1, `encerramento` antes de encerrar) e é coberta por `tests/test_lab.py`. Em cada plataforma, ensaie também o comportamento:
 
-1. **Vídeo disponível.** Antes da etapa 1, a sessão tem a seção do Lab com `lab_status: pronto`, link `https://www.youtube.com/watch?v=…`, duração de 30–50% da aula (ou o mais próximo, com motivo), perguntas, tarefa e `lab_verificado_em`; `lab.py pronto` passa; o roteiro da abertura mostra o título.
+1. **Vídeo disponível** (também com o YouTube bloqueado: a confirmação vem de um resultado de busca do youtube.com, com `lab_fonte_verificacao: busca`). Antes da etapa 1, a sessão tem a seção do Lab com `lab_status: pronto`, link `https://www.youtube.com/watch?v=…`, duração de 30–50% da aula (ou o mais próximo, com motivo), perguntas, tarefa e `lab_verificado_em`; `lab.py pronto` passa; o roteiro da abertura mostra o título.
 2. **Falha na busca.** Sem busca (ou sem vídeo confirmado), a IA diz o que falhou e pergunta se o aluno aceita o Lab pendente **antes** da etapa 1; a etapa 1 só começa depois do "sim", gravado como `pendente_aceito`.
 3. **Início em voz.** Sem acesso a busca e gravação, a IA diz a limitação, não afirma que nada está pronto ou salvo e encaminha `Next-Lesson <idioma>` em texto.
 4. **Retomada.** Ao retomar uma aula com o Lab `a_preparar`, a IA prepara (ou segue o caminho de falha) antes de continuar a etapa salva.

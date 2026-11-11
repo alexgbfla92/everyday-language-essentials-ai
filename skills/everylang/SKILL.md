@@ -7,7 +7,7 @@ description: Everyday Language Essentials AI (everylang). Configure e gerencie C
 
 **Regras que nunca podem ser puladas em uma aula regular, em texto, voz ou retomada:**
 
-1. **Lab pronto antes da etapa 1.** Ao criar a aula, pesquise e verifique o vídeo do YouTube, grave a seção Entertainment Lab da sessão e releia. O Lab só está pronto depois da conferência do registro relido (`python scripts/lab.py pronto <sessão>` deve dar `"pode_iniciar": true`, ou a mesma conferência feita à mão). Sem isso, a etapa 1 não começa.
+1. **Lab pronto antes da etapa 1.** Ao criar a aula, pesquise e verifique o vídeo do YouTube (pela página do vídeo com `scripts/youtube.py info`, pelo navegador ou, se o YouTube estiver bloqueado, por um resultado de busca com o link do vídeo, marcando canal e duração como não confirmados quando a busca não os mostrar), grave a seção Entertainment Lab da sessão e releia. O Lab só está pronto depois da conferência do registro relido (`python scripts/lab.py pronto <sessão>` deve dar `"pode_iniciar": true`, ou a mesma conferência feita à mão). Sem isso, a etapa 1 não começa.
 2. **Falha não é silenciosa.** Se a verificação falhar, diga ao aluno o que falhou **antes** de iniciar e pergunte se ele aceita começar com o Lab pendente. Só com a resposta "sim" gravada (`pendente_aceito`) a aula começa sem o Lab pronto.
 3. **Sete etapas, sempre.** 1 Briefing · 2 Prática guiada · 3 Simulação · 4 Imprevisto · 5 Feedback · 6 Encerramento · 7 Entertainment Lab. A etapa atual aparece em cada mensagem, e o roteiro da abertura já mostra o título do vídeo.
 4. **Etapa 7 só apresenta.** Mostre imediatamente o material salvo (título, canal, link, trecho, tarefa, perguntas) e pergunte apenas "agora ou depois?". Não pesquise de novo nem peça tema ou duração.
@@ -22,7 +22,7 @@ Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso c
 
 Reconheça os comandos sem diferenciar maiúsculas, acentos ou hífen, com argumentos em qualquer ordem. Siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Quando faltar ou houver mais de uma opção de Central ou de idioma, pergunte qual antes de agir, conforme a seção Ambiguidade daquele documento. Remove e Reset sempre mostram a prévia, fazem backup e pedem confirmação explícita.
 
-Versão instalada: 0.10.0
+Versão instalada: 0.11.0
 
 `Help` (ou `Help-Comandos`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "everylang vX.Y.Z") e esta tabela, sem executar nada:
 
@@ -81,7 +81,7 @@ Toda aula regular segue sete etapas, nesta ordem. As etapas 1 a 5 dividem a dura
 
 O diagnóstico segue cinco etapas: 1 compreensão oral, 2 produção e interação, 3 leitura, 4 feedback, 5 encerramento (salvar e próximo passo), sem Entertainment Lab.
 
-**Prepare o Entertainment Lab ao criar a aula**, antes da etapa 1 e sem perguntas ao aluno, conforme [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md#preparar-antes-da-etapa-1): vídeo real do YouTube ligado ao tema e aos itens da aula, no idioma e na variante da aula; título, canal, link direto `https://www.youtube.com/watch?v=<ID>` (nunca outro site, playlist ou canal), duração e trecho confirmados, estado da transcrição, até 3 perguntas e 1 tarefa. O que será assistido deve ter de 30% a 50% da aula (6 a 10 minutos numa aula de 20); se nenhum vídeo ligado ao tema couber, use o mais próximo e registre o motivo. Não invente duração, transcrição, conteúdo ou timestamps. Grave, releia e confira; se falhar, avise antes de iniciar e peça a aceitação do aluno para seguir com o Lab pendente.
+**Prepare o Entertainment Lab ao criar a aula**, antes da etapa 1 e sem perguntas ao aluno, conforme [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md#preparar-antes-da-etapa-1): vídeo real do YouTube ligado ao tema e aos itens da aula, no idioma e na variante da aula; título, canal, link direto `https://www.youtube.com/watch?v=<ID>` (nunca outro site, playlist ou canal), duração e trecho confirmados pela página ou pelo navegador; com o YouTube bloqueado, link e título vindos da busca, com o que não puder ser confirmado marcado como não confirmado (nunca inventado), estado da transcrição, até 3 perguntas e 1 tarefa. O que será assistido deve ter de 30% a 50% da aula (6 a 10 minutos numa aula de 20); se nenhum vídeo ligado ao tema couber, use o mais próximo e registre o motivo; com a duração não confirmada, diga isso ao aluno. Não invente duração, transcrição, conteúdo ou timestamps. Grave, releia e confira; se falhar, avise antes de iniciar e peça a aceitação do aluno para seguir com o Lab pendente.
 
 **Mostre sempre onde o aluno está.** Ao abrir a aula, apresente o roteiro em uma linha, já com o título do vídeo do Lab ("1 Briefing · 2 Prática guiada · 3 Simulação · 4 Imprevisto · 5 Feedback · 6 Encerramento · 7 Entertainment Lab: <título do vídeo>"). Em texto, comece cada mensagem da aula com a etapa atual, por exemplo `Etapa 3/7 · Simulação`. Em voz, anuncie cada troca de etapa ("Agora, etapa 3 de 7: simulação"), sem repetir a cada turno. Quando o aluno perguntar "em que etapa estamos?" (ou `Etapa`), diga a etapa atual, o que já foi feito, o que falta e o tempo restante. Grave a etapa no checkpoint da sessão.
 

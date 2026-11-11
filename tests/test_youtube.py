@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "everylang"))
-from scripts.youtube import normalize  # noqa: E402
+from scripts.youtube import normalize, parse_page  # noqa: E402
 
 
 class YouTubeTests(unittest.TestCase):
@@ -28,6 +28,17 @@ class YouTubeTests(unittest.TestCase):
                     "ftp://www.youtube.com/watch?v=dQw4w9WgXcQ"):
             with self.assertRaises(ValueError, msg=url):
                 normalize(url)
+
+
+    def test_reads_metadata_from_video_page(self):
+        page = ('<html><script>var ytInitialPlayerResponse = {"videoDetails":{"videoId":"2XdhgaBk058",'
+                '"title":"Real life English \\"Airport check-in\\"","lengthSeconds":"412",'
+                '"keywords":["airport"],"thumbnail":{"thumbnails":[{"url":"x"}]},'
+                '"author":"English &amp; Co","isPrivate":false}};</script></html>')
+        self.assertEqual(parse_page(page), {"titulo": 'Real life English "Airport check-in"',
+                                            "canal": "English & Co", "duracao_seg": 412})
+        self.assertEqual(parse_page("<html>consent page</html>"),
+                         {"titulo": None, "canal": None, "duracao_seg": None})
 
 
 if __name__ == "__main__":
