@@ -3,7 +3,7 @@
 A skill **everylang** (Everyday Language Essentials AI) é um único pacote que funciona no Claude, no ChatGPT e no Codex. Instale a pasta completa, com SKILL.md, docs/, assets/ e scripts/ lado a lado, pelo mecanismo da sua plataforma. Onde a plataforma exigir que o nome da pasta seja igual ao da skill, use `everylang`.
 
 - **Codex**: copie o conteúdo do repositório para o diretório de skills do ambiente, por exemplo .agents/skills/everylang/. Chame com `$everylang`.
-- **ChatGPT**: envie o pacote pelo mecanismo de skills habilitado na conta e conecte o Google Drive (ou o OneDrive, se o conector gravar arquivos).
+- **ChatGPT**: envie o pacote pelo mecanismo de skills habilitado na conta e conecte o Google Drive; a Central no Drive usa Google Docs e Sheets nativos, que o conector precisa editar.
 - **Claude Code**: adicione o repositório como marketplace e instale o plugin:
   ```
   /plugin marketplace add alexgbfla92/everyday-language-essentials-ai
@@ -14,7 +14,7 @@ A skill **everylang** (Everyday Language Essentials AI) é um único pacote que 
   ```
   git archive --format=zip --prefix=everylang/ -o everylang.zip HEAD
   ```
-  Para salvar o progresso automaticamente, conecte ao app uma pasta do seu computador (pode ser uma pasta sincronizada do Google Drive ou do OneDrive).
+  Para usar 100% na nuvem (celular, PC e tablet), ative os conectores **Google Drive**, **Google Docs** e **Google Sheets** em Configurações → Conectores; a Central fica no seu Drive com os registros em Google Docs e Sheets. Sem eles, conecte ao app uma pasta do seu computador.
 
 Se você já tinha instalado a versão com o nome everyday-language-essentials-ai, desinstale o plugin antigo e instale **everylang**. Suas Centrais não são afetadas: elas ficam na sua pasta pessoal, fora do pacote.
 

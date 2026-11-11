@@ -10,6 +10,6 @@ Pastas do tipo "somente online" precisam estar disponíveis no dispositivo antes
 
 ## Conector do OneDrive ou SharePoint
 
-Use um conector somente se ele oferecer, na sessão atual, as mesmas quatro ações exigidas pelo [adaptador Drive](drive.md#verificar-a-capacidade): listar filhos diretos, criar pasta num pai, criar arquivo num pai e atualizar o conteúdo de um arquivo pelo ID. Muitos conectores do Microsoft 365 só leem e buscam; nesse caso, use a pasta sincronizada ou o [modo manual](manual.md).
+No OneDrive os registros continuam 100% em Markdown (`formato_registros: markdown`). Use um conector somente se ele oferecer, na sessão atual: listar os filhos diretos de uma pasta, criar pasta num pai, criar arquivo com conteúdo num pai, **regravar o conteúdo de um arquivo existente pelo ID** e mover para a lixeira. Muitos conectores do Microsoft 365 só leem e buscam; nesse caso, use a pasta sincronizada ou o [modo manual](manual.md).
 
-Com um conector capaz, siga os passos de provisionamento, gravação e releitura do [adaptador Drive](drive.md), trocando o tipo de pasta pelo do OneDrive e usando `text/markdown` nos registros. Registre `armazenamento: onedrive` e `provedor: onedrive` no estado global. Identificadores são os IDs de item do OneDrive.
+Com um conector capaz, siga a ordem de provisionamento do [planejador](drive.md#provisionar) tratando todo arquivo como `markdown` (MIME `text/markdown`, nome com `.md`), grave atualizando o mesmo ID e releia cada escrita. Registre `armazenamento: onedrive` e `provedor: onedrive` no estado global. Identificadores são os IDs de item do OneDrive.

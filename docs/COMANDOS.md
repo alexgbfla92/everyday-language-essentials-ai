@@ -50,7 +50,7 @@ Mostre a tabela da seção Comandos do SKILL.md, com uma linha de exemplo por co
 
 ## Info-CentralIdioma
 
-Leitura apenas. Para cada Central (ou só a indicada) mostre: nome, se é a padrão, provedor (Local, Google Drive, OneDrive), modo de acesso, caminho ou link da pasta, status da configuração e os idiomas, cada um com quantidade de diagnósticos, aulas e planos (sem contar MODELO.md e o roteiro 09) e de backups de reset. Se a pasta estiver inacessível, diga isso em vez de omitir a Central. Por conector, leia `config/estado-global.md` e liste `languages/`.
+Leitura apenas. Para cada Central (ou só a indicada) mostre: nome, se é a padrão, provedor (Local, Google Drive, OneDrive), modo de acesso, formato dos registros (Markdown ou nativo Google Docs/Sheets), caminho ou link da pasta, status da configuração e os idiomas, cada um com quantidade de diagnósticos, aulas e planos (sem contar MODELO.md e o roteiro 09) e de backups de reset. Se a pasta estiver inacessível, diga isso em vez de omitir a Central. Por conector, leia `config/estado-global` e liste `languages/`; no Drive, conte os Docs `aula-*` e `diagnostico-*`.
 
 ## Create-CentralIdioma
 
@@ -58,7 +58,7 @@ Cria a pasta da Central com toda a estrutura de subpastas e modelos, ou adiciona
 
 1. Obtenha provedor, pasta e idiomas (pergunte o que faltar). Nome padrão: o nome da pasta.
 2. Escolha o adaptador pelas [regras de seleção](PERSISTENCIA.md#escolher-o-adaptador). Uma pasta do Google Drive ou do OneDrive sincronizada no computador usa o adaptador de pasta local com `--provedor google-drive` ou `onedrive`.
-3. Pasta local: `create`. Conector: provisionamento do [Drive](adaptadores/drive.md#provisionar) ou do [OneDrive](adaptadores/onedrive.md), preencha `nome_central`, `provedor`, `armazenamento`, `raiz` e `idiomas_escolhidos_pelo_aluno` no estado global, e depois `register`.
+3. Pasta local: `create`. Conector: provisionamento do [Drive](adaptadores/drive.md#provisionar) ou do [OneDrive](adaptadores/onedrive.md), preencha `nome_central`, `provedor`, `armazenamento`, `raiz`, `formato_registros` (`nativo` no Drive, `markdown` nos demais) e `idiomas_escolhidos_pelo_aluno` no estado global, e depois `register`.
 4. A primeira Central registrada vira a padrão. Informe o caminho ou link e siga para o cadastro do [SKILL.md](../SKILL.md#configurar-e-adicionar-idiomas).
 
 ## Default-CentralIdioma
@@ -86,11 +86,11 @@ Zeram um tipo de registro de um idioma (ou de todos) e devolvem os arquivos deri
 | Reset-Lessons | `aulas/aula-*.md` | `estado/contexto-recente.md`; `estado/sessao-ativa.md` se apontar para uma aula |
 | Reset-Progress | arquivos de `progresso/historico/` (exceto README.md) | `progresso/08-registro-progresso.md`, `estado/perfil-atual.md`, `estado/contexto-recente.md` |
 
-MODELO.md e o roteiro 09 nunca são removidos.
+MODELO.md e o roteiro 09 nunca são removidos. No Drive, sessões e derivados são Docs e o 08 é uma Sheet, com o mesmo nome sem `.md`.
 
 1. Resolva Central e idioma conforme a seção Ambiguidade.
 2. Mostre a prévia: Central (e se é a padrão), idioma, lista do que será removido e do que volta ao modelo. Se Reset-Diagnostic ou Reset-Lessons deixarem o progresso calculado com registros apagados, a prévia traz o aviso; ofereça também Reset-Progress.
 3. Peça confirmação explícita ("sim"). Sem ela, não altere nada.
 4. Antes de apagar, copie tudo o que muda para `_backups/AAAAMMDD-HHMMSS-reset-TIPO-IDIOMA/` dentro da Central e confira a cópia. Pasta local: `reset ... --confirmar` faz isso.
-5. Conector: crie a pasta de backup, copie e confira cada arquivo, mova os removidos para a lixeira do conector (ou, sem essa ação, liste-os para o aluno apagar) e regrave os derivados com o conteúdo do modelo do pacote, relendo cada um.
+5. Conector: crie a pasta de backup, copie cada arquivo com a cópia nativa do conector (Docs e Sheets continuam nativos) e confira, mova os removidos para a lixeira (ou, sem essa ação, liste-os para o aluno apagar) e devolva os derivados ao modelo do pacote, relendo cada um. No Drive: Doc por substituição total; Sheet limpando as abas `Resumo` e `Aulas` e regravando as tabelas do modelo (veja o [adaptador](adaptadores/drive.md#remover-e-zerar)).
 6. Informe o que foi zerado, onde está o backup e qual é a próxima etapa do idioma (depois de Reset-Diagnostic, o diagnóstico inicial).
