@@ -1,7 +1,7 @@
 """Valida e normaliza links do Entertainment Lab: só vídeos do YouTube.
 
   python scripts/youtube.py URL [URL...]         # valida e normaliza
-  python scripts/youtube.py info URL              # lê título, canal e duração na página do vídeo
+  python scripts/youtube.py info URL [URL...]     # lê título, canal e duração na página de cada vídeo
 
 Aceita só https://www.youtube.com/watch?v=ID (opcional &t=SEGUNDOS). Também
 normaliza youtu.be/ID, youtube.com/shorts/ID, m.youtube.com e youtube.com sem www
@@ -65,8 +65,10 @@ def info(url):
         with urlopen(request, timeout=20) as response:
             page = response.read().decode("utf-8", "replace")
     except (URLError, OSError) as error:
-        return {"url": canonical, "confirmado": False, "fonte": None,
-                "motivo": f"não foi possível abrir o YouTube neste ambiente: {error}"}
+        return {"url": canonical, "confirmado": False, "fonte": None, "sem_rede": True,
+                "motivo": f"não foi possível abrir o YouTube neste ambiente: {error}",
+                "dica": "Se a plataforma permite aprovar comandos com acesso à internet (ex.: Codex/ChatGPT "
+                        "desktop), peça a aprovação e rode este comando de novo antes de usar a busca."}
     data = parse_page(page)
     ok = all(data.values())
     minutes = round(data["duracao_seg"] / 60, 1) if data["duracao_seg"] else None
@@ -76,13 +78,15 @@ def info(url):
 
 
 def main(argv):
-    if argv[:1] == ["info"] and len(argv) == 2:
-        try:
-            result = info(argv[1])
-        except ValueError as error:
-            result = {"url": argv[1], "confirmado": False, "motivo": str(error)}
-        print(json.dumps(result, indent=2, ensure_ascii=False))
-        return 0 if result["confirmado"] else 1
+    if argv[:1] == ["info"] and len(argv) >= 2:
+        results = []
+        for url in argv[1:]:
+            try:
+                results.append(info(url))
+            except ValueError as error:
+                results.append({"url": url, "confirmado": False, "motivo": str(error)})
+        print(json.dumps(results[0] if len(results) == 1 else results, indent=2, ensure_ascii=False))
+        return 0 if any(r["confirmado"] for r in results) else 1
     results, ok = [], True
     for url in argv:
         try:

@@ -7,7 +7,7 @@ description: Everyday Language Essentials AI (everylang). Configure e gerencie C
 
 **Regras que nunca podem ser puladas em uma aula regular, em texto, voz ou retomada:**
 
-1. **Lab pronto antes da etapa 1.** Ao criar a aula, pesquise e verifique o vídeo do YouTube (pela página do vídeo com `scripts/youtube.py info`, pelo navegador ou, se o YouTube estiver bloqueado, por um resultado de busca com o link do vídeo, marcando canal e duração como não confirmados quando a busca não os mostrar), grave a seção Entertainment Lab da sessão e releia. O Lab só está pronto depois da conferência do registro relido (`python scripts/lab.py pronto <sessão>` deve dar `"pode_iniciar": true`, ou a mesma conferência feita à mão). Sem isso, a etapa 1 não começa.
+1. **Lab pronto antes da etapa 1.** Ao criar a aula, pesquise e verifique o vídeo do YouTube (pela página do vídeo com `scripts/youtube.py info`, pedindo aprovação de acesso à internet para esse comando quando a plataforma exigir, pelo navegador ou, se o YouTube estiver bloqueado, por um resultado de busca com o link do vídeo, marcando canal e duração como não confirmados quando a busca não os mostrar), grave a seção Entertainment Lab da sessão e releia. O Lab só está pronto depois da conferência do registro relido (`python scripts/lab.py pronto <sessão>` deve dar `"pode_iniciar": true`, ou a mesma conferência feita à mão). Sem isso, a etapa 1 não começa.
 2. **Falha não é silenciosa.** Se a verificação falhar, diga ao aluno o que falhou **antes** de iniciar e pergunte se ele aceita começar com o Lab pendente. Só com a resposta "sim" gravada (`pendente_aceito`) a aula começa sem o Lab pronto.
 3. **Sete etapas, sempre.** 1 Briefing · 2 Prática guiada · 3 Simulação · 4 Imprevisto · 5 Feedback · 6 Encerramento · 7 Entertainment Lab. A etapa atual aparece em cada mensagem, e o roteiro da abertura já mostra o título do vídeo.
 4. **Etapa 7 só apresenta.** Mostre imediatamente o material salvo (título, canal, link, trecho, tarefa, perguntas) e pergunte apenas "agora ou depois?". Não pesquise de novo nem peça tema ou duração.
@@ -22,7 +22,7 @@ Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso c
 
 Reconheça os comandos sem diferenciar maiúsculas, acentos ou hífen, com argumentos em qualquer ordem. Siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Quando faltar ou houver mais de uma opção de Central ou de idioma, pergunte qual antes de agir, conforme a seção Ambiguidade daquele documento. Remove e Reset sempre mostram a prévia, fazem backup e pedem confirmação explícita.
 
-Versão instalada: 0.11.0
+Versão instalada: 0.11.1
 
 `Help` (ou `Help-Comandos`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "everylang vX.Y.Z") e esta tabela, sem executar nada:
 
