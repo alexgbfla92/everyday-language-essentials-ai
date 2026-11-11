@@ -1,6 +1,7 @@
 # MODÈLE — Séance de français
 
 Identifiant de séance et identifiant du fichier (ID Drive ou chemin relatif) :
+plano_id:  # plano de missão desta aula (languages/<idioma>/planos/<plano_id>)
 Identifiants de phrases (F) et de dialogues (D) utilisés dans cette séance : F? – F? | D? – D?
 Langue : français de France (fr-FR)
 Type : séance régulière ou séance de test

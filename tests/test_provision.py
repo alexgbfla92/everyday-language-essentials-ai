@@ -291,3 +291,13 @@ class TemplateTests(unittest.TestCase):
                      "04-listening-trainer.md"):
             self.assertIn("Entertainment Lab", (modules / name).read_text(encoding="utf-8"), name)
 
+    def test_plan_template_is_not_provisioned_and_lesson_links_plan(self):
+        template = (ASSETS / "modelos" / "plano-missao.md").read_text(encoding="utf-8")
+        for key in ("plano_id:", "plano_status: ativo", "plano_revisao: 1", "| Nº | Tema |", "Histórico de revisões"):
+            self.assertIn(key, template)
+        from scripts.provision import specification
+        self.assertFalse(any("modelos" in path for path in specification(list(LANGUAGES))))
+        for folder in LANGUAGES.values():
+            lesson = (ASSETS / "languages" / folder / "aulas" / "MODELO.md").read_text(encoding="utf-8")
+            self.assertIn("plano_id:", lesson, folder)
+
