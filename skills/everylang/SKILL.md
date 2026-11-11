@@ -22,7 +22,7 @@ Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso c
 
 Reconheça os comandos sem diferenciar maiúsculas, acentos ou hífen, com argumentos em qualquer ordem. Siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Quando faltar ou houver mais de uma opção de Central ou de idioma, pergunte qual antes de agir, conforme a seção Ambiguidade daquele documento. Remove e Reset sempre mostram a prévia, fazem backup e pedem confirmação explícita.
 
-Versão instalada: 0.11.1
+Versão instalada: 0.11.2
 
 `Help` (ou `Help-Comandos`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "everylang vX.Y.Z") e esta tabela, sem executar nada:
 

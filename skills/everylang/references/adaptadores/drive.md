@@ -6,7 +6,7 @@ Use este guia quando as [regras de seleção](../PERSISTENCIA.md#escolher-o-adap
 
 O adaptador só passa se a sessão tiver, ao mesmo tempo:
 
-1. **Drive**: listar os filhos diretos de uma pasta, criar pasta num pai indicado, criar arquivo com conteúdo num pai indicado (convertendo texto em Doc e CSV em Sheet), copiar arquivo e mover para a lixeira.
+1. **Drive**: listar os filhos diretos de uma pasta, criar pasta num pai indicado, criar arquivo com conteúdo num pai indicado (convertendo texto em Doc e CSV em Sheet), copiar arquivo e apagar arquivo (movendo para a lixeira ou, se o conector só tiver isso, excluindo definitivamente).
 2. **Docs**: ler um Google Doc com a revisão atual e aplicar um batchUpdate (inserir, apagar intervalo, substituir texto).
 3. **Sheets**: ler e gravar valores por intervalo, acrescentar linhas e renomear ou criar abas.
 
@@ -92,7 +92,12 @@ A gravação de valores não tem controle de revisão. Mantenha um único chat e
 
 ## Remover e zerar
 
-Remove-CentralIdioma e os Reset-* (veja [comandos](../COMANDOS.md)) só apagam movendo para a lixeira do Drive, o que vale também para Docs e Sheets. Os backups de reset são cópias nativas (`copy_file`) numa subpasta de `_backups/`. Para devolver um derivado ao modelo:
+Remove-CentralIdioma e os Reset-* (veja [comandos](../COMANDOS.md)) apagam pela ação que o conector oferecer, nesta ordem de preferência, o que vale também para Docs e Sheets:
+
+1. **Lixeira**, quando o conector tiver essa ação (no Claude, `trash_file`). O aluno pode recuperar pela lixeira do Drive.
+2. **Exclusão definitiva**, quando o conector só oferecer essa (comum no ChatGPT). Use-a sem pedir que o aluno apague à mão, desde que: a prévia tenha avisado que a exclusão é definitiva e não passa pela lixeira; o aluno tenha confirmado depois desse aviso; e, nos resets, o backup em `_backups/` já esteja copiado e conferido. Releia a pasta depois para confirmar que os itens sumiram.
+
+Só peça ao aluno que apague à mão quando o conector não tiver nenhuma das duas ações. Os backups de reset são cópias nativas (`copy_file`) numa subpasta de `_backups/`. Para devolver um derivado ao modelo:
 
 - Doc: substituição total com o texto do modelo.
 - Sheet: limpe as abas `Resumo` e `Aulas` e regrave as duas tabelas do modelo a partir de A1.

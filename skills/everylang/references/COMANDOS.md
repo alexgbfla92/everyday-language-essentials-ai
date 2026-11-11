@@ -69,11 +69,11 @@ Define qual Central é usada quando o aluno não indica uma. Sem argumento e com
 
 Apaga a pasta da Central inteira. É irreversível na pasta local.
 
-1. Resolva a Central (com várias, pergunte sempre). Mostre a prévia: nome, provedor, caminho ou link, idiomas e quantidades de aulas e diagnósticos.
+1. Resolva a Central (com várias, pergunte sempre). Mostre a prévia: nome, provedor, caminho ou link, idiomas e quantidades de aulas e diagnósticos. Diga como será apagada: lixeira (recuperável) ou exclusão definitiva (quando o conector só oferecer essa).
 2. Ofereça um backup em .zip fora da Central (`--backup`).
 3. Peça que o aluno digite o nome da Central para confirmar. Qualquer outra resposta cancela.
 4. Pasta local: `remove --confirmar NOME`. O script recusa pastas sem a estrutura de uma Central, links simbólicos, a pasta pessoal do usuário, a raiz do disco e a pasta da skill.
-5. Conector: mova a pasta raiz para a lixeira com a ação de lixeira do conector, se houver (no conector Google Drive do Claude, `trash_file`), e confirme pela releitura que ela está na lixeira. Sem essa ação, informe o link e peça que o aluno apague a pasta; depois de ele confirmar, rode `remove --confirmar NOME --somente-registro`.
+5. Conector: apague a pasta raiz pela ação do conector, conforme o [adaptador](adaptadores/drive.md#remover-e-zerar): lixeira, se houver (no Claude, `trash_file`); senão, exclusão definitiva, já avisada na prévia e confirmada pelo nome. Confirme pela releitura que a pasta não está mais na Central e atualize o registro (`remove --confirmar NOME --somente-registro`). Só peça que o aluno apague à mão se o conector não puder apagar de nenhuma forma.
 6. Se a removida era a padrão e sobrou uma única Central, ela vira a padrão; com várias, avise que não há padrão.
 
 ## Reset-Diagnostic, Reset-Lessons e Reset-Progress
@@ -89,10 +89,10 @@ Zeram um tipo de registro de um idioma (ou de todos) e devolvem os arquivos deri
 MODELO.md e o roteiro 09 nunca são removidos. No Drive, sessões e derivados são Docs e o 08 é uma Sheet, com o mesmo nome sem `.md`.
 
 1. Resolva Central e idioma conforme a seção Ambiguidade.
-2. Mostre a prévia: Central (e se é a padrão), idioma, lista do que será removido e do que volta ao modelo. Se Reset-Diagnostic ou Reset-Lessons deixarem o progresso calculado com registros apagados, a prévia traz o aviso; ofereça também Reset-Progress.
+2. Mostre a prévia: Central (e se é a padrão), idioma, lista do que será removido e do que volta ao modelo, e como os removidos serão apagados (lixeira ou exclusão definitiva, se o conector só oferecer essa; o backup em `_backups/` é feito antes de qualquer forma). Se Reset-Diagnostic ou Reset-Lessons deixarem o progresso calculado com registros apagados, a prévia traz o aviso; ofereça também Reset-Progress.
 3. Peça confirmação explícita ("sim"). Sem ela, não altere nada.
 4. Antes de apagar, copie tudo o que muda para `_backups/AAAAMMDD-HHMMSS-reset-TIPO-IDIOMA/` dentro da Central e confira a cópia. Pasta local: `reset ... --confirmar` faz isso.
-5. Conector: crie a pasta de backup, copie cada arquivo com a cópia nativa do conector (Docs e Sheets continuam nativos) e confira, mova os removidos para a lixeira (ou, sem essa ação, liste-os para o aluno apagar) e devolva os derivados ao modelo do pacote, relendo cada um. No Drive: Doc por substituição total; Sheet limpando as abas `Resumo` e `Aulas` e regravando as tabelas do modelo (veja o [adaptador](adaptadores/drive.md#remover-e-zerar)).
+5. Conector: crie a pasta de backup, copie cada arquivo com a cópia nativa do conector (Docs e Sheets continuam nativos) e confira, apague os removidos pela lixeira ou, se o conector só oferecer essa ação, por exclusão definitiva, somente depois do backup conferido (sem pedir que o aluno apague à mão), e releia a pasta para confirmar e devolva os derivados ao modelo do pacote, relendo cada um. No Drive: Doc por substituição total; Sheet limpando as abas `Resumo` e `Aulas` e regravando as tabelas do modelo (veja o [adaptador](adaptadores/drive.md#remover-e-zerar)).
 6. Informe o que foi zerado, onde está o backup e qual é a próxima etapa do idioma (depois de Reset-Diagnostic, o diagnóstico inicial).
 
 Os resets nunca zeram `contador_frases` nem `contador_dialogos`: os números de frases e diálogos continuam únicos depois de qualquer reset.
