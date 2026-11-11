@@ -194,6 +194,7 @@ def count(folder, prefix):
 
 def describe(entry, default):
     info = summary(entry, default)
+    info["formato_registros"] = "nativo" if entry["acesso"] == "drive" else "markdown"
     if entry["acesso"] != "pasta-local":
         info["idiomas"] = [NAMES[t] for t in entry.get("idiomas", [])]
         info["observacao"] = "Detalhes por idioma são lidos pelo conector."
@@ -278,6 +279,7 @@ def cmd_create(data, args, path):
     result = apply_local(root, tags)
     present = languages_in(root)
     write_fields(root, {"nome_central": name, "provedor": provider, "armazenamento": "pasta-local",
+                        "formato_registros": "markdown",
                         "raiz": str(root), "idiomas_escolhidos_pelo_aluno": present})
     entry, new = _upsert(data, {"nome": name, "provedor": provider, "acesso": "pasta-local",
                                 "raiz": str(root), "idiomas": present,

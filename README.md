@@ -158,7 +158,7 @@ O Everyday Language Essentials AI é uma iniciativa **open source**, pensada par
 
 ## Como instalar
 
-A mesma skill, chamada **everylang**, funciona no Claude, no ChatGPT e no Codex. Seu progresso fica numa pasta pessoal sua: no computador, no Google Drive ou no OneDrive. No Claude Code:
+A mesma skill, chamada **everylang**, funciona no Claude, no ChatGPT e no Codex. Seu progresso fica numa pasta pessoal sua: no computador, no Google Drive ou no OneDrive. No Google Drive, a skill funciona 100% na nuvem (celular, PC e tablet); no Claude, isso exige os conectores Google Drive, Google Docs e Google Sheets. No Claude Code:
 
 ```
 /plugin marketplace add alexgbfla92/everyday-language-essentials-ai

@@ -53,6 +53,8 @@ class CentralTests(unittest.TestCase):
         state = (root / "config/estado-global.md").read_text(encoding="utf-8")
         self.assertIn("nome_central: Pessoal", state)
         self.assertIn("armazenamento: pasta-local", state)
+        self.assertIn("formato_registros: markdown", state)
+        self.assertEqual(central["formato_registros"], "markdown")
         self.assertIn("idiomas_escolhidos_pelo_aluno: [en-US, es-ES]", state)
 
     def test_create_adds_language_without_overwriting(self):
@@ -180,6 +182,7 @@ class CentralTests(unittest.TestCase):
                      "google-drive", "--acesso", "drive", "es", "fr")
         info = self.run_cli("info", "--central", "Drive")["centrais"][0]
         self.assertEqual(info["idiomas"], ["Espanhol", "Francês"])
+        self.assertEqual(info["formato_registros"], "nativo")
         self.assertEqual(self.run_cli("reset", "aulas", "es")["status"], "erro")
         preview = self.run_cli("remove", "--central", "Drive")
         self.assertIn("conector", preview["acao"])
