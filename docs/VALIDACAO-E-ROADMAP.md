@@ -43,7 +43,7 @@ Em pasta pessoal de ensaio, anote operações e tempo de espera de três turnos 
 ## Ensaio do roteiro da aula
 
 1. Ao abrir a aula, o roteiro das sete etapas aparece em uma linha; em texto, cada mensagem começa com `Etapa n/7 · nome`; em voz, cada troca de etapa é anunciada.
-2. Antes da etapa 1, sem perguntas ao aluno, a sessão já tem a seção Entertainment Lab preenchida, com vídeo ou trecho de 30% a 50% da aula (6 a 10 minutos numa aula de 20) ou o mais próximo disso com o motivo registrado, sempre ligado ao tema, com um vídeo verificado (título, canal, URL, trecho, transcrição, perguntas, tarefa) ou `pendente` se não houver busca.
+2. Antes da etapa 1, sem perguntas ao aluno, a sessão já tem a seção Entertainment Lab preenchida, com vídeo ou trecho de 30% a 50% da aula (6 a 10 minutos numa aula de 20) ou o mais próximo disso com o motivo registrado, sempre ligado ao tema e com link `https://www.youtube.com/watch?v=…` (nunca outro site), com um vídeo verificado (título, canal, URL, trecho, transcrição, perguntas, tarefa) ou `pendente` se não houver busca.
 3. Pergunte "em que etapa estamos?" no meio da simulação: etapa atual, o que falta e tempo restante.
 4. Deixe a aula chegar ao fim sem pedir para terminar: depois do feedback, a IA entra sozinha na etapa 6, salva e confirma ("Aula salva na sua Central: …") ou, sem gravação, diz que não salvou e passa o comando Save-Lesson.
 5. Etapa 7: uma única mensagem curta com o Lab já planejado e uma só pergunta ("agora ou depois?"). Adie e depois use `Lab`: o mesmo plano volta sem novas perguntas.
