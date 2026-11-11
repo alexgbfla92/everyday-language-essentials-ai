@@ -104,3 +104,7 @@ Pausam, encerram ou salvam a aula ou o diagnóstico em andamento, em texto ou vo
 ## Frase N, Diálogo N e IDs-Voz
 
 Pedidos sobre uma frase ou diálogo pelo número ("repita a frase 132", "explique o diálogo 145") e o anúncio dos números no modo voz seguem [FRASES-E-VOZ.md](FRASES-E-VOZ.md#numeração-de-frases-e-diálogos). `IDs-Voz on|off` grava a preferência em `ids_em_voz` no estado global.
+
+## Etapa
+
+Durante uma aula ou diagnóstico, mostra a etapa atual (por exemplo, "Etapa 3/6 · Simulação"), o que já foi feito, o que falta e o tempo restante. Também responde a "em que etapa estamos?" ou "em que parte da aula estou?". O roteiro e a regra de anunciar as etapas estão no SKILL.md (seção Roteiro da aula).

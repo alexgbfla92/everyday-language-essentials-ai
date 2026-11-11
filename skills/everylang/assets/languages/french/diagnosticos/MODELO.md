@@ -3,6 +3,7 @@
 Identifiant / fichier (ID Drive ou chemin relatif) :
 Identifiants de phrases (F) et de dialogues (D) utilisés dans cette séance : F? – F? | D? – D?
 État : prévu, en cours, en pause, terminé
+Étape actuelle (1–5) : Compréhension orale, Expression et interaction, Lecture, Retour, Clôture
 Compréhension orale (0–8 min) : preuves, confiance, niveau CECRL provisoire :
 Expression et interaction orales (8–18 min) : preuves, confiance, niveau CECRL provisoire :
 Lecture quotidienne et technique (18–25 min) : preuves, confiance, niveau CECRL provisoire :
