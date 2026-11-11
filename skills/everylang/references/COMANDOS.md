@@ -107,4 +107,8 @@ Pedidos sobre uma frase ou diálogo pelo número ("repita a frase 132", "expliqu
 
 ## Etapa
 
-Durante uma aula ou diagnóstico, mostra a etapa atual (por exemplo, "Etapa 3/6 · Simulação"), o que já foi feito, o que falta e o tempo restante. Também responde a "em que etapa estamos?" ou "em que parte da aula estou?". O roteiro e a regra de anunciar as etapas estão no SKILL.md (seção Roteiro da aula).
+Durante uma aula ou diagnóstico, mostra a etapa atual (por exemplo, "Etapa 3/7 · Simulação"), o que já foi feito, o que falta e o tempo restante. Também responde a "em que etapa estamos?" ou "em que parte da aula estou?". O roteiro e a regra de anunciar as etapas estão no SKILL.md (seção Roteiro da aula).
+
+## Lab
+
+Abre o Entertainment Lab planejado para a aula indicada ou, sem argumento, para a última aula do idioma que tenha Lab `planejado`, `adiado` ou `pendente`. Com mais de um idioma possível, pergunte qual. Apresente o plano gravado na sessão sem fazer novas perguntas além de confirmar o início; se estiver `pendente`, escolha e verifique o vídeo agora (em texto). Grave o resultado na mesma sessão.
