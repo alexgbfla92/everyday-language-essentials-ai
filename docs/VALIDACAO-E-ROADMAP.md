@@ -39,3 +39,11 @@ Em pasta pessoal de ensaio, anote operações e tempo de espera de três turnos 
 4. Em voz, diga "pausar": se a gravação funcionar, a sessão fica `pausada` com a próxima pergunta; se não, a IA não diz que salvou e passa o comando Save-Lesson. Saia do modo voz, envie o comando e confira as falas do trecho em voz gravadas com modo `voz`.
 5. Repita com "terminar a aula": sessão `concluída`, progresso consolidado uma única vez.
 6. Feche o modo voz sem pausar e volte ao texto: a skill deve oferecer Save-Lesson.
+
+## Ensaio do roteiro da aula
+
+1. Ao abrir a aula, o roteiro das seis etapas aparece em uma linha; em texto, cada mensagem começa com `Etapa n/6 · nome`; em voz, cada troca de etapa é anunciada.
+2. Pergunte "em que etapa estamos?" no meio da simulação: etapa atual, o que falta e tempo restante.
+3. Deixe a aula chegar ao fim sem pedir para terminar: depois do feedback, a IA entra sozinha no encerramento, salva e confirma ("Aula salva na sua Central: …") ou, sem gravação, diz que não salvou e passa o comando Save-Lesson.
+4. No encerramento, a IA oferece um Entertainment Lab ligado ao tema da aula (em voz, sugere fazê-lo em texto) e diz o próximo passo. A sessão registra se o Lab foi oferecido, aceito ou recusado.
+5. Repita 3 e 4 no modo voz.

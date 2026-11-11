@@ -8,6 +8,7 @@ Inclure dans les statistiques : oui/non (non pour les tests)
 Mission : 90 jours par défaut ; durée prévue : 20 minutes par défaut
 Création / début / fin :
 État : prévue, en cours, en pause, terminée
+Étape actuelle (1–6) : Briefing, Pratique guidée, Simulation, Imprévu, Retour, Clôture
 Scénario, module et objectif :
 Adaptations et niveau d'aide :
 Durée réelle constatée :
@@ -26,3 +27,5 @@ Durée réelle constatée :
 
 ## Bilan
 Résultat, retour fondé sur des preuves, limites, prochaine activité et état de mise à jour du suivi.
+Enregistré et confirmé à l'apprenant : oui/non (sinon, commande Save-Lesson indiquée).
+Entertainment Lab de cette séance : proposé / accepté / refusé, proposition.

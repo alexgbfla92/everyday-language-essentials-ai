@@ -268,3 +268,12 @@ class TemplateTests(unittest.TestCase):
         text = (ASSETS / "config" / "estado-global.md").read_text(encoding="utf-8")
         for field in ("contador_frases", "contador_dialogos", "ids_em_voz"):
             self.assertIn(f"{field}:", text)
+
+    def test_templates_track_the_current_stage(self):
+        for folder in LANGUAGES.values():
+            lesson = (ASSETS / "languages" / folder / "aulas" / "MODELO.md").read_text(encoding="utf-8")
+            diagnostic = (ASSETS / "languages" / folder / "diagnosticos" / "MODELO.md").read_text(encoding="utf-8")
+            self.assertIn("(1–6)", lesson, folder)
+            self.assertIn("Entertainment Lab", lesson, folder)
+            self.assertIn("(1–5)", diagnostic, folder)
+

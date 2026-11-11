@@ -42,11 +42,14 @@ Comandos: `Pause-Lesson` (ou "pausar", "pausa", "para por aqui") e `Finish-Lesso
 
 ### Finish-Lesson
 
+O Finish-Lesson é o primeiro item da etapa de encerramento e roda sempre ao fim da aula, mesmo sem o aluno pedir (veja o roteiro no SKILL.md). Depois de salvar, ofereça o Entertainment Lab da aula e diga o próximo passo.
+
+
 1. Faça o fechamento combinado (feedback com evidências, limitações, próxima tarefa).
 2. Grave na sessão, numa única escrita: último turno, fechamento, estado `concluída`, frases e diálogos pendentes.
 3. Consolide os derivados do idioma conforme a [persistência](PERSISTENCIA.md#salvar-retomar-e-reparar) (progresso 08, perfil atual, contexto recente). Aula de teste não altera métricas.
 4. Atualize os contadores e, por último, `estado/sessao-ativa`.
-5. Releia tudo e confirme "Aula concluída e salva".
+5. Releia tudo e confirme, em texto ou voz, "Aula concluída e salva na sua Central: <sessão>".
 
 ### Sem escrita disponível (voz e outros casos)
 
