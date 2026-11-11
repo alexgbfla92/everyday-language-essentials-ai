@@ -248,3 +248,19 @@ class LocalProvisionTests(unittest.TestCase):
         installer = ProvisionTests("run_install")
         installer.setUp()
         return {path for path in installer.run_install(languages)["ids"] if path}
+
+
+class TemplateTests(unittest.TestCase):
+    def test_session_templates_have_global_phrase_and_dialogue_tables(self):
+        for folder in LANGUAGES.values():
+            for kind in ("aulas", "diagnosticos"):
+                text = (ASSETS / "languages" / folder / kind / "MODELO.md").read_text(encoding="utf-8")
+                self.assertIn("F? – F? | D? – D?", text, (folder, kind))
+                self.assertIn("| ID |", text)
+                self.assertEqual(text.count("|---|---|---|---|---|---|"), 1 if kind == "diagnosticos" else 2)
+                self.assertNotIn("F001", text)
+
+    def test_global_counters_in_state(self):
+        text = (ASSETS / "config" / "estado-global.md").read_text(encoding="utf-8")
+        for field in ("contador_frases", "contador_dialogos", "ids_em_voz"):
+            self.assertIn(f"{field}:", text)

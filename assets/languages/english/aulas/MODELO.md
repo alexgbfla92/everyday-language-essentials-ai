@@ -1,6 +1,7 @@
 # TEMPLATE — American English lesson
 
 Session ID and file ID (Drive ID or relative path):
+Phrase IDs (F) and dialogue IDs (D) used in this session: F? – F? | D? – D?
 Language: American English (en-US)
 Type: regular lesson or test
 Include in metrics: yes/no (no for tests)
@@ -11,12 +12,16 @@ Scenario, module and goal:
 Overrides and support level:
 Actual observed duration:
 
-## English phrase index (F001… per lesson)
-| ID | Speaker and mode | Observed English phrase | Reliability |
-|---|---|---|---|
+## Phrase index (global F numbers for this language; never reused)
+| ID | Dialogue | Speaker | Mode (text/voice) | English phrase | Reliability |
+|---|---|---|---|---|---|
+
+## Dialogues
+| ID | Scenario | Phrases |
+|---|---|---|
 
 ## Checkpoints
-| Sequence | Time | Block and last turn | Activities and evidence | Pending work and next question | Last Fxxx |
+| Sequence | Time | Block and last turn | Activities and evidence | Pending work and next question | Last F |
 |---|---|---|---|---|---|
 
 ## Wrap-up

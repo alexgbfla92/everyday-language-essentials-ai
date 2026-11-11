@@ -21,7 +21,7 @@ Repita o roteiro abaixo em cada combinação de plataforma e adaptador que for p
 1. Pelo mecanismo de instalação disponível na conta, invoque a skill sem o clone aberto. Informe um destino vazio. Crie espanhol e inglês. Confira metadados, pais, MIME, bytes, IDs e revisão da configuração após nova leitura.
 2. Repita o setup. Compare os IDs. Adicione francês; confira que os dados anteriores continuam íntegros.
 3. Peça aula sem diagnóstico e depois com triagem breve. Observe o encaminhamento. Conclua um diagnóstico regular em texto, confira as limitações anotadas e aprove o plano. Faça uma sessão de teste e compare as métricas antes e depois.
-4. Pause uma aula após F002. No celular, recupere o mesmo ID, revisão e pergunta. Em voz, confirme o que foi efetivamente observado. Encerre e verifique uma única contribuição ao progresso.
+4. Pause uma aula após a segunda frase do aluno. No celular, recupere o mesmo ID, revisão e pergunta. Em voz, confirme o que foi efetivamente observado. Encerre e verifique uma única contribuição ao progresso.
 5. Interrompa o acesso após salvar a sessão e antes de atualizar o progresso. Confira o checkpoint, reconcilie pelo ID de operação e valide o reparo. Com um segundo escritor ativo, registre conflitos e suspenda a operação se o conector não oferecer garantias suficientes.
 6. Em chat de progresso, compare as evidências de um idioma sem alterar notas. No Lab, teste um vídeo sem transcrição acessível.
 
@@ -30,3 +30,12 @@ Registre interface, versão, data, ações e resultados em ambiente de teste. A 
 ## Latência e recuperação
 
 Em pasta pessoal de ensaio, anote operações e tempo de espera de três turnos comuns antes e depois da mudança, na mesma interface. Durante uma aula aberta, uma resposta que altere o estado deve produzir uma única escrita no arquivo da sessão, com verificação por leitura. Confira pelos IDs que o resumo, o perfil e o índice global não receberam escrita naquele turno. Em outro chat, use o ponteiro existente e confira se a próxima pergunta recuperada corresponde à última resposta confirmada. Interrompa a conclusão depois da fonte e antes do registro 08; ao retomar, verifique reparo, uma única contabilização e encerramento do ponteiro.
+
+## Ensaio de frases numeradas e voz
+
+1. Em texto, confira que cada frase da IA no idioma-alvo vem com `[Fn]`, que cada resposta abre com os números das frases do aluno e que diálogos vêm com `[Dn]`. Peça "repita a frase N", "explique a estrutura do diálogo N" e "traduza a N", inclusive de uma sessão anterior.
+2. Faça Reset-Lessons e uma aula nova: os números continuam de onde pararam.
+3. Em voz, confira o anúncio curto dos números e `IDs-Voz off`.
+4. Em voz, diga "pausar": se a gravação funcionar, a sessão fica `pausada` com a próxima pergunta; se não, a IA não diz que salvou e passa o comando Save-Lesson. Saia do modo voz, envie o comando e confira as falas do trecho em voz gravadas com modo `voz`.
+5. Repita com "terminar a aula": sessão `concluída`, progresso consolidado uma única vez.
+6. Feche o modo voz sem pausar e volte ao texto: a skill deve oferecer Save-Lesson.
