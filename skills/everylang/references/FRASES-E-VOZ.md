@@ -51,6 +51,15 @@ O Finish-Lesson é a etapa 6 (encerramento) e roda sempre ao fim da aula, mesmo 
 4. Atualize os contadores e, por último, `estado/sessao-ativa`.
 5. Releia tudo e confirme, em texto ou voz, "Aula concluída e salva na sua Central: <sessão>".
 
+### Finish-Lab
+
+Ao terminar o Entertainment Lab (etapa 7) ou um Lab retomado com o comando `Lab`:
+
+1. Grave na seção Entertainment Lab da sessão, numa única escrita: status `feito`, respostas do aluno, frases e diálogos numerados, resultado da tarefa e feedback breve. Se o Lab foi adiado ou recusado, grave só o status.
+2. Atualize os contadores de frases e diálogos no estado global.
+3. Releia e confirme, em texto ou voz: "Lab salvo na sua Central: <sessão>". O Lab não altera as métricas da aula.
+4. Sem escrita disponível, siga a seção abaixo com `Save-Lesson lab`.
+
 ### Sem escrita disponível (voz e outros casos)
 
 No modo voz, a IA pode não ter acesso às ferramentas de gravação. Tente gravar; se não houver ferramenta ou a escrita falhar:
@@ -63,11 +72,11 @@ Ao começar uma atividade por voz, avise uma vez, em uma frase, se a gravação 
 
 ### Save-Lesson (no modo texto)
 
-`Save-Lesson [pausar|concluir] [sessão] [intervalo]` grava o que ficou pendente na mesma conversa:
+`Save-Lesson [pausar|concluir|lab] [sessão] [intervalo]` grava o que ficou pendente na mesma conversa (pausa, fim da aula ou fim do Lab):
 
 1. Leia a sessão pelo ID e a última revisão confirmada.
 2. Reconstrua, a partir da transcrição desta conversa, as falas do intervalo indicado (ou todas após a última frase gravada): número, falante, modo `voz`, texto e evidências. Marque como `transcrição de voz` a confiabilidade das falas do aluno; não avalie pronúncia por transcrição.
-3. Execute Pause-Lesson ou Finish-Lesson a partir do passo de gravação, com releitura.
+3. Execute Pause-Lesson, Finish-Lesson ou Finish-Lab a partir do passo de gravação, com releitura e confirmação ao aluno.
 4. Se a transcrição não tiver as falas (outra conversa, transcrição perdida), diga quais números ficaram sem registro, peça que o aluno cole o trecho, ou grave só o checkpoint e marque essas frases como não recuperadas.
 
 Sem argumento, Save-Lesson usa a sessão ativa e a ação pedida por último. Ao retomar uma sessão, se a conversa ou o ponteiro mostrarem frases com número acima do último gravado, ofereça Save-Lesson antes de continuar.

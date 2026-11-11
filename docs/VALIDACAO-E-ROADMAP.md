@@ -48,3 +48,4 @@ Em pasta pessoal de ensaio, anote operações e tempo de espera de três turnos 
 4. Deixe a aula chegar ao fim sem pedir para terminar: depois do feedback, a IA entra sozinha na etapa 6, salva e confirma ("Aula salva na sua Central: …") ou, sem gravação, diz que não salvou e passa o comando Save-Lesson.
 5. Etapa 7: uma única mensagem curta com o Lab já planejado e uma só pergunta ("agora ou depois?"). Adie e depois use `Lab`: o mesmo plano volta sem novas perguntas.
 6. Repita 4 e 5 no modo voz.
+7. Faça o Lab até o fim: a IA grava o resultado e diz "Lab salvo na sua Central: …". Adie outro Lab: status `adiado` gravado e confirmado. Em voz, sem gravação: a IA diz que não salvou e passa `Save-Lesson lab <sessão> <F>-<F>`; enviado em texto, o resultado do Lab fica gravado.

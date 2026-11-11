@@ -40,3 +40,4 @@ Elementos de la clase reutilizados:
 Preguntas (hasta 3):
 Tarea breve:
 Resultado y comentarios:
+Guardado y confirmado al alumno: sí/no (si no, se indicó el comando Save-Lesson lab):

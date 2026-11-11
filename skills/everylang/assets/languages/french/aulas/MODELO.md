@@ -40,3 +40,4 @@ Durée et extrait à regarder :
 Questions (3 au maximum) :
 Tâche courte :
 Résultat et retour :
+Enregistré et confirmé à l'apprenant : oui/non (sinon, commande Save-Lesson lab indiquée) :

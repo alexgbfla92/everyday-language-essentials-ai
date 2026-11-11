@@ -40,3 +40,4 @@ Lesson items reused:
 Questions (up to 3):
 Short task:
 Result and feedback:
+Saved and confirmed to the learner: yes/no (if no, Save-Lesson lab command given):
