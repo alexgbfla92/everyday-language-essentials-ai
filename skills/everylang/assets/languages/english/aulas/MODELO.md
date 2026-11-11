@@ -33,6 +33,7 @@ Saved and confirmed to the learner: yes/no (if no, Save-Lesson command given).
 Status: planned / pending / done / postponed / declined
 Video title and channel:
 URL:
+Target length (30–50% of the lesson) and chosen length; reason if outside the range:
 Duration and segment to watch:
 Transcript status (obtained / captions indicated, text not obtained / not confirmed):
 Lesson items reused:

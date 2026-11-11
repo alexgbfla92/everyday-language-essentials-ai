@@ -11,7 +11,7 @@ Desenvolver a menor competência comunicativa funcional suficiente para compreen
 5. Metas funcionais e sustentáveis: 90 dias e 20 minutos por padrão, personalizáveis; revisão a cada 14 dias por idioma ou prazo compatível com missão curta.
 
 ## Sessão regular padrão
-Sete etapas anunciadas ao aluno: 1 Mission Briefing (5 min); 2 prática guiada/revisão (2 min); 3 simulação (7 min); 4 imprevisto (4 min); 5 feedback (2 min); 6 encerramento (salvar com confirmação e próximo passo); 7 Entertainment Lab (opcional, ~15 min), com o vídeo escolhido e verificado na criação da aula. Ajustar os tempos à duração escolhida sem eliminar a verificação de compreensão, o feedback e o encerramento. Na primeira aula, não alegar revisão de aula inexistente.
+Sete etapas anunciadas ao aluno: 1 Mission Briefing (5 min); 2 prática guiada/revisão (2 min); 3 simulação (7 min); 4 imprevisto (4 min); 5 feedback (2 min); 6 encerramento (salvar com confirmação e próximo passo); 7 Entertainment Lab (opcional), com vídeo ligado ao conteúdo da aula, escolhido e verificado na criação da aula, com duração de 30% a 50% da aula (o mais próximo disso quando não houver vídeo adequado na faixa). Ajustar os tempos à duração escolhida sem eliminar a verificação de compreensão, o feedback e o encerramento. Na primeira aula, não alegar revisão de aula inexistente.
 
 ## Adaptação linguística
 A Skill global define o objetivo comunicativo; `languages/<language>/config.md` e `conteudo/` definem variante, tratamento, gramática, pronúncia, exemplos e situações. Explicações em pt-BR por padrão. Para outros idiomas, não traduzir mecanicamente as frases inglesas. Preservar diferenças socioculturais e registros profissionais.

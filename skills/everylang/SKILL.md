@@ -11,7 +11,7 @@ Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso c
 
 Reconheça os comandos sem diferenciar maiúsculas, acentos ou hífen, com argumentos em qualquer ordem. Siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Quando faltar ou houver mais de uma opção de Central ou de idioma, pergunte qual antes de agir, conforme a seção Ambiguidade daquele documento. Remove e Reset sempre mostram a prévia, fazem backup e pedem confirmação explícita.
 
-Versão instalada: 0.9.0
+Versão instalada: 0.9.1
 
 `Help` (ou `Help-Comandos`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "everylang vX.Y.Z") e esta tabela, sem executar nada:
 
@@ -65,11 +65,11 @@ Toda aula regular segue sete etapas, nesta ordem. As etapas 1 a 5 dividem a dura
 4. **Imprevisto** (4 min): uma complicação dentro do cenário.
 5. **Feedback** (2 min): o que funcionou, o que ajustar, com evidências por número de frase.
 6. **Encerramento**: salvar e confirmar, e dizer o próximo passo.
-7. **Entertainment Lab** (opcional, ~15 min): o vídeo já escolhido para esta aula.
+7. **Entertainment Lab** (opcional, 30% a 50% da duração da aula: 6 a 10 minutos numa aula de 20): o vídeo já escolhido para esta aula.
 
 O diagnóstico segue cinco etapas: 1 compreensão oral, 2 produção e interação, 3 leitura, 4 feedback, 5 encerramento (salvar e próximo passo), sem Entertainment Lab.
 
-**Planeje o Entertainment Lab ao criar a aula**, antes da etapa 1 e sem perguntar nada ao aluno. Com o cenário e os itens da aula definidos, pesquise e verifique um vídeo real no YouTube no idioma e na variante da aula, adequado ao nível e ligado ao tema (módulos 06 e 07: título, canal, URL, duração, trecho de 3–8 minutos e estado da transcrição). Prepare o que o aluno fará: até 3 perguntas e 1 tarefa curta que reutiliza os itens da aula. Grave tudo na seção Entertainment Lab do arquivo da sessão. Se não houver ferramenta de busca (por exemplo, no modo voz) ou nenhum vídeo puder ser verificado, registre `pendente` e siga a aula; não invente vídeo nem link.
+**Planeje o Entertainment Lab ao criar a aula**, antes da etapa 1 e sem perguntar nada ao aluno. Com o cenário e os itens da aula definidos, pesquise e verifique um vídeo real no YouTube no idioma e na variante da aula, adequado ao nível e ligado ao tema (módulos 06 e 07: título, canal, URL, duração, trecho e estado da transcrição). **Duração do vídeo:** o vídeo, ou o trecho indicado, deve durar de 30% a 50% da duração combinada da aula (6 a 10 minutos numa aula de 20; 9 a 15 numa de 30). A ligação com o conteúdo da aula vem primeiro: entre os vídeos ligados ao tema e aos itens da aula, escolha um dentro da faixa; se nenhum couber, escolha o mais próximo da faixa e registre a duração real e o motivo. Use trecho de um vídeo maior só com início e fim confirmados. Prepare o que o aluno fará depois de assistir: até 3 perguntas e 1 tarefa curta que reutiliza os itens da aula. Grave tudo na seção Entertainment Lab do arquivo da sessão. Se não houver ferramenta de busca (por exemplo, no modo voz) ou nenhum vídeo puder ser verificado, registre `pendente` e siga a aula; não invente vídeo nem link.
 
 **Mostre sempre onde o aluno está.** Ao abrir a aula, apresente o roteiro em uma linha ("1 Briefing · 2 Prática guiada · 3 Simulação · 4 Imprevisto · 5 Feedback · 6 Encerramento · 7 Entertainment Lab"). Em texto, comece cada mensagem da aula com a etapa atual, por exemplo `Etapa 3/7 · Simulação`. Em voz, anuncie cada troca de etapa ("Agora, etapa 3 de 7: simulação"), sem repetir a cada turno. Quando o aluno perguntar "em que etapa estamos?" (ou `Etapa`), diga a etapa atual, o que já foi feito, o que falta e o tempo restante. Grave a etapa no checkpoint da sessão.
 

@@ -33,6 +33,7 @@ Guardado y confirmado al alumno: sí/no (si no, se indicó el comando Save-Lesso
 Estado: planificado / pendiente / hecho / aplazado / rechazado
 Título y canal del vídeo:
 URL:
+Duración objetivo (30–50% de la clase) y duración elegida; motivo si queda fuera del rango:
 Duración y fragmento a ver:
 Estado de la transcripción (obtenida / subtítulos indicados, texto no obtenido / no confirmado):
 Elementos de la clase reutilizados:
