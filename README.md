@@ -160,14 +160,67 @@ O Everyday Language Essentials AI é uma iniciativa **open source**, pensada par
 
 ## Como instalar
 
-A mesma skill, chamada **everylang**, funciona no Claude, no ChatGPT e no Codex. Seu progresso fica numa pasta pessoal sua: no computador, no Google Drive ou no OneDrive. No Google Drive, a skill funciona 100% na nuvem (celular, PC e tablet); no Claude, isso exige os conectores Google Drive, Google Docs e Google Sheets. No Claude Code:
+A skill se chama **everylang** e é a mesma para Claude e ChatGPT: fica em [`skills/everylang`](skills/everylang/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
+
+Depois de instalar, envie `Help` para ver a versão instalada e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
+
+### Claude
+
+**App do Claude (web, desktop e celular)**
+
+1. Em **Configurações → Plugins → Adicionar marketplace**, informe `alexgbfla92/everyday-language-essentials-ai` e clique em **Sincronizar**.
+2. Instale o plugin **everylang**.
+3. Para salvar no Google Drive, ative em **Configurações → Conectores** os conectores **Google Drive**, **Google Docs** e **Google Sheets**.
+4. Chame com `/everylang:everylang` (por exemplo, `/everylang:everylang Help`).
+
+Para atualizar, sincronize o marketplace de novo.
+
+**Claude Code**
 
 ```
 /plugin marketplace add alexgbfla92/everyday-language-essentials-ai
 /plugin install everylang@everyday-essentials
 ```
 
-Depois, `/everylang:everylang Help` mostra todos os comandos. As instruções para cada plataforma estão em [START-HERE.md](START-HERE.md) e os comandos em [docs/COMANDOS.md](docs/COMANDOS.md).
+**Como skill avulsa (atalho `/everylang`)**
+
+Gere o pacote e envie em **Configurações → Skills**, ou copie a pasta `skills/everylang` para `~/.claude/skills/everylang` no Claude Code:
+
+```
+git archive --format=zip --prefix=everylang/ -o everylang.zip HEAD:skills/everylang
+```
+
+### ChatGPT
+
+Antes de usar, ative o app **Google Drive** no ChatGPT. Ele precisa criar e editar Google Docs e Sheets.
+
+**Workspace (Business, Enterprise ou Edu)**
+
+1. Um admin abre **Admin → Plugins → Add → Import marketplace**.
+2. Em **Source**, informa `https://github.com/alexgbfla92/everyday-language-essentials-ai` e conclui a importação.
+3. Define a política de instalação do **everylang** (Available ou Installed) para os papéis desejados.
+4. Os membros instalam pelo diretório de plugins. A skill vale na web, no desktop e no celular.
+
+A importação sincroniza diariamente; para atualizar na hora, use **Sync now**.
+
+**Conta individual (app de desktop)**
+
+Pelo Codex CLI, que usa o mesmo diretório de plugins do ChatGPT:
+
+```
+codex plugin marketplace add alexgbfla92/everyday-language-essentials-ai
+codex plugin add everylang@everyday-essentials
+```
+
+Depois, abra o app de desktop do ChatGPT e confira o **everylang** em **Plugins**. Para chamar a skill, digite `@everylang` ou peça normalmente (por exemplo, "quero fazer uma aula de inglês"). Para atualizar, use `codex plugin marketplace upgrade`.
+
+### Codex CLI
+
+Use os mesmos dois comandos da conta individual do ChatGPT e chame com `$everylang`. Outra opção é copiar `skills/everylang` para `~/.agents/skills/everylang`.
+
+### Se você instalou uma versão anterior
+
+Desinstale o plugin antigo (`everyday-language-essentials-ai`), sincronize o marketplace e instale **everylang**. Suas Centrais não são afetadas, porque ficam na sua pasta pessoal, fora do pacote.
 
 ## A filosofia da comunidade
 

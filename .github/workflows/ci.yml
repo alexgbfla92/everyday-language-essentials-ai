@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Testes
+        run: python -B -m unittest discover -s tests -v
+      - name: Versão igual em todos os manifestos
+        run: python tools/bump_version.py --check
+      - name: PR precisa subir a versão
+        if: github.event_name == 'pull_request'
+        run: |
+          base=$(git show "origin/${{ github.base_ref }}:VERSION" | tr -d '[:space:]')
+          head=$(tr -d '[:space:]' < VERSION)
+          echo "base=$base head=$head"
+          python - "$base" "$head" <<'PY'
+          import sys
+          base, head = (tuple(map(int, v.split("."))) for v in sys.argv[1:])
+          if head <= base:
+              sys.exit(f"Suba o VERSION neste PR (main está em {sys.argv[1]}). Use: python tools/bump_version.py patch|minor|major")
+          PY

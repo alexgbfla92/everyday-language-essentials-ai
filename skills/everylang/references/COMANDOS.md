@@ -46,7 +46,7 @@ O registro guarda nome, provedor (local, google-drive, onedrive), acesso (pasta-
 
 ## Help
 
-Mostre a tabela da seção Comandos do SKILL.md, com uma linha de exemplo por comando e a Central padrão atual, se conhecida. Não execute nada.
+Mostre primeiro a versão instalada ("everylang vX.Y.Z", da linha "Versão instalada" do SKILL.md) e depois a tabela da seção Comandos do SKILL.md, com uma linha de exemplo por comando e a Central padrão atual, se conhecida. Não execute nada.
 
 ## Info-CentralIdioma
 

@@ -8,7 +8,7 @@ $everylang Create-CentralIdioma local Inglês Espanhol. Vou indicar a pasta pess
 
 ## ChatGPT
 
-Use a skill everylang: Create-CentralIdioma googledrive Inglês Espanhol. Vou indicar minha pasta pessoal no Google Drive. Prepare a estrutura, confira o que foi salvo e me encaminhe à primeira etapa pendente.
+@everylang Create-CentralIdioma googledrive Inglês Espanhol. Vou indicar minha pasta pessoal no Google Drive. Prepare a estrutura, confira o que foi salvo e me encaminhe à primeira etapa pendente.
 
 ## Claude
 

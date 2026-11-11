@@ -1,0 +1,41 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "everylang",
+  "version": "0.7.0",
+  "description": "Central pessoal de idiomas (inglês, espanhol, francês) com diagnóstico, aulas por missão, frases numeradas, progresso e comandos de gestão; salva no Google Drive (Docs e Sheets nativos) ou numa pasta local.",
+  "author": {
+    "name": "alexgbfla92",
+    "url": "https://github.com/alexgbfla92"
+  },
+  "homepage": "https://github.com/alexgbfla92/everyday-language-essentials-ai",
+  "repository": "https://github.com/alexgbfla92/everyday-language-essentials-ai",
+  "keywords": [
+    "idiomas",
+    "language-learning",
+    "english",
+    "spanish",
+    "french",
+    "google-drive"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "everylang · Everyday Language Essentials AI",
+        "shortDescription": "Aprenda inglês, espanhol e francês por missões, com progresso salvo no seu Google Drive.",
+        "longDescription": "Diagnóstico adaptativo, aulas por missão com simulações reais, frases numeradas para consulta (\"repita a frase 132\"), pausa e retomada em texto ou voz, e progresso verificado por idioma, tudo numa pasta pessoal sua.",
+        "developerName": "alexgbfla92",
+        "category": "Education",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://github.com/alexgbfla92/everyday-language-essentials-ai",
+        "defaultPrompt": [
+          "Help",
+          "Create-CentralIdioma googledrive Inglês",
+          "Quero fazer uma aula de inglês"
+        ]
+      }
+    }
+  }
+}
