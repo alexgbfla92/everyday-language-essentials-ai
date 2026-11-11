@@ -32,7 +32,7 @@ Saved and confirmed to the learner: yes/no (if no, Save-Lesson command given).
 ## Entertainment Lab (planned when the lesson is created)
 Status: planned / pending / done / postponed / declined
 Video title and channel:
-URL:
+YouTube URL (only https://www.youtube.com/watch?v=…):
 Target length (30–50% of the lesson) and chosen length; reason if outside the range:
 Duration and segment to watch:
 Transcript status (obtained / captions indicated, text not obtained / not confirmed):

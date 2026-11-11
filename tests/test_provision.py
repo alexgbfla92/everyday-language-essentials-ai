@@ -275,7 +275,7 @@ class TemplateTests(unittest.TestCase):
             diagnostic = (ASSETS / "languages" / folder / "diagnosticos" / "MODELO.md").read_text(encoding="utf-8")
             self.assertIn("(1–7)", lesson, folder)
             self.assertIn("## Entertainment Lab", lesson, folder)
-            self.assertIn("URL", lesson, folder)
+            self.assertIn("https://www.youtube.com/watch?v=", lesson, folder)
             self.assertIn("30–50", lesson, folder)
             self.assertIn("(1–5)", diagnostic, folder)
 
