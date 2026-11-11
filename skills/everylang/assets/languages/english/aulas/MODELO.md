@@ -13,6 +13,18 @@ Scenario, module and goal:
 Overrides and support level:
 Actual observed duration:
 
+## Roadmap (mark each stage done; the lesson is complete only when all seven are done)
+| Stage | Status |
+|---|---|
+| 0 Lab planned before stage 1 (link saved) | pending |
+| 1 Briefing | pending |
+| 2 Guided practice | pending |
+| 3 Simulation | pending |
+| 4 Unexpected event | pending |
+| 5 Feedback | pending |
+| 6 Wrap-up (saved and confirmed) | pending |
+| 7 Entertainment Lab (presented; done / postponed / declined) | pending |
+
 ## Phrase index (global F numbers for this language; never reused)
 | ID | Dialogue | Speaker | Mode (text/voice) | English phrase | Reliability |
 |---|---|---|---|---|---|

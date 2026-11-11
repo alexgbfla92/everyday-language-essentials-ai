@@ -13,6 +13,18 @@ Scénario, module et objectif :
 Adaptations et niveau d'aide :
 Durée réelle constatée :
 
+## Feuille de route (cocher chaque étape ; la séance n'est terminée qu'avec les sept faites)
+| Étape | Statut |
+|---|---|
+| 0 Lab planifié avant l'étape 1 (lien enregistré) | à faire |
+| 1 Briefing | à faire |
+| 2 Pratique guidée | à faire |
+| 3 Simulation | à faire |
+| 4 Imprévu | à faire |
+| 5 Retour | à faire |
+| 6 Clôture (enregistrée et confirmée) | à faire |
+| 7 Entertainment Lab (présenté ; fait / reporté / refusé) | à faire |
+
 ## Répertoire des phrases (numéros F globaux de la langue ; jamais réutilisés)
 | ID | Dialogue | Interlocuteur | Modalité (texte/voix) | Phrase en français | Fiabilité |
 |---|---|---|---|---|---|
