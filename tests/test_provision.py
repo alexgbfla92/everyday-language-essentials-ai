@@ -273,7 +273,8 @@ class TemplateTests(unittest.TestCase):
         for folder in LANGUAGES.values():
             lesson = (ASSETS / "languages" / folder / "aulas" / "MODELO.md").read_text(encoding="utf-8")
             diagnostic = (ASSETS / "languages" / folder / "diagnosticos" / "MODELO.md").read_text(encoding="utf-8")
-            self.assertIn("(1–6)", lesson, folder)
-            self.assertIn("Entertainment Lab", lesson, folder)
+            self.assertIn("(1–7)", lesson, folder)
+            self.assertIn("## Entertainment Lab", lesson, folder)
+            self.assertIn("URL", lesson, folder)
             self.assertIn("(1–5)", diagnostic, folder)
 

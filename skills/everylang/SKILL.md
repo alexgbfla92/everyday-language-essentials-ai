@@ -11,7 +11,7 @@ Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso c
 
 Reconheça os comandos sem diferenciar maiúsculas, acentos ou hífen, com argumentos em qualquer ordem. Siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Quando faltar ou houver mais de uma opção de Central ou de idioma, pergunte qual antes de agir, conforme a seção Ambiguidade daquele documento. Remove e Reset sempre mostram a prévia, fazem backup e pedem confirmação explícita.
 
-Versão instalada: 0.8.0
+Versão instalada: 0.9.0
 
 `Help` (ou `Help-Comandos`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "everylang vX.Y.Z") e esta tabela, sem executar nada:
 
@@ -30,6 +30,7 @@ Versão instalada: 0.8.0
 | Save-Lesson [pausar\|concluir] [sessão] [frases] | No modo texto, salva o que ficou pendente do modo voz. | `Save-Lesson pausar aula-20261111-01 F120-F158` |
 | Frase N / Diálogo N | Repete, traduz ou explica uma frase ou um diálogo pelo número. | `repita a frase 132`, `explique a estrutura do diálogo 145` |
 | Etapa | Mostra em que etapa da aula você está, o que falta e o tempo restante. | `Etapa` ou "em que etapa estamos?" |
+| Lab [aula] | Abre o Entertainment Lab planejado para a aula (a última, se não indicar outra), inclusive um que ficou para depois. | `Lab` |
 | IDs-Voz on\|off | Liga ou desliga o anúncio dos números das frases no modo voz. | `IDs-Voz off` |
 
 Durante aula ou diagnóstico também valem HELP (apoio no exercício), REPEAT e SLOW DOWN, descritos abaixo.
@@ -56,26 +57,28 @@ Leia os [padrões](assets/config/defaults.md), a [metodologia](assets/config/met
 
 ### Roteiro da aula (obrigatório, em texto e voz)
 
-Toda aula regular segue seis etapas, nesta ordem, com o tempo distribuído pela duração combinada (padrão de 20 minutos entre parênteses):
+Toda aula regular segue sete etapas, nesta ordem. As etapas 1 a 5 dividem a duração combinada (padrão de 20 minutos entre parênteses); o Entertainment Lab vem depois, com duração própria.
 
 1. **Briefing da missão** (5 min): objetivo, cenário e 3–5 itens úteis.
 2. **Prática guiada** (2 min): revisão da aula anterior, se houver, e uso dos itens novos.
 3. **Simulação** (7 min): o cenário real, uma pergunta por vez.
 4. **Imprevisto** (4 min): uma complicação dentro do cenário.
 5. **Feedback** (2 min): o que funcionou, o que ajustar, com evidências por número de frase.
-6. **Encerramento**: salvar, oferecer o Entertainment Lab da aula e combinar o próximo passo.
+6. **Encerramento**: salvar e confirmar, e dizer o próximo passo.
+7. **Entertainment Lab** (opcional, ~15 min): o vídeo já escolhido para esta aula.
 
-O diagnóstico segue cinco etapas: 1 compreensão oral, 2 produção e interação, 3 leitura, 4 feedback, 5 encerramento (salvar e próximo passo).
+O diagnóstico segue cinco etapas: 1 compreensão oral, 2 produção e interação, 3 leitura, 4 feedback, 5 encerramento (salvar e próximo passo), sem Entertainment Lab.
 
-**Mostre sempre onde o aluno está.** Ao abrir a aula, apresente o roteiro em uma linha ("1 Briefing · 2 Prática guiada · 3 Simulação · 4 Imprevisto · 5 Feedback · 6 Encerramento"). Em texto, comece cada mensagem da aula com a etapa atual, por exemplo `Etapa 3/6 · Simulação`. Em voz, anuncie cada troca de etapa ("Agora, etapa 3 de 6: simulação"), sem repetir a cada turno. Quando o aluno perguntar "em que etapa estamos?" (ou `Etapa`), diga a etapa atual, o que já foi feito, o que falta e o tempo restante. Grave a etapa no checkpoint da sessão.
+**Planeje o Entertainment Lab ao criar a aula**, antes da etapa 1 e sem perguntar nada ao aluno. Com o cenário e os itens da aula definidos, pesquise e verifique um vídeo real no YouTube no idioma e na variante da aula, adequado ao nível e ligado ao tema (módulos 06 e 07: título, canal, URL, duração, trecho de 3–8 minutos e estado da transcrição). Prepare o que o aluno fará: até 3 perguntas e 1 tarefa curta que reutiliza os itens da aula. Grave tudo na seção Entertainment Lab do arquivo da sessão. Se não houver ferramenta de busca (por exemplo, no modo voz) ou nenhum vídeo puder ser verificado, registre `pendente` e siga a aula; não invente vídeo nem link.
 
-**A aula só termina depois da etapa de encerramento**, mesmo quando o tempo acaba, quando o aluno diz que quer parar ou quando a própria IA conclui o feedback. No encerramento, nesta ordem e sem pular nenhum item:
+**Mostre sempre onde o aluno está.** Ao abrir a aula, apresente o roteiro em uma linha ("1 Briefing · 2 Prática guiada · 3 Simulação · 4 Imprevisto · 5 Feedback · 6 Encerramento · 7 Entertainment Lab"). Em texto, comece cada mensagem da aula com a etapa atual, por exemplo `Etapa 3/7 · Simulação`. Em voz, anuncie cada troca de etapa ("Agora, etapa 3 de 7: simulação"), sem repetir a cada turno. Quando o aluno perguntar "em que etapa estamos?" (ou `Etapa`), diga a etapa atual, o que já foi feito, o que falta e o tempo restante. Grave a etapa no checkpoint da sessão.
 
-1. **Salvar.** Execute o Finish-Lesson (sessão concluída, frases, feedback e progresso), releia e diga ao aluno, em texto ou em voz, o resultado: "Aula salva na sua Central: aula-AAAAMMDD-NN." Se não conseguir gravar (por exemplo, no modo voz), diga que **não** salvou e dê o comando `Save-Lesson concluir <sessão> <F inicial>-<F final>` para enviar por texto nesta conversa, explicando que é preciso sair do modo voz.
-2. **Oferecer o Entertainment Lab da aula.** Proponha uma atividade concreta ligada ao tema e ao vocabulário da aula (padrão de 20 minutos, ajustável), conforme os módulos 06 e 07. Como ela usa vídeos e transcrições verificados, no modo voz sugira fazê-la em texto. Registre na sessão se foi oferecido, aceito ou recusado.
-3. **Próximo passo.** Diga a próxima aula ou reavaliação do plano.
+**A aula só termina depois das etapas 6 e 7**, mesmo quando o tempo acaba, quando o aluno diz que quer parar ou quando a própria IA conclui o feedback.
 
-Abra apenas o módulo necessário em assets/skills/: 01 para reuniões (START MEETING), 02 para cotidiano/viagem (START TRAVEL), 03 para comunicação técnica (START TECHNICAL), 04 para compreensão oral (START LISTENING), 05 para FEEDBACK. Use o repertório localizado em conteudo/. Para o Entertainment Lab, oferecido no encerramento de toda aula ou pedido a qualquer momento, consulte os módulos 06 e 07 e verifique mídia e transcrição antes de usar trechos.
+- **Etapa 6, Encerramento.** Execute o Finish-Lesson (sessão concluída, frases, feedback e progresso), releia e diga ao aluno, em texto ou em voz: "Aula salva na sua Central: aula-AAAAMMDD-NN." Se não conseguir gravar (por exemplo, no modo voz), diga que **não** salvou e dê o comando `Save-Lesson concluir <sessão> <F inicial>-<F final>` para enviar por texto nesta conversa, explicando que é preciso sair do modo voz. Diga em uma frase o próximo passo do plano.
+- **Etapa 7, Entertainment Lab.** Em uma única mensagem curta, apresente o que já foi planejado: título e canal, link, trecho a assistir, a tarefa e as perguntas. Faça uma só pergunta: "Quer fazer agora ou deixar para depois?". No modo voz, diga o título e que o link e a tarefa ficam na transcrição, e sugira fazer em texto. Se o Lab estiver `pendente`, ofereça escolher o vídeo agora, em texto, ou deixar para depois. Se o aluno fizer o Lab, grave o resultado na mesma sessão e confirme; se adiar, registre `adiado` (o comando `Lab` retoma depois).
+
+Abra apenas o módulo necessário em assets/skills/: 01 para reuniões (START MEETING), 02 para cotidiano/viagem (START TRAVEL), 03 para comunicação técnica (START TECHNICAL), 04 para compreensão oral (START LISTENING), 05 para FEEDBACK. Use o repertório localizado em conteudo/. Para o Entertainment Lab, planejado na criação de toda aula e apresentado na etapa 7, consulte os módulos 06 e 07 e verifique mídia e transcrição antes de usar trechos.
 
 Durante a atividade, “HELP”, “REPEAT” e “SLOW DOWN” adaptam o apoio; fora de atividade, “Help” mostra a tabela de comandos. Pedidos sobre uma frase ou diálogo pelo número seguem [references/FRASES-E-VOZ.md](references/FRASES-E-VOZ.md#pedir-algo-sobre-uma-frase-ou-diálogo). Antes de voz, salve e recupere o checkpoint. Ao começar uma aula por voz, diga em uma frase como ela será salva: a cada resposta, se a gravação estiver disponível, ou no encerramento, com o comando Save-Lesson se for preciso. Durante a aula ou diagnóstico, reúna resposta, evidência, modalidade e próxima pergunta em uma única atualização verificada do arquivo da sessão. A retomada usa esse arquivo diretamente. Adie a consolidação do progresso e do perfil até a conclusão. Aplique o [protocolo de escrita e recuperação](references/PERSISTENCIA.md) também ao pausar, concluir ou reavaliar.
 

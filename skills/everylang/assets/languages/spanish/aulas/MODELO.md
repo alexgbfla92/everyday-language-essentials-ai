@@ -8,7 +8,7 @@ Incluir en las métricas: sí/no (no para las pruebas)
 Misión: 90 días por defecto; duración prevista: 20 minutos por defecto
 Creación / inicio / finalización:
 Estado: planificada, en curso, pausada, terminada
-Etapa actual (1–6): Briefing, Práctica guiada, Simulación, Imprevisto, Comentarios, Cierre
+Etapa actual (1–7): Briefing, Práctica guiada, Simulación, Imprevisto, Comentarios, Cierre, Entertainment Lab
 Escenario, módulo y objetivo:
 Adaptaciones y nivel de ayuda:
 Duración real observada:
@@ -28,4 +28,14 @@ Duración real observada:
 ## Cierre
 Resultado, comentarios basados en evidencias, limitaciones, próxima tarea y estado de actualización del progreso.
 Guardado y confirmado al alumno: sí/no (si no, se indicó el comando Save-Lesson).
-Entertainment Lab de esta clase: ofrecido / aceptado / rechazado, propuesta.
+
+## Entertainment Lab (planificado al crear la clase)
+Estado: planificado / pendiente / hecho / aplazado / rechazado
+Título y canal del vídeo:
+URL:
+Duración y fragmento a ver:
+Estado de la transcripción (obtenida / subtítulos indicados, texto no obtenido / no confirmado):
+Elementos de la clase reutilizados:
+Preguntas (hasta 3):
+Tarea breve:
+Resultado y comentarios:

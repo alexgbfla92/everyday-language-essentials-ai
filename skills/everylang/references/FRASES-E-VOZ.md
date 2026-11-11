@@ -42,7 +42,7 @@ Comandos: `Pause-Lesson` (ou "pausar", "pausa", "para por aqui") e `Finish-Lesso
 
 ### Finish-Lesson
 
-O Finish-Lesson é o primeiro item da etapa de encerramento e roda sempre ao fim da aula, mesmo sem o aluno pedir (veja o roteiro no SKILL.md). Depois de salvar, ofereça o Entertainment Lab da aula e diga o próximo passo.
+O Finish-Lesson é a etapa 6 (encerramento) e roda sempre ao fim da aula, mesmo sem o aluno pedir (veja o roteiro no SKILL.md). Depois de salvar e dizer o próximo passo, siga para a etapa 7, o Entertainment Lab já planejado.
 
 
 1. Faça o fechamento combinado (feedback com evidências, limitações, próxima tarefa).
