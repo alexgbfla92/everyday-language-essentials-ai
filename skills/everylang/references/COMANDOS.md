@@ -1,6 +1,6 @@
 # Comandos da Central
 
-Os comandos funcionam em qualquer plataforma. São texto: o aluno digita depois de chamar a skill (`/everylang:everylang Reset-Lessons Inglês` no Claude Code, `$everylang Reset-Lessons Inglês` no Codex) ou em qualquer mensagem de uma conversa em que a skill já esteja ativa.
+Os comandos funcionam em qualquer plataforma. São texto: o aluno digita depois de chamar a skill (`/everylang:everylang Reset-Lessons Inglês` no Claude e `$everylang:everylang Reset-Lessons Inglês` no ChatGPT e no Codex, quando instalada como plugin; `/everylang` e `$everylang` quando instalada como skill avulsa) ou em qualquer mensagem de uma conversa em que a skill já esteja ativa.
 
 ## Como reconhecer
 
