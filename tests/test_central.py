@@ -42,6 +42,21 @@ class CentralTests(unittest.TestCase):
         (root / f"languages/{folder}/estado/contexto-recente.md").write_text("contexto real", encoding="utf-8")
         (root / f"languages/{folder}/progresso/08-registro-progresso.md").write_text("2 aulas", encoding="utf-8")
 
+    def test_info_lists_plans_with_status(self):
+        root = self.create("Pessoal", "en")
+        template = (ASSETS / "modelos" / "plano-missao.md").read_text(encoding="utf-8")
+        plans = root / "languages/english/planos"
+        (plans / "viagem-eua.md").write_text(template.replace("plano_id:  #", "plano_id: viagem-eua  #", 1)
+                                             .replace("plano_nome:  #", "plano_nome: Viagem aos EUA  #", 1),
+                                             encoding="utf-8")
+        (plans / "reunioes.md").write_text(template.replace("plano_status: ativo", "plano_status: pausado", 1),
+                                           encoding="utf-8")
+        english = self.run_cli("info")["centrais"][0]["idiomas"][0]
+        self.assertEqual(english["planos"], 2)
+        self.assertEqual(english["lista_planos"], [
+            {"id": "reunioes", "nome": "reunioes", "status": "pausado"},
+            {"id": "viagem-eua", "nome": "Viagem aos EUA", "status": "ativo"}])
+
     def test_language_aliases(self):
         for text, tag in [("Inglês", "en-US"), ("ingles", "en-US"), ("en", "en-US"), ("Español", "es-ES"),
                           ("espanhol", "es-ES"), ("Francês", "fr-FR"), ("fr-FR", "fr-FR")]:

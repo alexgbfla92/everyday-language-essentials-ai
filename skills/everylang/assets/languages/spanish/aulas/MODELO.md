@@ -1,6 +1,7 @@
 # MODELO — Clase de español
 
 Identificador de sesión e identificador del archivo (ID de Drive o ruta relativa):
+plano_id:  # plano de missão desta aula (languages/<idioma>/planos/<plano_id>)
 IDs de frases (F) y de diálogos (D) usados en esta sesión: F? – F? | D? – D?
 Idioma: español de España (es-ES)
 Tipo: clase regular o de prueba

@@ -22,7 +22,7 @@ Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso c
 
 Reconheça os comandos sem diferenciar maiúsculas, acentos ou hífen, com argumentos em qualquer ordem. Siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Quando faltar ou houver mais de uma opção de Central ou de idioma, pergunte qual antes de agir, conforme a seção Ambiguidade daquele documento. Remove e Reset sempre mostram a prévia, fazem backup e pedem confirmação explícita.
 
-Versão instalada: 0.11.3
+Versão instalada: 0.12.0
 
 `Help` (ou `Help-Comandos`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "everylang vX.Y.Z") e esta tabela, sem executar nada:
 
@@ -41,7 +41,8 @@ Versão instalada: 0.11.3
 | Save-Lesson [pausar\|concluir\|lab] [sessão] [frases] | No modo texto, salva o que ficou pendente do modo voz (pausa, fim da aula ou fim do Lab). | `Save-Lesson lab aula-20261111-01 F159-F170` |
 | Frase N / Diálogo N | Repete, traduz ou explica uma frase ou um diálogo pelo número. | `repita a frase 132`, `explique a estrutura do diálogo 145` |
 | Etapa | Mostra em que etapa da aula você está, o que falta e o tempo restante. | `Etapa` ou "em que etapa estamos?" |
-| Next-Lesson [idioma] [duração] | Prepara a próxima aula, com duração avulsa opcional só para ela (ex.: 5 min): confirma o idioma, pede para encerrar uma aula pendente antes, escolhe e verifica o vídeo do Entertainment Lab e mostra o resumo das sete etapas, do briefing ao Lab. | `Next-Lesson Inglês 5min` |
+| Next-Lesson [idioma] [duração] [plano] | Prepara a próxima aula do plano, com duração avulsa opcional só para ela (ex.: 5 min): confirma o idioma e, se houver mais de um plano ativo, o plano; pede para encerrar uma aula pendente antes; escolhe e verifica o vídeo do Entertainment Lab e mostra o resumo das sete etapas. | `Next-Lesson Inglês 5min plano viagem-eua` |
+| Plan-Mission [idioma] [novo\|atualizar] [plano] | Cria um plano de missão novo ou atualiza um existente (objetivo, prazo, duração, frequência, reavaliação e sequência de aulas). Sem ação, lista os planos do idioma e pergunta o que fazer. | `Plan-Mission Inglês novo`, `Plan-Mission Inglês atualizar viagem-eua` |
 | Lab [aula] | Abre o Entertainment Lab planejado para a aula (a última, se não indicar outra), inclusive um que ficou para depois. | `Lab` |
 | IDs-Voz on\|off | Liga ou desliga o anúncio dos números das frases no modo voz. | `IDs-Voz off` |
 
@@ -59,7 +60,7 @@ Esta skill funciona em plataformas diferentes e não depende de nomes de ferrame
 
 Create-CentralIdioma e o pedido de configuração seguem o mesmo fluxo. Localize o destino pessoal indicado pelo aluno. Execute [o provisionamento](references/PERSISTENCIA.md) pelo adaptador escolhido antes de afirmar que o espaço está pronto. O pacote contém os modelos. O aluno só precisa indicar o destino e os idiomas. Escolha explícita tem precedência sobre preferência salva, seguida de en-US. Adicionar idioma reaproveita a raiz, o perfil global e as trilhas existentes. Mude o padrão global somente a pedido.
 
-Registre nome, idade quando informada, idiomas, preferência global e próxima etapa em config/perfil e config/estado-global. Após o teste de escrita, concentre as respostas de cadastro no perfil e as de planejamento no plano em elaboração. Salve e confira somente o registro em uso a cada resposta relevante. Atualize os índices quando mudar a etapa ou o registro apontado. Se o aluno quiser uma triagem curta, ofereça até três tarefas em cinco minutos e registre o alcance da observação. Encaminhe ao diagnóstico por idioma em chat próprio. Na Central, ao voltar com diagnóstico concluído, pergunte o contexto que interessa ao aluno, preserve o pedido original e confirme o cenário mais amplo. Combine prazo real, duração, frequência e próxima reavaliação com data. Grave a missão e a sequência aprovada em languages/<idioma>/planos/<id>.md, com objetivo por sessão. Ajuste ao calendário, inclusive para um compromisso amanhã.
+Registre nome, idade quando informada, idiomas, preferência global e próxima etapa em config/perfil e config/estado-global. Após o teste de escrita, concentre as respostas de cadastro no perfil e as de planejamento no plano em elaboração. Salve e confira somente o registro em uso a cada resposta relevante. Atualize os índices quando mudar a etapa ou o registro apontado. Se o aluno quiser uma triagem curta, ofereça até três tarefas em cinco minutos e registre o alcance da observação. Encaminhe ao diagnóstico por idioma em chat próprio. Na Central, ao voltar com diagnóstico concluído, pergunte o contexto que interessa ao aluno, preserve o pedido original e confirme o cenário mais amplo. Combine prazo real, duração, frequência e próxima reavaliação com data, e grave o plano pelo fluxo do `Plan-Mission` ([references/PLANOS.md](references/PLANOS.md)), em languages/<idioma>/planos/<plano_id>, com objetivo por aula. Ajuste ao calendário, inclusive para um compromisso amanhã. Cada idioma pode ter mais de um plano; criar e atualizar planos é sempre feito pelo `Plan-Mission`.
 
 ## Diagnóstico, aula e retomada
 

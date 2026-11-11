@@ -47,7 +47,7 @@ O Finish-Lesson é a etapa 6 (encerramento) e roda sempre ao fim da aula, mesmo 
 
 1. Faça o fechamento combinado (feedback com evidências, limitações, próxima tarefa).
 2. Grave na sessão, numa única escrita: último turno, fechamento, estado `concluída`, frases e diálogos pendentes.
-3. Consolide os derivados do idioma conforme a [persistência](PERSISTENCIA.md#salvar-retomar-e-reparar) (progresso 08, perfil atual, contexto recente). Aula de teste não altera métricas.
+3. Consolide os derivados do idioma conforme a [persistência](PERSISTENCIA.md#salvar-retomar-e-reparar) (progresso 08, perfil atual, contexto recente) e marque a aula como `concluida` na tabela do plano ([planos](PLANOS.md#ao-concluir-a-aula)). Aula de teste não altera métricas.
 4. Atualize os contadores e, por último, `estado/sessao-ativa`.
 5. Releia tudo e confirme, em texto ou voz, "Aula concluída e salva na sua Central: <sessão>".
 

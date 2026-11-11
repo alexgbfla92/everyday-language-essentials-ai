@@ -70,6 +70,7 @@ Com a IA, você pode:
 - **Conversar por voz ou texto**, conforme os recursos disponíveis, e praticar situações do seu cotidiano.
 - **Consultar qualquer frase pelo número**: cada frase no idioma estudado recebe um número único ("repita a frase 132", "explique o diálogo 145").
 - **Pausar e retomar sem perder nada**, inclusive no modo voz.
+- **Vários planos de missão por idioma** (ex.: viagem e reuniões), criados e ajustados com `Plan-Mission`, e a próxima aula do plano escolhido com `Next-Lesson`.
 - **Falar sem saber a frase inteira:** começar no idioma que está aprendendo, completar uma parte em português e pedir ajuda para formular o restante.
 - **Perguntar sem constrangimento:** como montar a frase, por que determinada palavra foi usada ou como expressar a mesma ideia no passado, presente ou futuro.
 - **Pedir correções e exemplos**, sem transformar cada erro em uma interrupção ou avaliação.

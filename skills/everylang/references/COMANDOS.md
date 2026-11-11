@@ -109,18 +109,23 @@ Pedidos sobre uma frase ou diálogo pelo número ("repita a frase 132", "expliqu
 
 Durante uma aula ou diagnóstico, mostra a etapa atual (por exemplo, "Etapa 3/7 · Simulação"), o que já foi feito, o que falta e o tempo restante. Também responde a "em que etapa estamos?" ou "em que parte da aula estou?". O roteiro e a regra de anunciar as etapas estão no SKILL.md (seção Roteiro da aula).
 
+## Plan-Mission
+
+`Plan-Mission [idioma] [novo|atualizar] [plano]` cria um plano de missão novo ou atualiza um existente. Sem ação, lista os planos do idioma (nome, status e próxima aula) e pergunta se é para criar um novo ou atualizar qual. Procedimento completo, campos do modelo e regras de revisão em [PLANOS.md](PLANOS.md).
+
 ## Next-Lesson
 
-`Next-Lesson [idioma] [duração]` prepara a próxima aula regular. Também aceito como `Prepare-Lesson` e acionado por pedidos como "próxima aula" ou "fazer aula de 5 minutos".
+`Next-Lesson [idioma] [duração] [plano]` prepara a próxima aula regular do plano. Também aceito como `Prepare-Lesson` e acionado por pedidos como "próxima aula" ou "fazer aula de 5 minutos".
 
 **Duração avulsa.** Se o aluno indicar uma duração (`5`, `5min`, `5 minutos`, `meia hora`), ela vale só para esta aula: o padrão do plano e do idioma não muda. Sem indicação, use a duração do plano (padrão de 20 minutos). Registre a duração em `Overrides` da sessão e em `lab_duracao_aula_min`. As etapas 1 a 5 são redistribuídas na proporção do padrão (briefing 25%, prática guiada 10%, simulação 35%, imprevisto 20%, feedback 10%); em aulas muito curtas, simplifique o cenário, mas mantenha as sete etapas, o feedback e o encerramento. O vídeo do Lab segue 30% a 50% dessa duração (1,5 a 2,5 minutos numa aula de 5): sem vídeo ligado ao tema nessa faixa, use o mais próximo e registre o motivo, ou indique um trecho com início e fim confirmados.
 
 1. **Idioma.** Use o idioma indicado. Sem indicação e com mais de um idioma em andamento na Central, pergunte qual; com um só, use esse.
 2. **Aula pendente.** Se houver aula pausada ou aberta nesse idioma (ponteiro de sessão ativa ou sessão não concluída), não crie outra. Diga qual é (sessão e etapa) e peça para encerrá-la antes: ofereça encerrar agora (Finish-Lesson com a [conferência de encerramento](ENTERTAINMENT-LAB.md#encerramento-conferência-obrigatória)) ou retomá-la. Só depois que ela estiver concluída siga para a próxima. Um Lab apenas adiado não bloqueia a próxima aula; mencione-o em uma linha.
-3. **Pré-requisitos.** Sem diagnóstico regular ou sem plano aprovado, encaminhe para a etapa que falta.
-4. **Criar e preparar.** Crie a sessão da próxima aula do plano e faça o [preparo do Entertainment Lab](ENTERTAINMENT-LAB.md#preparar-antes-da-etapa-1): vídeo do YouTube escolhido e verificado, registro gravado, relido e conferido (`lab.py pronto`). Se a verificação falhar, diga o que falhou e pergunte se o aluno aceita seguir com o Lab pendente.
-5. **Resumo das etapas.** Mostre, numa única mensagem, a duração da aula (dizendo se é avulsa) e o plano das sete etapas com o tempo de cada uma: 1 Briefing (objetivo, cenário e itens), 2 Prática guiada, 3 Simulação (cenário e papel), 4 Imprevisto (sem revelar qual), 5 Feedback, 6 Encerramento e 7 Entertainment Lab (título, canal, duração e link do vídeo já verificado).
-6. **Gravar e confirmar.** Grave a sessão como planejada e o ponteiro de sessão ativa, releia e diga "Aula preparada e salva na sua Central: <sessão>". Pergunte apenas: "Começamos pela etapa 1?". Se o aluno for para o modo voz, a aula começa lá já com tudo pronto.
+3. **Pré-requisitos.** Sem diagnóstico regular, encaminhe ao diagnóstico.
+4. **Plano.** Escolha o plano conforme [PLANOS.md](PLANOS.md#escolher-o-plano-no-next-lesson): nenhum plano ativo, encaminhe ao `Plan-Mission <idioma> novo`; um, use esse; mais de um, use o indicado (`plano <plano_id>` ou o nome) ou pergunte qual, listando nome e próxima aula de cada um. A aula é a primeira linha `pendente` do plano; ao criar a sessão, marque-a `em_andamento` com o ID da sessão e grave `plano_id` na aula.
+5. **Criar e preparar.** Crie a sessão da próxima aula do plano e faça o [preparo do Entertainment Lab](ENTERTAINMENT-LAB.md#preparar-antes-da-etapa-1): vídeo do YouTube escolhido e verificado, registro gravado, relido e conferido (`lab.py pronto`). Se a verificação falhar, diga o que falhou e pergunte se o aluno aceita seguir com o Lab pendente.
+6. **Resumo das etapas.** Mostre, numa única mensagem, o plano e o número da aula, a duração da aula (dizendo se é avulsa) e o plano das sete etapas com o tempo de cada uma: 1 Briefing (objetivo, cenário e itens), 2 Prática guiada, 3 Simulação (cenário e papel), 4 Imprevisto (sem revelar qual), 5 Feedback, 6 Encerramento e 7 Entertainment Lab (título, canal, duração e link do vídeo já verificado).
+7. **Gravar e confirmar.** Grave a sessão como planejada, a linha do plano e o ponteiro de sessão ativa, releia e diga "Aula preparada e salva na sua Central: <sessão>". Pergunte apenas: "Começamos pela etapa 1?". Se o aluno for para o modo voz, a aula começa lá já com tudo pronto.
 
 No fim da aula, a etapa 7 só indica o link do vídeo já salvo, sem preparar nada.
 

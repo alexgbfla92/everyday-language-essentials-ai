@@ -192,6 +192,25 @@ def count(folder, prefix):
     return sum(1 for f in folder.glob(f"{prefix}*.md") if f.is_file() and f.name != "MODELO.md")
 
 
+def plans_in(folder):
+    """Planos de missão do idioma: id, nome e status (campos plano_* do modelo)."""
+    plans = []
+    if not folder.is_dir():
+        return plans
+    for path in sorted(folder.glob("*.md")):
+        if path.name == "MODELO.md":
+            continue
+        values = {}
+        for line in path.read_text(encoding="utf-8").splitlines():
+            key, sep, rest = line.partition(":")
+            if sep and key in ("plano_id", "plano_nome", "plano_status"):
+                value = rest.split("#", 1)[0].strip()
+                values[key] = value or None
+        plans.append({"id": values.get("plano_id") or path.stem, "nome": values.get("plano_nome") or path.stem,
+                      "status": values.get("plano_status") or "desconhecido"})
+    return plans
+
+
 def describe(entry, default):
     info = summary(entry, default)
     info["formato_registros"] = "nativo" if entry["acesso"] == "drive" else "markdown"
@@ -213,6 +232,7 @@ def describe(entry, default):
             "diagnosticos": count(base / "diagnosticos", "diagnostico-"),
             "aulas": count(base / "aulas", "aula-"),
             "planos": count(base / "planos", ""),
+            "lista_planos": plans_in(base / "planos"),
         })
     backups = root / BACKUPS
     info["backups"] = sum(1 for _ in backups.iterdir()) if backups.is_dir() else 0

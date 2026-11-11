@@ -51,3 +51,12 @@ A conferência mecânica fica em `skills/everylang/scripts/lab.py` (`pronto` ant
 5. **Pedido de encerramento.** "Quero encerrar" no meio da aula leva à etapa 6 (salvar, reler, próximo passo) e à 7 (material salvo, sem nova pesquisa, uma única pergunta).
 6. **Lab adiado.** "Depois" grava `lab_status: adiado` e `lab_gravacao_confirmada: sim`, confirma "Salvo na sua Central" e `lab.py encerramento` passa. `Lab` retoma o mesmo material depois.
 7. **Next-Lesson.** Com dois idiomas em andamento, pergunta qual; com aula pausada no idioma, pede para encerrá-la (ou retomá-la) antes; senão cria a aula, prepara e verifica o Lab, mostra o resumo das sete etapas com o link do vídeo, grava, confirma e pergunta só "Começamos pela etapa 1?". Com duração avulsa (`Next-Lesson Inglês 5min`), o resumo mostra 5 minutos e as etapas proporcionais, o Lab mira 1,5–2,5 minutos e o padrão do plano continua 20 minutos.
+
+## Ensaio de planos
+
+1. `Plan-Mission Inglês` sem ação lista os planos (nome, status, próxima aula) e pergunta se é para criar ou atualizar.
+2. `Plan-Mission Inglês novo` sem diagnóstico encaminha ao diagnóstico; com diagnóstico, pergunta só o que falta, propõe a sequência de aulas e grava `planos/<plano_id>` após aprovação, confirmando "Plano salvo".
+3. `Plan-Mission Inglês atualizar` com dois planos pergunta qual; mostra o resumo, aplica a mudança aprovada sem mexer em aulas concluídas, soma a revisão e registra o histórico.
+4. `Next-Lesson Inglês` com dois planos ativos pergunta qual; com `plano <id>` usa o indicado; a aula grava `plano_id` e a linha do plano fica `em_andamento`; ao concluir, `concluida`.
+5. `Info-CentralIdioma` lista os planos de cada idioma com status.
+

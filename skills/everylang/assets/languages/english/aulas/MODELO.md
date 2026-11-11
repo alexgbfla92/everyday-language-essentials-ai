@@ -1,6 +1,7 @@
 # TEMPLATE — American English lesson
 
 Session ID and file ID (Drive ID or relative path):
+plano_id:  # plano de missão desta aula (languages/<idioma>/planos/<plano_id>)
 Phrase IDs (F) and dialogue IDs (D) used in this session: F? – F? | D? – D?
 Language: American English (en-US)
 Type: regular lesson or test
