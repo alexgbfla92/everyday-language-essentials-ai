@@ -4,7 +4,7 @@ Use este guia quando as [regras de seleção](../PERSISTENCIA.md#escolher-o-adap
 
 ## Verificar a capacidade
 
-O conector precisa oferecer quatro ações: listar os filhos diretos de uma pasta, criar pasta num pai indicado, criar arquivo num pai indicado e atualizar o conteúdo de um arquivo existente pelo ID. No conector do ChatGPT e do Codex essas ações aparecem como `list_folder`, `create_folder`, `upload_file` e `update_file`. Em outra plataforma os nomes podem ser diferentes: confira a lista de ferramentas da sessão. Se o conector só busca ou lê, não use o Drive para escrita; volte às regras de seleção e use pasta local ou modo manual.
+O conector precisa oferecer quatro ações: listar os filhos diretos de uma pasta, criar pasta num pai indicado, criar arquivo num pai indicado e atualizar o conteúdo de um arquivo existente pelo ID. No conector do ChatGPT e do Codex essas ações aparecem como `list_folder`, `create_folder`, `upload_file` e `update_file`. No conector Google Drive do Claude aparecem ações como `search_files`, `create_file`, `update_file` e `trash_file`; confirme na sessão que `create_file` aceita pasta pai e cria pastas antes de usar. Em outra plataforma os nomes podem ser diferentes: confira a lista de ferramentas da sessão. Se o conector só busca ou lê, não use o Drive para escrita; volte às regras de seleção e use pasta local ou modo manual.
 
 Identificadores: o ID de cada pasta ou arquivo no Drive. Tipos: pastas usam `application/vnd.google-apps.folder`; registros usam `text/markdown` (aceite `text/plain` em registros antigos).
 
@@ -24,3 +24,9 @@ Em interface sem execução de Python, percorra a árvore assets/config e assets
 ## Gravar e reler
 
 Atualize sempre o mesmo ID e MIME com a ação de atualização do conector (no ChatGPT e no Codex, `update_file(fileId, file_uri, mime_type)`). Depois releia pelo ID e compare revisão, operação, evidências e próxima pergunta. Se o aluno preferir Google Docs, use a edição nativa do mesmo documento e releia o conteúdo.
+
+## Remover
+
+Remove-CentralIdioma e os Reset-* (veja [comandos](../COMANDOS.md)) só apagam pela ação de lixeira do conector, quando existir (no Claude, `trash_file`), para que o aluno possa recuperar pela lixeira do Drive. Sem essa ação, liste os itens com link e peça que o aluno os apague. Nunca sobrescreva um arquivo para "apagá-lo".
+
+Uma pasta do Google Drive sincronizada no computador (Google Drive para computador) pode usar o [adaptador de pasta local](pasta-local.md) com `provedor: google-drive`.

@@ -1,8 +1,10 @@
 # Estado global — modelo inicial
 
 status: nao_configurado
-armazenamento: null  # drive | pasta-local | manual
-raiz: null  # ID da pasta no Drive ou caminho local
+nome_central: null
+provedor: null  # local | google-drive | onedrive
+armazenamento: null  # pasta-local | drive | onedrive | manual
+raiz: null  # caminho local ou ID da pasta no Drive/OneDrive
 idioma_padrao: en-US
 idiomas_habilitados: [fr-FR, es-ES, en-US]
 idiomas_escolhidos_pelo_aluno: []

@@ -1,19 +1,38 @@
 ---
-name: everyday-language-essentials-ai
-description: Configure a Central Everyday Essentials numa pasta pessoal (Google Drive ou pasta local), conduza diagnósticos e aulas de idiomas por missão e retome sessões ou apresente o progresso verificado de inglês, espanhol e francês.
+name: everylang
+description: Everyday Language Essentials AI (everylang). Configure e gerencie Centrais de idiomas numa pasta pessoal (local, Google Drive ou OneDrive), conduza diagnósticos e aulas por missão, retome sessões e apresente o progresso verificado de inglês, espanhol e francês. Aceita comandos como Help, Info-CentralIdioma, Create-CentralIdioma, Remove-CentralIdioma, Default-CentralIdioma, Reset-Diagnostic, Reset-Lessons e Reset-Progress.
 ---
 
-# Central de aprendizagem
+# Central de aprendizagem (everylang)
 
-Identifique a intenção antes de iniciar uma sessão. A configuração, cada diagnóstico ou aula, e o acompanhamento têm chats próprios no Projeto quando a plataforma oferecer Projetos. Sem Projeto, a pasta pessoal verificada basta para retomar. Faça uma pergunta por vez e aguarde a tentativa. Ofereça apoio em pt-BR ou no idioma de apoio escolhido.
+Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso contrário, identifique a intenção antes de iniciar uma sessão. A configuração, cada diagnóstico ou aula, e o acompanhamento têm chats próprios no Projeto quando a plataforma oferecer Projetos. Sem Projeto, a pasta pessoal verificada basta para retomar. Faça uma pergunta por vez e aguarde a tentativa. Ofereça apoio em pt-BR ou no idioma de apoio escolhido.
+
+## Comandos
+
+Reconheça os comandos sem diferenciar maiúsculas, acentos ou hífen, com argumentos em qualquer ordem. Siga o procedimento de cada um em [docs/COMANDOS.md](docs/COMANDOS.md). Quando faltar ou houver mais de uma opção de Central ou de idioma, pergunte qual antes de agir, conforme a seção Ambiguidade daquele documento. Remove e Reset sempre mostram a prévia, fazem backup e pedem confirmação explícita.
+
+`Help` (ou `Help-Comandos`, que funciona também no meio de uma atividade) mostra esta tabela ao aluno, sem executar nada:
+
+| Comando | O que faz | Exemplo |
+| --- | --- | --- |
+| Help | Lista os comandos da skill. | `Help` |
+| Info-CentralIdioma [central] | Mostra cada Central: nome, se é a padrão, armazenamento (Local, Google Drive ou OneDrive), caminho ou link da pasta e idiomas em estudo, com totais de diagnósticos e aulas. | `Info-CentralIdioma` |
+| Create-CentralIdioma [local\|googledrive\|onedrive] [pasta] [idiomas] | Cria a pasta da Central com todas as subpastas e arquivos, ou adiciona idiomas a uma Central existente sem apagar nada. | `Create-CentralIdioma local C:\Estudos\Idiomas Inglês Espanhol` |
+| Remove-CentralIdioma [central] | Apaga a pasta da Central inteira, depois de prévia, backup opcional e confirmação pelo nome. | `Remove-CentralIdioma Trabalho` |
+| Default-CentralIdioma [central] | Define a Central usada quando há mais de uma e nenhuma é indicada. | `Default-CentralIdioma Pessoal` |
+| Reset-Diagnostic [idioma\|Todos] | Apaga os diagnósticos do idioma e zera o perfil derivado. | `Reset-Diagnostic Francês` |
+| Reset-Lessons [idioma\|Todos] | Apaga as aulas do idioma e zera o contexto recente. | `Reset-Lessons Inglês` |
+| Reset-Progress [idioma\|Todos] | Zera o registro de progresso, o histórico e os resumos derivados do idioma. | `Reset-Progress Espanhol` |
+
+Durante aula ou diagnóstico também valem HELP (apoio no exercício), REPEAT, SLOW DOWN e FRASE Fxxx, descritos abaixo.
 
 ## Escolher onde salvar
 
-Esta skill funciona em plataformas diferentes e não depende de nomes de ferramentas. Antes de ler ou gravar registros do aluno, escolha o adaptador de armazenamento pelas [regras de seleção](docs/PERSISTENCIA.md#escolher-o-adaptador) e siga somente o guia escolhido: [Google Drive](docs/adaptadores/drive.md), [pasta local](docs/adaptadores/pasta-local.md) ou [modo manual](docs/adaptadores/manual.md). O layout das pastas e o formato dos arquivos são os mesmos em todos. Nunca afirme que algo foi salvo sem reler o que foi gravado.
+Esta skill funciona em plataformas diferentes e não depende de nomes de ferramentas. Antes de ler ou gravar registros do aluno, escolha o adaptador de armazenamento pelas [regras de seleção](docs/PERSISTENCIA.md#escolher-o-adaptador) e siga somente o guia escolhido: [pasta local](docs/adaptadores/pasta-local.md) (inclusive Google Drive ou OneDrive sincronizados no computador), [Google Drive](docs/adaptadores/drive.md) ou [OneDrive](docs/adaptadores/onedrive.md) por conector, ou [modo manual](docs/adaptadores/manual.md). Se houver mais de uma Central, use a indicada pelo aluno ou a padrão do [registro](docs/COMANDOS.md#registro-das-centrais). O layout das pastas e o formato dos arquivos são os mesmos em todos. Nunca afirme que algo foi salvo sem reler o que foi gravado.
 
 ## Configurar e adicionar idiomas
 
-Localize o destino pessoal indicado pelo aluno. Execute [o provisionamento](docs/PERSISTENCIA.md) pelo adaptador escolhido antes de afirmar que o espaço está pronto. O pacote contém os modelos. O aluno só precisa indicar o destino e os idiomas. Escolha explícita tem precedência sobre preferência salva, seguida de en-US. Adicionar idioma reaproveita a raiz, o perfil global e as trilhas existentes. Mude o padrão global somente a pedido.
+Create-CentralIdioma e o pedido de configuração seguem o mesmo fluxo. Localize o destino pessoal indicado pelo aluno. Execute [o provisionamento](docs/PERSISTENCIA.md) pelo adaptador escolhido antes de afirmar que o espaço está pronto. O pacote contém os modelos. O aluno só precisa indicar o destino e os idiomas. Escolha explícita tem precedência sobre preferência salva, seguida de en-US. Adicionar idioma reaproveita a raiz, o perfil global e as trilhas existentes. Mude o padrão global somente a pedido.
 
 Registre nome, idade quando informada, idiomas, preferência global e próxima etapa em config/perfil.md e config/estado-global.md. Após o teste de escrita, concentre as respostas de cadastro no perfil e as de planejamento no plano em elaboração. Salve e confira somente o registro em uso a cada resposta relevante. Atualize os índices quando mudar a etapa ou o registro apontado. Se o aluno quiser uma triagem curta, ofereça até três tarefas em cinco minutos e registre o alcance da observação. Encaminhe ao diagnóstico por idioma em chat próprio. Na Central, ao voltar com diagnóstico concluído, pergunte o contexto que interessa ao aluno, preserve o pedido original e confirme o cenário mais amplo. Combine prazo real, duração, frequência e próxima reavaliação com data. Grave a missão e a sequência aprovada em languages/<idioma>/planos/<id>.md, com objetivo por sessão. Ajuste ao calendário, inclusive para um compromisso amanhã.
 
@@ -25,8 +44,8 @@ Leia os [padrões](assets/config/defaults.md), a [metodologia](assets/config/met
 
 Abra apenas o módulo necessário em assets/skills/: 01 para reuniões (START MEETING), 02 para cotidiano/viagem (START TRAVEL), 03 para comunicação técnica (START TECHNICAL), 04 para compreensão oral (START LISTENING), 05 para FEEDBACK. Na aula, adapte o briefing, prática guiada, simulação, imprevisto e feedback à duração combinada. Use o repertório localizado em conteudo/. Para Entertainment Lab opcional, consulte os módulos 06 e 07 e verifique mídia e transcrição antes de usar trechos.
 
-“HELP”, “REPEAT” e “SLOW DOWN” adaptam o apoio. “FRASE F014” recupera a fala observada pelo índice daquela sessão. Antes de voz, recupere o checkpoint. Durante a aula ou diagnóstico, reúna resposta, evidência, modalidade e próxima pergunta em uma única atualização verificada do arquivo da sessão. A retomada usa esse arquivo diretamente. Adie a consolidação do progresso e do perfil até a conclusão. Aplique o [protocolo de escrita e recuperação](docs/PERSISTENCIA.md) também ao pausar, concluir ou reavaliar.
+Durante a atividade, “HELP”, “REPEAT” e “SLOW DOWN” adaptam o apoio; fora de atividade, “Help” mostra a tabela de comandos. “FRASE F014” recupera a fala observada pelo índice daquela sessão. Antes de voz, recupere o checkpoint. Durante a aula ou diagnóstico, reúna resposta, evidência, modalidade e próxima pergunta em uma única atualização verificada do arquivo da sessão. A retomada usa esse arquivo diretamente. Adie a consolidação do progresso e do perfil até a conclusão. Aplique o [protocolo de escrita e recuperação](docs/PERSISTENCIA.md) também ao pausar, concluir ou reavaliar.
 
 ## Acompanhamento
 
-Consulte o progresso confirmado do idioma solicitado e até três sessões para fundamentar o relatório. Apresente objetivos já atingidos, evidências, limitações, próxima prática e reavaliação. Duração real exige observação. Exclua testes de totais, frequência, CEFR, tempo, metas e revisões. No chat de acompanhamento, todas as consultas são de leitura. Para reset, delimite idioma e alcance, prepare e confira o backup pessoal e obtenha confirmação explícita antes de executar.
+Consulte o progresso confirmado do idioma solicitado e até três sessões para fundamentar o relatório. Apresente objetivos já atingidos, evidências, limitações, próxima prática e reavaliação. Duração real exige observação. Exclua testes de totais, frequência, CEFR, tempo, metas e revisões. No chat de acompanhamento, todas as consultas são de leitura. Para zerar registros, use Reset-Diagnostic, Reset-Lessons ou Reset-Progress, que delimitam idioma e alcance, fazem e conferem o backup e pedem confirmação explícita antes de executar.

@@ -158,13 +158,14 @@ O Everyday Language Essentials AI é uma iniciativa **open source**, pensada par
 
 ## Como instalar
 
-A mesma skill funciona no Claude, no ChatGPT e no Codex. Seu progresso fica numa pasta pessoal sua, no Google Drive ou no seu computador. No Claude Code, a instalação é uma linha:
+A mesma skill, chamada **everylang**, funciona no Claude, no ChatGPT e no Codex. Seu progresso fica numa pasta pessoal sua: no computador, no Google Drive ou no OneDrive. No Claude Code:
 
 ```
-/plugin install everyday-language-essentials-ai --marketplace alexgbfla92/everyday-language-essentials-ai
+/plugin marketplace add alexgbfla92/everyday-language-essentials-ai
+/plugin install everylang@everyday-essentials
 ```
 
-As instruções para cada plataforma estão em [START-HERE.md](START-HERE.md).
+Depois, `/everylang:everylang Help` mostra todos os comandos. As instruções para cada plataforma estão em [START-HERE.md](START-HERE.md) e os comandos em [docs/COMANDOS.md](docs/COMANDOS.md).
 
 ## A filosofia da comunidade
 

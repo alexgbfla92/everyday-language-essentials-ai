@@ -1,21 +1,23 @@
 # Começar
 
-A skill é um único pacote que funciona no Claude, no ChatGPT e no Codex. Instale a pasta completa everyday-language-essentials-ai, com SKILL.md, docs/, assets/ e scripts/ lado a lado, pelo mecanismo da sua plataforma:
+A skill **everylang** (Everyday Language Essentials AI) é um único pacote que funciona no Claude, no ChatGPT e no Codex. Instale a pasta completa, com SKILL.md, docs/, assets/ e scripts/ lado a lado, pelo mecanismo da sua plataforma. Onde a plataforma exigir que o nome da pasta seja igual ao da skill, use `everylang`.
 
-- **Codex**: copie a pasta para o diretório de skills do ambiente. Um destino por projeto é .agents/skills/everyday-language-essentials-ai/.
-- **ChatGPT**: envie o pacote pelo mecanismo de skills habilitado na conta e conecte o Google Drive.
+- **Codex**: copie o conteúdo do repositório para o diretório de skills do ambiente, por exemplo .agents/skills/everylang/. Chame com `$everylang`.
+- **ChatGPT**: envie o pacote pelo mecanismo de skills habilitado na conta e conecte o Google Drive (ou o OneDrive, se o conector gravar arquivos).
 - **Claude Code**: adicione o repositório como marketplace e instale o plugin:
   ```
   /plugin marketplace add alexgbfla92/everyday-language-essentials-ai
-  /plugin install everyday-language-essentials-ai@everyday-essentials
+  /plugin install everylang@everyday-essentials
   ```
-  Ou copie a pasta para .claude/skills/everyday-language-essentials-ai/ (projeto) ou ~/.claude/skills/everyday-language-essentials-ai/ (usuário).
-- **App do Claude (web, desktop)**: gere o .zip e envie como skill nas configurações da conta:
+  Chame com `/everylang:everylang`. Para chamar só com `/everylang`, copie o conteúdo do repositório para ~/.claude/skills/everylang/ (usuário) ou .claude/skills/everylang/ (projeto) em vez de instalar o plugin.
+- **App do Claude (web, desktop)**: em Configurações → Plugins, adicione o marketplace `alexgbfla92/everyday-language-essentials-ai` e instale **everylang**. Outra opção é enviar o .zip como skill, que fica disponível como `/everylang`:
   ```
-  git archive --format=zip --prefix=everyday-language-essentials-ai/ -o everyday-language-essentials-ai.zip HEAD
+  git archive --format=zip --prefix=everylang/ -o everylang.zip HEAD
   ```
-  Para salvar o progresso automaticamente, conecte ao app uma pasta do seu computador.
+  Para salvar o progresso automaticamente, conecte ao app uma pasta do seu computador (pode ser uma pasta sincronizada do Google Drive ou do OneDrive).
 
-Depois, abra uma conversa com a skill disponível e use o [primeiro pedido](FIRST-PROMPT.md) da sua plataforma. Escolha uma pasta pessoal dedicada, no Google Drive ou no seu computador. A skill escolhe como salvar conforme o que a sessão consegue fazer; veja [persistência](docs/PERSISTENCIA.md#escolher-o-adaptador).
+Se você já tinha instalado a versão com o nome everyday-language-essentials-ai, desinstale o plugin antigo e instale **everylang**. Suas Centrais não são afetadas: elas ficam na sua pasta pessoal, fora do pacote.
 
-Para desenvolver, consulte a [arquitetura](docs/ARQUITETURA.md), a [metodologia](docs/METODOLOGIA.md), o [protocolo de persistência](docs/PERSISTENCIA.md), os [adaptadores](docs/adaptadores/) e a [validação](docs/VALIDACAO-E-ROADMAP.md). O [README](README.md) apresenta o manifesto do produto.
+Depois, abra uma conversa com a skill disponível e use o [primeiro pedido](FIRST-PROMPT.md) da sua plataforma, ou `Help` para ver os [comandos](docs/COMANDOS.md). A skill escolhe como salvar conforme o que a sessão consegue fazer; veja [persistência](docs/PERSISTENCIA.md#escolher-o-adaptador).
+
+Para desenvolver, consulte a [arquitetura](docs/ARQUITETURA.md), a [metodologia](docs/METODOLOGIA.md), os [comandos](docs/COMANDOS.md), o [protocolo de persistência](docs/PERSISTENCIA.md), os [adaptadores](docs/adaptadores/) e a [validação](docs/VALIDACAO-E-ROADMAP.md). O [README](README.md) apresenta o manifesto do produto.

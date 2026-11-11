@@ -1,8 +1,8 @@
 {
-  "name": "everyday-language-essentials-ai",
-  "displayName": "Everyday Language Essentials AI",
-  "description": "Central pessoal de idiomas com diagnóstico, aulas e progresso salvos no Google Drive ou numa pasta local.",
-  "version": "0.3.1",
+  "name": "everylang",
+  "displayName": "everylang · Everyday Language Essentials AI",
+  "description": "Central pessoal de idiomas (inglês, espanhol, francês) com diagnóstico, aulas, progresso e comandos de gestão; salva em pasta local, Google Drive ou OneDrive.",
+  "version": "0.4.0",
   "author": {
     "name": "alexgbfla92"
   },
