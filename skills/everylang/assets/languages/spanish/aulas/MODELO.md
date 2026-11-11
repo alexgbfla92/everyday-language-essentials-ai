@@ -45,11 +45,11 @@ encerramento_proximo_passo:
 ## Entertainment Lab (preparado y verificado antes de la etapa 1; campos en references/ENTERTAINMENT-LAB.md)
 lab_status: a_preparar  # a_preparar | pronto | pendente_aceito | em_andamento | feito | adiado | recusado
 lab_titulo:
-lab_canal:
+lab_canal:  # nao_confirmado só com fonte busca
 lab_url:  # só https://www.youtube.com/watch?v=<ID>
 lab_idioma_variante:
 lab_duracao_aula_min: 20
-lab_duracao_video_min:
+lab_duracao_video_min:  # minutos ou mm:ss; nao_confirmada só com fonte busca
 lab_trecho:  # inteiro | mm:ss-mm:ss (início e fim confirmados)
 lab_motivo_fora_da_faixa:  # obrigatório se o que será assistido ficar fora de 30–50% da aula
 lab_transcricao:  # obtida | legendas_indicadas | nao_confirmada
@@ -58,6 +58,8 @@ lab_pergunta_1:
 lab_pergunta_2:
 lab_pergunta_3:
 lab_tarefa:
+lab_fonte_verificacao:  # pagina_youtube | navegador | busca
+lab_evidencia_busca:  # só com busca: resultado usado (link, título, canal, duração)
 lab_verificado_em:  # data e hora da releitura do registro salvo
 lab_pendencia_motivo:
 lab_pendencia_aceita_pelo_aluno:

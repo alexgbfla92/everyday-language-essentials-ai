@@ -171,6 +171,7 @@ Depois de instalar, envie `Help` para ver a versão instalada e todos os comando
 1. Em **Configurações → Plugins → Adicionar marketplace**, informe `alexgbfla92/everyday-language-essentials-ai` e clique em **Sincronizar**.
 2. Instale o plugin **everylang**.
 3. Para salvar no Google Drive, ative em **Configurações → Conectores** os conectores **Google Drive**, **Google Docs** e **Google Sheets**.
+   - Recomendado: em **Configurações → Capacidades**, libere os domínios `youtube.com`, `www.youtube.com`, `m.youtube.com` e `youtu.be`. Assim a skill confirma título, canal e duração do vídeo do Entertainment Lab na própria página do YouTube. Sem isso, o Lab usa link e título vindos da busca e avisa que canal e duração não foram confirmados.
 4. Chame com `/everylang:everylang` (por exemplo, `/everylang:everylang Help`). Como no ChatGPT, o nome do plugin vem antes do nome da skill; para chamar só com `/everylang`, use a skill avulsa abaixo.
 
 Para atualizar, sincronize o marketplace de novo.

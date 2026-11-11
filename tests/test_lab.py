@@ -24,6 +24,7 @@ READY = {
     "lab_itens_da_aula": "boarding pass, aisle seat, carry-on",
     "lab_pergunta_1": "What does the passenger ask for?",
     "lab_tarefa": "Peça um assento no corredor usando 'Could I…?'",
+    "lab_fonte_verificacao": "pagina_youtube",
     "lab_verificado_em": "2026-11-11 17:05",
 }
 
@@ -71,6 +72,30 @@ class LabScenarioTests(unittest.TestCase):
             result = self.ready({**READY, **change})
             self.assertFalse(result["pode_iniciar"], change)
             self.assertTrue(any(expected in p for p in result["problemas"]), (change, result))
+
+    def test_search_result_can_confirm_when_youtube_is_blocked(self):
+        by_search = {**READY, "lab_fonte_verificacao": "busca", "lab_transcricao": "nao_confirmada",
+                     "lab_evidencia_busca": "youtube.com/watch?v=dQw4w9WgXcQ · At the Airport · Canal Fictício · 8:30"}
+        self.assertTrue(self.ready(by_search)["pode_iniciar"])
+        for change, expected in (({"lab_evidencia_busca": ""}, "lab_evidencia_busca"),
+                                 ({"lab_trecho": "01:00-07:00", "lab_duracao_video_min": "12"}, "vídeo inteiro"),
+                                 ({"lab_fonte_verificacao": ""}, "lab_fonte_verificacao"),
+                                 ({"lab_fonte_verificacao": "palpite"}, "lab_fonte_verificacao")):
+            result = self.ready({**by_search, **change})
+            self.assertFalse(result["pode_iniciar"], change)
+            self.assertTrue(any(expected in p for p in result["problemas"]), (change, result))
+
+    def test_blocked_youtube_search_only_marks_unconfirmed_fields(self):
+        search_only = {**READY, "lab_fonte_verificacao": "busca", "lab_canal": "nao_confirmado",
+                       "lab_duracao_video_min": "nao_confirmada", "lab_transcricao": "nao_confirmada",
+                       "lab_evidencia_busca": "shadowingenglish.com/practice/...-2XdhgaBk058 · Real life English Airport check-in"}
+        result = self.ready(search_only)
+        self.assertTrue(result["pode_iniciar"], result)
+        self.assertEqual(len(result["avisos"]), 2)
+        self.assertIsNone(result["minutos_assistidos"])
+        from_page = self.ready({**search_only, "lab_fonte_verificacao": "pagina_youtube"})
+        self.assertFalse(from_page["pode_iniciar"])
+        self.assertTrue(any("só é aceito" in p for p in from_page["problemas"]))
 
     def test_closest_video_outside_range_needs_reason(self):
         result = self.ready({**READY, "lab_duracao_video_min": "12", "lab_motivo_fora_da_faixa":

@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from youtube import normalize  # noqa: E402
 
 TRANSCRIPT = {"obtida", "legendas_indicadas", "nao_confirmada"}
+SOURCES = {"pagina_youtube", "navegador", "busca"}
 STATUS = {"a_preparar", "pronto", "pendente_aceito", "em_andamento", "feito", "adiado", "recusado"}
 FINAL = {"feito", "adiado", "recusado"}
 REQUIRED = ["lab_titulo", "lab_canal", "lab_url", "lab_idioma_variante", "lab_duracao_aula_min",
@@ -81,10 +82,29 @@ def check_ready(data):
             data["lab_url"] = normalize(data["lab_url"])
         except ValueError as error:
             problems.append(str(error))
+    source = data.get("lab_fonte_verificacao", "")
+    if source not in SOURCES:
+        problems.append(f"lab_fonte_verificacao deve ser {', '.join(sorted(SOURCES))}")
+    elif source == "busca":
+        if not data.get("lab_evidencia_busca"):
+            problems.append("lab_evidencia_busca vazio: com fonte busca, copie o resultado usado")
+        if data.get("lab_trecho", "").lower() not in ("inteiro", "video inteiro", "vídeo inteiro"):
+            problems.append("com fonte busca, use o vídeo inteiro (lab_trecho: inteiro): o trecho não pode ser confirmado")
     if data.get("lab_transcricao") and data["lab_transcricao"] not in TRANSCRIPT:
         problems.append(f"lab_transcricao deve ser {', '.join(sorted(TRANSCRIPT))}")
+    unconfirmed = {"nao_confirmado", "nao_confirmada", "não confirmado", "não confirmada"}
+    by_search = data.get("lab_fonte_verificacao") == "busca"
+    for key in ("lab_canal", "lab_duracao_video_min"):
+        if data.get(key, "").lower() in unconfirmed:
+            if by_search:
+                warnings.append(f"{key} não confirmado (fonte busca): avise o aluno na etapa 7")
+            else:
+                problems.append(f"{key} não confirmado: só é aceito com lab_fonte_verificacao: busca")
+    duration_unknown = data.get("lab_duracao_video_min", "").lower() in unconfirmed
     watch = None
     try:
+        if duration_unknown:
+            raise LookupError
         lesson = minutes(data.get("lab_duracao_aula_min", ""))
         video = minutes(data.get("lab_duracao_video_min", ""))
         segment = data.get("lab_trecho", "")
@@ -102,6 +122,8 @@ def check_ready(data):
                     warnings.append(f"duração {watch:.1f} min fora de {low:g}–{high:g} min (motivo registrado)")
                 else:
                     problems.append(f"duração {watch:.1f} min fora de {low:g}–{high:g} min sem lab_motivo_fora_da_faixa")
+    except LookupError:
+        pass
     except ValueError:
         problems.append("durações ou trecho em formato inválido (minutos, mm:ss ou mm:ss-mm:ss)")
     if status == "pronto" and not data.get("lab_verificado_em"):
