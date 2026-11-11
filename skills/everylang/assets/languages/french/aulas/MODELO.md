@@ -16,7 +16,7 @@ Durée réelle constatée :
 ## Feuille de route (cocher chaque étape ; la séance n'est terminée qu'avec les sept faites)
 | Étape | Statut |
 |---|---|
-| 0 Lab planifié avant l'étape 1 (lien enregistré) | à faire |
+| 0 Lab prêt et relu avant l'étape 1 (ou en attente accepté par l'apprenant) | à faire |
 | 1 Briefing | à faire |
 | 2 Pratique guidée | à faire |
 | 3 Simulation | à faire |
@@ -39,17 +39,28 @@ Durée réelle constatée :
 
 ## Bilan
 Résultat, retour fondé sur des preuves, limites, prochaine activité et état de mise à jour du suivi.
-Enregistré et confirmé à l'apprenant : oui/non (sinon, commande Save-Lesson indiquée).
+encerramento_aula_salva_relida:  # sim depois do Finish-Lesson relido
+encerramento_proximo_passo:
 
-## Entertainment Lab (planifié à la création de la séance)
-Statut : planifié / en attente / fait / reporté / refusé
-Titre et chaîne de la vidéo :
-URL YouTube (uniquement https://www.youtube.com/watch?v=…) :
-Durée cible (30–50 % de la séance) et durée retenue ; raison si hors de la fourchette :
-Durée et extrait à regarder :
-État de la transcription (obtenue / sous-titres indiqués, texte non obtenu / non confirmé) :
-Éléments de la séance réutilisés :
-Questions (3 au maximum) :
-Tâche courte :
-Résultat et retour :
-Enregistré et confirmé à l'apprenant : oui/non (sinon, commande Save-Lesson lab indiquée) :
+## Entertainment Lab (préparé et vérifié avant l'étape 1 ; champs dans references/ENTERTAINMENT-LAB.md)
+lab_status: a_preparar  # a_preparar | pronto | pendente_aceito | em_andamento | feito | adiado | recusado
+lab_titulo:
+lab_canal:
+lab_url:  # só https://www.youtube.com/watch?v=<ID>
+lab_idioma_variante:
+lab_duracao_aula_min: 20
+lab_duracao_video_min:
+lab_trecho:  # inteiro | mm:ss-mm:ss (início e fim confirmados)
+lab_motivo_fora_da_faixa:  # obrigatório se o que será assistido ficar fora de 30–50% da aula
+lab_transcricao:  # obtida | legendas_indicadas | nao_confirmada
+lab_itens_da_aula:
+lab_pergunta_1:
+lab_pergunta_2:
+lab_pergunta_3:
+lab_tarefa:
+lab_verificado_em:  # data e hora da releitura do registro salvo
+lab_pendencia_motivo:
+lab_pendencia_aceita_pelo_aluno:
+lab_oferecido_na_etapa_7:
+lab_resultado:
+lab_gravacao_confirmada:
