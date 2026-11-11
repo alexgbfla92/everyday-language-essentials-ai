@@ -3,7 +3,11 @@ import json
 import tempfile
 import unittest
 from contextlib import redirect_stdout
+
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "everylang"))
 
 from scripts.central import ASSETS, main, parse_language
 

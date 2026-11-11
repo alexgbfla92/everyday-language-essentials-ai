@@ -1,11 +1,11 @@
 {
   "name": "everylang",
   "displayName": "everylang · Everyday Language Essentials AI",
-  "description": "Central pessoal de idiomas (inglês, espanhol, francês) com diagnóstico, aulas, progresso e comandos de gestão; salva em pasta local ou 100% na nuvem no Google Drive (Docs e Sheets nativos).",
-  "version": "0.6.0",
+  "description": "Central pessoal de idiomas (inglês, espanhol, francês) com diagnóstico, aulas por missão, frases numeradas, progresso e comandos de gestão; salva no Google Drive (Docs e Sheets nativos) ou numa pasta local.",
+  "version": "0.7.0",
   "author": {
     "name": "alexgbfla92"
   },
   "repository": "https://github.com/alexgbfla92/everyday-language-essentials-ai",
-  "skills": "./"
+  "homepage": "https://github.com/alexgbfla92/everyday-language-essentials-ai"
 }

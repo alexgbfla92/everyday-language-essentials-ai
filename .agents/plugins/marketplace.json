@@ -1,0 +1,20 @@
+{
+  "name": "everyday-essentials",
+  "interface": {
+    "displayName": "Everyday Essentials"
+  },
+  "plugins": [
+    {
+      "name": "everylang",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education"
+    }
+  ]
+}
