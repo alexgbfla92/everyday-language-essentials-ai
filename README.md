@@ -213,7 +213,18 @@ codex plugin marketplace add alexgbfla92/everyday-language-essentials-ai
 codex plugin add everylang@everyday-essentials
 ```
 
-Depois, abra o app de desktop do ChatGPT e confira o **everylang** em **Plugins**. Para atualizar, use `codex plugin marketplace upgrade`.
+Depois, abra o app de desktop do ChatGPT e confira o **everylang** em **Plugins**. Use a skill numa conversa no modo **Work**: plugins instalados pelo Codex ficam disponíveis ali.
+
+**Para atualizar** (os dois comandos são necessários; o primeiro só atualiza a lista do marketplace):
+
+```
+codex plugin marketplace upgrade
+codex plugin add everylang@everyday-essentials
+```
+
+Depois **feche e abra de novo o app** e comece uma conversa nova. A atualização apaga a pasta da versão anterior, e conversas abertas antes dela deixam de encontrar a skill. Confira com `codex plugin list` (deve mostrar `installed, enabled` e a versão nova) e com `Help`, que mostra a versão instalada.
+
+**Se a skill sumir** ("não aparece entre as skills disponíveis"): rode `codex plugin list`. Se o everylang não estiver `installed, enabled`, rode os dois comandos acima. Em seguida, reinicie o app e abra uma conversa nova no modo Work.
 
 **Como chamar no ChatGPT**
 
