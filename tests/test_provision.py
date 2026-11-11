@@ -276,5 +276,6 @@ class TemplateTests(unittest.TestCase):
             self.assertIn("(1–7)", lesson, folder)
             self.assertIn("## Entertainment Lab", lesson, folder)
             self.assertIn("URL", lesson, folder)
+            self.assertIn("30–50", lesson, folder)
             self.assertIn("(1–5)", diagnostic, folder)
 

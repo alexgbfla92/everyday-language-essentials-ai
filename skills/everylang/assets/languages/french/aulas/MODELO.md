@@ -33,6 +33,7 @@ Enregistré et confirmé à l'apprenant : oui/non (sinon, commande Save-Lesson i
 Statut : planifié / en attente / fait / reporté / refusé
 Titre et chaîne de la vidéo :
 URL :
+Durée cible (30–50 % de la séance) et durée retenue ; raison si hors de la fourchette :
 Durée et extrait à regarder :
 État de la transcription (obtenue / sous-titres indiqués, texte non obtenu / non confirmé) :
 Éléments de la séance réutilisés :
