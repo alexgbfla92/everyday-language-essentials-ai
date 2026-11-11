@@ -6,8 +6,8 @@
   "description": "Everyday Language Essentials AI: central pessoal de idiomas por missão.",
   "plugins": [
     {
-      "name": "everyday-language-essentials-ai",
-      "description": "Central pessoal de idiomas com diagnóstico, aulas e progresso salvos no Google Drive ou numa pasta local.",
+      "name": "everylang",
+      "description": "Everyday Language Essentials AI: central pessoal de idiomas com diagnóstico, aulas, progresso e comandos de gestão.",
       "source": "./"
     }
   ]

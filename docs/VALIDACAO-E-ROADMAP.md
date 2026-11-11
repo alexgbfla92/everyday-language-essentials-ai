@@ -1,6 +1,6 @@
 # Validação do beta
 
-Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens fictícias e testa as operações propostas ao conector. Também cria pastas locais temporárias para testar o modo `--local`: mesma árvore do Drive, cópia fiel dos modelos, repetição sem sobrescrever, conflitos e recusa de links simbólicos e da pasta da skill. Ela não mede confiabilidade de rede nem verifica a interação do modelo com um aluno.
+Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens fictícias e testa as operações propostas ao conector. Também cria pastas locais temporárias para testar o modo `--local`: mesma árvore do Drive, cópia fiel dos modelos, repetição sem sobrescrever, conflitos e recusa de links simbólicos e da pasta da skill. A suíte de comandos (tests/test_central.py) cobre registro e Central padrão, perguntas de ambiguidade, criação e adição de idioma, prévia, confirmação e backup dos três resets, e as recusas de Remove em pastas que não são Centrais. Ela não mede confiabilidade de rede nem verifica a interação do modelo com um aluno.
 
 ## Aceite em pasta pessoal de ensaio
 
