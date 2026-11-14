@@ -1,0 +1,59 @@
+name: Release
+
+# Publica uma release com o pacote do plugin quando uma tag v<versão> é enviada
+# (git tag v0.17.0 && git push origin v0.17.0) ou pelo botão "Run workflow" na aba Actions,
+# que usa a versão do arquivo VERSION.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Testes
+        run: python -B -m unittest discover -s tests
+      - name: Versão e tag
+        id: versao
+        run: |
+          python tools/bump_version.py --check
+          version=$(tr -d '[:space:]' < VERSION)
+          tag="v$version"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ] && [ "${GITHUB_REF_NAME}" != "$tag" ]; then
+            echo "A tag ${GITHUB_REF_NAME} não corresponde ao VERSION ($version)." >&2
+            exit 1
+          fi
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "A release $tag já existe. Suba a versão antes de publicar de novo." >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Pacote do plugin
+        run: |
+          python -B tools/build_zip.py --plugin
+          cp "dist/talkgo-plugin-${{ steps.versao.outputs.version }}.zip" dist/talkgo-plugin.zip
+      - name: Publicar a release
+        run: |
+          gh release create "${{ steps.versao.outputs.tag }}" \
+            "dist/talkgo-plugin-${{ steps.versao.outputs.version }}.zip" \
+            dist/talkgo-plugin.zip \
+            --target "$GITHUB_SHA" \
+            --title "TalkGo ${{ steps.versao.outputs.version }}" \
+            --generate-notes \
+            --notes "Para instalar ou atualizar, baixe **talkgo-plugin-${{ steps.versao.outputs.version }}.zip** e envie pelo navegador no Claude e no ChatGPT, como explica a seção [Como instalar](https://github.com/${{ github.repository }}#como-instalar) do README."
+        env:
+          GH_TOKEN: ${{ github.token }}

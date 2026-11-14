@@ -12,10 +12,11 @@ everyday-language-essentials-ai/
 │   ├── assets/                # modelos copiados para a Central e módulos pedagógicos
 │   └── scripts/               # provision.py e central.py (sem rede)
 ├── plugin.json                # manifesto portátil (Agent Plugins 1.0) com extensões da OpenAI
-├── .agents/plugins/marketplace.json   # marketplace para ChatGPT e Codex
-├── .claude-plugin/            # manifesto e marketplace para Claude
+├── .claude-plugin/plugin.json # manifesto do plugin para Claude
 ├── tools/bump_version.py      # sobe e propaga a versão a partir de VERSION
+├── tools/build_zip.py         # gera e confere o talkgo-plugin-<versão>.zip
 ├── .github/workflows/ci.yml   # testes, versões consistentes e versão nova em cada PR
+├── .github/workflows/release.yml  # publica a release com o .zip do plugin a cada tag v<versão>
 ├── tests/                     # testes do planejador, dos comandos e do empacotamento
 ├── docs/                      # documentação de desenvolvimento (esta pasta)
 └── README.md, START-HERE.md, FIRST-PROMPT.md, VERSION
@@ -37,20 +38,29 @@ Tudo o que a skill usa em tempo de execução fica dentro de `skills/talkgo/` e 
 
 ## Compatibilidade entre plataformas
 
-O mesmo pacote atende Claude, ChatGPT e Codex. O SKILL.md segue o formato comum de skills (pasta com SKILL.md e frontmatter `name` e `description`), lido pelas três plataformas. Tudo o que depende da plataforma fica nos adaptadores, e o modelo escolhe o adaptador pelo que a sessão comprovadamente consegue fazer, não pelo nome da plataforma. Layout e caminhos lógicos são idênticos em todos os adaptadores. O formato também, exceto no Google Drive por conector, que grava os registros atualizados durante o uso como Google Docs e Sheets nativos, porque o conector do Claude não regrava o conteúdo de arquivos existentes. Uma Central no Drive pode ser usada pelo Claude e pelo ChatGPT, que editam Docs e Sheets nativos.
+O mesmo pacote atende Claude e ChatGPT. O SKILL.md segue o formato comum de skills (pasta com SKILL.md e frontmatter `name` e `description`), lido pelas duas plataformas. Tudo o que depende da plataforma fica nos adaptadores, e o modelo escolhe o adaptador pelo que a sessão comprovadamente consegue fazer, não pelo nome da plataforma. Layout e caminhos lógicos são idênticos em todos os adaptadores. O formato também, exceto no Google Drive por conector, que grava os registros atualizados durante o uso como Google Docs e Sheets nativos, porque o conector do Claude não regrava o conteúdo de arquivos existentes. Uma Central no Drive pode ser usada pelo Claude e pelo ChatGPT, que editam Docs e Sheets nativos.
 
-| Plataforma | Instalação | Armazenamento esperado |
-| --- | --- | --- |
-| App do Claude (web, desktop, celular) | Plugin TalkGo (`talkgo`) pelo marketplace (`.claude-plugin/marketplace.json`), chamado como `/talkgo:talkgo`; ou .zip de `skills/talkgo` enviado como skill (`/talkgo`). | Google Drive com os conectores Google Drive, Google Docs e Google Sheets (100% na nuvem); ou pasta conectada ao app; senão modo manual. |
-| Claude Code | Mesmo marketplace (`/plugin marketplace add`) ou cópia de `skills/talkgo` para ~/.claude/skills/. | Pasta local. |
-| ChatGPT (workspace) | Admin importa o repositório em Admin → Plugins → Import marketplace; membros instalam pelo diretório de plugins. | Google Drive (Docs e Sheets nativos). |
-| ChatGPT (conta individual) | App de desktop, pelo marketplace `.agents/plugins/marketplace.json` (via Codex CLI ou marketplace pessoal). | Google Drive (Docs e Sheets nativos). |
-| Codex CLI | `codex plugin marketplace add` + `codex plugin add talkgo@talkgo`, ou cópia de `skills/talkgo` para ~/.agents/skills/. | Pasta local ou Google Drive. |
+A única forma de instalação suportada é o envio do `talkgo-plugin-<versão>.zip` pelo navegador, porque assim o plugin fica na conta e vale em todos os dispositivos. O .zip leva `.claude-plugin/plugin.json` (Claude), `.codex-plugin/plugin.json` (ChatGPT, gerado a partir do `plugin.json` da raiz) e `skills/talkgo/`.
+
+| Plataforma | Instalação | Chamada | Armazenamento esperado |
+| --- | --- | --- | --- |
+| Claude (web, desktop, celular) | Configurações → Personalização → Plugins → Adicionar → Enviar plugin | `/talkgo` | Google Drive com os conectores Google Drive, Google Docs e Google Sheets. |
+| ChatGPT (web, desktop, celular) | Plugins → Adicionar | `@TalkGo` ou `$talkgo:talkgo` | Google Drive (Docs e Sheets nativos). |
+
+## Releases
+
+Cada versão publicada é uma release do GitHub com dois arquivos: `talkgo-plugin-<versão>.zip` e uma cópia com nome fixo, `talkgo-plugin.zip`, que o README usa no link `releases/latest/download/talkgo-plugin.zip`. O workflow `.github/workflows/release.yml` roda os testes, confere se a tag é igual ao `VERSION`, gera o .zip e cria a release com as notas geradas a partir dos PRs. Para publicar a versão que está na main:
+
+```
+git tag v$(cat VERSION) && git push origin v$(cat VERSION)
+```
+
+ou use **Actions → Release → Run workflow**, que cria a tag a partir do `VERSION`. Uma versão já publicada não é publicada de novo: suba o `VERSION` antes.
 
 Estado das capacidades:
 
 - Comprovado pelo autor no Claude: o `update_file` do conector Google Drive só altera metadados; o conector Google Docs não edita `.md`; criar Doc com `text/plain` e Sheet com `text/csv` via `create_file`, editar com `update_doc` e `update_values`/`append_values` e reler funcionam mantendo o mesmo ID.
-- Testado neste repositório: `claude plugin validate --strict` e instalação limpa no Claude Code; `codex plugin marketplace add` e `codex plugin add` no Codex CLI 0.167.1, com a skill instalada em `skills/talkgo/SKILL.md`.
+- Testado neste repositório: `claude plugin validate --strict` no repositório e no .zip extraído, e o .zip carregado no Claude Code (`--plugin-dir`) e no Codex CLI.
 - Testes automatizados: empacotamento (nome da pasta igual ao da skill, manifestos coerentes, versões iguais ao VERSION, links que não saem da skill), classificação de formatos, planejamento do Drive com Docs e Sheets (inclusive retomada após interrupção e configuração de abas), modo local e comandos de gestão (scripts/central.py) com pastas fictícias.
 - Pendente de ensaio: instalação pelo ChatGPT (workspace e desktop) e uso na web e no celular; setup completo, aula, reset e remove no Drive nativo pelo Claude; o mesmo fluxo pelo ChatGPT, inclusive se o conector dele converte `text/plain` e `text/csv` em Doc e Sheet na criação.
 

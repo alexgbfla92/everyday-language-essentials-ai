@@ -161,131 +161,47 @@ O TalkGo é uma iniciativa **open source**, pensada para ser usada, adaptada e a
 
 ## Como instalar
 
-O plugin se chama **TalkGo** (`talkgo`), e a skill dentro dele também se chama **talkgo**, para o nome ser o mesmo no Claude e no ChatGPT. A skill é a mesma para Claude e ChatGPT: fica em [`skills/talkgo`](skills/talkgo/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
+O TalkGo é instalado pelo navegador, com um arquivo .zip, no Claude e no ChatGPT. Instalado assim, ele fica na sua conta e aparece em todos os seus dispositivos: web, app de desktop e celular.
 
-Depois de instalar, envie `Help` para ver a versão instalada e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
+### 1. Baixe o plugin
 
-### Claude
+Baixe o arquivo da versão mais recente: **[talkgo-plugin.zip](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases/latest/download/talkgo-plugin.zip)**. Versões anteriores e o que mudou em cada uma estão em [Releases](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases).
 
-**App do Claude (web, desktop e celular)**
+Não descompacte o arquivo: o mesmo .zip serve para o Claude e para o ChatGPT.
 
-1. Em **Configurações → Plugins → Adicionar marketplace**, informe `alexgbfla92/everyday-language-essentials-ai` e clique em **Sincronizar**.
-2. Instale o plugin **TalkGo**.
-3. Para salvar no Google Drive, ative em **Configurações → Conectores** os conectores **Google Drive**, **Google Docs** e **Google Sheets**.
-   - Recomendado: em **Configurações → Capacidades**, libere os domínios `youtube.com`, `www.youtube.com`, `m.youtube.com` e `youtu.be`. Assim a skill confirma título, canal e duração do vídeo do Entertainment Lab na própria página do YouTube. Sem isso, o Lab usa link e título vindos da busca e avisa que canal e duração não foram confirmados.
-4. Chame com `/talkgo` no menu da `/` (por exemplo, `/talkgo Help`); o nome completo é `/talkgo:talkgo`, exigido no Claude Code.
+### 2. Instale no Claude
 
-Para atualizar, sincronize o marketplace de novo.
+1. Abra [claude.ai](https://claude.ai) no navegador e vá em **Configurações → Personalização → Plugins**.
+2. Clique em **Adicionar → Enviar plugin** (Upload plugin) e escolha o `talkgo-plugin.zip`.
+3. Em **Configurações → Personalização → Conectores**, ative **Google Drive**, **Google Docs** e **Google Sheets** (a sua Central fica no Google Drive).
+4. Recomendado: em **Configurações → Recursos**, libere os domínios `youtube.com`, `www.youtube.com`, `m.youtube.com` e `youtu.be`. Assim o Entertainment Lab confirma título, canal e duração do vídeo na página do YouTube; sem isso, ele usa o resultado da busca e avisa o que não foi confirmado.
+5. Numa conversa nova, digite `/talkgo` e escolha a skill (por exemplo, `/talkgo Help`).
 
-**Pelo navegador, com o arquivo .zip (Claude e ChatGPT)**
+### 3. Instale no ChatGPT
 
-Gere o pacote de plugin com `python tools/build_zip.py --plugin` (cria `dist/talkgo-plugin-<versão>.zip`, com `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json` e `skills/talkgo/`) e envie o mesmo arquivo nas duas plataformas:
+1. Abra [chatgpt.com](https://chatgpt.com) no navegador e clique em **Plugins** na barra lateral.
+2. Clique em **Adicionar**, escolha o `talkgo-plugin.zip` e confirme em **Adicionar plugin**.
+3. Conecte o app **Google Drive** com permissão para criar e editar arquivos (a Central usa Google Docs e Sheets).
+4. Deixe a busca na web disponível na conversa, para o Entertainment Lab encontrar o vídeo do YouTube.
+5. Numa conversa nova, chame com `@TalkGo` (por exemplo, `@TalkGo Help`). Também funciona `$talkgo:talkgo`.
 
-- Claude: **Configurações → Personalização → Plugins → Adicionar → Enviar plugin** (Upload plugin).
-- ChatGPT: **Plugins → Adicionar** e escolha o arquivo.
+### Primeiro uso
 
-Chame com `/talkgo` no Claude e `@TalkGo` (ou `$talkgo:talkgo`) no ChatGPT. Para atualizar, envie o .zip da versão nova. Instale o plugin por um caminho só (marketplace ou .zip) para não duplicar.
+Envie `Help`: a resposta mostra a versão instalada (por exemplo, "TalkGo v0.17.0") e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
 
-**Claude Code**
+### Atualizar
 
-```
-/plugin marketplace add alexgbfla92/everyday-language-essentials-ai
-/plugin install talkgo@talkgo
-```
+O plugin enviado por arquivo não se atualiza sozinho. Quando sair uma versão nova em [Releases](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases):
 
-**Como skill avulsa (atalho `/talkgo`)**
+1. Baixe o `talkgo-plugin.zip` de novo pelo mesmo link.
+2. No Claude e no ChatGPT, remova o plugin TalkGo instalado e envie o arquivo novo, como na instalação.
+3. Abra uma conversa nova e confira a versão com `Help`.
 
-Gere o pacote (`python tools/build_zip.py`, que cria `dist/talkgo-skill-<versão>.zip`) e envie em **Configurações → Personalização → Skills → Adicionar**, ou copie a pasta `skills/talkgo` para `~/.claude/skills/talkgo` no Claude Code:
+A sua Central não é afetada: aulas, planos e progresso ficam no seu Google Drive, fora do plugin.
 
-```
-git archive --format=zip --prefix=talkgo/ -o talkgo-skill.zip HEAD:skills/talkgo
-```
+### Se você instalou de outra forma
 
-### ChatGPT
-
-Antes de usar, ative o app **Google Drive** no ChatGPT. Ele precisa criar e editar Google Docs e Sheets.
-
-**Workspace (Business, Enterprise ou Edu)**
-
-1. Um admin abre **Admin → Plugins → Add → Import marketplace**.
-2. Em **Source**, informa `https://github.com/alexgbfla92/everyday-language-essentials-ai` e conclui a importação.
-3. Define a política de instalação do **TalkGo** (Available ou Installed) para os papéis desejados.
-4. Os membros instalam pelo diretório de plugins. A skill vale na web, no desktop e no celular.
-
-A importação sincroniza diariamente; para atualizar na hora, use **Sync now**.
-
-**Conta individual (app de desktop)**
-
-Pelo Codex CLI, que usa o mesmo diretório de plugins do ChatGPT:
-
-```
-codex plugin marketplace add alexgbfla92/everyday-language-essentials-ai
-codex plugin add talkgo@talkgo
-```
-
-Depois, abra o app de desktop do ChatGPT e confira o **TalkGo** em **Plugins**. Use a skill numa conversa no modo **Work**: plugins instalados pelo Codex ficam disponíveis ali.
-
-**Para atualizar** (os dois comandos são necessários; o primeiro só atualiza a lista do marketplace):
-
-```
-codex plugin marketplace upgrade
-codex plugin add talkgo@talkgo
-```
-
-Depois **feche e abra de novo o app** e comece uma conversa nova. A atualização apaga a pasta da versão anterior, e conversas abertas antes dela deixam de encontrar a skill. Confira com `codex plugin list` (deve mostrar `installed, enabled` e a versão nova) e com `Help`, que mostra a versão instalada.
-
-**Se a skill sumir** ("não aparece entre as skills disponíveis"): rode `codex plugin list`. Se o talkgo não estiver `installed, enabled`, rode os dois comandos acima. Em seguida, reinicie o app e abra uma conversa nova no modo Work.
-
-**Como chamar no ChatGPT**
-
-Instalada como plugin, chame com `@TalkGo` ou `$talkgo:talkgo` (o ChatGPT põe o nome do plugin antes do nome da skill). Você também pode só pedir normalmente (por exemplo, "quero fazer uma aula de inglês"), que a skill é acionada.
-
-**Atalho `$talkgo` (skill avulsa, só no app de desktop e no Codex)**
-
-Para chamar só com `$talkgo`, instale a pasta da skill em vez do plugin. Desinstale o plugin antes, para não ficar com as duas versões. Skill avulsa não aparece no ChatGPT web nem no celular e não se atualiza sozinha (repita os comandos para atualizar).
-
-Windows (PowerShell):
-
-```
-git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai "$env:TEMP\talkgo-src"
-New-Item -ItemType Directory -Force "$HOME\.agents\skills" | Out-Null
-Remove-Item -Recurse -Force "$HOME\.agents\skills\talkgo" -ErrorAction SilentlyContinue
-Copy-Item -Recurse "$env:TEMP\talkgo-src\skills\talkgo" "$HOME\.agents\skills\talkgo"
-Remove-Item -Recurse -Force "$env:TEMP\talkgo-src"
-```
-
-macOS e Linux:
-
-```
-git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai /tmp/talkgo-src
-mkdir -p ~/.agents/skills && rm -rf ~/.agents/skills/talkgo
-cp -R /tmp/talkgo-src/skills/talkgo ~/.agents/skills/talkgo && rm -rf /tmp/talkgo-src
-```
-
-Reinicie o app de desktop e chame com `$talkgo`.
-
-**Confirmar canal e duração do vídeo do Lab (Codex e app de desktop)**
-
-Os comandos do Codex rodam sem internet por padrão, e por isso a skill não consegue abrir a página do vídeo. Ela pede aprovação para rodar a conferência com acesso à rede: aprove quando aparecer. Para não precisar aprovar toda vez, libere o YouTube em `~/.codex/config.toml` (no Windows, `%USERPROFILE%\.codex\config.toml`):
-
-```toml
-[sandbox_workspace_write]
-network_access = true
-
-[features.network_proxy]
-enabled = true
-domains = { "youtube.com" = "allow", "*.youtube.com" = "allow", "youtu.be" = "allow" }
-```
-
-Reinicie o app depois de salvar. Com a lista `domains`, só os domínios liberados ficam acessíveis aos comandos. Sem acesso ao YouTube, o Lab continua funcionando com link e título vindos da busca, mas avisa que canal e duração não foram confirmados.
-
-### Codex CLI
-
-Mesmas opções do ChatGPT: como plugin (os dois comandos `codex plugin`), chamado com `$talkgo:talkgo`; ou como skill avulsa (cópia para `~/.agents/skills/talkgo`), chamada com `$talkgo`.
-
-### Se você instalou uma versão anterior
-
-Desinstale o plugin antigo (`everyday-language-essentials-ai`), sincronize o marketplace e instale **TalkGo** (`talkgo`). Suas Centrais não são afetadas, porque ficam na sua pasta pessoal, fora do pacote.
+Antes de enviar o .zip, remova qualquer instalação anterior (por marketplace, pelo Codex ou como skill avulsa, inclusive com nomes antigos). Assim o TalkGo não aparece duplicado.
 
 ## A filosofia da comunidade
 
