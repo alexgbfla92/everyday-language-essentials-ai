@@ -1,7 +1,7 @@
 """Gera o pacote .zip da skill para envio pelo navegador (Claude e ChatGPT).
 
   python tools/build_zip.py            # skill: dist/talkgo-practice-<versão>.zip (Claude e ChatGPT > Habilidades)
-  python tools/build_zip.py --plugin   # plugin: dist/talkgo-plugin-<versão>.zip (ChatGPT > Plugins > Adicionar)
+  python tools/build_zip.py --plugin   # plugin: dist/talkgo-plugin-<versão>.zip (Claude e ChatGPT > Plugins > Adicionar)
 
 O .zip contém só a pasta practice/ (SKILL.md, references/, assets/, scripts/), como exigem o
 Claude (pasta com o nome da skill na raiz do arquivo) e o ChatGPT (uma skill completa por envio).
@@ -33,7 +33,7 @@ def frontmatter(text):
 
 
 def plugin_zip(skill_zip, version):
-    """Remonta o pacote no formato de plugin: .codex-plugin/plugin.json + skills/practice/."""
+    """Remonta o pacote como plugin para Claude e ChatGPT: .claude-plugin/ e .codex-plugin/ + skills/practice/."""
     meta = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))
     manifest = {k: meta[k] for k in ("name", "version", "description", "author", "homepage", "repository",
                                      "keywords")}
@@ -44,6 +44,7 @@ def plugin_zip(skill_zip, version):
     out = io.BytesIO()
     with zipfile.ZipFile(io.BytesIO(skill_zip)) as src, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as dst:
         dst.writestr(".codex-plugin/plugin.json", json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+        dst.writestr(".claude-plugin/plugin.json", (ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
         for info in src.infolist():
             if not info.is_dir():
                 dst.writestr("skills/" + info.filename, src.read(info))

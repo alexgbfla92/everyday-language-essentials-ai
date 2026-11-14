@@ -161,7 +161,7 @@ O TalkGo é uma iniciativa **open source**, pensada para ser usada, adaptada e a
 
 ## Como instalar
 
-O plugin se chama **TalkGo** (`talkgo`), e a skill dentro dele, **practice**. A skill e é a mesma para Claude e ChatGPT: fica em [`skills/practice`](skills/practice/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
+O plugin se chama **TalkGo** (`talkgo`), e a skill dentro dele, **practice**. A skill é a mesma para Claude e ChatGPT: fica em [`skills/practice`](skills/practice/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
 
 Depois de instalar, envie `Help` para ver a versão instalada e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
 
@@ -177,6 +177,15 @@ Depois de instalar, envie `Help` para ver a versão instalada e todos os comando
 
 Para atualizar, sincronize o marketplace de novo.
 
+**Pelo navegador, com o arquivo .zip (Claude e ChatGPT)**
+
+Gere o pacote de plugin com `python tools/build_zip.py --plugin` (cria `dist/talkgo-plugin-<versão>.zip`, com `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json` e `skills/practice/`) e envie o mesmo arquivo nas duas plataformas:
+
+- Claude: **Configurações → Personalização → Plugins → Adicionar → Enviar plugin** (Upload plugin).
+- ChatGPT: **Plugins → Adicionar** e escolha o arquivo.
+
+Chame com `/talkgo:practice` no Claude e `$talkgo:practice` no ChatGPT. Para atualizar, envie o .zip da versão nova. Instale o plugin por um caminho só (marketplace ou .zip) para não duplicar.
+
 **Claude Code**
 
 ```
@@ -186,7 +195,7 @@ Para atualizar, sincronize o marketplace de novo.
 
 **Como skill avulsa (atalho `/practice`)**
 
-Gere o pacote e envie em **Configurações → Skills**, ou copie a pasta `skills/practice` para `~/.claude/skills/practice` no Claude Code:
+Gere o pacote (`python tools/build_zip.py`, que cria `dist/talkgo-practice-<versão>.zip`) e envie em **Configurações → Personalização → Skills → Adicionar**, ou copie a pasta `skills/practice` para `~/.claude/skills/practice` no Claude Code:
 
 ```
 git archive --format=zip --prefix=practice/ -o talkgo-practice.zip HEAD:skills/practice

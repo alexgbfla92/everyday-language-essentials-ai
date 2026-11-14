@@ -65,7 +65,9 @@ class PackagingTests(unittest.TestCase):
             manifest = json.loads(z.read(".codex-plugin/plugin.json"))
         self.assertIn("skills/practice/SKILL.md", names)
         self.assertEqual((manifest["name"], manifest["skills"]), ("talkgo", "./skills/"))
-        self.assertTrue(all(n == ".codex-plugin/plugin.json" or n.startswith("skills/practice/") for n in names))
+        self.assertIn(".claude-plugin/plugin.json", names)
+        manifests = {".codex-plugin/plugin.json", ".claude-plugin/plugin.json"}
+        self.assertTrue(all(n in manifests or n.startswith("skills/practice/") for n in names))
 
     def test_links_inside_skill_stay_inside_skill(self):
         link = re.compile(r"\]\(([^)\s#]+)")
