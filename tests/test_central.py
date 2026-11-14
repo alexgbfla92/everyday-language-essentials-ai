@@ -111,7 +111,7 @@ class CentralTests(unittest.TestCase):
         info = self.run_cli("info")
         self.assertEqual([c["padrao"] for c in info["centrais"]], [False, True])
 
-    def test_reset_practices_preview_confirm_and_backup(self):
+    def test_reset_practices_preview_and_confirm_without_backup(self):
         root = self.create("Pessoal", "en", "es")
         self.fake_practices(root)
         asked = self.run_cli("reset", "praticas")
@@ -130,9 +130,8 @@ class CentralTests(unittest.TestCase):
         self.assertEqual((root / "languages/english/estado/contexto-recente.md").read_bytes(), template.read_bytes())
         self.assertTrue((root / "languages/english/diagnosticos/diagnostico-20261030-01.md").exists())
         self.assertEqual((root / "languages/english/progresso/08-registro-progresso.md").read_text(), "2 práticas")
-        backup = root / done["backup"]
-        self.assertEqual((backup / "languages/english/praticas/pratica-20261101-01.md").read_text(encoding="utf-8"),
-                         "prática fictícia")
+        self.assertNotIn("backup", done)
+        self.assertEqual([p.name for p in root.iterdir() if "backup" in p.name.lower()], [])
         self.assertEqual(self.run_cli("reset", "praticas", "en")["mensagem"], "Nada a zerar.")
 
     def test_reset_practices_erases_every_trace_of_the_practices(self):
@@ -171,9 +170,7 @@ class CentralTests(unittest.TestCase):
         self.assertIn("| Completed regular practices | 0 (tests excluded) |", progress_now)
         self.assertIn("| Actual observed duration | None observed |", progress_now)
         self.assertEqual(self.run_cli("info")["centrais"][0]["idiomas"][0]["praticas"], 0)
-        backup = root / done["backup"]
-        self.assertIn("excluída no reset",
-                      (backup / "languages/english/missoes/viagem-londres.md").read_text(encoding="utf-8"))
+        self.assertFalse(any("backup" in str(f).lower() for f in root.rglob("*")))
         self.assertEqual(self.run_cli("reset", "praticas", "en")["mensagem"], "Nada a zerar.")
 
     def mission(self, root, folder, mission_id, title):
@@ -223,7 +220,7 @@ class CentralTests(unittest.TestCase):
         self.assertEqual(paused["total"], 1)
         self.assertEqual(self.run_cli("practices", "--missao", "reunioes")["total"], 1)
 
-    def test_remove_mission_with_preview_backup_and_id_confirmation(self):
+    def test_remove_mission_with_preview_and_id_confirmation(self):
         root = self.create("Pessoal", "en")
         base = root / "languages/english"
         self.mission(root, "english", "viagem-londres", "Viagem a Londres")
@@ -254,7 +251,8 @@ class CentralTests(unittest.TestCase):
         self.assertNotIn("pratica-20261110-01", progress_now)
         self.assertIn("pratica-20261112-01", progress_now)
         self.assertIn("| Completed regular practices | 1 |", progress_now)
-        self.assertTrue((root / done["backup"] / "languages/english/praticas/pratica-20261110-01.md").exists())
+        self.assertNotIn("backup", done)
+        self.assertFalse(any("backup" in str(f).lower() for f in root.rglob("*")))
         english = self.run_cli("info")["centrais"][0]["idiomas"][0]
         self.assertEqual(english["missao_padrao"], "reunioes")
         self.assertEqual(self.run_cli("practices")["total"], 1)
@@ -307,13 +305,32 @@ class CentralTests(unittest.TestCase):
         self.assertTrue(root.exists())
         self.assertEqual(self.run_cli("remove", "--central", "Pessoal", "--confirmar", "Trabalho")["status"], "erro")
         self.assertTrue(root.exists())
-        done = self.run_cli("remove", "--central", "Pessoal", "--confirmar", "pessoal",
-                            "--backup", str(self.base / "copia.zip"))
+        done = self.run_cli("remove", "--central", "Pessoal", "--confirmar", "pessoal")
         self.assertTrue(done["pasta_removida"])
         self.assertFalse(root.exists())
-        self.assertTrue(Path(done["backup"]).is_file())
+        self.assertNotIn("backup", done)
+        self.assertEqual([p.name for p in self.base.iterdir() if p.suffix == ".zip"], [])
         self.assertEqual(done["padrao"], "Trabalho")
         self.assertEqual([c["nome"] for c in self.run_cli("info")["centrais"]], ["Trabalho"])
+
+    def test_backup_central_only_on_request_and_outside_the_central(self):
+        import zipfile
+        root = self.create("Pessoal", "en")
+        self.fake_practices(root)
+        files = sum(1 for f in root.rglob("*") if f.is_file())
+        done = self.run_cli("backup")
+        self.assertEqual(done["status"], "ok")
+        archive = Path(done["backup"])
+        self.assertEqual(archive.parent, root.parent)
+        self.assertTrue(archive.name.startswith("Pessoal-backup-") and archive.suffix == ".zip")
+        with zipfile.ZipFile(archive) as z:
+            self.assertEqual(sum(1 for n in z.namelist() if not n.endswith("/")), files)
+            self.assertIn("Pessoal/languages/english/praticas/pratica-20261101-01.md", z.namelist())
+        self.assertEqual(done["arquivos"], files)
+        self.assertEqual(self.run_cli("backup", "--destino", str(root / "config"))["status"], "erro")
+        elsewhere = self.base / "copias"
+        elsewhere.mkdir()
+        self.assertEqual(Path(self.run_cli("backup", "--destino", str(elsewhere))["backup"]).parent, elsewhere)
 
     def test_remove_refuses_non_central_folders(self):
         folder = self.base / "Documentos"

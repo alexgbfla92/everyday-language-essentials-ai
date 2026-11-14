@@ -95,9 +95,9 @@ A gravação de valores não tem controle de revisão. Mantenha um único chat e
 Remove-Central e os Reset-* (veja [comandos](../COMANDOS.md)) apagam pela ação que o conector oferecer, nesta ordem de preferência, o que vale também para Docs e Sheets:
 
 1. **Lixeira**, quando o conector tiver essa ação (no Claude, `trash_file`). O aluno pode recuperar pela lixeira do Drive.
-2. **Exclusão definitiva**, quando o conector só oferecer essa (comum no ChatGPT). Use-a sem pedir que o aluno apague à mão, desde que: a prévia tenha avisado que a exclusão é definitiva e não passa pela lixeira; o aluno tenha confirmado depois desse aviso; e, nos resets, o backup em `_backups/` já esteja copiado e conferido. Releia a pasta depois para confirmar que os itens sumiram.
+2. **Exclusão definitiva**, quando o conector só oferecer essa (comum no ChatGPT). Use-a sem pedir que o aluno apague à mão, desde que: a prévia tenha avisado que a exclusão é definitiva e não passa pela lixeira; e o aluno tenha confirmado depois desse aviso. Não faça backup antes de apagar ou alterar. Releia a pasta depois para confirmar que os itens sumiram.
 
-Só peça ao aluno que apague à mão quando o conector não tiver nenhuma das duas ações. Os backups de reset são cópias nativas (`copy_file`) numa subpasta de `_backups/`. Para devolver um derivado ao modelo:
+Só peça ao aluno que apague à mão quando o conector não tiver nenhuma das duas ações. Backup só pelo `Backup-Central`, a pedido do aluno, em cópias nativas (`copy_file`) numa pasta fora da Central. Para devolver um derivado ao modelo:
 
 - Doc: substituição total com o texto do modelo.
 - Sheet: limpe as abas `Resumo` e `Práticas` e regrave as duas tabelas do modelo a partir de A1.

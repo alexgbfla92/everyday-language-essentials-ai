@@ -1,6 +1,6 @@
 # Validação do beta
 
-Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens fictícias e testa as operações propostas ao conector, inclusive o formato de cada caminho no Drive (Markdown, Google Doc ou Google Sheet), o CSV e as abas gerados do modelo, a reconciliação com MIMEs nativos sem recriar, o conflito de tipo trocado e a configuração de abas após interrupção. Também cria pastas locais temporárias para testar o modo `--local`: mesma árvore do Drive, cópia fiel dos modelos, repetição sem sobrescrever, conflitos e recusa de links simbólicos e da pasta da skill. A suíte de comandos (tests/test_central.py) cobre registro e Central padrão, perguntas de ambiguidade, criação e adição de idioma, prévia, confirmação e backup dos três resets, e as recusas de Remove em pastas que não são Centrais. Ela não mede confiabilidade de rede nem verifica a interação do modelo com um aluno.
+Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens fictícias e testa as operações propostas ao conector, inclusive o formato de cada caminho no Drive (Markdown, Google Doc ou Google Sheet), o CSV e as abas gerados do modelo, a reconciliação com MIMEs nativos sem recriar, o conflito de tipo trocado e a configuração de abas após interrupção. Também cria pastas locais temporárias para testar o modo `--local`: mesma árvore do Drive, cópia fiel dos modelos, repetição sem sobrescrever, conflitos e recusa de links simbólicos e da pasta da skill. A suíte de comandos (tests/test_central.py) cobre registro e Central padrão, perguntas de ambiguidade, criação e adição de idioma, prévia e confirmação dos três resets (sem backup), o Backup-Central fora da Central, e as recusas de Remove em pastas que não são Centrais. Ela não mede confiabilidade de rede nem verifica a interação do modelo com um aluno.
 
 ## Ensaio do Drive nativo
 
@@ -10,7 +10,7 @@ Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens f
 4. Faça um diagnóstico curto e uma prática: os Docs `diagnostico-*` e `pratica-*` devem receber cada resposta, mantendo o mesmo ID. Edite o Doc da sessão à mão durante a prática e confirme que a próxima escrita da skill é recusada pela revisão, relida e reconciliada.
 5. Conclua a prática: uma linha nova na aba `Práticas` e a contagem no `Resumo`, sem duplicar ao repetir a consolidação.
 6. Retome pelo celular e pelo tablet: mesma pergunta pendente.
-7. `Reset-Practices Inglês`: backup nativo em `_backups/`, Docs das práticas na lixeira, `contexto-recente` devolvido ao modelo, linhas dessas práticas fora da tabela Práticas das missões e fora da aba `Práticas` do progresso. Depois, `Get-Central` e "quais práticas eu fiz em inglês?" não citam as práticas apagadas nem status como "excluída no reset". `Reset-Progress Inglês`: abas `Resumo` e `Práticas` iguais ao modelo.
+7. `Reset-Practices Inglês`: nenhum backup ou cópia criado na Central, Docs das práticas na lixeira, `contexto-recente` devolvido ao modelo, linhas dessas práticas fora da tabela Práticas das missões e fora da aba `Práticas` do progresso. Depois, `Get-Central` e "quais práticas eu fiz em inglês?" não citam as práticas apagadas nem status como "excluída no reset". `Reset-Progress Inglês`: abas `Resumo` e `Práticas` iguais ao modelo.
 8. `Remove-Central`: pasta raiz na lixeira do Drive.
 9. Repita 1, 4 e 5 no ChatGPT na mesma Central e numa Central nova criada por ele.
 
@@ -67,4 +67,5 @@ A conferência mecânica fica em `skills/talkgo/scripts/lab.py` (`pronto` antes 
 3. `Set-Default mission <id>` grava `missoes_padrao` do idioma; o próximo `Start-Practice` assume essa missão na pergunta.
 4. `Get-Practices Inglês` agrupa por missão e por status, mostra a etapa das práticas em andamento e não mostra práticas apagadas.
 5. `Resume-Practice` sem argumento retoma a prática do ponteiro de sessão ativa; com duas práticas em andamento em idiomas diferentes, pergunta qual.
-6. `Remove-Mission` mostra a prévia com as práticas que serão apagadas, faz o backup e só apaga com o `missao_id` digitado; depois, `Get-Practices` e `Get-Progress` não citam essas práticas.
+6. `Remove-Mission` mostra a prévia com as práticas que serão apagadas, não faz backup e só apaga com o `missao_id` digitado; depois, `Get-Practices` e `Get-Progress` não citam essas práticas.
+7. Nenhum Reset-* nem Remove-* cria pasta ou arquivo de backup. `Backup-Central` só roda quando pedido, grava fora da Central e informa onde ficou a cópia e quantos arquivos tem.

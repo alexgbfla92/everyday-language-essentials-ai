@@ -30,19 +30,19 @@ Uma prática tem só um destes status, no arquivo da prática (`status:`) e na t
 | `Em andamento (pausada)` | Depois do `Pause-Practice`, até ser retomada. |
 | `Concluída` | Depois do encerramento (etapa 6), faça o aluno o Lab ou não. |
 
-Não use outros status nem combinações (por exemplo, "Concluída, excluída no reset"). Uma prática apagada pelo `Reset-Practices` deixa de existir: não aparece no `Get-Central`, em listas ou status de práticas, no progresso, em resumos nem em respostas a perguntas como "quais práticas eu fiz?". Ao responder sobre práticas, use só os arquivos de sessão que existem em `praticas/` e a tabela Práticas das missões; nunca leia `_backups/` para isso. Se uma missão ainda tiver uma linha que aponta para uma sessão que não existe mais, ou um status fora da lista acima, ignore a linha e retire-a na próxima gravação dessa missão. Não mencione essas linhas ao aluno: nada de avisos, notas, inconsistências ou explicações sobre práticas apagadas, resets ou status antigos.
+Não use outros status nem combinações (por exemplo, "Concluída, excluída no reset"). Uma prática apagada pelo `Reset-Practices` deixa de existir: não aparece no `Get-Central`, em listas ou status de práticas, no progresso, em resumos nem em respostas a perguntas como "quais práticas eu fiz?". Ao responder sobre práticas, use só os arquivos de sessão que existem em `praticas/` e a tabela Práticas das missões. Se uma missão ainda tiver uma linha que aponta para uma sessão que não existe mais, ou um status fora da lista acima, ignore a linha e retire-a na próxima gravação dessa missão. Não mencione essas linhas ao aluno: nada de avisos, notas, inconsistências ou explicações sobre práticas apagadas, resets ou status antigos.
 
 O procedimento completo do Lab está em [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md).
 
-Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso contrário, identifique a intenção antes de iniciar uma sessão. A configuração, cada diagnóstico ou prática, e o acompanhamento têm chats próprios no Projeto quando a plataforma oferecer Projetos. Sem Projeto, a pasta pessoal verificada basta para retomar. Faça uma pergunta por vez e aguarde a tentativa. Ofereça apoio em pt-BR ou no idioma de apoio escolhido.
+Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso contrário, identifique a intenção antes de iniciar uma sessão. Recomende ao aluno usar a skill dentro de um projeto da plataforma (por idioma ou por missão, por exemplo `English-Travel`), com um chat novo para cada prática e um chat próprio para configuração, diagnóstico, missões e acompanhamento. Sem Projeto, a pasta pessoal verificada basta para retomar. Faça uma pergunta por vez e aguarde a tentativa. Ofereça apoio em pt-BR ou no idioma de apoio escolhido.
 
 ## Comandos
 
-Todo comando segue `Verbo-Entidade` em inglês (`Get` mostra, `New` cria, `Set` altera, `Remove` apaga um item, `Reset` zera um tipo de registro, `Start`/`Pause`/`Resume`/`Finish`/`Save` conduzem a sessão). Reconheça-os sem diferenciar maiúsculas, acentos, espaços ou hífen, com argumentos em qualquer ordem, e siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Pedidos em linguagem natural levam ao mesmo procedimento.
+Todo comando segue `Verbo-Entidade` em inglês (`Get` mostra, `New` cria, `Set` altera, `Remove` apaga um item, `Reset` zera um tipo de registro, `Backup` copia a Central, `Start`/`Pause`/`Resume`/`Finish`/`Save` conduzem a sessão). Reconheça-os sem diferenciar maiúsculas, acentos, espaços ou hífen, com argumentos em qualquer ordem, e siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Pedidos em linguagem natural levam ao mesmo procedimento.
 
-**Contexto.** Central → Idioma → Missão → Prática. Para cada nível que o comando usa, use o que o aluno indicou; se houver uma única opção, use-a; se houver várias, pergunte com a padrão marcada "(padrão)" e já assumida, para o aluno só confirmar ou trocar; se não houver nenhuma, encaminhe ao comando que cria. Detalhes e exceções na seção Contexto e padrões de [references/COMANDOS.md](references/COMANDOS.md#contexto-e-padrões). Remove e Reset sempre mostram a prévia, fazem backup e pedem confirmação explícita.
+**Contexto.** Central → Idioma → Missão → Prática. Para cada nível que o comando usa, use o que o aluno indicou; se houver uma única opção, use-a; se houver várias, pergunte com a padrão marcada "(padrão)" e já assumida, para o aluno só confirmar ou trocar; se não houver nenhuma, encaminhe ao comando que cria. Detalhes e exceções na seção Contexto e padrões de [references/COMANDOS.md](references/COMANDOS.md#contexto-e-padrões). Remove e Reset sempre mostram a prévia e pedem confirmação explícita, e nunca fazem backup: nenhuma operação copia, guarda ou cria backups na Central. Backup só com `Backup-Central`, quando o aluno pedir.
 
-Versão instalada: 0.19.0
+Versão instalada: 0.20.0
 
 `Help` (ou `Help-Commands`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "TalkGo vX.Y.Z"), o contexto padrão atual e esta tabela, sem executar nada:
 
@@ -52,7 +52,8 @@ Versão instalada: 0.19.0
 | **Central** | | |
 | Get-Central [central] | Mostra cada Central: padrão, armazenamento, pasta, idiomas, missões e totais de diagnósticos e práticas. | `Get-Central` |
 | New-Central [local\|googledrive\|onedrive] [pasta] [idiomas] | Cria a Central com todas as pastas e modelos. | `New-Central googledrive Idiomas Inglês` |
-| Remove-Central [central] | Apaga a Central inteira, depois de prévia, backup opcional e confirmação pelo nome. | `Remove-Central Trabalho` |
+| Remove-Central [central] | Apaga a Central inteira, depois de prévia e confirmação pelo nome. | `Remove-Central Trabalho` |
+| Backup-Central [central] [destino] | Copia a Central inteira para fora dela. Só roda quando você pede. | `Backup-Central` |
 | Set-Default central\|language\|mission [nome] | Define a Central, o idioma ou a missão assumidos quando você não indica. | `Set-Default mission viagem-londres` |
 | **Idioma** | | |
 | Add-Language [idiomas] | Adiciona idiomas à Central sem apagar nada. | `Add-Language Francês` |
@@ -62,7 +63,7 @@ Versão instalada: 0.19.0
 | Get-Missions [idioma] [status] | Lista as missões: título, data-alvo, status e práticas concluídas. | `Get-Missions Inglês` |
 | New-Mission [idioma] | Cria uma missão: título, descrição, data-alvo e situações. | `New-Mission Inglês` |
 | Set-Mission [missão] | Altera uma missão (campos, situações ou status). | `Set-Mission viagem-londres` |
-| Remove-Mission [missão] | Apaga a missão e as práticas dela, com prévia, backup e confirmação. | `Remove-Mission reunioes` |
+| Remove-Mission [missão] | Apaga a missão e as práticas dela, com prévia e confirmação. | `Remove-Mission reunioes` |
 | **Prática** | | |
 | Get-Practices [idioma] [missão] [status] | Lista as práticas por missão e status. | `Get-Practices Inglês` |
 | Start-Practice [idioma] [missão] [situação] [duração] | Prepara a próxima prática da missão (Lab incluído) e mostra o roteiro das sete etapas. | `Start-Practice Inglês 5min` |

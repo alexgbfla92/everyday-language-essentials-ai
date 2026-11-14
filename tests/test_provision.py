@@ -184,7 +184,7 @@ class ProvisionTests(unittest.TestCase):
 class LocalProvisionTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
-        self.root = Path(self.tmp.name) / "EverydayEssentials"
+        self.root = Path(self.tmp.name) / "TalkGo"
         self.root.mkdir()
 
     def tearDown(self):

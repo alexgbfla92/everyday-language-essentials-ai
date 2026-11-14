@@ -9,17 +9,20 @@ Comandos (a skill traduz os comandos do aluno para estes):
   default  --missao ID --idioma IDIOMA [--central NOME]  Set-Default mission
   practices [IDIOMA] [--missao ID] [--status TEXTO] [--central NOME]  Get-Practices
   remove-mission [ID] --idioma IDIOMA [--central NOME] [--confirmar ID]  Remove-Mission
-  remove   [--central NOME] [--confirmar NOME] [--backup ZIP] [--somente-registro]
+  backup   [--central NOME] [--destino PASTA]       Backup-Central (só a pedido do aluno)
+  remove   [--central NOME] [--confirmar NOME] [--somente-registro]
                                                     Remove-Central
   reset    {diagnostico,praticas,progresso} [IDIOMA] [--central NOME] [--confirmar]
                                                     Reset-Diagnostics / Reset-Practices / Reset-Progress
 
-Sem --confirmar, remove e reset só mostram a prévia. A saída é sempre JSON com
-"status": ok | previa | ambiguo | erro. Em "ambiguo", pergunte ao aluno usando "opcoes", com a
+Sem --confirmar, remove, remove-mission e reset só mostram a prévia. Nenhum comando faz backup
+automático nem grava cópias dentro da Central; backup só com `backup`, fora da Central.
+A saída é sempre JSON com "status": ok | previa | ambiguo | erro. Em "ambiguo", pergunte ao aluno usando "opcoes", com a
 opção "padrao" (quando houver) em primeiro lugar, marcada e já assumida.
 O registro das centrais fica em ~/.talkgo/centrais.json (ou $TALKGO_HOME, ou --registro).
 """
 import argparse
+import zipfile
 import json
 import os
 import shutil
@@ -40,7 +43,6 @@ ALIASES = {
 ALL = {"todos", "todas", "all"}
 PROVIDERS = ("local", "google-drive", "onedrive")
 ACCESS = ("pasta-local", "drive", "onedrive", "manual")
-BACKUPS = "_backups"
 RESETS = {
     "diagnostico": {"remove": ("diagnosticos", "diagnostico-"),
                     "restore": ["estado/perfil-atual.md"], "pointer": "diagnostico-"},
@@ -320,8 +322,6 @@ def describe(entry, default):
             "missao_padrao": default_missions(root).get(tag),
             "lista_missoes": missions_in(base / "missoes"),
         })
-    backups = root / BACKUPS
-    info["backups"] = sum(1 for _ in backups.iterdir()) if backups.is_dir() else 0
     return info
 
 
@@ -510,7 +510,6 @@ def cmd_remove_mission(data, args):
         if args.confirmar:
             fail("A confirmação não corresponde ao missao_id.", esperado=mission["id"])
         return {"status": "previa", **preview, "confirmacao": f"--confirmar {mission['id']}"}
-    backup = _backup(root, remove + [c for c, _ in adjust + restore], f"remove-mission-{mission['id']}")
     for item in remove:
         item.unlink()
     for current, template_path in restore:
@@ -521,27 +520,34 @@ def cmd_remove_mission(data, args):
             fail(f"Releitura divergente em {rel(current)}.")
     if default != new_default:
         set_default_mission(root, tag, new_default)
-    return {"status": "ok", **preview, "backup": rel(backup)}
+    return {"status": "ok", **preview}
 
 
 def missions_in_file(path):
     return fields_of(path, ("missao_id",)).get("missao_id")
 
 
-def _backup(root, items, label):
+def cmd_backup(data, args):
+    """Copia a Central inteira para um .zip fora dela. Só roda a pedido explícito do aluno."""
+    entry = resolve(data, args.central)
+    root = local_root(entry)
+    if not root.is_dir():
+        fail(f"A pasta da Central não está acessível: {root}.")
+    _check_central_root(root)
+    target = Path(args.destino).expanduser().resolve() if args.destino else root.resolve().parent
+    if target == root.resolve() or root.resolve() in target.parents:
+        fail("O backup precisa ficar fora da Central.")
+    if not target.is_dir():
+        fail(f"A pasta de destino não existe: {target}.")
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    backup = root / BACKUPS / f"{stamp}-{label}"
-    suffix = 2
-    while backup.exists():
-        backup = backup.with_name(f"{stamp}-{label}-{suffix}")
-        suffix += 1
-    for item in items:
-        copy = backup / item.relative_to(root)
-        copy.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(item, copy)
-        if copy.read_bytes() != item.read_bytes():
-            fail(f"Backup divergente em {item.relative_to(root).as_posix()}. Nada foi apagado.")
-    return backup
+    archive = Path(shutil.make_archive(str(target / f"{root.name}-backup-{stamp}"), "zip", root.parent, root.name))
+    with zipfile.ZipFile(archive) as z:
+        bad = z.testzip()
+        copied = sum(1 for n in z.namelist() if not n.endswith("/"))
+    expected = sum(1 for f in root.rglob("*") if f.is_file())
+    if bad or copied != expected:
+        fail(f"Backup incompleto em {archive}: {copied} de {expected} arquivos.")
+    return {"status": "ok", "central": entry["nome"], "backup": str(archive), "arquivos": copied}
 
 
 def _check_central_root(root):
@@ -573,12 +579,6 @@ def cmd_remove(data, args, path):
         fail("A confirmação não corresponde ao nome da Central.", esperado=entry["nome"])
     result = {"status": "ok", "central": entry["nome"], "pasta_removida": False}
     if local and root.exists() and not args.somente_registro:
-        if args.backup:
-            target = Path(args.backup).expanduser().resolve()
-            if root.resolve() in target.parents:
-                fail("O backup precisa ficar fora da Central.")
-            base = str(target)[:-4] if str(target).endswith(".zip") else str(target)
-            result["backup"] = shutil.make_archive(base, "zip", root.parent, root.name)
         shutil.rmtree(root)
         if root.exists():
             fail(f"Não foi possível remover {root} por completo.")
@@ -726,19 +726,6 @@ def cmd_reset(data, args):
         return {"status": "ok", **preview, "mensagem": "Nada a zerar."}
     if not args.confirmar:
         return {"status": "previa", **preview, "confirmacao": "--confirmar"}
-    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    label = "todos" if len(tags) > 1 else LANGUAGES[tags[0]]
-    backup = root / BACKUPS / f"{stamp}-reset-{args.tipo}-{label}"
-    suffix = 2
-    while backup.exists():
-        backup = backup.with_name(f"{stamp}-reset-{args.tipo}-{label}-{suffix}")
-        suffix += 1
-    for item in remove + [c for c, _ in restore if c.is_file()] + [c for c, _ in adjust]:
-        copy = backup / rel(item)
-        copy.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(item, copy)
-        if copy.read_bytes() != item.read_bytes():
-            fail(f"Backup divergente em {rel(item)}. Nada foi apagado.")
     for item in remove:
         item.unlink()
     for current, template in restore:
@@ -749,7 +736,7 @@ def cmd_reset(data, args):
         current.write_text(cleaned, encoding="utf-8")
         if current.read_text(encoding="utf-8") != cleaned:
             fail(f"Releitura divergente em {rel(current)}.")
-    return {"status": "ok", **preview, "backup": rel(backup)}
+    return {"status": "ok", **preview}
 
 
 def main(argv=None):
@@ -787,8 +774,10 @@ def main(argv=None):
     p = sub.add_parser("remove")
     p.add_argument("--central")
     p.add_argument("--confirmar")
-    p.add_argument("--backup")
     p.add_argument("--somente-registro", action="store_true")
+    p = sub.add_parser("backup")
+    p.add_argument("--central")
+    p.add_argument("--destino")
     p = sub.add_parser("reset")
     p.add_argument("tipo", choices=sorted(RESETS))
     p.add_argument("idioma", nargs="?")
@@ -808,6 +797,8 @@ def main(argv=None):
             result = cmd_default(data, args, path)
         elif args.comando == "remove":
             result = cmd_remove(data, args, path)
+        elif args.comando == "backup":
+            result = cmd_backup(data, args)
         elif args.comando == "practices":
             result = cmd_practices(data, args)
         elif args.comando == "remove-mission":

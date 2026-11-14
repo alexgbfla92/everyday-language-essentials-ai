@@ -202,6 +202,16 @@ Os comandos seguem o padrão `Verbo-Entidade` em inglês: `Get` mostra, `New` cr
 
 Quando você não indica Central, idioma ou missão e há mais de uma opção, o TalkGo pergunta, já sugerindo a padrão; para mudar a padrão, use `Set-Default central|language|mission`. Você também pode pedir em linguagem natural ("quero praticar inglês", "quais práticas eu fiz?").
 
+### Organize em projetos e um chat por prática
+
+Recomendamos usar o TalkGo sempre dentro de **projetos** da sua ferramenta de IA (o Claude e o ChatGPT permitem criar projetos):
+
+- **Crie um projeto novo para organizar as suas práticas**, por idioma ou por missão. Por exemplo: um projeto `English-Travel` para a missão da viagem e outro `English-Meeting` para as reuniões de trabalho.
+- **Abra um chat novo para cada prática**, dentro do projeto. No projeto `English-Travel`, por exemplo: `Practice-0001-Airport check-in`, `Practice-0002-Immigration`, `Practice-0003-Public transport`, e assim por diante. Ao preparar uma prática, o TalkGo sugere o nome do chat.
+- Use também um chat próprio para tarefas de organização, como criar a Central, fazer o diagnóstico ou criar uma missão.
+
+Assim cada conversa fica curta e focada, fica fácil voltar a uma prática específica, e o histórico de cada missão fica reunido num só lugar. O que vale entre os chats é a sua Central: qualquer chat do projeto retoma de onde você parou.
+
 ### Atualizar
 
 O plugin enviado por arquivo não se atualiza sozinho. Quando sair uma versão nova em [Releases](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases):
