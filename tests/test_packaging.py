@@ -47,6 +47,12 @@ class PackagingTests(unittest.TestCase):
         for field in ("policy", "category"):
             self.assertIn(field, entry)
 
+    def test_no_compiled_hidden_or_system_files_tracked_in_skill(self):
+        tracked = subprocess.run(["git", "-C", str(ROOT), "ls-files", "skills"], capture_output=True,
+                                 text=True).stdout.split()
+        bad = [f for f in tracked if re.search(r"(^|/)(\.[^/]+|__pycache__)(/|$)|\.(pyc|pyo)$", f)]
+        self.assertEqual(bad, [])
+
     def test_links_inside_skill_stay_inside_skill(self):
         link = re.compile(r"\]\(([^)\s#]+)")
         for path in SKILL_DIR.rglob("*.md"):
