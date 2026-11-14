@@ -8,23 +8,23 @@ Type : séance régulière ou séance de test
 Inclure dans les statistiques : oui/non (non pour les tests)
 Mission : 90 jours par défaut ; durée prévue : 20 minutes par défaut
 Création / début / fin :
-État : prévue, en cours, en pause, terminée
+status: Em andamento (preparada)  # Em andamento (preparada) | Em andamento (em execução) | Em andamento (pausada) | Concluída
 Étape actuelle (1–7) : Briefing, Pratique guidée, Simulation, Imprévu, Retour, Clôture, Entertainment Lab
 Scénario, module et objectif :
 Adaptations et niveau d'aide :
 Durée réelle constatée :
 
-## Feuille de route (cocher chaque étape ; la séance n'est terminée qu'avec les sept faites)
+## Feuille de route (cocher chaque étape ; la séance est terminée avec les étapes 0–6 ; la 7 est le Lab facultatif, proposé juste après la clôture)
 | Étape | Statut |
 |---|---|
-| 0 Lab prêt et relu avant l'étape 1 (ou en attente accepté par l'apprenant) | à faire |
+| 0 Matériel du Lab prêt et relu avant l'étape 1 (ou l'apprenant a accepté de commencer sans la vidéo) | à faire |
 | 1 Briefing | à faire |
 | 2 Pratique guidée | à faire |
 | 3 Simulation | à faire |
 | 4 Imprévu | à faire |
 | 5 Retour | à faire |
 | 6 Clôture (enregistrée et confirmée) | à faire |
-| 7 Entertainment Lab (présenté ; fait / reporté / refusé) | à faire |
+| 7 Entertainment Lab proposé après la clôture (facultatif) | à faire |
 
 ## Répertoire des phrases (numéros F globaux de la langue ; jamais réutilisés)
 | ID | Dialogue | Interlocuteur | Modalité (texte/voix) | Phrase en français | Fiabilité |
@@ -44,7 +44,6 @@ encerramento_aula_salva_relida:  # sim depois do Finish-Lesson relido
 encerramento_proximo_passo:
 
 ## Entertainment Lab (préparé et vérifié avant l'étape 1 ; champs dans references/ENTERTAINMENT-LAB.md)
-lab_status: a_preparar  # a_preparar | pronto | pendente_aceito | em_andamento | feito | adiado | recusado
 lab_titulo:
 lab_canal:  # nao_confirmado só com fonte busca
 lab_url:  # só https://www.youtube.com/watch?v=<ID>
@@ -63,7 +62,7 @@ lab_fonte_verificacao:  # pagina_youtube | navegador | busca
 lab_evidencia_busca:  # só com busca: resultado usado (link, título, canal, duração)
 lab_verificado_em:  # data e hora da releitura do registro salvo
 lab_pendencia_motivo:
-lab_pendencia_aceita_pelo_aluno:
-lab_oferecido_na_etapa_7:
-lab_resultado:
+lab_pendencia_aceita_pelo_aluno:  # só se o aluno aceitou começar sem o vídeo
+lab_sugerido_apos_encerramento:  # sim quando o Lab foi sugerido logo depois do encerramento
+lab_resultado:  # só se o aluno fizer o Lab
 lab_gravacao_confirmada:

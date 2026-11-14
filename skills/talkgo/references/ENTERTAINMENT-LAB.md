@@ -4,7 +4,7 @@ Este é o procedimento único do Entertainment Lab. O SKILL.md resume as regras;
 
 ## Princípio
 
-O Lab é preparado **antes da etapa 1** e só é considerado pronto depois que o registro salvo na sessão é relido e conferido. No fim da aula, a etapa 7 apenas apresenta o que já está salvo. Não existe preparo silencioso no fim: ou o Lab está `pronto` antes da etapa 1, ou o aluno foi avisado da falha e aceitou começar com o Lab pendente (`pendente_aceito`).
+O Lab faz parte da aula e não tem status próprio: a aula é que tem status (veja Status das aulas no SKILL.md). O material é preparado **antes da etapa 1** e só é considerado pronto depois que o registro salvo na sessão é relido e conferido. A aula termina no encerramento (etapa 6), como `Concluída`; logo depois, na mesma mensagem, o Lab é sempre sugerido com o material já salvo. Fazer ou não o Lab não muda a aula. Não existe preparo silencioso no fim: ou o material está pronto antes da etapa 1, ou o aluno foi avisado da falha e aceitou começar sem o vídeo.
 
 ## Registro na sessão
 
@@ -12,7 +12,6 @@ A seção Entertainment Lab do arquivo da aula usa campos com nomes fixos (iguai
 
 | Campo | Conteúdo |
 | --- | --- |
-| `lab_status` | `a_preparar` (padrão do modelo), `pronto`, `pendente_aceito`, `em_andamento`, `feito`, `adiado` ou `recusado` |
 | `lab_titulo`, `lab_canal` | título e canal como aparecem no YouTube |
 | `lab_url` | só `https://www.youtube.com/watch?v=<ID>` (um vídeo; nunca outro site, playlist ou canal) |
 | `lab_idioma_variante` | idioma e variante do vídeo (ex.: inglês americano) |
@@ -27,12 +26,14 @@ A seção Entertainment Lab do arquivo da aula usa campos com nomes fixos (iguai
 | `lab_fonte_verificacao` | `pagina_youtube`, `navegador` ou `busca`: de onde vieram título, canal e duração. Só com `busca`, `lab_canal` e `lab_duracao_video_min` podem ser `nao_confirmado(a)` |
 | `lab_evidencia_busca` | só com `busca`: o resultado usado (link do YouTube, título, canal e duração como aparecem) |
 | `lab_verificado_em` | data e hora da releitura do registro salvo |
-| `lab_pendencia_motivo`, `lab_pendencia_aceita_pelo_aluno` | só para `pendente_aceito`: por que falhou e quando o aluno aceitou |
-| `lab_oferecido_na_etapa_7` | `sim` depois da apresentação na etapa 7 |
-| `lab_resultado` | respostas, tarefa e feedback, quando o Lab é feito |
-| `lab_gravacao_confirmada` | `sim` depois de gravar e confirmar ao aluno o status final do Lab |
+| `lab_pendencia_motivo`, `lab_pendencia_aceita_pelo_aluno` | só quando a verificação falhou: por que falhou e quando o aluno aceitou começar sem o vídeo |
+| `lab_sugerido_apos_encerramento` | `sim` quando o Lab foi sugerido logo depois do encerramento |
+| `lab_resultado` | respostas, tarefa e feedback, só se o aluno fizer o Lab |
+| `lab_gravacao_confirmada` | `sim` depois de gravar o resultado de um Lab feito e confirmar ao aluno |
 
-O encerramento da aula usa: `encerramento_aula_salva_relida` (`sim`), `encerramento_proximo_passo` (texto).
+Não há campo de status do Lab. Material preenchido e `lab_verificado_em` indicam que ele está pronto; `lab_resultado` indica que foi feito.
+
+O encerramento da aula usa: `status: Concluída`, `encerramento_aula_salva_relida` (`sim`), `encerramento_proximo_passo` (texto).
 
 ## Preparar (antes da etapa 1)
 
@@ -49,7 +50,7 @@ Faça isto ao criar a aula, sem perguntas ao aluno, e antes de mostrar a etapa 1
 
 3. Duração: quando a duração é confirmada, o que será assistido (vídeo inteiro ou trecho) deve ter de 30% a 50% da aula (6 a 10 minutos numa aula de 20). Com a duração `nao_confirmada`, a faixa não pode ser conferida: diga isso ao aluno na etapa 7. A ligação com o conteúdo vem primeiro; se nenhum vídeo ligado ao tema couber, escolha o mais próximo e preencha `lab_motivo_fora_da_faixa`. Use trecho só com início e fim confirmados.
 4. Prepare até 3 perguntas e 1 tarefa curta que reutilizem os itens da aula.
-5. Grave a seção com `lab_status: pronto` e releia o registro salvo.
+5. Grave a seção e releia o registro salvo.
 6. Confira o registro relido. Com Python: `python scripts/lab.py pronto ARQUIVO` (ou `-` lendo o texto do Doc pela entrada padrão) deve responder `"pode_iniciar": true`. Sem Python, confira os mesmos itens: todos os campos acima preenchidos; link no formato do YouTube; duração dentro da faixa ou motivo preenchido; trecho válido e dentro do vídeo; transcrição com um dos três valores; 1 a 3 perguntas; tarefa.
 7. Grave `lab_verificado_em` e marque a etapa 0 da tabela Roteiro. Só então mostre o roteiro, já com o título do vídeo, e comece a etapa 1.
 
@@ -57,35 +58,34 @@ Faça isto ao criar a aula, sem perguntas ao aluno, e antes de mostrar a etapa 1
 
 Falha é qualquer caso em que o passo 6 não passa: sem ferramenta de busca, nenhum vídeo confirmado por página, navegador ou resultado de busca, link fora do YouTube, duração ou trecho não confirmados, ou registro que não pôde ser gravado e relido.
 
-1. **Antes de iniciar a aula**, diga ao aluno em uma ou duas frases o que falhou e pergunte: "Quer começar a aula com o Entertainment Lab pendente? Eu o preparo depois." Não comece a etapa 1 antes da resposta.
-2. Se aceitar: grave `lab_status: pendente_aceito`, `lab_pendencia_motivo` e `lab_pendencia_aceita_pelo_aluno` (com data), releia e siga. Se não aceitar: ofereça tentar de novo ou preparar em texto (`Next-Lesson <idioma>`), sem iniciar a aula.
-3. Nunca marque `pronto` sem o passo 6 e nunca use `pendente_aceito` sem a resposta do aluno.
+1. **Antes de iniciar a aula**, diga ao aluno em uma ou duas frases o que falhou e pergunte: "Quer começar a aula sem o vídeo do Entertainment Lab? Eu o preparo depois." Não comece a etapa 1 antes da resposta.
+2. Se aceitar: grave `lab_pendencia_motivo` e `lab_pendencia_aceita_pelo_aluno` (com data), releia e siga. Se não aceitar: ofereça tentar de novo ou preparar em texto (`Next-Lesson <idioma>`), sem iniciar a aula.
+3. Nunca grave `lab_verificado_em` sem o passo 6 e nunca preencha `lab_pendencia_aceita_pelo_aluno` sem a resposta do aluno.
 
-## Etapa 7 (apresentar)
+## Etapa 7 (sugerir depois do encerramento)
 
-1. Leia a seção salva. Se `lab_status` for `pronto`, apresente imediatamente, numa única mensagem curta: título e canal, link, trecho e duração, a tarefa e as perguntas. Se canal ou duração estiverem `nao_confirmado(a)`, diga isso em poucas palavras ("duração não confirmada: o YouTube estava inacessível na preparação"). Não faça nova pesquisa e não pergunte tema nem duração.
-2. Faça uma única pergunta: "Quer fazer agora ou deixar para depois?".
-3. Se for `pendente_aceito`, diga que o Lab ficou pendente e pergunte: "Quer que eu prepare agora (em texto) ou deixamos para depois?". Só aqui uma pesquisa no fim é permitida, e só se o aluno pedir.
-4. Grave `lab_oferecido_na_etapa_7: sim`. Conforme a resposta: `em_andamento` (fazer agora), `adiado` (depois) ou `recusado`. Grave, releia e confirme ao aluno.
-5. Ao terminar um Lab feito, grave `feito` e `lab_resultado` (Finish-Lab), releia e confirme.
+1. Na mesma mensagem que confirma a aula concluída, leia a seção salva e apresente: título e canal, link, trecho e duração, a tarefa e as perguntas. Se canal ou duração estiverem `nao_confirmado(a)`, diga isso em poucas palavras ("duração não confirmada: o YouTube estava inacessível na preparação"). Não faça nova pesquisa e não pergunte tema nem duração.
+2. Faça uma única pergunta: "Quer fazer o Lab agora?".
+3. Se a aula começou sem o vídeo (pendência aceita), diga isso e pergunte se o aluno quer que você prepare agora, em texto. Só aqui uma pesquisa no fim é permitida, e só se o aluno pedir.
+4. Se o aluno fizer o Lab, grave `lab_resultado` (Finish-Lab), releia e confirme. Se não fizer, não grave nada: a aula continua `Concluída` e o comando `Lab` abre o material depois.
 
 ## Encerramento (conferência obrigatória)
 
-Antes de encerrar qualquer aula regular, inclusive quando o aluno pede para encerrar no meio, confira os quatro itens e corrija o que faltar:
+Antes de confirmar o encerramento de qualquer aula regular, inclusive quando o aluno pede para encerrar no meio, confira os quatro itens e corrija o que faltar:
 
-1. **Aula salva e relida**: `encerramento_aula_salva_relida: sim`, depois do Finish-Lesson.
-2. **Próximo passo informado**: `encerramento_proximo_passo` preenchido e dito ao aluno.
-3. **Lab oferecido**: `lab_oferecido_na_etapa_7: sim`.
-4. **Decisão registrada**: `lab_status` em `feito`, `adiado` ou `recusado`, com `lab_gravacao_confirmada: sim`.
+1. **Status**: `status: Concluída`.
+2. **Aula salva e relida**: `encerramento_aula_salva_relida: sim`, depois do Finish-Lesson.
+3. **Próximo passo informado**: `encerramento_proximo_passo` preenchido e dito ao aluno.
+4. **Lab sugerido**: `lab_sugerido_apos_encerramento: sim`, gravado na mesma escrita do Finish-Lesson, com a sugestão feita na mesma mensagem.
 
-Com Python: `python scripts/lab.py encerramento ARQUIVO` deve responder `"pode_encerrar": true`. O aluno nunca é obrigado a fazer o Lab. Se ele pediu para encerrar, grave `adiado` como decisão provisória, confirme a gravação e, mesmo assim, faça a pergunta única ("Quer fazer agora ou deixar para depois?"); não decida por ele sem perguntar. Se ele responder "agora", mude para `em_andamento`; se não responder, o `adiado` já gravado vale. Depois de "quer encerrar?" do aluno, nunca pule a conferência.
+Com Python: `python scripts/lab.py encerramento ARQUIVO` deve responder `"pode_encerrar": true`. O aluno nunca é obrigado a fazer o Lab, e a resposta dele não muda o status da aula. Depois de "quer encerrar?" do aluno, nunca pule a conferência.
 
 ## Voz e retomada
 
-- **Início em voz.** Se a sessão consegue pesquisar, gravar e reler em voz, siga o preparo normalmente. Se não consegue, diga que não é possível preparar nem salvar o Lab no modo voz, não afirme que algo está pronto ou salvo, e encaminhe para o texto: "Saia do modo voz e envie `Next-Lesson <idioma>` nesta conversa; depois volte ao modo voz." A aula só começa em voz sem o Lab pronto se o aluno aceitar o Lab pendente, e essa aceitação precisa ser gravada (em texto, pelo Save-Lesson, se a voz não grava).
-- **Retomada.** Ao retomar uma aula, leia a seção do Lab antes de continuar a etapa salva. Se não estiver `pronto` nem `pendente_aceito`, faça o preparo agora (ou o caminho de falha) antes de seguir. Se a aula for retomada na etapa 6 ou 7, faça a conferência de encerramento.
+- **Início em voz.** Se a sessão consegue pesquisar, gravar e reler em voz, siga o preparo normalmente. Se não consegue, diga que não é possível preparar nem salvar o Lab no modo voz, não afirme que algo está pronto ou salvo, e encaminhe para o texto: "Saia do modo voz e envie `Next-Lesson <idioma>` nesta conversa; depois volte ao modo voz." A aula só começa em voz sem o material pronto se o aluno aceitar começar sem o vídeo, e essa aceitação precisa ser gravada (em texto, pelo Save-Lesson, se a voz não grava).
+- **Retomada.** Ao retomar uma aula, leia a seção do Lab antes de continuar a etapa salva. Se o material não estiver pronto nem houver pendência aceita, faça o preparo agora (ou o caminho de falha) antes de seguir. Se a aula for retomada na etapa 6, faça o encerramento e a conferência.
 - **Voz sem acesso ao registro.** Não diga que o material está pronto nem que algo foi salvo. Diga a limitação e dê o comando de texto: `Next-Lesson <idioma>` para preparar, ou `Save-Lesson pausar|concluir|lab <sessão> <F inicial>-<F final>` para gravar.
 
 ## Confirmação de gravação
 
-Concluir, adiar ou recusar o Lab segue a Garantia de gravação do SKILL.md: gravar, reler e dizer "Salvo na sua Central: <sessão> — Lab concluído | adiado | recusado"; sem gravação possível, dizer que não salvou e dar o `Save-Lesson lab`.
+Só o resultado de um Lab feito é gravado depois do encerramento. Ele segue a Garantia de gravação do SKILL.md: gravar, reler e dizer "Salvo na sua Central: <sessão> — resultado do Lab"; sem gravação possível, dizer que não salvou e dar o `Save-Lesson lab`.

@@ -36,28 +36,28 @@ Comandos: `Pause-Lesson` (ou "pausar", "pausa", "para por aqui") e `Finish-Lesso
 ### Pause-Lesson
 
 1. Monte o checkpoint: etapa e bloco, última troca, última frase (F) e diálogo (D), evidências, pendências e a próxima pergunta exata.
-2. Grave na sessão, numa única escrita verificada: estado `pausada`, checkpoint, frases e diálogos ainda não gravados e o intervalo do cabeçalho.
-3. Atualize `estado/sessao-ativa` (sessão pausada, ID do arquivo, próxima pergunta) e os contadores no estado global.
+2. Grave na sessão, numa única escrita verificada: status `Em andamento (pausada)`, checkpoint, frases e diálogos ainda não gravados e o intervalo do cabeçalho.
+3. Atualize `estado/sessao-ativa` (sessão pausada, ID do arquivo, próxima pergunta), a linha da aula no plano (`Em andamento (pausada)`) e os contadores no estado global.
 4. Releia cada arquivo. Só então diga "Aula pausada e salva" com o ID da sessão e a próxima pergunta. Se qualquer escrita falhar, não diga que salvou: siga o modo sem escrita abaixo.
 
 ### Finish-Lesson
 
-O Finish-Lesson é a etapa 6 (encerramento) e roda sempre ao fim da aula, mesmo sem o aluno pedir (veja o roteiro no SKILL.md). Depois de salvar e dizer o próximo passo, siga para a etapa 7, o Entertainment Lab já planejado.
+O Finish-Lesson é a etapa 6 (encerramento) e roda sempre ao fim da aula, mesmo sem o aluno pedir (veja o roteiro no SKILL.md). A aula fica `Concluída` aqui; na mesma mensagem da confirmação, sugira o Entertainment Lab já preparado (etapa 7).
 
 
 1. Faça o fechamento combinado (feedback com evidências, limitações, próxima tarefa).
-2. Grave na sessão, numa única escrita: último turno, fechamento, estado `concluída`, frases e diálogos pendentes.
-3. Consolide os derivados do idioma conforme a [persistência](PERSISTENCIA.md#salvar-retomar-e-reparar) (progresso 08, perfil atual, contexto recente) e marque a aula como `concluida` na tabela do plano ([planos](PLANOS.md#ao-concluir-a-aula)). Aula de teste não altera métricas.
+2. Grave na sessão, numa única escrita: último turno, fechamento, status `Concluída`, `encerramento_aula_salva_relida`, `encerramento_proximo_passo`, `lab_sugerido_apos_encerramento: sim`, frases e diálogos pendentes.
+3. Consolide os derivados do idioma conforme a [persistência](PERSISTENCIA.md#salvar-retomar-e-reparar) (progresso 08, perfil atual, contexto recente) e marque a aula como `Concluída` na tabela do plano ([planos](PLANOS.md#status-das-aulas-no-plano)). Aula de teste não altera métricas.
 4. Atualize os contadores e, por último, `estado/sessao-ativa`.
-5. Releia tudo e confirme, em texto ou voz, "Aula concluída e salva na sua Central: <sessão>".
+5. Releia tudo e confirme, em texto ou voz, "Aula concluída e salva na sua Central: <sessão>", seguido do próximo passo e da sugestão do Lab.
 
 ### Finish-Lab
 
-Ao terminar o Entertainment Lab (etapa 7) ou um Lab retomado com o comando `Lab`:
+Quando o aluno faz o Entertainment Lab (logo depois do encerramento ou mais tarde, com o comando `Lab`):
 
-1. Grave na seção Entertainment Lab da sessão, numa única escrita: `lab_status: feito`, `lab_resultado` (respostas, tarefa e feedback breve) e as frases e diálogos numerados. Se o Lab foi adiado ou recusado, grave só o `lab_status`. Em todos os casos, depois da releitura e da confirmação ao aluno, grave `lab_gravacao_confirmada: sim`.
+1. Grave na seção Entertainment Lab da sessão, numa única escrita: `lab_resultado` (respostas, tarefa e feedback breve) e as frases e diálogos numerados. Depois da releitura e da confirmação ao aluno, grave `lab_gravacao_confirmada: sim`. O status da aula não muda (continua `Concluída`), e o Lab não tem status próprio. Se o aluno não fizer o Lab, nada é gravado.
 2. Atualize os contadores de frases e diálogos no estado global.
-3. Releia e confirme, em texto ou voz: "Lab salvo na sua Central: <sessão>". O Lab não altera as métricas da aula.
+3. Releia e confirme, em texto ou voz: "Resultado do Lab salvo na sua Central: <sessão>". O Lab não altera as métricas da aula.
 4. Sem escrita disponível, siga a seção abaixo com `Save-Lesson lab`.
 
 ### Sem escrita disponível (voz e outros casos)

@@ -12,7 +12,6 @@ from scripts.lab import check_closing, check_ready, fields, main  # noqa: E402
 from scripts.provision import ASSETS, LANGUAGES  # noqa: E402
 
 READY = {
-    "lab_status": "pronto",
     "lab_titulo": "At the Airport — Check-in Conversation",
     "lab_canal": "Canal Fictício",
     "lab_url": "https://youtu.be/dQw4w9WgXcQ",
@@ -49,7 +48,7 @@ class LabScenarioTests(unittest.TestCase):
         for folder in LANGUAGES.values():
             result = self.ready({}, folder)
             self.assertFalse(result["pode_iniciar"], folder)
-            self.assertEqual(result["status"], "a_preparar")
+            self.assertIsNone(result["material"])
 
     def test_scenario_video_available(self):
         result = self.ready(READY)
@@ -115,40 +114,47 @@ class LabScenarioTests(unittest.TestCase):
         self.assertTrue(segment["pode_iniciar"], segment)
 
     def test_scenario_search_failure_is_never_silent(self):
-        silent = self.ready({"lab_status": "pendente_aceito", "lab_pendencia_motivo": "busca indisponível"})
+        silent = self.ready({"lab_pendencia_motivo": "busca indisponível"})
         self.assertFalse(silent["pode_iniciar"])
         self.assertTrue(any("aceitação" in p for p in silent["problemas"]))
-        accepted = self.ready({"lab_status": "pendente_aceito", "lab_pendencia_motivo": "busca indisponível",
+        accepted = self.ready({"lab_pendencia_motivo": "busca indisponível",
                                "lab_pendencia_aceita_pelo_aluno": "sim, 2026-11-11 17:00"})
         self.assertTrue(accepted["pode_iniciar"])
+        self.assertEqual(accepted["material"], "pendencia_aceita")
 
     def test_scenario_voice_start_without_access(self):
-        # Em voz sem acesso, nada é gravado: o registro continua a_preparar e a aula não pode começar.
+        # Em voz sem acesso, nada é gravado: o material continua vazio e a aula não pode começar.
         self.assertFalse(self.ready({})["pode_iniciar"])
 
     def test_scenario_resume_rechecks_lab(self):
-        paused = {"lab_status": "a_preparar"}
-        self.assertFalse(self.ready(paused)["pode_iniciar"])
-        self.assertTrue(self.ready(READY)["pode_iniciar"])
+        self.assertFalse(self.ready({"status": "Em andamento (pausada)"})["pode_iniciar"])
+        self.assertTrue(self.ready({**READY, "status": "Em andamento (pausada)"})["pode_iniciar"])
 
-    def test_scenario_close_request_requires_full_checklist(self):
+    def test_lab_has_no_status_field(self):
+        template = (ASSETS / "languages" / "english" / "aulas" / "MODELO.md").read_text(encoding="utf-8")
+        self.assertNotIn("lab_status", template)
+        self.assertNotIn("status_lab", self.closing(READY))
+
+    def test_closing_requires_concluded_lesson_and_lab_suggestion(self):
         only_saved = {**READY, "encerramento_aula_salva_relida": "sim"}
         result = self.closing(only_saved)
         self.assertFalse(result["pode_encerrar"])
-        self.assertEqual(len(result["problemas"]), 3)
-        offered_no_decision = {**only_saved, "encerramento_proximo_passo": "Aula 2: hotel",
-                               "lab_oferecido_na_etapa_7": "sim"}
-        self.assertFalse(self.closing(offered_no_decision)["pode_encerrar"])
+        self.assertEqual(len(result["problemas"]), 3)  # status, próximo passo, sugestão do Lab
+        done = {**only_saved, "status": "Concluída", "encerramento_proximo_passo": "Aula 2: hotel",
+                "lab_sugerido_apos_encerramento": "sim"}
+        self.assertTrue(self.closing(done)["pode_encerrar"])
+        # Fazer ou não o Lab não muda o encerramento.
+        self.assertTrue(self.closing({**done, "lab_resultado": "3/3 respostas"})["pode_encerrar"])
+        self.assertFalse(self.closing({**done, "lab_sugerido_apos_encerramento": ""})["pode_encerrar"])
 
-    def test_scenario_lab_postponed(self):
-        postponed = {**READY, "encerramento_aula_salva_relida": "sim", "encerramento_proximo_passo": "Aula 2: hotel",
-                     "lab_oferecido_na_etapa_7": "sim", "lab_status": "adiado"}
-        self.assertFalse(self.closing(postponed)["pode_encerrar"])
-        confirmed = {**postponed, "lab_gravacao_confirmada": "sim"}
-        self.assertTrue(self.closing(confirmed)["pode_encerrar"])
-        self.assertTrue(self.closing({**confirmed, "lab_status": "recusado"})["pode_encerrar"])
-        self.assertFalse(self.closing({**confirmed, "lab_status": "feito"})["pode_encerrar"])
-        self.assertTrue(self.closing({**confirmed, "lab_status": "feito", "lab_resultado": "3/3 respostas"})["pode_encerrar"])
+    def test_only_the_five_lesson_statuses_are_valid(self):
+        done = {**READY, "encerramento_aula_salva_relida": "sim", "encerramento_proximo_passo": "Aula 2",
+                "lab_sugerido_apos_encerramento": "sim"}
+        for status in ("Concluída, excluída no reset", "concluida", "Planejada", "adiado"):
+            result = self.closing({**done, "status": status})
+            self.assertFalse(result["pode_encerrar"], status)
+            self.assertTrue(any("inválido" in p for p in result["problemas"]), status)
+        self.assertFalse(self.closing({**done, "status": "Em andamento (em execução)"})["pode_encerrar"])
 
     def test_cli_exit_codes(self):
         import tempfile

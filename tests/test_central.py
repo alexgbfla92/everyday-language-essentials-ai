@@ -119,7 +119,6 @@ class CentralTests(unittest.TestCase):
         self.assertEqual(preview["status"], "previa")
         self.assertEqual(len(preview["remover"]), 2)
         self.assertIn("languages/english/estado/sessao-ativa.md", preview["restaurar_modelo"])
-        self.assertTrue(preview["avisos"])
         self.assertTrue((root / "languages/english/aulas/aula-20261101-01.md").exists())
         done = self.run_cli("reset", "aulas", "Inglês", "--confirmar")
         self.assertEqual(done["status"], "ok")
@@ -132,6 +131,45 @@ class CentralTests(unittest.TestCase):
         backup = root / done["backup"]
         self.assertEqual((backup / "languages/english/aulas/aula-20261101-01.md").read_text(encoding="utf-8"),
                          "aula fictícia")
+        self.assertEqual(self.run_cli("reset", "aulas", "en")["mensagem"], "Nada a zerar.")
+
+    def test_reset_lessons_erases_every_trace_of_the_lessons(self):
+        root = self.create("Pessoal", "en")
+        base = root / "languages/english"
+        (base / "aulas/aula-20261101-01.md").write_text("status: Concluída", encoding="utf-8")
+        (base / "aulas/aula-20261102-01.md").write_text("status: Em andamento (pausada)", encoding="utf-8")
+        template = (ASSETS / "modelos" / "plano-missao.md").read_text(encoding="utf-8")
+        plan = template.replace("| Nº | Tema | Objetivo da aula | Status | Sessão |\n|---|---|---|---|---|",
+                                "| Nº | Tema | Objetivo da aula | Status | Sessão |\n|---|---|---|---|---|\n"
+                                "| 1 | Aeroporto | Check-in | Concluída, excluída no reset | aula-20261101-01 |\n"
+                                "| 2 | Hotel | Reserva | Em andamento (pausada) | aula-20261102-01 |\n"
+                                "| 3 | Restaurante | Pedido | Pendente |  |")
+        (base / "planos/viagem-eua.md").write_text(plan, encoding="utf-8")
+        progress_path = base / "progresso/08-registro-progresso.md"
+        progress = progress_path.read_text(encoding="utf-8")
+        progress = progress.replace("| Completed regular lessons | 0 (tests excluded) |", "| Completed regular lessons | 2 |")
+        progress = progress.replace("| Actual observed duration | None observed |", "| Actual observed duration | 38 min |")
+        progress += "| aula-20261101-01 | 2026-11-01 | Check-in | F1-F20 | Hotel |\n"
+        progress_path.write_text(progress, encoding="utf-8")
+        preview = self.run_cli("reset", "aulas", "en")
+        self.assertEqual(sorted(preview["ajustar"]), ["languages/english/planos/viagem-eua.md",
+                                                      "languages/english/progresso/08-registro-progresso.md"])
+        self.assertIn("Concluída, excluída no reset", (base / "planos/viagem-eua.md").read_text(encoding="utf-8"))
+        done = self.run_cli("reset", "aulas", "en", "--confirmar")
+        self.assertEqual(done["status"], "ok")
+        plan_now = (base / "planos/viagem-eua.md").read_text(encoding="utf-8")
+        rows = "\n".join(l for l in plan_now.split("## Aulas")[1].split("## Histórico")[0].splitlines()
+                         if l.startswith("| ") and l[2:3].isdigit())
+        for gone in ("aula-2026", "excluída", "Concluída", "Em andamento"):
+            self.assertNotIn(gone, rows, gone)
+        self.assertEqual(plan_now.count("| Pendente |"), 3)
+        progress_now = progress_path.read_text(encoding="utf-8")
+        self.assertNotIn("aula-20261101-01", progress_now)
+        self.assertIn("| Completed regular lessons | 0 (tests excluded) |", progress_now)
+        self.assertIn("| Actual observed duration | None observed |", progress_now)
+        self.assertEqual(self.run_cli("info")["centrais"][0]["idiomas"][0]["aulas"], 0)
+        backup = root / done["backup"]
+        self.assertIn("excluída no reset", (backup / "languages/english/planos/viagem-eua.md").read_text(encoding="utf-8"))
         self.assertEqual(self.run_cli("reset", "aulas", "en")["mensagem"], "Nada a zerar.")
 
     def test_reset_diagnostic_keeps_lesson_pointer(self):

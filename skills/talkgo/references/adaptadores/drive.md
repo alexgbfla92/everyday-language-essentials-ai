@@ -102,6 +102,8 @@ Só peça ao aluno que apague à mão quando o conector não tiver nenhuma das d
 - Doc: substituição total com o texto do modelo.
 - Sheet: limpe as abas `Resumo` e `Aulas` e regrave as duas tabelas do modelo a partir de A1.
 
+No Reset-Lessons, além de apagar os Docs `aula-*`: em cada plano afetado, troque nas linhas dessas aulas o Status por `Pendente` e esvazie a Sessão (`update_doc`); na Sheet do progresso, apague as linhas dessas aulas na aba `Aulas` e devolva ao modelo, na aba `Resumo`, o total de aulas regulares e a duração real. Releia cada arquivo.
+
 Nunca sobrescreva um arquivo para "apagá-lo".
 
 Uma pasta do Google Drive sincronizada no computador (Google Drive para computador) pode usar o [adaptador de pasta local](pasta-local.md) com `provedor: google-drive`; nesse caso, tudo fica em Markdown.

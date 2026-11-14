@@ -20,7 +20,7 @@ plano_aprovado_em:  # AAAA-MM-DD HH:MM, quando o aluno aprovou esta revisão
 | Nº | Tema | Objetivo da aula | Status | Sessão |
 |---|---|---|---|---|
 
-Status de cada aula: `pendente`, `em_andamento` ou `concluida`. A próxima aula é a primeira linha `pendente`.
+Status de cada aula: `Pendente`, `Em andamento (preparada)`, `Em andamento (em execução)`, `Em andamento (pausada)` ou `Concluída` (os mesmos da sessão). A próxima aula é a primeira linha `Pendente`. Uma aula apagada pelo Reset-Lessons volta a `Pendente`, sem sessão.
 
 ## Histórico de revisões
 
