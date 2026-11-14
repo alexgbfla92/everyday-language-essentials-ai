@@ -1,4 +1,4 @@
-# Defaults — Everyday Essentials
+# Defaults — TalkGo
 
 - `default_language: en-US`; `enabled_languages: [fr-FR, es-ES, en-US]`; `explanation_language: pt-BR`.
 - Missão padrão: 90 dias; duração padrão de aula regular: 20 minutos; diagnóstico inicial: 30 minutos; revisão a cada 14 dias.

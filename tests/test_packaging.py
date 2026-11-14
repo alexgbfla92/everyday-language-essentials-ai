@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL_DIR = ROOT / "skills" / "everylang"
+SKILL_DIR = ROOT / "skills" / "practice"
 
 
 def frontmatter(path):
@@ -56,16 +56,16 @@ class PackagingTests(unittest.TestCase):
     def test_plugin_zip_layout(self):
         sys.path.insert(0, str(ROOT / "tools"))
         import build_zip
-        skill = subprocess.run(["git", "-C", str(ROOT), "archive", "--format=zip", "--prefix=everylang/",
-                                "HEAD:skills/everylang"], capture_output=True, check=True).stdout
+        skill = subprocess.run(["git", "-C", str(ROOT), "archive", "--format=zip", "--prefix=practice/",
+                                "HEAD:skills/practice"], capture_output=True, check=True).stdout
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         import io, zipfile
         with zipfile.ZipFile(io.BytesIO(build_zip.plugin_zip(skill, version))) as z:
             names = z.namelist()
             manifest = json.loads(z.read(".codex-plugin/plugin.json"))
-        self.assertIn("skills/everylang/SKILL.md", names)
-        self.assertEqual((manifest["name"], manifest["skills"]), ("everylang", "./skills/"))
-        self.assertTrue(all(n == ".codex-plugin/plugin.json" or n.startswith("skills/everylang/") for n in names))
+        self.assertIn("skills/practice/SKILL.md", names)
+        self.assertEqual((manifest["name"], manifest["skills"]), ("talkgo", "./skills/"))
+        self.assertTrue(all(n == ".codex-plugin/plugin.json" or n.startswith("skills/practice/") for n in names))
 
     def test_links_inside_skill_stay_inside_skill(self):
         link = re.compile(r"\]\(([^)\s#]+)")

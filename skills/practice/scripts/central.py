@@ -12,7 +12,7 @@ Comandos (a skill traduz os comandos do aluno para estes):
 
 Sem --confirmar, remove e reset só mostram a prévia. A saída é sempre JSON com
 "status": ok | previa | ambiguo | erro. Em "ambiguo", pergunte ao aluno usando "opcoes".
-O registro das centrais fica em ~/.everylang/centrais.json (ou $EVERYLANG_HOME, ou --registro).
+O registro das centrais fica em ~/.talkgo/centrais.json (ou $TALKGO_HOME, ou --registro).
 """
 import argparse
 import json
@@ -79,8 +79,8 @@ def parse_language(text):
 def registry_path(explicit=None):
     if explicit:
         return Path(explicit).expanduser()
-    home = os.environ.get("EVERYLANG_HOME")
-    return (Path(home).expanduser() if home else Path.home() / ".everylang") / "centrais.json"
+    home = os.environ.get("TALKGO_HOME")
+    return (Path(home).expanduser() if home else Path.home() / ".talkgo") / "centrais.json"
 
 
 def load(path):

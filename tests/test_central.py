@@ -7,7 +7,7 @@ from contextlib import redirect_stdout
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "everylang"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "practice"))
 
 from scripts.central import ASSETS, main, parse_language
 

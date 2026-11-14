@@ -1,11 +1,11 @@
 {
-  "name": "everyday-essentials",
+  "name": "talkgo",
   "interface": {
-    "displayName": "Everyday Essentials"
+    "displayName": "TalkGo"
   },
   "plugins": [
     {
-      "name": "everylang",
+      "name": "talkgo",
       "source": {
         "source": "local",
         "path": "./"

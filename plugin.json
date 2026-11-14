@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "everylang",
-  "version": "0.12.2",
+  "name": "talkgo",
+  "version": "0.13.0",
   "description": "Central pessoal de idiomas (inglês, espanhol, francês) com diagnóstico, aulas por missão, frases numeradas, progresso e comandos de gestão; salva no Google Drive (Docs e Sheets nativos) ou numa pasta local.",
   "author": {
     "name": "alexgbfla92",
@@ -20,7 +20,7 @@
   "extensions": {
     "com.openai": {
       "interface": {
-        "displayName": "everylang · Everyday Language Essentials AI",
+        "displayName": "TalkGo",
         "shortDescription": "Aprenda inglês, espanhol e francês por missões, com progresso salvo no seu Google Drive.",
         "longDescription": "Diagnóstico adaptativo, aulas por missão com simulações reais, frases numeradas para consulta (\"repita a frase 132\"), pausa e retomada em texto ou voz, e progresso verificado por idioma, tudo numa pasta pessoal sua.",
         "developerName": "alexgbfla92",

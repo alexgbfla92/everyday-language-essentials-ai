@@ -1,13 +1,13 @@
 {
-  "name": "everyday-essentials",
+  "name": "talkgo",
   "owner": {
     "name": "alexgbfla92"
   },
-  "description": "Everyday Language Essentials AI: central pessoal de idiomas por missão.",
+  "description": "TalkGo: central pessoal de idiomas por missão.",
   "plugins": [
     {
-      "name": "everylang",
-      "description": "Everyday Language Essentials AI: central pessoal de idiomas com diagnóstico, aulas, progresso e comandos de gestão.",
+      "name": "talkgo",
+      "description": "TalkGo: central pessoal de idiomas com diagnóstico, aulas, progresso e comandos de gestão.",
       "source": "./"
     }
   ]

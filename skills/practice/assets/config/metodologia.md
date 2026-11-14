@@ -1,4 +1,4 @@
-# Metodologia — Everyday Essentials
+# Metodologia — TalkGo
 
 ## Propósito
 Desenvolver a menor competência comunicativa funcional suficiente para compreender, ser compreendido e agir com autonomia em situações reais. Não confundir comunicação essencial com decorar frases ou prometer fluência.
