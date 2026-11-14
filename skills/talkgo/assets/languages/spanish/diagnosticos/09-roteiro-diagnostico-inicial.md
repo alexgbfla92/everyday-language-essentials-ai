@@ -1,6 +1,6 @@
 # Guion de diagnóstico inicial — español
 
-Idioma: `es-ES`. Duración estándar: 30 minutos, personalizable. Antes de empezar, crear un archivo de diagnóstico con ID, idioma, tipo regular/prueba, `incluir_em_metricas` y estado. Guardar un checkpoint al cambiar de etapa. No confundir minutos planificados con observados.
+Idioma: `es-ES`. Duración estándar: 30 minutos, personalizable. Antes de empezar, crear un archivo de diagnóstico con ID, idioma, tipo regular/prueba, `incluir_em_metricas` y estado. Guardar un checkpoint al cambiar de etapa. No confundir minutos previstos con observados.
 
 1. Inicio: preguntar en español para qué necesita el idioma y confirmar la variedad (España por defecto).
 2. Comprensión auditiva (8 min): usar avisos breves hablados, por ejemplo « El tren sale del andén cuatro », o un mensaje de hotel. Hacer una pregunta cada vez. Si no hay audio real, registrar « comprensión auditiva no evaluada ».

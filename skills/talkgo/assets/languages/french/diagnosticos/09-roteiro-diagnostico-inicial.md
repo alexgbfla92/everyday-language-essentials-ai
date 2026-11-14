@@ -1,6 +1,6 @@
 # Parcours de diagnostic initial — français
 
-Idioma: `fr-FR`. Duración estándar: 30 minutos, personalizable. Antes de empezar, crear un archivo de diagnóstico con ID, idioma, tipo regular/prueba, `incluir_em_metricas` y estado. Guardar un checkpoint al cambiar de etapa. No confundir minutos planificados con observados.
+Idioma: `fr-FR`. Duración estándar: 30 minutos, personalizable. Antes de empezar, crear un archivo de diagnóstico con ID, idioma, tipo regular/prueba, `incluir_em_metricas` y estado. Guardar un checkpoint al cambiar de etapa. No confundir minutos previstos con observados.
 
 1. Accueil : demander en français l'objectif de l'apprenant et confirmer la variante (France par défaut).
 2. Compréhension orale (8 min) : proposer de courtes annonces authentiques ou des messages prononcés, par exemple « Votre train part du quai quatre » ou une demande de réservation. Poser une seule question à la fois. Si le canal ne permet pas l'audio, noter « compréhension orale non évaluée » plutôt que la remplacer silencieusement par de la lecture.

@@ -1,9 +1,9 @@
-"""Confere o registro do Entertainment Lab de uma aula, sem acessar a rede.
+"""Confere o registro do Entertainment Lab de uma prática, sem acessar a rede.
 
-  python scripts/lab.py pronto ARQUIVO        # a aula pode começar? (material do Lab pronto ou falta aceita)
-  python scripts/lab.py encerramento ARQUIVO  # o encerramento está completo? (aula Concluída e Lab sugerido)
+  python scripts/lab.py pronto ARQUIVO        # a prática pode começar? (material do Lab pronto ou falta aceita)
+  python scripts/lab.py encerramento ARQUIVO  # o encerramento está completo? (prática Concluída e Lab sugerido)
 
-O Lab não tem status próprio: quem tem status é a aula (campo `status:`).
+O Lab não tem status próprio: quem tem status é a prática (campo `status:`).
 
 ARQUIVO é o arquivo da sessão (Markdown) ou "-" para ler o texto pela entrada padrão
 (por exemplo, o conteúdo de um Google Doc). A saída é JSON; o código de saída é 0 só
@@ -19,10 +19,9 @@ from youtube import normalize  # noqa: E402
 
 TRANSCRIPT = {"obtida", "legendas_indicadas", "nao_confirmada"}
 SOURCES = {"pagina_youtube", "navegador", "busca"}
-LESSON_STATUS = {"Pendente", "Em andamento (preparada)", "Em andamento (em execução)", "Em andamento (pausada)",
-                 "Concluída"}
-REQUIRED = ["lab_titulo", "lab_canal", "lab_url", "lab_idioma_variante", "lab_duracao_aula_min",
-            "lab_duracao_video_min", "lab_trecho", "lab_transcricao", "lab_itens_da_aula", "lab_tarefa"]
+PRACTICE_STATUS = {"Em andamento (preparada)", "Em andamento (em execução)", "Em andamento (pausada)", "Concluída"}
+REQUIRED = ["lab_titulo", "lab_canal", "lab_url", "lab_idioma_variante", "lab_duracao_pratica_min",
+            "lab_duracao_video_min", "lab_trecho", "lab_transcricao", "lab_itens_da_pratica", "lab_tarefa"]
 YES = {"sim", "yes", "sí", "si", "oui"}
 
 
@@ -104,7 +103,7 @@ def check_ready(data):
     try:
         if duration_unknown:
             raise LookupError
-        lesson = minutes(data.get("lab_duracao_aula_min", ""))
+        practice = minutes(data.get("lab_duracao_pratica_min", ""))
         video = minutes(data.get("lab_duracao_video_min", ""))
         segment = data.get("lab_trecho", "")
         if segment.lower() in ("inteiro", "video inteiro", "vídeo inteiro", "whole", "entero", "entier"):
@@ -115,7 +114,7 @@ def check_ready(data):
                 problems.append("lab_trecho fora do vídeo ou com início depois do fim")
             watch = end - start
         if watch is not None:
-            low, high = 0.3 * lesson, 0.5 * lesson
+            low, high = 0.3 * practice, 0.5 * practice
             if not low - 0.01 <= watch <= high + 0.01:
                 if data.get("lab_motivo_fora_da_faixa"):
                     warnings.append(f"duração {watch:.1f} min fora de {low:g}–{high:g} min (motivo registrado)")
@@ -135,12 +134,12 @@ def check_ready(data):
 def check_closing(data):
     problems = []
     status = data.get("status", "")
-    if status not in LESSON_STATUS:
-        problems.append(f"status da aula inválido ({status or 'vazio'}): use {', '.join(sorted(LESSON_STATUS))}")
+    if status not in PRACTICE_STATUS:
+        problems.append(f"status da prática inválido ({status or 'vazio'}): use {', '.join(sorted(PRACTICE_STATUS))}")
     elif status != "Concluída":
-        problems.append("aula não marcada como Concluída (status)")
-    if data.get("encerramento_aula_salva_relida", "").lower() not in YES:
-        problems.append("aula não salva e relida (encerramento_aula_salva_relida)")
+        problems.append("prática não marcada como Concluída (status)")
+    if data.get("encerramento_pratica_salva_relida", "").lower() not in YES:
+        problems.append("prática não salva e relida (encerramento_pratica_salva_relida)")
     if not data.get("encerramento_proximo_passo"):
         problems.append("próximo passo não informado (encerramento_proximo_passo)")
     if data.get("lab_sugerido_apos_encerramento", "").lower() not in YES:

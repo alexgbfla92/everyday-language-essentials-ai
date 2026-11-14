@@ -28,10 +28,10 @@ Se faltar a edição de Docs ou de Sheets, o adaptador não passa. Diga ao aluno
 | --- | --- | --- |
 | config/defaults.md, idiomas.md, metodologia.md | Markdown | com `.md` |
 | config/estado-global.md, config/perfil.md | Google Doc | sem `.md` |
-| languages/L/config.md, conteudo/*, diagnosticos/MODELO.md, diagnosticos/09-roteiro-diagnostico-inicial.md, aulas/MODELO.md, progresso/historico/README.md | Markdown | com `.md` |
+| languages/L/config.md, conteudo/*, diagnosticos/MODELO.md, diagnosticos/09-roteiro-diagnostico-inicial.md, praticas/MODELO.md, progresso/historico/README.md | Markdown | com `.md` |
 | languages/L/estado/sessao-ativa.md, contexto-recente.md, perfil-atual.md | Google Doc | sem `.md` |
-| languages/L/diagnosticos/diagnostico-AAAAMMDD-NN.md, aulas/aula-AAAAMMDD-NN.md | Google Doc | sem `.md` |
-| languages/L/planos/&lt;id&gt;.md | Google Doc | sem `.md` |
+| languages/L/diagnosticos/diagnostico-AAAAMMDD-NN.md, praticas/pratica-AAAAMMDD-NN.md | Google Doc | sem `.md` |
+| languages/L/missoes/&lt;id&gt;.md | Google Doc | sem `.md` |
 | languages/L/progresso/08-registro-progresso.md | Google Sheet | sem `.md` |
 | languages/L/progresso/historico/&lt;resumo-de-ciclo&gt;.md | Markdown, criado uma vez e nunca editado | com `.md` |
 
@@ -45,10 +45,10 @@ O Doc guarda o mesmo Markdown do modelo como texto puro, com a mesma estrutura (
 
 | Aba | Colunas | Uso |
 | --- | --- | --- |
-| `Resumo` | Campo \| Valor | Linhas fixas na ordem do modelo: idioma, status, missão, aula padrão, ciclo ativo, aulas regulares concluídas, duração real observada, CEFR por habilidade (compreensão oral, produção oral, interação, leitura geral, leitura técnica), próxima reavaliação, próximo passo, revisão. Atualize a célula B da linha do campo. |
-| `Aulas` | ID da sessão \| Data \| Objetivo \| Evidência \| Próxima tarefa | Uma linha por aula regular concluída, acrescentada no fim. Testes nunca entram. |
+| `Resumo` | Campo \| Valor | Linhas fixas na ordem do modelo: idioma, status, missão, prática padrão, ciclo ativo, práticas regulares concluídas, duração real observada, CEFR por habilidade (compreensão oral, produção oral, interação, leitura geral, leitura técnica), próxima reavaliação, próximo passo, revisão. Atualize a célula B da linha do campo. |
+| `Práticas` | ID da sessão \| Data \| Objetivo \| Evidência \| Próxima tarefa | Uma linha por prática regular concluída, acrescentada no fim. Testes nunca entram. |
 
-Os nomes das abas são fixos nos três idiomas. Os títulos das colunas e dos campos vêm do modelo do idioma (`assets/languages/L/progresso/08-registro-progresso.md`), que é a única fonte: a primeira tabela do modelo vira a aba `Resumo` e a segunda vira a aba `Aulas`.
+Os nomes das abas são fixos nos três idiomas. Os títulos das colunas e dos campos vêm do modelo do idioma (`assets/languages/L/progresso/08-registro-progresso.md`), que é a única fonte: a primeira tabela do modelo vira a aba `Resumo` e a segunda vira a aba `Práticas`.
 
 ## Identificar a raiz
 
@@ -65,13 +65,13 @@ Obtenha o ID e os metadados da pasta dedicada do aluno e verifique a cadeia de p
    - `create_file` com `kind: google-doc`: cria com o texto de `content_file` e MIME de conteúdo `text/plain`, com conversão; o resultado deve ser `application/vnd.google-apps.document`.
    - `create_file` com `kind: google-sheet`: cria com o `csv` da operação e MIME de conteúdo `text/csv`, com conversão; o resultado deve ser `application/vnd.google-apps.spreadsheet`.
    - `configure_sheet`: se `rename_first_tab` vier preenchido, renomeie a primeira aba (a conversão cria "Untitled"); para cada item de `add_tabs`, crie a aba e grave as `rows` a partir de A1.
-5. Releia cada objeto criado (ID, nome, MIME, pai e conteúdo; nas planilhas, abas e valores) e atualize o inventário. Repita o planejador até `operations`, `list_parent_ids` e `inspect_sheet_ids` ficarem vazios. A reconciliação reconhece Docs e Sheets já criados por uma execução interrompida e não os recria; se um nome existir com o tipo errado, o planejador para com conflito.
+5. Releia cada objeto criado (ID, nome, MIME, pai e conteúdo; nas planilhas, abas e valores) e atualize o inventário. Repita o provisionador até `operations`, `list_parent_ids` e `inspect_sheet_ids` ficarem vazios. A reconciliação reconhece Docs e Sheets já criados por uma execução interrompida e não os recria; se um nome existir com o tipo errado, o planejador para com conflito.
 
-Sem execução de Python, percorra a árvore assets/config e assets/languages dos idiomas escolhidos na mesma ordem (pais antes dos filhos), incluindo a subpasta planos, aplicando a tabela de formatos e as mesmas verificações.
+Sem execução de Python, percorra a árvore assets/config e assets/languages dos idiomas escolhidos na mesma ordem (pais antes dos filhos), incluindo a subpasta missoes, aplicando a tabela de formatos e as mesmas verificações.
 
-## Criar sessões e planos
+## Criar sessões e missões
 
-Ao iniciar um diagnóstico ou aula, crie o Doc `diagnostico-AAAAMMDD-NN` ou `aula-AAAAMMDD-NN` na pasta do idioma com o texto do MODELO.md correspondente (`text/plain`, com conversão). Planos (`planos/<id>`) também nascem como Doc. Registre o ID no índice e no ponteiro de sessão ativa antes da primeira atividade.
+Ao iniciar um diagnóstico ou prática, crie o Doc `diagnostico-AAAAMMDD-NN` ou `pratica-AAAAMMDD-NN` na pasta do idioma com o texto do MODELO.md correspondente (`text/plain`, com conversão). Missões (`missoes/<id>`) também nascem como Doc. Registre o ID no índice e no ponteiro de sessão ativa antes da primeira atividade.
 
 ## Gravar e reler Docs
 
@@ -85,7 +85,7 @@ Depois de cada escrita, releia o Doc e compare revisão, operação, evidências
 ## Gravar e reler Sheets
 
 - Campo do `Resumo`: localize a linha do campo pela coluna A e grave a coluna B dessa linha (`Resumo!B<n>`).
-- Aula válida: acrescente uma linha em `Aulas` (acrescentar a partir de `Aulas!A1`). Antes, confira que o ID da sessão ainda não está na coluna A, para não contar a mesma aula duas vezes.
+- Prática válida: acrescente uma linha em `Práticas` (acrescentar a partir de `Práticas!A1`). Antes, confira que o ID da sessão ainda não está na coluna A, para não contar a mesma prática duas vezes.
 - Releia o intervalo gravado e compare.
 
 A gravação de valores não tem controle de revisão. Mantenha um único chat escritor por sessão e por Central.
@@ -100,9 +100,9 @@ Remove-CentralIdioma e os Reset-* (veja [comandos](../COMANDOS.md)) apagam pela 
 Só peça ao aluno que apague à mão quando o conector não tiver nenhuma das duas ações. Os backups de reset são cópias nativas (`copy_file`) numa subpasta de `_backups/`. Para devolver um derivado ao modelo:
 
 - Doc: substituição total com o texto do modelo.
-- Sheet: limpe as abas `Resumo` e `Aulas` e regrave as duas tabelas do modelo a partir de A1.
+- Sheet: limpe as abas `Resumo` e `Práticas` e regrave as duas tabelas do modelo a partir de A1.
 
-No Reset-Lessons, além de apagar os Docs `aula-*`: em cada plano afetado, troque nas linhas dessas aulas o Status por `Pendente` e esvazie a Sessão (`update_doc`); na Sheet do progresso, apague as linhas dessas aulas na aba `Aulas` e devolva ao modelo, na aba `Resumo`, o total de aulas regulares e a duração real. Releia cada arquivo.
+No Reset-Practices, além de apagar os Docs `pratica-*`: em cada missão afetada, tire da tabela Práticas as linhas dessas práticas (`update_doc`); na Sheet do progresso, apague as linhas dessas práticas na aba `Práticas` e devolva ao modelo, na aba `Resumo`, o total de práticas regulares e a duração real. Releia cada arquivo.
 
 Nunca sobrescreva um arquivo para "apagá-lo".
 

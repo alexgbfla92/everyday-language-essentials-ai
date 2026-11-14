@@ -22,7 +22,7 @@ python scripts/provision.py --local CAMINHO_DA_RAIZ en-US es-ES
 
 O script cria somente o que falta, pais antes dos filhos, e nunca sobrescreve um arquivo existente. Ele para com erro se encontrar um tipo inesperado (arquivo onde se espera pasta, ou o contrário), um link simbólico ou uma raiz dentro da pasta da skill. A saída JSON lista `created`, `existing` e o índice `ids` (caminho → caminho). Pode ser executado de novo após interrupção ou para adicionar idiomas.
 
-Sem Python, crie a mesma árvore com as ferramentas de arquivo da sessão, copiando assets/config e assets/languages dos idiomas escolhidos e criando a subpasta planos de cada idioma. Antes de criar cada item, confira se ele já existe.
+Sem Python, crie a mesma árvore com as ferramentas de arquivo da sessão, copiando assets/config e assets/languages dos idiomas escolhidos e criando a subpasta missoes de cada idioma. Antes de criar cada item, confira se ele já existe.
 
 Depois, abra alguns arquivos criados e compare com os modelos em assets/ para confirmar que a cópia é fiel.
 

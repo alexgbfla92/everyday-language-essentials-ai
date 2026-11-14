@@ -4,13 +4,13 @@ Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens f
 
 ## Ensaio do Drive nativo
 
-1. No Claude, com os conectores Google Drive, Google Docs e Google Sheets ativos, rode `Create-CentralIdioma googledrive` com uma pasta vazia e Inglês. Confira na pasta: `estado-global`, `perfil`, os três arquivos de `estado/` como Google Docs sem `.md`; `08-registro-progresso` como Google Sheet com as abas `Resumo` e `Aulas` (sem "Untitled"); os demais arquivos como `.md`.
+1. No Claude, com os conectores Google Drive, Google Docs e Google Sheets ativos, rode `Create-CentralIdioma googledrive` com uma pasta vazia e Inglês. Confira na pasta: `estado-global`, `perfil`, os três arquivos de `estado/` como Google Docs sem `.md`; `08-registro-progresso` como Google Sheet com as abas `Resumo` e `Práticas` (sem "Untitled"); os demais arquivos como `.md`.
 2. Abra o `estado-global` e confira o marcador do teste de escrita e a tabela Índice com IDs e formatos.
 3. Interrompa um setup no meio (feche o chat) e rode de novo: nada pode ser duplicado e as abas da planilha devem ser completadas.
-4. Faça um diagnóstico curto e uma aula: os Docs `diagnostico-*` e `aula-*` devem receber cada resposta, mantendo o mesmo ID. Edite o Doc da sessão à mão durante a aula e confirme que a próxima escrita da skill é recusada pela revisão, relida e reconciliada.
-5. Conclua a aula: uma linha nova na aba `Aulas` e a contagem no `Resumo`, sem duplicar ao repetir a consolidação.
+4. Faça um diagnóstico curto e uma prática: os Docs `diagnostico-*` e `pratica-*` devem receber cada resposta, mantendo o mesmo ID. Edite o Doc da sessão à mão durante a prática e confirme que a próxima escrita da skill é recusada pela revisão, relida e reconciliada.
+5. Conclua a prática: uma linha nova na aba `Práticas` e a contagem no `Resumo`, sem duplicar ao repetir a consolidação.
 6. Retome pelo celular e pelo tablet: mesma pergunta pendente.
-7. `Reset-Lessons Inglês`: backup nativo em `_backups/`, Docs das aulas na lixeira, `contexto-recente` devolvido ao modelo, linhas dessas aulas nos planos de volta a `Pendente` sem sessão e fora da aba `Aulas` do progresso. Depois, `Info-CentralIdioma` e "quais aulas eu fiz em inglês?" não citam as aulas apagadas nem status como "excluída no reset". `Reset-Progress Inglês`: abas `Resumo` e `Aulas` iguais ao modelo.
+7. `Reset-Practices Inglês`: backup nativo em `_backups/`, Docs das práticas na lixeira, `contexto-recente` devolvido ao modelo, linhas dessas práticas fora da tabela Práticas das missões e fora da aba `Práticas` do progresso. Depois, `Info-CentralIdioma` e "quais práticas eu fiz em inglês?" não citam as práticas apagadas nem status como "excluída no reset". `Reset-Progress Inglês`: abas `Resumo` e `Práticas` iguais ao modelo.
 8. `Remove-CentralIdioma`: pasta raiz na lixeira do Drive.
 9. Repita 1, 4 e 5 no ChatGPT na mesma Central e numa Central nova criada por ele.
 
@@ -20,8 +20,8 @@ Repita o roteiro abaixo em cada combinação de plataforma e adaptador que for p
 
 1. Pelo mecanismo de instalação disponível na conta, invoque a skill sem o clone aberto. Informe um destino vazio. Crie espanhol e inglês. Confira metadados, pais, MIME, bytes, IDs e revisão da configuração após nova leitura.
 2. Repita o setup. Compare os IDs. Adicione francês; confira que os dados anteriores continuam íntegros.
-3. Peça aula sem diagnóstico e depois com triagem breve. Observe o encaminhamento. Conclua um diagnóstico regular em texto, confira as limitações anotadas e aprove o plano. Faça uma sessão de teste e compare as métricas antes e depois.
-4. Pause uma aula após a segunda frase do aluno. No celular, recupere o mesmo ID, revisão e pergunta. Em voz, confirme o que foi efetivamente observado. Encerre e verifique uma única contribuição ao progresso.
+3. Peça prática sem diagnóstico e depois com triagem breve. Observe o encaminhamento. Conclua um diagnóstico regular em texto, confira as limitações anotadas e aprove a missão. Faça uma sessão de teste e compare as métricas antes e depois.
+4. Pause uma prática após a segunda frase do aluno. No celular, recupere o mesmo ID, revisão e pergunta. Em voz, confirme o que foi efetivamente observado. Encerre e verifique uma única contribuição ao progresso.
 5. Interrompa o acesso após salvar a sessão e antes de atualizar o progresso. Confira o checkpoint, reconcilie pelo ID de operação e valide o reparo. Com um segundo escritor ativo, registre conflitos e suspenda a operação se o conector não oferecer garantias suficientes.
 6. Em chat de progresso, compare as evidências de um idioma sem alterar notas. No Lab, teste um vídeo sem transcrição acessível.
 
@@ -29,34 +29,33 @@ Registre interface, versão, data, ações e resultados em ambiente de teste. A 
 
 ## Latência e recuperação
 
-Em pasta pessoal de ensaio, anote operações e tempo de espera de três turnos comuns antes e depois da mudança, na mesma interface. Durante uma aula aberta, uma resposta que altere o estado deve produzir uma única escrita no arquivo da sessão, com verificação por leitura. Confira pelos IDs que o resumo, o perfil e o índice global não receberam escrita naquele turno. Em outro chat, use o ponteiro existente e confira se a próxima pergunta recuperada corresponde à última resposta confirmada. Interrompa a conclusão depois da fonte e antes do registro 08; ao retomar, verifique reparo, uma única contabilização e encerramento do ponteiro.
+Em pasta pessoal de ensaio, anote operações e tempo de espera de três turnos comuns antes e depois da mudança, na mesma interface. Durante uma prática aberta, uma resposta que altere o estado deve produzir uma única escrita no arquivo da sessão, com verificação por leitura. Confira pelos IDs que o resumo, o perfil e o índice global não receberam escrita naquele turno. Em outro chat, use o ponteiro existente e confira se a próxima pergunta recuperada corresponde à última resposta confirmada. Interrompa a conclusão depois da fonte e antes do registro 08; ao retomar, verifique reparo, uma única contabilização e encerramento do ponteiro.
 
 ## Ensaio de frases numeradas e voz
 
 1. Em texto, confira que cada frase da IA no idioma-alvo vem com `[Fn]`, que cada resposta abre com os números das frases do aluno e que diálogos vêm com `[Dn]`. Peça "repita a frase N", "explique a estrutura do diálogo N" e "traduza a N", inclusive de uma sessão anterior.
-2. Faça Reset-Lessons e uma aula nova: os números continuam de onde pararam.
+2. Faça Reset-Practices e uma prática nova: os números continuam de onde pararam.
 3. Em voz, confira o anúncio curto dos números e `IDs-Voz off`.
-4. Em voz, diga "pausar": se a gravação funcionar, a sessão fica `pausada` com a próxima pergunta; se não, a IA não diz que salvou e passa o comando Save-Lesson. Saia do modo voz, envie o comando e confira as falas do trecho em voz gravadas com modo `voz`.
-5. Repita com "terminar a aula": sessão `concluída`, progresso consolidado uma única vez.
-6. Feche o modo voz sem pausar e volte ao texto: a skill deve oferecer Save-Lesson.
+4. Em voz, diga "pausar": se a gravação funcionar, a sessão fica `pausada` com a próxima pergunta; se não, a IA não diz que salvou e passa o comando Save-Practice. Saia do modo voz, envie o comando e confira as falas do trecho em voz gravadas com modo `voz`.
+5. Repita com "terminar a prática": sessão `concluída`, progresso consolidado uma única vez.
+6. Feche o modo voz sem pausar e volte ao texto: a skill deve oferecer Save-Practice.
 
-## Ensaio do roteiro da aula e do Entertainment Lab
+## Ensaio do roteiro da prática e do Entertainment Lab
 
 A conferência mecânica fica em `skills/talkgo/scripts/lab.py` (`pronto` antes da etapa 1, `encerramento` antes de encerrar) e é coberta por `tests/test_lab.py`. Em cada plataforma, ensaie também o comportamento:
 
-1. **Vídeo disponível** (também com o YouTube bloqueado: a confirmação vem de um resultado de busca do youtube.com, com `lab_fonte_verificacao: busca`). Antes da etapa 1, a sessão tem status `Em andamento (preparada)` e a seção do Lab com link `https://www.youtube.com/watch?v=…`, duração de 30–50% da aula (ou o mais próximo, com motivo), perguntas, tarefa e `lab_verificado_em`; `lab.py pronto` passa; o roteiro da abertura mostra o título.
+1. **Vídeo disponível** (também com o YouTube bloqueado: a confirmação vem de um resultado de busca do youtube.com, com `lab_fonte_verificacao: busca`). Antes da etapa 1, a sessão tem status `Em andamento (preparada)` e a seção do Lab com link `https://www.youtube.com/watch?v=…`, duração de 30–50% da prática (ou o mais próximo, com motivo), perguntas, tarefa e `lab_verificado_em`; `lab.py pronto` passa; o roteiro da abertura mostra o título.
 2. **Falha na busca.** Sem busca (ou sem vídeo confirmado), a IA diz o que falhou e pergunta se o aluno aceita começar sem o vídeo **antes** da etapa 1; a etapa 1 só começa depois do "sim", gravado em `lab_pendencia_aceita_pelo_aluno`.
-3. **Início em voz.** Sem acesso a busca e gravação, a IA diz a limitação, não afirma que nada está pronto ou salvo e encaminha `Next-Lesson <idioma>` em texto.
-4. **Retomada.** Ao retomar uma aula com o Lab `a_preparar`, a IA prepara (ou segue o caminho de falha) antes de continuar a etapa salva.
-5. **Pedido de encerramento.** "Quero encerrar" no meio da aula leva à etapa 6 (salvar, reler, próximo passo) e à 7 (material salvo, sem nova pesquisa, uma única pergunta).
-6. **Lab depois do encerramento.** A aula fica `Concluída` no encerramento, com `lab_sugerido_apos_encerramento: sim`, e `lab.py encerramento` passa antes de o aluno responder; a mesma mensagem sugere o Lab. Recusar não grava nada; fazer grava só `lab_resultado`. Nenhum status de Lab aparece. `Lab` abre o mesmo material depois.
-7. **Next-Lesson.** Com dois idiomas em andamento, pergunta qual; com aula pausada no idioma, pede para encerrá-la (ou retomá-la) antes; senão cria a aula, prepara e verifica o Lab, mostra o resumo das sete etapas com o link do vídeo, grava, confirma e pergunta só "Começamos pela etapa 1?". Com duração avulsa (`Next-Lesson Inglês 5min`), o resumo mostra 5 minutos e as etapas proporcionais, o Lab mira 1,5–2,5 minutos e o padrão do plano continua 20 minutos.
+3. **Início em voz.** Sem acesso a busca e gravação, a IA diz a limitação, não afirma que nada está pronto ou salvo e encaminha `Next-Practice <idioma>` em texto.
+4. **Retomada.** Ao retomar uma prática sem o material do Lab preparado, a IA prepara (ou segue o caminho de falha) antes de continuar a etapa salva.
+5. **Pedido de encerramento.** "Quero encerrar" no meio da prática leva à etapa 6 (salvar, reler, próximo passo) e à 7 (material salvo, sem nova pesquisa, uma única pergunta).
+6. **Lab depois do encerramento.** A prática fica `Concluída` no encerramento, com `lab_sugerido_apos_encerramento: sim`, e `lab.py encerramento` passa antes de o aluno responder; a mesma mensagem sugere o Lab. Recusar não grava nada; fazer grava só `lab_resultado`. Nenhum status de Lab aparece. `Lab` abre o mesmo material depois.
+7. **Next-Practice.** Com dois idiomas em andamento, pergunta qual; com prática pausada no idioma, pede para encerrá-la (ou retomá-la) antes; senão cria a prática, prepara e verifica o Lab, mostra o resumo das sete etapas com o link do vídeo, grava, confirma e pergunta só "Começamos pela etapa 1?". Com duração avulsa (`Next-Practice Inglês 5min`), o resumo mostra 5 minutos e as etapas proporcionais, o Lab mira 1,5–2,5 minutos e o padrão da missão continua 20 minutos.
 
-## Ensaio de planos
+## Ensaio de missões
 
-1. `Plan-Mission Inglês` sem ação lista os planos (nome, status, próxima aula) e pergunta se é para criar ou atualizar.
-2. `Plan-Mission Inglês novo` sem diagnóstico encaminha ao diagnóstico; com diagnóstico, pergunta só o que falta, propõe a sequência de aulas e grava `planos/<plano_id>` após aprovação, confirmando "Plano salvo".
-3. `Plan-Mission Inglês atualizar` com dois planos pergunta qual; mostra o resumo, aplica a mudança aprovada sem mexer em aulas concluídas, soma a revisão e registra o histórico.
-4. `Next-Lesson Inglês` com dois planos ativos pergunta qual; com `plano <id>` usa o indicado; a aula grava `plano_id` e a linha do plano fica `Em andamento (preparada)`, depois `(em execução)` e, ao pausar, `(pausada)`; ao concluir, `Concluída`.
-5. `Info-CentralIdioma` lista os planos de cada idioma com status.
-
+1. `Mission Inglês` sem ação lista as missões (título, data-alvo, status e práticas concluídas) e pergunta se é para criar ou atualizar.
+2. `Mission Inglês nova` sem diagnóstico encaminha ao diagnóstico; com diagnóstico, pergunta só o que falta (título, descrição, data-alvo obrigatória, situações), propõe as situações e grava `missoes/<missao_id>` após aprovação, confirmando "Missão salva".
+3. `Mission Inglês atualizar` com duas missões pergunta qual; mostra o resumo, aplica a mudança aprovada sem apagar práticas feitas, soma a revisão e registra o histórico.
+4. `Next-Practice Inglês` com duas missões ativas pergunta qual; com `missao <id>` usa a indicada; escolhe a situação com menos práticas concluídas (ou a pedida); a prática grava `missao_id` e `situacao`, e a linha dela na missão fica `Em andamento (preparada)`, depois `(em execução)` e, ao pausar, `(pausada)`; ao concluir, `Concluída`.
+5. `Info-CentralIdioma` lista as missões de cada idioma com data-alvo e status.

@@ -1,6 +1,6 @@
 # Initial diagnostic script — American English
 
-Idioma: `en-US`. Duración estándar: 30 minutos, personalizable. Antes de empezar, crear un archivo de diagnóstico con ID, idioma, tipo regular/prueba, `incluir_em_metricas` y estado. Guardar un checkpoint al cambiar de etapa. No confundir minutos planificados con observados.
+Idioma: `en-US`. Duración estándar: 30 minutos, personalizable. Antes de empezar, crear un archivo de diagnóstico con ID, idioma, tipo regular/prueba, `incluir_em_metricas` y estado. Guardar un checkpoint al cambiar de etapa. No confundir minutos previstos con observados.
 
 1. Opening: ask in English what the learner needs English for and confirm American English as the default variety.
 2. Listening (8 min): present short spoken announcements, such as “Your flight is boarding at gate twelve,” or a hotel message. Ask one question at a time. If real audio is unavailable, record “listening not assessed”; do not replace it silently with reading.

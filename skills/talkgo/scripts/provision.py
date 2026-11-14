@@ -1,6 +1,6 @@
 """Provisione a pasta pessoal sem acessar a rede.
 
-Google Drive por conector: planeja a próxima rodada de operações.
+Google Drive por conector: calcula a próxima rodada de operações.
   python scripts/provision.py ID_PESSOAL inventario.json en-US es-ES [--abas abas.json]
 Pasta local: cria o que falta diretamente no disco, sem sobrescrever (100% Markdown).
   python scripts/provision.py --local CAMINHO en-US es-ES
@@ -27,8 +27,8 @@ EXPECTED = {"folder": {FOLDER}, "markdown": {MARKDOWN, "text/plain"}, "google-do
 CREATE_MIME = {"markdown": MARKDOWN, "google-doc": "text/plain", "google-sheet": "text/csv"}
 LANG = r"languages/(english|spanish|french)"
 DOC_PATTERNS = [r"config/(estado-global|perfil)\.md", LANG + r"/estado/[^/]+\.md",
-                LANG + r"/(aulas/aula|diagnosticos/diagnostico)-[^/]+\.md", LANG + r"/planos/[^/]+\.md"]
-SHEET_TABS = {LANG + r"/progresso/08-registro-progresso\.md": ["Resumo", "Aulas"]}
+                LANG + r"/(praticas/pratica|diagnosticos/diagnostico)-[^/]+\.md", LANG + r"/missoes/[^/]+\.md"]
+SHEET_TABS = {LANG + r"/progresso/08-registro-progresso\.md": ["Resumo", "Práticas"]}
 
 
 def classify(path, is_folder=False):
@@ -93,7 +93,7 @@ def specification(languages):
                 if parent.parts:
                     spec[str(parent)] = None
         if root.parent.name == "languages":
-            spec[f"languages/{root.name}/planos"] = None
+            spec[f"languages/{root.name}/missoes"] = None
     return dict(sorted(spec.items(), key=lambda pair: (pair[0].count("/"), pair[0])))
 
 
@@ -113,7 +113,7 @@ def _configure(path, item_id, source, tabs):
         "add_tabs": add}}
 
 
-def plan(root_id, languages, listings, tabs=None):
+def next_operations(root_id, languages, listings, tabs=None):
     """listings: ID do pai -> listagem COMPLETA dos filhos diretos (id, title, mime_type).
     tabs: ID de planilha -> títulos das abas, na ordem, lidos da planilha."""
     if not root_id or root_id == "root":
@@ -209,7 +209,7 @@ def apply_local(root, languages):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--local", type=Path, metavar="PASTA",
-                        help="cria a estrutura numa pasta local em vez de planejar operações do Drive")
+                        help="cria a estrutura numa pasta local em vez de calcular operações do Drive")
     parser.add_argument("--abas", type=Path, metavar="ABAS_JSON",
                         help="Drive: JSON com ID da planilha -> títulos das abas, na ordem")
     parser.add_argument("args", nargs="+", metavar="ARG",
@@ -226,7 +226,7 @@ def main(argv=None):
         parser.error(f"Idiomas inválidos: {', '.join(unknown)}. Use: {', '.join(LANGUAGES)}.")
     if options.local is None:
         sheets = json.loads(options.abas.read_text(encoding="utf-8-sig")) if options.abas else {}
-        result = plan(root_id, languages, json.loads(inventory.read_text(encoding="utf-8-sig")), sheets)
+        result = next_operations(root_id, languages, json.loads(inventory.read_text(encoding="utf-8-sig")), sheets)
     else:
         result = apply_local(options.local, languages)
     print(json.dumps(result, indent=2, ensure_ascii=True))
