@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "talkgo"))
 
 from scripts.provision import (ASSETS, DOC, FOLDER, LANGUAGES, MARKDOWN, SHEET, apply_local, classify,
-                               main, plan, sheet_spec)
+                               main, next_operations, sheet_spec)
 
 CREATED = {"text/plain": DOC, "text/csv": SHEET, MARKDOWN: MARKDOWN}
 
@@ -26,7 +26,7 @@ class ProvisionTests(unittest.TestCase):
 
     def run_install(self, languages):
         for _ in range(16):
-            batch = plan("personal", languages, self.inventory, self.tabs if self.inspect else None)
+            batch = next_operations("personal", languages, self.inventory, self.tabs if self.inspect else None)
             self.assertFalse(batch["list_parent_ids"])
             if not batch["operations"] and not batch["inspect_sheet_ids"]:
                 return batch
@@ -66,13 +66,13 @@ class ProvisionTests(unittest.TestCase):
         self.assertEqual(kinds["config/perfil.md"], "google-doc")
         self.assertEqual(kinds["config/defaults.md"], "markdown")
         self.assertEqual(kinds["languages/english/config.md"], "markdown")
-        self.assertEqual(kinds["languages/english/aulas/MODELO.md"], "markdown")
+        self.assertEqual(kinds["languages/english/praticas/MODELO.md"], "markdown")
         self.assertEqual(kinds["languages/english/progresso/historico/README.md"], "markdown")
         for name in ("sessao-ativa", "contexto-recente", "perfil-atual"):
             self.assertEqual(kinds[f"languages/english/estado/{name}.md"], "google-doc")
         sheet = ids["languages/english/progresso/08-registro-progresso.md"]
         self.assertEqual(kinds["languages/english/progresso/08-registro-progresso.md"], "google-sheet")
-        self.assertEqual(self.tabs[sheet], ["Resumo", "Aulas"])
+        self.assertEqual(self.tabs[sheet], ["Resumo", "Práticas"])
         self.assertTrue(self.contents[sheet].startswith("Field,Value\nLanguage,American English (en-US)\n"))
         titles = {item["title"] for items in self.inventory.values() for item in items}
         self.assertIn("estado-global", titles)
@@ -83,9 +83,9 @@ class ProvisionTests(unittest.TestCase):
         self.assertEqual(self.contents[doc], (ASSETS / "languages/english/estado/sessao-ativa.md").read_text())
 
     def test_session_and_history_classification(self):
-        self.assertEqual(classify("languages/spanish/aulas/aula-20261111-01.md"), "google-doc")
+        self.assertEqual(classify("languages/spanish/praticas/pratica-20261111-01.md"), "google-doc")
         self.assertEqual(classify("languages/french/diagnosticos/diagnostico-20261111-02.md"), "google-doc")
-        self.assertEqual(classify("languages/english/planos/missao-reunioes.md"), "google-doc")
+        self.assertEqual(classify("languages/english/missoes/missao-reunioes.md"), "google-doc")
         self.assertEqual(classify("languages/english/progresso/historico/ciclo-2026-11.md"), "markdown")
         self.assertEqual(classify("languages/english/diagnosticos/09-roteiro-diagnostico-inicial.md"), "markdown")
 
@@ -95,7 +95,7 @@ class ProvisionTests(unittest.TestCase):
                                ("spanish", ["Identificador", "Fecha", "Objetivo", "Evidencias", "Próxima tarea"]),
                                ("french", ["Identifiant", "Date", "Objectif", "Preuves", "Suite"])):
             path = f"languages/{folder}/progresso/08-registro-progresso.md"
-            self.assertEqual(self.tabs[batch["ids"][path]], ["Resumo", "Aulas"])
+            self.assertEqual(self.tabs[batch["ids"][path]], ["Resumo", "Práticas"])
             spec = sheet_spec(path, ASSETS / path)
             self.assertEqual(spec["tabs"][1]["rows"], [header])
             self.assertEqual(len(spec["tabs"][0]["rows"]), 16)
@@ -109,18 +109,18 @@ class ProvisionTests(unittest.TestCase):
         self.inspect = True
         sheet = "id-languages/spanish/progresso/08-registro-progresso.md"
         self.assertEqual(self.tabs[sheet], ["Untitled"])
-        batch = plan("personal", ["es-ES"], self.inventory)
+        batch = next_operations("personal", ["es-ES"], self.inventory)
         self.assertEqual(batch["inspect_sheet_ids"], [sheet])
         self.assertFalse(batch["operations"])
-        steps = plan("personal", ["es-ES"], self.inventory, self.tabs)["operations"]
+        steps = next_operations("personal", ["es-ES"], self.inventory, self.tabs)["operations"]
         self.assertEqual([s["action"] for s in steps], ["configure_sheet"])
         self.assertEqual(steps[0]["args"]["rename_first_tab"], {"from": "Untitled", "to": "Resumo"})
         self.assertEqual(steps[0]["args"]["add_tabs"][0]["rows"][0][0], "Identificador")
         self.tabs[sheet] = ["Resumo"]
-        steps = plan("personal", ["es-ES"], self.inventory, self.tabs)["operations"]
+        steps = next_operations("personal", ["es-ES"], self.inventory, self.tabs)["operations"]
         self.assertIsNone(steps[0]["args"]["rename_first_tab"])
-        self.tabs[sheet] = ["Resumo", "Aulas"]
-        self.assertFalse(plan("personal", ["es-ES"], self.inventory, self.tabs)["operations"])
+        self.tabs[sheet] = ["Resumo", "Práticas"]
+        self.assertFalse(next_operations("personal", ["es-ES"], self.inventory, self.tabs)["operations"])
 
     def test_repeat_and_extend(self):
         first = self.run_install(["es-ES"])["ids"]
@@ -131,8 +131,8 @@ class ProvisionTests(unittest.TestCase):
         self.assertEqual(first.items() & complete.items(), first.items())
         self.assertEqual(self.contents[state], "Evidência fictícia F002")
         for lang in LANGUAGES.values():
-            for suffix in ("diagnosticos/09-roteiro-diagnostico-inicial.md", "aulas/MODELO.md",
-                           "progresso/historico", "estado/sessao-ativa.md", "conteudo/essentials.md", "planos"):
+            for suffix in ("diagnosticos/09-roteiro-diagnostico-inicial.md", "praticas/MODELO.md",
+                           "progresso/historico", "estado/sessao-ativa.md", "conteudo/essentials.md", "missoes"):
                 self.assertIn(f"languages/{lang}/{suffix}", complete)
 
     def test_wrong_type_is_a_conflict(self):
@@ -142,17 +142,17 @@ class ProvisionTests(unittest.TestCase):
             if item["title"] == "estado-global":
                 item["mime_type"] = MARKDOWN
         with self.assertRaises(ValueError):
-            plan("personal", ["en-US"], self.inventory, self.tabs)
+            next_operations("personal", ["en-US"], self.inventory, self.tabs)
         for item in self.inventory[config]:
             if item["title"] == "estado-global":
                 item["mime_type"] = DOC
         self.inventory[config].append({"id": "x", "title": "estado-global.md", "mime_type": MARKDOWN})
-        self.assertFalse(plan("personal", ["en-US"], self.inventory, self.tabs)["operations"])
+        self.assertFalse(next_operations("personal", ["en-US"], self.inventory, self.tabs)["operations"])
 
     def test_unlisted_parent_and_lost_response(self):
-        self.assertEqual(plan("personal", ["en-US"], {})["operations"], [])
+        self.assertEqual(next_operations("personal", ["en-US"], {})["operations"], [])
         self.inventory["personal"].append({"id": "old", "title": "languages", "mime_type": FOLDER})
-        batch = plan("personal", ["en-US"], self.inventory)
+        batch = next_operations("personal", ["en-US"], self.inventory)
         self.assertEqual(batch["list_parent_ids"], ["old"])
         self.assertEqual([op["path"] for op in batch["operations"]], ["config"])
 
@@ -161,11 +161,11 @@ class ProvisionTests(unittest.TestCase):
             self.inventory["personal"] = [
                 {"id": str(i), "title": "languages", "mime_type": mime} for i, mime in enumerate(entries)]
             with self.assertRaises(ValueError):
-                plan("personal", ["en-US"], self.inventory)
+                next_operations("personal", ["en-US"], self.inventory)
 
     def test_requires_personal_folder(self):
         with self.assertRaises(ValueError):
-            plan("root", ["en-US"], {})
+            next_operations("root", ["en-US"], {})
 
     def test_cli_with_tabs(self):
         tmp = tempfile.TemporaryDirectory()
@@ -202,7 +202,7 @@ class LocalProvisionTests(unittest.TestCase):
                 self.assertEqual(target.read_bytes(), source.read_bytes())
             else:
                 self.assertTrue(target.is_dir())
-        self.assertTrue((self.root / "languages/spanish/planos").is_dir())
+        self.assertTrue((self.root / "languages/spanish/missoes").is_dir())
 
     def test_repeat_and_extend_preserve_learner_data(self):
         first = apply_local(self.root, ["es-ES"])
@@ -246,7 +246,7 @@ class LocalProvisionTests(unittest.TestCase):
         with redirect_stdout(out):
             main(["--local", str(self.root), "fr-FR"])
         result = json.loads(out.getvalue())
-        self.assertIn("languages/french/aulas/MODELO.md", result["created"])
+        self.assertIn("languages/french/praticas/MODELO.md", result["created"])
 
     def drive_paths(self, languages):
         installer = ProvisionTests("run_install")
@@ -257,7 +257,7 @@ class LocalProvisionTests(unittest.TestCase):
 class TemplateTests(unittest.TestCase):
     def test_session_templates_have_global_phrase_and_dialogue_tables(self):
         for folder in LANGUAGES.values():
-            for kind in ("aulas", "diagnosticos"):
+            for kind in ("praticas", "diagnosticos"):
                 text = (ASSETS / "languages" / folder / kind / "MODELO.md").read_text(encoding="utf-8")
                 self.assertIn("F? – F? | D? – D?", text, (folder, kind))
                 self.assertIn("| ID |", text)
@@ -271,18 +271,18 @@ class TemplateTests(unittest.TestCase):
 
     def test_templates_track_the_current_stage(self):
         for folder in LANGUAGES.values():
-            lesson = (ASSETS / "languages" / folder / "aulas" / "MODELO.md").read_text(encoding="utf-8")
+            practice = (ASSETS / "languages" / folder / "praticas" / "MODELO.md").read_text(encoding="utf-8")
             diagnostic = (ASSETS / "languages" / folder / "diagnosticos" / "MODELO.md").read_text(encoding="utf-8")
-            self.assertIn("(1–7)", lesson, folder)
-            self.assertIn("## Entertainment Lab", lesson, folder)
-            self.assertIn("https://www.youtube.com/watch?v=", lesson, folder)
-            self.assertIn("30–50", lesson, folder)
-            self.assertNotIn("lab_status", lesson, folder)
-            self.assertIn("status: Em andamento (preparada)", lesson, folder)
-            self.assertIn("lab_sugerido_apos_encerramento:", lesson, folder)
-            self.assertIn("encerramento_proximo_passo:", lesson, folder)
-            self.assertIn("| 7 Entertainment Lab", lesson, folder)
-            self.assertIn("| 0 ", lesson, folder)
+            self.assertIn("(1–7)", practice, folder)
+            self.assertIn("## Entertainment Lab", practice, folder)
+            self.assertIn("https://www.youtube.com/watch?v=", practice, folder)
+            self.assertIn("30–50", practice, folder)
+            self.assertNotIn("lab_status", practice, folder)
+            self.assertIn("status: Em andamento (preparada)", practice, folder)
+            self.assertIn("lab_sugerido_apos_encerramento:", practice, folder)
+            self.assertIn("encerramento_proximo_passo:", practice, folder)
+            self.assertIn("| 7 Entertainment Lab", practice, folder)
+            self.assertIn("| 0 ", practice, folder)
             self.assertIn("(1–5)", diagnostic, folder)
 
     def test_feedback_module_hands_over_to_closing_and_lab(self):
@@ -293,13 +293,16 @@ class TemplateTests(unittest.TestCase):
                      "04-listening-trainer.md"):
             self.assertIn("Entertainment Lab", (modules / name).read_text(encoding="utf-8"), name)
 
-    def test_plan_template_is_not_provisioned_and_lesson_links_plan(self):
-        template = (ASSETS / "modelos" / "plano-missao.md").read_text(encoding="utf-8")
-        for key in ("plano_id:", "plano_status: ativo", "plano_revisao: 1", "| Nº | Tema |", "Histórico de revisões"):
+    def test_mission_template_is_not_provisioned_and_practice_links_mission(self):
+        template = (ASSETS / "modelos" / "missao.md").read_text(encoding="utf-8")
+        for key in ("missao_id:", "missao_titulo:", "missao_descricao:", "missao_data_alvo:", "missao_status: ativa",
+                    "missao_revisao: 1", "## Situações", "| Prática | Data | Situação | Status |",
+                    "Histórico de revisões"):
             self.assertIn(key, template)
         from scripts.provision import specification
         self.assertFalse(any("modelos" in path for path in specification(list(LANGUAGES))))
         for folder in LANGUAGES.values():
-            lesson = (ASSETS / "languages" / folder / "aulas" / "MODELO.md").read_text(encoding="utf-8")
-            self.assertIn("plano_id:", lesson, folder)
+            practice = (ASSETS / "languages" / folder / "praticas" / "MODELO.md").read_text(encoding="utf-8")
+            self.assertIn("missao_id:", practice, folder)
+            self.assertIn("situacao:", practice, folder)
 

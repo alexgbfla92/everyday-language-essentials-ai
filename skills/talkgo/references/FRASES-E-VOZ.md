@@ -6,7 +6,7 @@ Toda frase no idioma que o aluno está aprendendo recebe um número, seja da IA 
 
 - **Frase (F):** cada sentença no idioma-alvo. Uma resposta com três sentenças recebe três números. Exemplo: `F132`.
 - **Diálogo (D):** um bloco de falas apresentado ou praticado junto (diálogo-modelo, simulação, troca de turnos de um cenário). As frases dentro dele mantêm seus números F. Exemplo: `D145` reúne F140–F151.
-- **Únicos por idioma na Central.** A numeração continua de uma sessão para outra e entre diagnóstico e aulas. Nunca volta a 1 e nunca é reaproveitada, nem depois de Reset-Diagnostic, Reset-Lessons ou Reset-Progress. Cada idioma tem a sua sequência.
+- **Únicos por idioma na Central.** A numeração continua de uma sessão para outra e entre diagnóstico e práticas. Nunca volta a 1 e nunca é reaproveitada, nem depois de Reset-Diagnostic, Reset-Practices ou Reset-Progress. Cada idioma tem a sua sequência.
 
 ### Onde fica o contador
 
@@ -27,56 +27,56 @@ O aluno pode citar o número com ou sem a letra, em qualquer idioma: "repita a f
 - Ações comuns: repetir, repetir devagar, traduzir, explicar vocabulário, explicar estrutura (gramática, ordem, conectores, registro), dar variações mais naturais ou mais formais, praticar de novo.
 - Procure primeiro na conversa atual; depois na sessão ativa; depois nas sessões do idioma, da mais recente para a mais antiga, pelo intervalo do cabeçalho. Se não encontrar, diga isso e peça o trecho; não invente a frase.
 - As frases novas que surgirem na explicação (exemplos, variações) também recebem números.
-- Fora de uma aula ou diagnóstico, as frases novas no idioma-alvo recebem números do mesmo contador e vão para a tabela de frases avulsas de `estado/contexto-recente` do idioma.
+- Fora de uma prática ou diagnóstico, as frases novas no idioma-alvo recebem números do mesmo contador e vão para a tabela de frases avulsas de `estado/contexto-recente` do idioma.
 
 ## Pausar e concluir
 
-Comandos: `Pause-Lesson` (ou "pausar", "pausa", "para por aqui") e `Finish-Lesson` (ou "terminar", "encerrar", "concluir a aula"). Valem para aula e diagnóstico.
+Comandos: `Pause-Practice` (ou "pausar", "pausa", "para por aqui") e `Finish-Practice` (ou "terminar", "encerrar", "concluir a prática"). Valem para prática e diagnóstico.
 
-### Pause-Lesson
+### Pause-Practice
 
 1. Monte o checkpoint: etapa e bloco, última troca, última frase (F) e diálogo (D), evidências, pendências e a próxima pergunta exata.
 2. Grave na sessão, numa única escrita verificada: status `Em andamento (pausada)`, checkpoint, frases e diálogos ainda não gravados e o intervalo do cabeçalho.
-3. Atualize `estado/sessao-ativa` (sessão pausada, ID do arquivo, próxima pergunta), a linha da aula no plano (`Em andamento (pausada)`) e os contadores no estado global.
-4. Releia cada arquivo. Só então diga "Aula pausada e salva" com o ID da sessão e a próxima pergunta. Se qualquer escrita falhar, não diga que salvou: siga o modo sem escrita abaixo.
+3. Atualize `estado/sessao-ativa` (sessão pausada, ID do arquivo, próxima pergunta), a linha da prática na missão (`Em andamento (pausada)`) e os contadores no estado global.
+4. Releia cada arquivo. Só então diga "Prática pausada e salva" com o ID da sessão e a próxima pergunta. Se qualquer escrita falhar, não diga que salvou: siga o modo sem escrita abaixo.
 
-### Finish-Lesson
+### Finish-Practice
 
-O Finish-Lesson é a etapa 6 (encerramento) e roda sempre ao fim da aula, mesmo sem o aluno pedir (veja o roteiro no SKILL.md). A aula fica `Concluída` aqui; na mesma mensagem da confirmação, sugira o Entertainment Lab já preparado (etapa 7).
+O Finish-Practice é a etapa 6 (encerramento) e roda sempre ao fim da prática, mesmo sem o aluno pedir (veja o roteiro no SKILL.md). A prática fica `Concluída` aqui; na mesma mensagem da confirmação, sugira o Entertainment Lab já preparado (etapa 7).
 
 
 1. Faça o fechamento combinado (feedback com evidências, limitações, próxima tarefa).
-2. Grave na sessão, numa única escrita: último turno, fechamento, status `Concluída`, `encerramento_aula_salva_relida`, `encerramento_proximo_passo`, `lab_sugerido_apos_encerramento: sim`, frases e diálogos pendentes.
-3. Consolide os derivados do idioma conforme a [persistência](PERSISTENCIA.md#salvar-retomar-e-reparar) (progresso 08, perfil atual, contexto recente) e marque a aula como `Concluída` na tabela do plano ([planos](PLANOS.md#status-das-aulas-no-plano)). Aula de teste não altera métricas.
+2. Grave na sessão, numa única escrita: último turno, fechamento, status `Concluída`, `encerramento_pratica_salva_relida`, `encerramento_proximo_passo`, `lab_sugerido_apos_encerramento: sim`, frases e diálogos pendentes.
+3. Consolide os derivados do idioma conforme a [persistência](PERSISTENCIA.md#salvar-retomar-e-reparar) (progresso 08, perfil atual, contexto recente) e marque a prática como `Concluída` na tabela Práticas da missão ([missões](MISSOES.md#status-das-práticas-na-missão)). Prática de teste não altera métricas.
 4. Atualize os contadores e, por último, `estado/sessao-ativa`.
-5. Releia tudo e confirme, em texto ou voz, "Aula concluída e salva na sua Central: <sessão>", seguido do próximo passo e da sugestão do Lab.
+5. Releia tudo e confirme, em texto ou voz, "Prática concluída e salva na sua Central: <sessão>", seguido do próximo passo e da sugestão do Lab.
 
 ### Finish-Lab
 
 Quando o aluno faz o Entertainment Lab (logo depois do encerramento ou mais tarde, com o comando `Lab`):
 
-1. Grave na seção Entertainment Lab da sessão, numa única escrita: `lab_resultado` (respostas, tarefa e feedback breve) e as frases e diálogos numerados. Depois da releitura e da confirmação ao aluno, grave `lab_gravacao_confirmada: sim`. O status da aula não muda (continua `Concluída`), e o Lab não tem status próprio. Se o aluno não fizer o Lab, nada é gravado.
+1. Grave na seção Entertainment Lab da sessão, numa única escrita: `lab_resultado` (respostas, tarefa e feedback breve) e as frases e diálogos numerados. Depois da releitura e da confirmação ao aluno, grave `lab_gravacao_confirmada: sim`. O status da prática não muda (continua `Concluída`), e o Lab não tem status próprio. Se o aluno não fizer o Lab, nada é gravado.
 2. Atualize os contadores de frases e diálogos no estado global.
-3. Releia e confirme, em texto ou voz: "Resultado do Lab salvo na sua Central: <sessão>". O Lab não altera as métricas da aula.
-4. Sem escrita disponível, siga a seção abaixo com `Save-Lesson lab`.
+3. Releia e confirme, em texto ou voz: "Resultado do Lab salvo na sua Central: <sessão>". O Lab não altera as métricas da prática.
+4. Sem escrita disponível, siga a seção abaixo com `Save-Practice lab`.
 
 ### Sem escrita disponível (voz e outros casos)
 
 No modo voz, a IA pode não ter acesso às ferramentas de gravação. Tente gravar; se não houver ferramenta ou a escrita falhar:
 
 1. Não diga que salvou.
-2. Diga em uma ou duas frases curtas e deixe o mesmo texto na transcrição: "Não consigo salvar no modo voz. Saia do modo voz e envie, por texto, nesta mesma conversa: **Save-Lesson pausar aula-20261111-01 F120-F158**" (ou `concluir`). Use o ID real da sessão e o intervalo real de frases.
-3. Em seguida, no modo voz, resuma em uma frase onde a aula parou (próxima pergunta), para o aluno ouvir.
+2. Diga em uma ou duas frases curtas e deixe o mesmo texto na transcrição: "Não consigo salvar no modo voz. Saia do modo voz e envie, por texto, nesta mesma conversa: **Save-Practice pausar pratica-20261111-01 F120-F158**" (ou `concluir`). Use o ID real da sessão e o intervalo real de frases.
+3. Em seguida, no modo voz, resuma em uma frase onde a prática parou (próxima pergunta), para o aluno ouvir.
 
 Ao começar uma atividade por voz, avise uma vez, em uma frase, se a gravação a cada resposta não estiver disponível: "Neste modo eu salvo quando você pausar ou terminar; se eu não conseguir, te passo um comando para o modo texto." Antes de entrar em voz, salve o checkpoint por texto quando possível, para que só o trecho falado fique pendente.
 
-### Save-Lesson (no modo texto)
+### Save-Practice (no modo texto)
 
-`Save-Lesson [pausar|concluir|lab] [sessão] [intervalo]` grava o que ficou pendente na mesma conversa (pausa, fim da aula ou fim do Lab):
+`Save-Practice [pausar|concluir|lab] [sessão] [intervalo]` grava o que ficou pendente na mesma conversa (pausa, fim da prática ou fim do Lab):
 
 1. Leia a sessão pelo ID e a última revisão confirmada.
 2. Reconstrua, a partir da transcrição desta conversa, as falas do intervalo indicado (ou todas após a última frase gravada): número, falante, modo `voz`, texto e evidências. Marque como `transcrição de voz` a confiabilidade das falas do aluno; não avalie pronúncia por transcrição.
-3. Execute Pause-Lesson, Finish-Lesson ou Finish-Lab a partir do passo de gravação, com releitura e confirmação ao aluno.
+3. Execute Pause-Practice, Finish-Practice ou Finish-Lab a partir do passo de gravação, com releitura e confirmação ao aluno.
 4. Se a transcrição não tiver as falas (outra conversa, transcrição perdida), diga quais números ficaram sem registro, peça que o aluno cole o trecho, ou grave só o checkpoint e marque essas frases como não recuperadas.
 
-Sem argumento, Save-Lesson usa a sessão ativa e a ação pedida por último. Ao retomar uma sessão, se a conversa ou o ponteiro mostrarem frases com número acima do último gravado, ofereça Save-Lesson antes de continuar.
+Sem argumento, Save-Practice usa a sessão ativa e a ação pedida por último. Ao retomar uma sessão, se a conversa ou o ponteiro mostrarem frases com número acima do último gravado, ofereça Save-Practice antes de continuar.

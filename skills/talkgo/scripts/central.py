@@ -7,8 +7,8 @@ Comandos (a skill traduz os comandos do aluno para estes):
   default  [NOME]                                   Default-CentralIdioma
   remove   [--central NOME] [--confirmar NOME] [--backup ZIP] [--somente-registro]
                                                     Remove-CentralIdioma
-  reset    {diagnostico,aulas,progresso} [IDIOMA] [--central NOME] [--confirmar]
-                                                    Reset-Diagnostic / Reset-Lessons / Reset-Progress
+  reset    {diagnostico,praticas,progresso} [IDIOMA] [--central NOME] [--confirmar]
+                                                    Reset-Diagnostic / Reset-Practices / Reset-Progress
 
 Sem --confirmar, remove e reset só mostram a prévia. A saída é sempre JSON com
 "status": ok | previa | ambiguo | erro. Em "ambiguo", pergunte ao aluno usando "opcoes".
@@ -39,8 +39,8 @@ BACKUPS = "_backups"
 RESETS = {
     "diagnostico": {"remove": ("diagnosticos", "diagnostico-"),
                     "restore": ["estado/perfil-atual.md"], "pointer": "diagnostico-"},
-    "aulas": {"remove": ("aulas", "aula-"),
-              "restore": ["estado/contexto-recente.md"], "pointer": "aula-"},
+    "praticas": {"remove": ("praticas", "pratica-"),
+              "restore": ["estado/contexto-recente.md"], "pointer": "pratica-"},
     "progresso": {"remove": ("progresso/historico", ""),
                   "restore": ["progresso/08-registro-progresso.md", "estado/perfil-atual.md",
                               "estado/contexto-recente.md"], "pointer": None},
@@ -192,23 +192,25 @@ def count(folder, prefix):
     return sum(1 for f in folder.glob(f"{prefix}*.md") if f.is_file() and f.name != "MODELO.md")
 
 
-def plans_in(folder):
-    """Planos de missão do idioma: id, nome e status (campos plano_* do modelo)."""
-    plans = []
+def missions_in(folder):
+    """Missões do idioma: id, título, data-alvo e status (campos missao_* do modelo)."""
+    missions = []
     if not folder.is_dir():
-        return plans
+        return missions
     for path in sorted(folder.glob("*.md")):
         if path.name == "MODELO.md":
             continue
         values = {}
         for line in path.read_text(encoding="utf-8").splitlines():
             key, sep, rest = line.partition(":")
-            if sep and key in ("plano_id", "plano_nome", "plano_status"):
+            if sep and key in ("missao_id", "missao_titulo", "missao_data_alvo", "missao_status"):
                 value = rest.split("#", 1)[0].strip()
                 values[key] = value or None
-        plans.append({"id": values.get("plano_id") or path.stem, "nome": values.get("plano_nome") or path.stem,
-                      "status": values.get("plano_status") or "desconhecido"})
-    return plans
+        missions.append({"id": values.get("missao_id") or path.stem,
+                         "titulo": values.get("missao_titulo") or path.stem,
+                         "data_alvo": values.get("missao_data_alvo"),
+                         "status": values.get("missao_status") or "desconhecido"})
+    return missions
 
 
 def describe(entry, default):
@@ -230,9 +232,9 @@ def describe(entry, default):
         info["idiomas"].append({
             "idioma": NAMES[tag], "tag": tag,
             "diagnosticos": count(base / "diagnosticos", "diagnostico-"),
-            "aulas": count(base / "aulas", "aula-"),
-            "planos": count(base / "planos", ""),
-            "lista_planos": plans_in(base / "planos"),
+            "praticas": count(base / "praticas", "pratica-"),
+            "missoes": count(base / "missoes", ""),
+            "lista_missoes": missions_in(base / "missoes"),
         })
     backups = root / BACKUPS
     info["backups"] = sum(1 for _ in backups.iterdir()) if backups.is_dir() else 0
@@ -386,9 +388,9 @@ def cmd_remove(data, args, path):
     return result
 
 
-LESSON_TABLE_HEADS = {"session id", "identificador", "identifiant"}
-LESSON_SUMMARY_ROWS = {"completed regular lessons", "actual observed duration", "clases regulares completadas",
-                       "duración real acumulada", "séances régulières terminées", "durée réelle cumulée"}
+PRACTICE_TABLE_HEADS = {"session id", "identificador", "identifiant"}
+PRACTICE_SUMMARY_ROWS = {"completed regular practices", "actual observed duration", "prácticas regulares completadas",
+                         "duración real acumulada", "pratiques régulières terminées", "durée réelle cumulée"}
 
 
 def _cells(line):
@@ -403,46 +405,40 @@ def _is_separator(line):
     return _is_row(line) and all(set(c) <= set("-: ") for c in _cells(line))
 
 
-def plan_without_sessions(text):
-    """Linhas de aula com sessão (ou status diferente de Pendente) voltam a Pendente, sem sessão."""
-    lines, out, columns = text.splitlines(), [], None
-    for line in lines:
+def mission_without_practices(text):
+    """Tira da tabela Práticas da missão as linhas das sessões apagadas (todas as do idioma)."""
+    out, in_practices = [], False
+    for line in text.splitlines():
         if not _is_row(line):
-            columns = None
-        elif columns is None:
-            cells = [c.lower() for c in _cells(line)]
-            if "status" in cells and "sessão" in cells:
-                columns = (cells.index("status"), cells.index("sessão"))
-        elif not _is_separator(line):
-            cells = _cells(line)
-            status, session = columns
-            if len(cells) > max(columns) and (cells[session] or cells[status] != "Pendente"):
-                cells[status], cells[session] = "Pendente", ""
-                line = "| " + " | ".join(cells) + " |"
+            in_practices = False
+        elif not in_practices and _cells(line) and _cells(line)[0].lower() in ("prática", "pratica"):
+            in_practices = True
+        elif in_practices and not _is_separator(line):
+            continue
         out.append(line)
     return "\n".join(out) + ("\n" if text.endswith("\n") else "")
 
 
-def progress_without_lessons(text, template):
-    """Tira do registro 08 as linhas de aulas e devolve ao modelo o total de aulas e a duração real."""
+def progress_without_practices(text, template):
+    """Tira do registro 08 as linhas de práticas e devolve ao modelo o total de práticas e a duração real."""
     model = {_cells(l)[0].lower(): l for l in template.splitlines() if _is_row(l) and len(_cells(l)) == 2}
-    out, in_lessons = [], False
+    out, in_practices = [], False
     for line in text.splitlines():
         if not _is_row(line):
-            in_lessons = False
-        elif _cells(line)[0].lower() in LESSON_TABLE_HEADS:
-            in_lessons = True
-        elif in_lessons and not _is_separator(line):
+            in_practices = False
+        elif _cells(line)[0].lower() in PRACTICE_TABLE_HEADS:
+            in_practices = True
+        elif in_practices and not _is_separator(line):
             continue
         else:
             label = _cells(line)[0].lower()
-            if label in LESSON_SUMMARY_ROWS and label in model:
+            if label in PRACTICE_SUMMARY_ROWS and label in model:
                 line = model[label]
         out.append(line)
     return "\n".join(out) + ("\n" if text.endswith("\n") else "")
 
 
-def _reset_plan(root, kind, tags):
+def _reset_scope(root, kind, tags):
     spec = RESETS[kind]
     remove, restore, warnings, adjust = [], [], [], []
     for tag in tags:
@@ -466,20 +462,20 @@ def _reset_plan(root, kind, tags):
                 restore.append((current, template))
         progress = base / "progresso" / "08-registro-progresso.md"
         template = ASSETS / "languages" / folder / "progresso" / "08-registro-progresso.md"
-        if kind == "aulas" and remove:
+        if kind == "praticas" and remove:
             if progress.is_file():
                 current = progress.read_text(encoding="utf-8")
-                cleaned = progress_without_lessons(current, template.read_text(encoding="utf-8"))
+                cleaned = progress_without_practices(current, template.read_text(encoding="utf-8"))
                 if cleaned != current:
                     adjust.append((progress, cleaned))
-            plans = base / "planos"
-            for plan in sorted(plans.glob("*.md")) if plans.is_dir() else []:
-                if plan.name in ("MODELO.md", "README.md"):
+            missions = base / "missoes"
+            for mission in sorted(missions.glob("*.md")) if missions.is_dir() else []:
+                if mission.name in ("MODELO.md", "README.md"):
                     continue
-                current = plan.read_text(encoding="utf-8")
-                cleaned = plan_without_sessions(current)
+                current = mission.read_text(encoding="utf-8")
+                cleaned = mission_without_practices(current)
                 if cleaned != current:
-                    adjust.append((plan, cleaned))
+                    adjust.append((mission, cleaned))
         elif kind == "diagnostico" and progress.is_file() and progress.read_bytes() != template.read_bytes():
             warnings.append(f"O progresso de {NAMES[tag]} foi calculado com esses registros. "
                             "Considere também Reset-Progress.")
@@ -501,7 +497,7 @@ def cmd_reset(data, args):
         tags = present
     else:
         ask("Qual idioma?", [NAMES[t] for t in present] + ["Todos"], central=entry["nome"])
-    remove, restore, warnings, adjust = _reset_plan(root, args.tipo, tags)
+    remove, restore, warnings, adjust = _reset_scope(root, args.tipo, tags)
     rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
     preview = {"central": entry["nome"], "padrao": entry["nome"] == data["padrao"], "tipo": args.tipo,
                "idiomas": [NAMES[t] for t in tags], "remover": [rel(p) for p in remove],

@@ -2,7 +2,7 @@
 
 Session ID / file ID (Drive ID or relative path):
 Phrase IDs (F) and dialogue IDs (D) used in this session: F? – F? | D? – D?
-State: planned, active, paused, completed
+State: created, active, paused, completed
 Current stage (1–5): Listening, Speaking and interaction, Reading, Feedback, Wrap-up
 Listening (0–8 min): evidence, confidence, provisional CEFR:
 Speaking and interaction (8–18 min): evidence, confidence, provisional CEFR:

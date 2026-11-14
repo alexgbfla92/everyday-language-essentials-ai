@@ -34,28 +34,30 @@ class CentralTests(unittest.TestCase):
         self.assertEqual(result["status"], "ok", result)
         return self.base / name
 
-    def fake_lessons(self, root, folder="english"):
-        (root / f"languages/{folder}/aulas/aula-20261101-01.md").write_text("aula fictícia", encoding="utf-8")
-        (root / f"languages/{folder}/aulas/aula-20261102-01.md").write_text("aula fictícia", encoding="utf-8")
+    def fake_practices(self, root, folder="english"):
+        (root / f"languages/{folder}/praticas/pratica-20261101-01.md").write_text("prática fictícia", encoding="utf-8")
+        (root / f"languages/{folder}/praticas/pratica-20261102-01.md").write_text("prática fictícia", encoding="utf-8")
         (root / f"languages/{folder}/diagnosticos/diagnostico-20261030-01.md").write_text("diag", encoding="utf-8")
-        (root / f"languages/{folder}/estado/sessao-ativa.md").write_text("Ativa: aula-20261102-01", encoding="utf-8")
+        (root / f"languages/{folder}/estado/sessao-ativa.md").write_text("Ativa: pratica-20261102-01", encoding="utf-8")
         (root / f"languages/{folder}/estado/contexto-recente.md").write_text("contexto real", encoding="utf-8")
-        (root / f"languages/{folder}/progresso/08-registro-progresso.md").write_text("2 aulas", encoding="utf-8")
+        (root / f"languages/{folder}/progresso/08-registro-progresso.md").write_text("2 práticas", encoding="utf-8")
 
-    def test_info_lists_plans_with_status(self):
+    def test_info_lists_missions_with_target_date_and_status(self):
         root = self.create("Pessoal", "en")
-        template = (ASSETS / "modelos" / "plano-missao.md").read_text(encoding="utf-8")
-        plans = root / "languages/english/planos"
-        (plans / "viagem-eua.md").write_text(template.replace("plano_id:  #", "plano_id: viagem-eua  #", 1)
-                                             .replace("plano_nome:  #", "plano_nome: Viagem aos EUA  #", 1),
-                                             encoding="utf-8")
-        (plans / "reunioes.md").write_text(template.replace("plano_status: ativo", "plano_status: pausado", 1),
-                                           encoding="utf-8")
+        template = (ASSETS / "modelos" / "missao.md").read_text(encoding="utf-8")
+        missions = root / "languages/english/missoes"
+        (missions / "viagem-londres.md").write_text(
+            template.replace("missao_id:  #", "missao_id: viagem-londres  #", 1)
+            .replace("missao_titulo:  #", "missao_titulo: Me preparar para uma viagem a Londres  #", 1)
+            .replace("missao_data_alvo:  #", "missao_data_alvo: 20/04/2027  #", 1), encoding="utf-8")
+        (missions / "reunioes.md").write_text(template.replace("missao_status: ativa", "missao_status: pausada", 1),
+                                              encoding="utf-8")
         english = self.run_cli("info")["centrais"][0]["idiomas"][0]
-        self.assertEqual(english["planos"], 2)
-        self.assertEqual(english["lista_planos"], [
-            {"id": "reunioes", "nome": "reunioes", "status": "pausado"},
-            {"id": "viagem-eua", "nome": "Viagem aos EUA", "status": "ativo"}])
+        self.assertEqual(english["missoes"], 2)
+        self.assertEqual(english["lista_missoes"], [
+            {"id": "reunioes", "titulo": "reunioes", "data_alvo": None, "status": "pausada"},
+            {"id": "viagem-londres", "titulo": "Me preparar para uma viagem a Londres", "data_alvo": "20/04/2027",
+             "status": "ativa"}])
 
     def test_language_aliases(self):
         for text, tag in [("Inglês", "en-US"), ("ingles", "en-US"), ("en", "en-US"), ("Español", "es-ES"),
@@ -78,11 +80,11 @@ class CentralTests(unittest.TestCase):
 
     def test_create_adds_language_without_overwriting(self):
         root = self.create("Pessoal", "Inglês")
-        self.fake_lessons(root)
+        self.fake_practices(root)
         again = self.run_cli("create", "--raiz", str(root), "--nome", "Pessoal", "Francês")
         self.assertFalse(again["nova"])
         self.assertEqual(again["idiomas"], ["Inglês", "Francês"])
-        self.assertEqual((root / "languages/english/progresso/08-registro-progresso.md").read_text(), "2 aulas")
+        self.assertEqual((root / "languages/english/progresso/08-registro-progresso.md").read_text(), "2 práticas")
         self.assertIn("idiomas_escolhidos_pelo_aluno: [en-US, fr-FR]",
                       (root / "config/estado-global.md").read_text(encoding="utf-8"))
 
@@ -109,72 +111,74 @@ class CentralTests(unittest.TestCase):
         info = self.run_cli("info")
         self.assertEqual([c["padrao"] for c in info["centrais"]], [False, True])
 
-    def test_reset_lessons_preview_confirm_and_backup(self):
+    def test_reset_practices_preview_confirm_and_backup(self):
         root = self.create("Pessoal", "en", "es")
-        self.fake_lessons(root)
-        asked = self.run_cli("reset", "aulas")
+        self.fake_practices(root)
+        asked = self.run_cli("reset", "praticas")
         self.assertEqual(asked["status"], "ambiguo")
         self.assertIn("Todos", asked["opcoes"])
-        preview = self.run_cli("reset", "aulas", "Inglês")
+        preview = self.run_cli("reset", "praticas", "Inglês")
         self.assertEqual(preview["status"], "previa")
         self.assertEqual(len(preview["remover"]), 2)
         self.assertIn("languages/english/estado/sessao-ativa.md", preview["restaurar_modelo"])
-        self.assertTrue((root / "languages/english/aulas/aula-20261101-01.md").exists())
-        done = self.run_cli("reset", "aulas", "Inglês", "--confirmar")
+        self.assertTrue((root / "languages/english/praticas/pratica-20261101-01.md").exists())
+        done = self.run_cli("reset", "praticas", "Inglês", "--confirmar")
         self.assertEqual(done["status"], "ok")
-        aulas = root / "languages/english/aulas"
-        self.assertEqual(sorted(p.name for p in aulas.iterdir()), ["MODELO.md"])
+        praticas = root / "languages/english/praticas"
+        self.assertEqual(sorted(p.name for p in praticas.iterdir()), ["MODELO.md"])
         template = ASSETS / "languages/english/estado/contexto-recente.md"
         self.assertEqual((root / "languages/english/estado/contexto-recente.md").read_bytes(), template.read_bytes())
         self.assertTrue((root / "languages/english/diagnosticos/diagnostico-20261030-01.md").exists())
-        self.assertEqual((root / "languages/english/progresso/08-registro-progresso.md").read_text(), "2 aulas")
+        self.assertEqual((root / "languages/english/progresso/08-registro-progresso.md").read_text(), "2 práticas")
         backup = root / done["backup"]
-        self.assertEqual((backup / "languages/english/aulas/aula-20261101-01.md").read_text(encoding="utf-8"),
-                         "aula fictícia")
-        self.assertEqual(self.run_cli("reset", "aulas", "en")["mensagem"], "Nada a zerar.")
+        self.assertEqual((backup / "languages/english/praticas/pratica-20261101-01.md").read_text(encoding="utf-8"),
+                         "prática fictícia")
+        self.assertEqual(self.run_cli("reset", "praticas", "en")["mensagem"], "Nada a zerar.")
 
-    def test_reset_lessons_erases_every_trace_of_the_lessons(self):
+    def test_reset_practices_erases_every_trace_of_the_practices(self):
         root = self.create("Pessoal", "en")
         base = root / "languages/english"
-        (base / "aulas/aula-20261101-01.md").write_text("status: Concluída", encoding="utf-8")
-        (base / "aulas/aula-20261102-01.md").write_text("status: Em andamento (pausada)", encoding="utf-8")
-        template = (ASSETS / "modelos" / "plano-missao.md").read_text(encoding="utf-8")
-        plan = template.replace("| Nº | Tema | Objetivo da aula | Status | Sessão |\n|---|---|---|---|---|",
-                                "| Nº | Tema | Objetivo da aula | Status | Sessão |\n|---|---|---|---|---|\n"
-                                "| 1 | Aeroporto | Check-in | Concluída, excluída no reset | aula-20261101-01 |\n"
-                                "| 2 | Hotel | Reserva | Em andamento (pausada) | aula-20261102-01 |\n"
-                                "| 3 | Restaurante | Pedido | Pendente |  |")
-        (base / "planos/viagem-eua.md").write_text(plan, encoding="utf-8")
+        (base / "praticas/pratica-20261101-01.md").write_text("status: Concluída", encoding="utf-8")
+        (base / "praticas/pratica-20261102-01.md").write_text("status: Em andamento (pausada)", encoding="utf-8")
+        template = (ASSETS / "modelos" / "missao.md").read_text(encoding="utf-8")
+        mission = template.replace("| Nº | Situação | O que o aluno precisa conseguir fazer |\n|---|---|---|",
+                                   "| Nº | Situação | O que o aluno precisa conseguir fazer |\n|---|---|---|\n"
+                                   "| 1 | Aeroporto | Fazer o check-in |\n| 2 | Restaurante | Pedir e pagar |")
+        mission = mission.replace("| Prática | Data | Situação | Status |\n|---|---|---|---|",
+                                  "| Prática | Data | Situação | Status |\n|---|---|---|---|\n"
+                                  "| pratica-20261101-01 | 01/11/2026 | Aeroporto | Concluída, excluída no reset |\n"
+                                  "| pratica-20261102-01 | 02/11/2026 | Restaurante | Em andamento (pausada) |")
+        (base / "missoes/viagem-londres.md").write_text(mission, encoding="utf-8")
         progress_path = base / "progresso/08-registro-progresso.md"
         progress = progress_path.read_text(encoding="utf-8")
-        progress = progress.replace("| Completed regular lessons | 0 (tests excluded) |", "| Completed regular lessons | 2 |")
+        progress = progress.replace("| Completed regular practices | 0 (tests excluded) |",
+                                    "| Completed regular practices | 2 |")
         progress = progress.replace("| Actual observed duration | None observed |", "| Actual observed duration | 38 min |")
-        progress += "| aula-20261101-01 | 2026-11-01 | Check-in | F1-F20 | Hotel |\n"
+        progress += "| pratica-20261101-01 | 2026-11-01 | Check-in | F1-F20 | Hotel |\n"
         progress_path.write_text(progress, encoding="utf-8")
-        preview = self.run_cli("reset", "aulas", "en")
-        self.assertEqual(sorted(preview["ajustar"]), ["languages/english/planos/viagem-eua.md",
+        preview = self.run_cli("reset", "praticas", "en")
+        self.assertEqual(sorted(preview["ajustar"]), ["languages/english/missoes/viagem-londres.md",
                                                       "languages/english/progresso/08-registro-progresso.md"])
-        self.assertIn("Concluída, excluída no reset", (base / "planos/viagem-eua.md").read_text(encoding="utf-8"))
-        done = self.run_cli("reset", "aulas", "en", "--confirmar")
+        done = self.run_cli("reset", "praticas", "en", "--confirmar")
         self.assertEqual(done["status"], "ok")
-        plan_now = (base / "planos/viagem-eua.md").read_text(encoding="utf-8")
-        rows = "\n".join(l for l in plan_now.split("## Aulas")[1].split("## Histórico")[0].splitlines()
-                         if l.startswith("| ") and l[2:3].isdigit())
-        for gone in ("aula-2026", "excluída", "Concluída", "Em andamento"):
-            self.assertNotIn(gone, rows, gone)
-        self.assertEqual(plan_now.count("| Pendente |"), 3)
+        mission_now = (base / "missoes/viagem-londres.md").read_text(encoding="utf-8")
+        self.assertNotIn("pratica-2026", mission_now)
+        self.assertNotIn("excluída", mission_now)
+        self.assertIn("| 1 | Aeroporto | Fazer o check-in |", mission_now)
+        self.assertIn("| 2 | Restaurante | Pedir e pagar |", mission_now)
         progress_now = progress_path.read_text(encoding="utf-8")
-        self.assertNotIn("aula-20261101-01", progress_now)
-        self.assertIn("| Completed regular lessons | 0 (tests excluded) |", progress_now)
+        self.assertNotIn("pratica-20261101-01", progress_now)
+        self.assertIn("| Completed regular practices | 0 (tests excluded) |", progress_now)
         self.assertIn("| Actual observed duration | None observed |", progress_now)
-        self.assertEqual(self.run_cli("info")["centrais"][0]["idiomas"][0]["aulas"], 0)
+        self.assertEqual(self.run_cli("info")["centrais"][0]["idiomas"][0]["praticas"], 0)
         backup = root / done["backup"]
-        self.assertIn("excluída no reset", (backup / "languages/english/planos/viagem-eua.md").read_text(encoding="utf-8"))
-        self.assertEqual(self.run_cli("reset", "aulas", "en")["mensagem"], "Nada a zerar.")
+        self.assertIn("excluída no reset",
+                      (backup / "languages/english/missoes/viagem-londres.md").read_text(encoding="utf-8"))
+        self.assertEqual(self.run_cli("reset", "praticas", "en")["mensagem"], "Nada a zerar.")
 
-    def test_reset_diagnostic_keeps_lesson_pointer(self):
+    def test_reset_diagnostic_keeps_practice_pointer(self):
         root = self.create("Pessoal", "en")
-        self.fake_lessons(root)
+        self.fake_practices(root)
         done = self.run_cli("reset", "diagnostico", "--confirmar")
         self.assertEqual(done["remover"], ["languages/english/diagnosticos/diagnostico-20261030-01.md"])
         self.assertNotIn("languages/english/estado/sessao-ativa.md", done["restaurar_modelo"])
@@ -183,28 +187,28 @@ class CentralTests(unittest.TestCase):
 
     def test_reset_progress(self):
         root = self.create("Pessoal", "fr")
-        self.fake_lessons(root, "french")
+        self.fake_practices(root, "french")
         (root / "languages/french/progresso/historico/ciclo-1.md").write_text("resumo", encoding="utf-8")
         done = self.run_cli("reset", "progresso", "Francês", "--confirmar")
         self.assertIn("languages/french/progresso/historico/ciclo-1.md", done["remover"])
         self.assertTrue((root / "languages/french/progresso/historico/README.md").exists())
-        self.assertEqual(len(list((root / "languages/french/aulas").glob("aula-*.md"))), 2)
+        self.assertEqual(len(list((root / "languages/french/praticas").glob("pratica-*.md"))), 2)
         template = ASSETS / "languages/french/progresso/08-registro-progresso.md"
         self.assertEqual((root / "languages/french/progresso/08-registro-progresso.md").read_bytes(),
                          template.read_bytes())
 
     def test_reset_errors(self):
         self.create("Pessoal", "en")
-        self.assertEqual(self.run_cli("reset", "aulas", "Espanhol")["status"], "erro")
-        self.assertEqual(self.run_cli("reset", "aulas", "klingon")["status"], "erro")
+        self.assertEqual(self.run_cli("reset", "praticas", "Espanhol")["status"], "erro")
+        self.assertEqual(self.run_cli("reset", "praticas", "klingon")["status"], "erro")
 
     def test_reset_uses_default_but_central_choice_wins(self):
         self.create("Pessoal", "en")
         work = self.create("Trabalho", "en")
-        self.fake_lessons(work)
-        preview = self.run_cli("reset", "aulas", "en")
+        self.fake_practices(work)
+        preview = self.run_cli("reset", "praticas", "en")
         self.assertEqual((preview["central"], preview["padrao"]), ("Pessoal", True))
-        preview = self.run_cli("reset", "aulas", "en", "--central", "Trabalho")
+        preview = self.run_cli("reset", "praticas", "en", "--central", "Trabalho")
         self.assertEqual((preview["central"], len(preview["remover"])), ("Trabalho", 2))
 
     def test_remove_requires_choice_and_name_confirmation(self):
@@ -240,7 +244,7 @@ class CentralTests(unittest.TestCase):
         info = self.run_cli("info", "--central", "Drive")["centrais"][0]
         self.assertEqual(info["idiomas"], ["Espanhol", "Francês"])
         self.assertEqual(info["formato_registros"], "nativo")
-        self.assertEqual(self.run_cli("reset", "aulas", "es")["status"], "erro")
+        self.assertEqual(self.run_cli("reset", "praticas", "es")["status"], "erro")
         preview = self.run_cli("remove", "--central", "Drive")
         self.assertIn("conector", preview["acao"])
         done = self.run_cli("remove", "--central", "Drive", "--confirmar", "Drive")

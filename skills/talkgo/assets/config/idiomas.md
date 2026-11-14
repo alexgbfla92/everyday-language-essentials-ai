@@ -6,4 +6,4 @@
 | spanish | es-ES | Espanha | habilitado |
 | english | en-US | Estados Unidos | habilitado e DEFAULT |
 
-Ordem de apresentação: francês, espanhol, inglês. Seleção automática sem idioma informado: **inglês americano**, independentemente da ordem visual. Novos idiomas exigem pasta com config, aulas, diagnosticos, progresso, estado e conteudo, além de testes e help atualizados.
+Ordem de apresentação: francês, espanhol, inglês. Seleção automática sem idioma informado: **inglês americano**, independentemente da ordem visual. Novos idiomas exigem pasta com config, práticas, diagnosticos, progresso, estado e conteudo, além de testes e help atualizados.

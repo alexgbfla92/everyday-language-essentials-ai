@@ -37,7 +37,7 @@ Por isso, a pergunta não é “quanto falta para conhecer o idioma inteiro?”,
 
 ## Sua vida define o conteúdo. Não o contrário.
 
-Imagine uma viagem à Disney daqui a 90 dias. Sua missão pode concentrar-se em interações nos parques, restaurantes, hotéis, compras e situações inesperadas. Se você não vai passar por um aeroporto, não precisa dedicar aulas a esse assunto.
+Imagine uma viagem à Disney daqui a 90 dias. Sua missão pode concentrar-se em interações nos parques, restaurantes, hotéis, compras e situações inesperadas. Se você não vai passar por um aeroporto, não precisa dedicar práticas a esse assunto.
 
 Agora imagine alguém que participa de uma igreja e vai a um congresso na Espanha. Essa pessoa pode priorizar apresentações pessoais, conversas após as reuniões, refeições em grupo, pedidos de informação e interações sociais — em espanhol, com o vocabulário e as situações daquele contexto.
 
@@ -59,7 +59,7 @@ O TalkGo ajuda você a transformar frases incompletas em mensagens cada vez mais
 
 ## Aqui, você não precisa ter vergonha de errar
 
-Para muita gente, o maior obstáculo ao aprender um idioma não é a falta de vocabulário. É a vergonha: o medo de pronunciar uma palavra errada, esquecer uma frase, confundir os tempos verbais ou parecer incapaz diante de alguém. Esse bloqueio pode aparecer em aulas particulares, turmas, conversas pela internet e até entre amigos e familiares.
+Para muita gente, o maior obstáculo ao aprender um idioma não é a falta de vocabulário. É a vergonha: o medo de pronunciar uma palavra errada, esquecer uma frase, confundir os tempos verbais ou parecer incapaz diante de alguém. Esse bloqueio pode aparecer em práticas particulares, turmas, conversas pela internet e até entre amigos e familiares.
 
 O TalkGo oferece uma alternativa poderosa: **um espaço de prática com inteligência artificial, sem constrangimento social**. Você não está diante de uma plateia, de colegas ou de alguém que vai tirar sarro do seu sotaque. A IA não tem interesse em humilhar, discriminar ou ridicularizar você. Sua função é ajudar você a praticar, compreender, corrigir e tentar novamente.
 
@@ -70,7 +70,7 @@ Com a IA, você pode:
 - **Conversar por voz ou texto**, conforme os recursos disponíveis, e praticar situações do seu cotidiano.
 - **Consultar qualquer frase pelo número**: cada frase no idioma estudado recebe um número único ("repita a frase 132", "explique o diálogo 145").
 - **Pausar e retomar sem perder nada**, inclusive no modo voz.
-- **Vários planos de missão por idioma** (ex.: viagem e reuniões), criados e ajustados com `Plan-Mission`, e a próxima aula do plano escolhido com `Next-Lesson`.
+- **Várias missões por idioma** (ex.: "Me preparar para uma viagem a Londres" até uma data, nas situações aeroporto, migração, transporte público e restaurantes), criadas e ajustadas com `Mission`, e a próxima sessão de prática da missão escolhida com `Next-Practice`.
 - **Falar sem saber a frase inteira:** começar no idioma que está aprendendo, completar uma parte em português e pedir ajuda para formular o restante.
 - **Perguntar sem constrangimento:** como montar a frase, por que determinada palavra foi usada ou como expressar a mesma ideia no passado, presente ou futuro.
 - **Pedir correções e exemplos**, sem transformar cada erro em uma interrupção ou avaliação.
@@ -82,7 +82,7 @@ Não importa se a frase saiu incompleta, se a pronúncia ficou estranha ou se vo
 
 A inteligência artificial não substitui todas as experiências de conversar com pessoas reais, e suas correções também podem falhar. Mas ela pode ser uma parceira de treino disponível para repetir, explicar e adaptar a prática sem a pressão social que tantas vezes nos faz ficar em silêncio.
 
-> **A vergonha não precisa fazer parte da sua aula. O erro pode fazer parte do seu progresso.**
+> **A vergonha não precisa fazer parte da sua prática. O erro pode fazer parte do seu progresso.**
 
 ## Aprender por familiaridade, contexto e repetição
 
@@ -108,9 +108,9 @@ De tempos em tempos, você também pode solicitar **uma nova avaliação de diag
 
 ## Entertainment Lab: aprender também pode ser divertido
 
-Ao final de cada aula, a proposta inclui um momento leve no **Entertainment Lab**: um convite para assistir a um **vídeo curto, com uma história ou música**, relacionado ao que você acabou de praticar. A ideia é aproveitar **legendas no seu idioma nativo e no idioma que está aprendendo**, quando disponíveis, para reconhecer palavras, expressões e construções em um contexto mais natural.
+Ao final de cada prática, a proposta inclui um momento leve no **Entertainment Lab**: um convite para assistir a um **vídeo curto, com uma história ou música**, relacionado ao que você acabou de praticar. A ideia é aproveitar **legendas no seu idioma nativo e no idioma que está aprendendo**, quando disponíveis, para reconhecer palavras, expressões e construções em um contexto mais natural.
 
-Não é mais uma prova nem uma lista de exercícios. É uma oportunidade de ouvir o idioma fora da simulação, perceber como as frases aparecem em situações reais e, por que não, terminar a aula se divertindo. A seleção de vídeos e a disponibilidade de legendas dependem dos conteúdos e recursos acessíveis na plataforma.
+Não é mais uma prova nem uma lista de exercícios. É uma oportunidade de ouvir o idioma fora da simulação, perceber como as frases aparecem em situações reais e, por que não, terminar a prática se divertindo. A seleção de vídeos e a disponibilidade de legendas dependem dos conteúdos e recursos acessíveis na plataforma.
 
 ## Missões curtas, configuradas para você
 
@@ -119,7 +119,7 @@ Cada pessoa pode definir o que deseja praticar e ajustar a experiência às pró
 - **Idioma e contexto:** inglês para uma viagem, espanhol para um congresso, ou outro objetivo de comunicação.
 - **Missão e prazo:** preparar-se para um evento daqui a semanas ou meses.
 - **Situações prioritárias:** praticar o que será útil e deixar de lado o que não se aplica.
-- **Duração das aulas:** sessões curtas ou mais longas, conforme a rotina.
+- **Duração das práticas:** sessões curtas ou mais longas, conforme a rotina.
 - **Foco da prática:** conversação, compreensão oral, frases úteis e simulações contextualizadas.
 - **Ritmo e apoio:** pedir exemplos, repetir, receber correções e voltar aos pontos difíceis.
 
@@ -139,7 +139,7 @@ A experiência é orientada pelo que você precisa fazer, não por uma lista obr
 
 **5. Leve o aprendizado para a vida.** Use o que treinou em interações reais e, quando surgir uma nova necessidade, comece outra missão.
 
-**Durante a jornada:** peça seu relatório de progresso sempre que quiser, solicite uma reavaliação periódica e aproveite o Entertainment Lab ao final das aulas para reforçar o que praticou de maneira leve.
+**Durante a jornada:** peça seu relatório de progresso sempre que quiser, solicite uma reavaliação periódica e aproveite o Entertainment Lab ao final das práticas para reforçar o que praticou de maneira leve.
 
 ## Fluência não é a promessa. Comunicação é o propósito.
 
@@ -197,7 +197,7 @@ O plugin enviado por arquivo não se atualiza sozinho. Quando sair uma versão n
 2. No Claude e no ChatGPT, remova o plugin TalkGo instalado e envie o arquivo novo, como na instalação.
 3. Abra uma conversa nova e confira a versão com `Help`.
 
-A sua Central não é afetada: aulas, planos e progresso ficam no seu Google Drive, fora do plugin.
+A sua Central não é afetada: missões, práticas e progresso ficam no seu Google Drive, fora do plugin.
 
 ### Se você instalou de outra forma
 

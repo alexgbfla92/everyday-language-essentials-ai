@@ -1,4 +1,4 @@
-"""Cenários do Entertainment Lab: o registro da sessão decide se a aula pode começar e terminar."""
+"""Cenários do Entertainment Lab: o registro da sessão decide se a prática pode começar e terminar."""
 import io
 import json
 import re
@@ -16,11 +16,11 @@ READY = {
     "lab_canal": "Canal Fictício",
     "lab_url": "https://youtu.be/dQw4w9WgXcQ",
     "lab_idioma_variante": "inglês americano",
-    "lab_duracao_aula_min": "20",
+    "lab_duracao_pratica_min": "20",
     "lab_duracao_video_min": "8:30",
     "lab_trecho": "inteiro",
     "lab_transcricao": "legendas_indicadas",
-    "lab_itens_da_aula": "boarding pass, aisle seat, carry-on",
+    "lab_itens_da_pratica": "boarding pass, aisle seat, carry-on",
     "lab_pergunta_1": "What does the passenger ask for?",
     "lab_tarefa": "Peça um assento no corredor usando 'Could I…?'",
     "lab_fonte_verificacao": "pagina_youtube",
@@ -29,8 +29,8 @@ READY = {
 
 
 def session(folder, values):
-    """Preenche o modelo de aula do idioma como a skill faria."""
-    text = (ASSETS / "languages" / folder / "aulas" / "MODELO.md").read_text(encoding="utf-8")
+    """Preenche o modelo de prática do idioma como a skill faria."""
+    text = (ASSETS / "languages" / folder / "praticas" / "MODELO.md").read_text(encoding="utf-8")
     for key, value in values.items():
         pattern = re.compile(rf"^{key}:.*$", re.M)
         text = pattern.sub(f"{key}: {value}", text) if pattern.search(text) else text + f"\n{key}: {value}"
@@ -104,8 +104,8 @@ class LabScenarioTests(unittest.TestCase):
         segment = self.ready({**READY, "lab_duracao_video_min": "35:00", "lab_trecho": "02:10-10:40"})
         self.assertTrue(segment["pode_iniciar"], segment)
 
-    def test_one_off_short_lesson_scales_the_lab_range(self):
-        short = {**READY, "lab_duracao_aula_min": "5", "lab_duracao_video_min": "2:10"}
+    def test_one_off_short_practice_scales_the_lab_range(self):
+        short = {**READY, "lab_duracao_pratica_min": "5", "lab_duracao_video_min": "2:10"}
         self.assertTrue(self.ready(short)["pode_iniciar"])
         too_long = self.ready({**short, "lab_duracao_video_min": "8:30"})
         self.assertFalse(too_long["pode_iniciar"])
@@ -123,7 +123,7 @@ class LabScenarioTests(unittest.TestCase):
         self.assertEqual(accepted["material"], "pendencia_aceita")
 
     def test_scenario_voice_start_without_access(self):
-        # Em voz sem acesso, nada é gravado: o material continua vazio e a aula não pode começar.
+        # Em voz sem acesso, nada é gravado: o material continua vazio e a prática não pode começar.
         self.assertFalse(self.ready({})["pode_iniciar"])
 
     def test_scenario_resume_rechecks_lab(self):
@@ -131,26 +131,26 @@ class LabScenarioTests(unittest.TestCase):
         self.assertTrue(self.ready({**READY, "status": "Em andamento (pausada)"})["pode_iniciar"])
 
     def test_lab_has_no_status_field(self):
-        template = (ASSETS / "languages" / "english" / "aulas" / "MODELO.md").read_text(encoding="utf-8")
+        template = (ASSETS / "languages" / "english" / "praticas" / "MODELO.md").read_text(encoding="utf-8")
         self.assertNotIn("lab_status", template)
         self.assertNotIn("status_lab", self.closing(READY))
 
-    def test_closing_requires_concluded_lesson_and_lab_suggestion(self):
-        only_saved = {**READY, "encerramento_aula_salva_relida": "sim"}
+    def test_closing_requires_concluded_practice_and_lab_suggestion(self):
+        only_saved = {**READY, "encerramento_pratica_salva_relida": "sim"}
         result = self.closing(only_saved)
         self.assertFalse(result["pode_encerrar"])
         self.assertEqual(len(result["problemas"]), 3)  # status, próximo passo, sugestão do Lab
-        done = {**only_saved, "status": "Concluída", "encerramento_proximo_passo": "Aula 2: hotel",
+        done = {**only_saved, "status": "Concluída", "encerramento_proximo_passo": "Prática 2: hotel",
                 "lab_sugerido_apos_encerramento": "sim"}
         self.assertTrue(self.closing(done)["pode_encerrar"])
         # Fazer ou não o Lab não muda o encerramento.
         self.assertTrue(self.closing({**done, "lab_resultado": "3/3 respostas"})["pode_encerrar"])
         self.assertFalse(self.closing({**done, "lab_sugerido_apos_encerramento": ""})["pode_encerrar"])
 
-    def test_only_the_five_lesson_statuses_are_valid(self):
-        done = {**READY, "encerramento_aula_salva_relida": "sim", "encerramento_proximo_passo": "Aula 2",
+    def test_only_the_four_practice_statuses_are_valid(self):
+        done = {**READY, "encerramento_pratica_salva_relida": "sim", "encerramento_proximo_passo": "Prática 2",
                 "lab_sugerido_apos_encerramento": "sim"}
-        for status in ("Concluída, excluída no reset", "concluida", "Planejada", "adiado"):
+        for status in ("Concluída, excluída no reset", "concluida", "Pendente", "adiado"):
             result = self.closing({**done, "status": status})
             self.assertFalse(result["pode_encerrar"], status)
             self.assertTrue(any("inválido" in p for p in result["problemas"]), status)
@@ -159,7 +159,7 @@ class LabScenarioTests(unittest.TestCase):
     def test_cli_exit_codes(self):
         import tempfile
         with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / "aula.md"
+            path = Path(tmp) / "pratica.md"
             path.write_text(session("english", READY), encoding="utf-8")
             out = io.StringIO()
             with redirect_stdout(out):

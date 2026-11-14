@@ -1,13 +1,13 @@
 # Comandos da Central
 
-Os comandos funcionam em qualquer plataforma. São texto: o aluno digita depois de chamar a skill (`/talkgo Reset-Lessons Inglês` no Claude e `@TalkGo Reset-Lessons Inglês` ou `$talkgo:talkgo Reset-Lessons Inglês` no ChatGPT) ou em qualquer mensagem de uma conversa em que a skill já esteja ativa.
+Os comandos funcionam em qualquer plataforma. São texto: o aluno digita depois de chamar a skill (`/talkgo Reset-Practices Inglês` no Claude e `@TalkGo Reset-Practices Inglês` ou `$talkgo:talkgo Reset-Practices Inglês` no ChatGPT) ou em qualquer mensagem de uma conversa em que a skill já esteja ativa.
 
 ## Como reconhecer
 
-- Ignore maiúsculas, acentos e o hífen: `Reset-Lessons`, `reset lessons` e `RESET-LESSONS` são o mesmo comando.
+- Ignore maiúsculas, acentos e o hífen: `Reset-Practices`, `reset practices` e `RESET-PRACTICES` são o mesmo comando.
 - Os argumentos podem vir em qualquer ordem depois do comando. Idioma aceita o nome em português, inglês, espanhol ou francês, ou a tag (`Inglês`, `ingles`, `English`, `en`, `en-US`). `Todos` vale para todos os idiomas da Central.
 - Central é indicada pelo nome ou pelo caminho/ID da raiz.
-- Durante uma aula ou diagnóstico, `HELP` continua sendo pedido de apoio no exercício (veja o SKILL.md). Para ver a lista de comandos no meio de uma atividade, use `Help-Comandos`.
+- Durante uma prática ou diagnóstico, `HELP` continua sendo pedido de apoio no exercício (veja o SKILL.md). Para ver a lista de comandos no meio de uma atividade, use `Help-Comandos`.
 
 ## Ambiguidade
 
@@ -30,7 +30,7 @@ Com uma pasta local acessível e Python disponível, use `scripts/central.py` a 
 | Default-CentralIdioma [central] | `default [NOME]` |
 | Remove-CentralIdioma [central] | `remove --central NOME`, depois `--confirmar NOME` (e opcional `--backup ARQUIVO.zip`) |
 | Reset-Diagnostic [idioma] | `reset diagnostico [IDIOMA] [--central NOME]`, depois `--confirmar` |
-| Reset-Lessons [idioma] | `reset aulas [IDIOMA] [--central NOME]`, depois `--confirmar` |
+| Reset-Practices [idioma] | `reset práticas [IDIOMA] [--central NOME]`, depois `--confirmar` |
 | Reset-Progress [idioma] | `reset progresso [IDIOMA] [--central NOME]`, depois `--confirmar` |
 
 Com Google Drive ou OneDrive por conector, ou no modo manual, siga as mesmas regras com as operações do [adaptador](adaptadores/) e as seções abaixo.
@@ -50,7 +50,7 @@ Mostre primeiro a versão instalada ("TalkGo vX.Y.Z", da linha "Versão instalad
 
 ## Info-CentralIdioma
 
-Leitura apenas. Para cada Central (ou só a indicada) mostre: nome, se é a padrão, provedor (Local, Google Drive, OneDrive), modo de acesso, formato dos registros (Markdown ou nativo Google Docs/Sheets), caminho ou link da pasta, status da configuração e os idiomas, cada um com quantidade de diagnósticos, aulas e planos (sem contar MODELO.md e o roteiro 09) e de backups de reset. Se a pasta estiver inacessível, diga isso em vez de omitir a Central. Por conector, leia `config/estado-global` e liste `languages/`; no Drive, conte os Docs `aula-*` e `diagnostico-*`.
+Leitura apenas. Para cada Central (ou só a indicada) mostre: nome, se é a padrão, provedor (Local, Google Drive, OneDrive), modo de acesso, formato dos registros (Markdown ou nativo Google Docs/Sheets), caminho ou link da pasta, status da configuração e os idiomas, cada um com quantidade de diagnósticos e práticas e as missões (título, data-alvo e status), sem contar MODELO.md e o roteiro 09, e de backups de reset. Se a pasta estiver inacessível, diga isso em vez de omitir a Central. Por conector, leia `config/estado-global` e liste `languages/`; no Drive, conte os Docs `pratica-*` e `diagnostico-*`.
 
 ## Create-CentralIdioma
 
@@ -69,39 +69,39 @@ Define qual Central é usada quando o aluno não indica uma. Sem argumento e com
 
 Apaga a pasta da Central inteira. É irreversível na pasta local.
 
-1. Resolva a Central (com várias, pergunte sempre). Mostre a prévia: nome, provedor, caminho ou link, idiomas e quantidades de aulas e diagnósticos. Diga como será apagada: lixeira (recuperável) ou exclusão definitiva (quando o conector só oferecer essa).
+1. Resolva a Central (com várias, pergunte sempre). Mostre a prévia: nome, provedor, caminho ou link, idiomas e quantidades de práticas e diagnósticos. Diga como será apagada: lixeira (recuperável) ou exclusão definitiva (quando o conector só oferecer essa).
 2. Ofereça um backup em .zip fora da Central (`--backup`).
 3. Peça que o aluno digite o nome da Central para confirmar. Qualquer outra resposta cancela.
 4. Pasta local: `remove --confirmar NOME`. O script recusa pastas sem a estrutura de uma Central, links simbólicos, a pasta pessoal do usuário, a raiz do disco e a pasta da skill.
 5. Conector: apague a pasta raiz pela ação do conector, conforme o [adaptador](adaptadores/drive.md#remover-e-zerar): lixeira, se houver (no Claude, `trash_file`); senão, exclusão definitiva, já avisada na prévia e confirmada pelo nome. Confirme pela releitura que a pasta não está mais na Central e atualize o registro (`remove --confirmar NOME --somente-registro`). Só peça que o aluno apague à mão se o conector não puder apagar de nenhuma forma.
 6. Se a removida era a padrão e sobrou uma única Central, ela vira a padrão; com várias, avise que não há padrão.
 
-## Reset-Diagnostic, Reset-Lessons e Reset-Progress
+## Reset-Diagnostic, Reset-Practices e Reset-Progress
 
-Zeram um tipo de registro de um idioma (ou de todos) e devolvem os arquivos derivados ao modelo. Perfil global e configuração do idioma não são tocados; nos planos, só o Reset-Lessons mexe, e apenas nas linhas das aulas apagadas.
+Zeram um tipo de registro de um idioma (ou de todos) e devolvem os arquivos derivados ao modelo. Perfil global e configuração do idioma não são tocados; nas missões, só o Reset-Practices mexe, e apenas nas linhas das práticas apagadas.
 
 Registros apagados por um reset deixam de existir para a skill: não aparecem em nenhum comando, lista, status, total ou resumo, e não recebem marcas como "excluída no reset". Os backups em `_backups/` servem só para restauração manual e nunca são lidos para responder ao aluno.
 
 | Comando | Remove | Volta ao modelo |
 | --- | --- | --- |
 | Reset-Diagnostic | `diagnosticos/diagnostico-*.md` | `estado/perfil-atual.md`; `estado/sessao-ativa.md` se apontar para um diagnóstico |
-| Reset-Lessons | `aulas/aula-*.md` | `estado/contexto-recente.md`; `estado/sessao-ativa.md` se apontar para uma aula; e ajusta, sem apagar: nos planos, as linhas dessas aulas voltam a `Pendente` e perdem a sessão; no progresso 08, saem as linhas das aulas e voltam ao modelo o total de aulas regulares e a duração real |
+| Reset-Practices | `praticas/pratica-*.md` | `estado/contexto-recente.md`; `estado/sessao-ativa.md` se apontar para uma prática; e ajusta, sem apagar: nas missões, saem da tabela Práticas as linhas dessas práticas; no progresso 08, saem as linhas das práticas e voltam ao modelo o total de práticas regulares e a duração real |
 | Reset-Progress | arquivos de `progresso/historico/` (exceto README.md) | `progresso/08-registro-progresso.md`, `estado/perfil-atual.md`, `estado/contexto-recente.md` |
 
 MODELO.md e o roteiro 09 nunca são removidos. No Drive, sessões e derivados são Docs e o 08 é uma Sheet, com o mesmo nome sem `.md`.
 
 1. Resolva Central e idioma conforme a seção Ambiguidade.
-2. Mostre a prévia: Central (e se é a padrão), idioma, lista do que será removido e do que volta ao modelo, e como os removidos serão apagados (lixeira ou exclusão definitiva, se o conector só oferecer essa; o backup em `_backups/` é feito antes de qualquer forma). No Reset-Lessons, a prévia lista também as linhas de plano que voltam a `Pendente` e as linhas de aula que saem do progresso. Se o Reset-Diagnostic deixar o progresso calculado com diagnósticos apagados, a prévia traz o aviso; ofereça também Reset-Progress.
+2. Mostre a prévia: Central (e se é a padrão), idioma, lista do que será removido e do que volta ao modelo, e como os removidos serão apagados (lixeira ou exclusão definitiva, se o conector só oferecer essa; o backup em `_backups/` é feito antes de qualquer forma). No Reset-Practices, a prévia lista também as missões cujas linhas de prática saem e as linhas de prática que saem do progresso. Se o Reset-Diagnostic deixar o progresso calculado com diagnósticos apagados, a prévia traz o aviso; ofereça também Reset-Progress.
 3. Peça confirmação explícita ("sim"). Sem ela, não altere nada.
 4. Antes de apagar, copie tudo o que muda para `_backups/AAAAMMDD-HHMMSS-reset-TIPO-IDIOMA/` dentro da Central e confira a cópia. Pasta local: `reset ... --confirmar` faz isso.
-5. Conector: crie a pasta de backup, copie cada arquivo com a cópia nativa do conector (Docs e Sheets continuam nativos) e confira, apague os removidos pela lixeira ou, se o conector só oferecer essa ação, por exclusão definitiva, somente depois do backup conferido (sem pedir que o aluno apague à mão), e releia a pasta para confirmar e devolva os derivados ao modelo do pacote, relendo cada um. No Drive: Doc por substituição total; Sheet limpando as abas `Resumo` e `Aulas` e regravando as tabelas do modelo (veja o [adaptador](adaptadores/drive.md#remover-e-zerar)). No Reset-Lessons, edite também o Doc de cada plano afetado (Status `Pendente` e Sessão vazia nas linhas das aulas apagadas) e, na Sheet do progresso, apague as linhas dessas aulas na aba `Aulas` e devolva ao modelo, na aba `Resumo`, o total de aulas regulares e a duração real; releia cada um.
+5. Conector: crie a pasta de backup, copie cada arquivo com a cópia nativa do conector (Docs e Sheets continuam nativos) e confira, apague os removidos pela lixeira ou, se o conector só oferecer essa ação, por exclusão definitiva, somente depois do backup conferido (sem pedir que o aluno apague à mão), e releia a pasta para confirmar e devolva os derivados ao modelo do pacote, relendo cada um. No Drive: Doc por substituição total; Sheet limpando as abas `Resumo` e `Práticas` e regravando as tabelas do modelo (veja o [adaptador](adaptadores/drive.md#remover-e-zerar)). No Reset-Practices, edite também o Doc de cada missão afetada (tire da tabela Práticas as linhas das práticas apagadas) e, na Sheet do progresso, apague as linhas dessas práticas na aba `Práticas` e devolva ao modelo, na aba `Resumo`, o total de práticas regulares e a duração real; releia cada um.
 6. Informe o que foi zerado, onde está o backup e qual é a próxima etapa do idioma (depois de Reset-Diagnostic, o diagnóstico inicial).
 
 Os resets nunca zeram `contador_frases` nem `contador_dialogos`: os números de frases e diálogos continuam únicos depois de qualquer reset.
 
-## Pause-Lesson, Finish-Lesson e Save-Lesson
+## Pause-Practice, Finish-Practice e Save-Practice
 
-Pausam, encerram ou salvam a aula ou o diagnóstico em andamento, em texto ou voz. Se houver mais de uma sessão aberta e o aluno não indicar qual, pergunte. O procedimento completo, inclusive o que fazer quando o modo voz não consegue gravar, está em [FRASES-E-VOZ.md](FRASES-E-VOZ.md#pausar-e-concluir).
+Pausam, encerram ou salvam a prática ou o diagnóstico em andamento, em texto ou voz. Se houver mais de uma sessão aberta e o aluno não indicar qual, pergunte. O procedimento completo, inclusive o que fazer quando o modo voz não consegue gravar, está em [FRASES-E-VOZ.md](FRASES-E-VOZ.md#pausar-e-concluir).
 
 ## Frase N, Diálogo N e IDs-Voz
 
@@ -109,28 +109,28 @@ Pedidos sobre uma frase ou diálogo pelo número ("repita a frase 132", "expliqu
 
 ## Etapa
 
-Durante uma aula ou diagnóstico, mostra a etapa atual (por exemplo, "Etapa 3/7 · Simulação"), o que já foi feito, o que falta e o tempo restante. Também responde a "em que etapa estamos?" ou "em que parte da aula estou?". O roteiro e a regra de anunciar as etapas estão no SKILL.md (seção Roteiro da aula).
+Durante uma prática ou diagnóstico, mostra a etapa atual (por exemplo, "Etapa 3/7 · Simulação"), o que já foi feito, o que falta e o tempo restante. Também responde a "em que etapa estamos?" ou "em que parte da prática estou?". O roteiro e a regra de anunciar as etapas estão no SKILL.md (seção Roteiro da prática).
 
-## Plan-Mission
+## Mission
 
-`Plan-Mission [idioma] [novo|atualizar] [plano]` cria um plano de missão novo ou atualiza um existente. Sem ação, lista os planos do idioma (nome, status e próxima aula) e pergunta se é para criar um novo ou atualizar qual. Procedimento completo, campos do modelo e regras de revisão em [PLANOS.md](PLANOS.md).
+`Mission [idioma] [nova|atualizar] [missão]` cria uma missão nova ou atualiza uma existente: título, descrição (cenário e contexto), data-alvo, situações, duração, frequência e reavaliação. Sem ação, lista as missões do idioma (título, data-alvo, status e práticas concluídas) e pergunta se é para criar uma nova ou atualizar qual. Procedimento completo, campos do modelo e regras de revisão em [MISSOES.md](MISSOES.md).
 
-## Next-Lesson
+## Next-Practice
 
-`Next-Lesson [idioma] [duração] [plano]` prepara a próxima aula regular do plano. Também aceito como `Prepare-Lesson` e acionado por pedidos como "próxima aula" ou "fazer aula de 5 minutos".
+`Next-Practice [idioma] [duração] [missão]` prepara a próxima sessão de prática regular de uma missão. Também aceito como `Prepare-Practice` e acionado por pedidos como "próxima prática" ou "fazer prática de 5 minutos".
 
-**Duração avulsa.** Se o aluno indicar uma duração (`5`, `5min`, `5 minutos`, `meia hora`), ela vale só para esta aula: o padrão do plano e do idioma não muda. Sem indicação, use a duração do plano (padrão de 20 minutos). Registre a duração em `Overrides` da sessão e em `lab_duracao_aula_min`. As etapas 1 a 5 são redistribuídas na proporção do padrão (briefing 25%, prática guiada 10%, simulação 35%, imprevisto 20%, feedback 10%); em aulas muito curtas, simplifique o cenário, mas mantenha as sete etapas, o feedback e o encerramento. O vídeo do Lab segue 30% a 50% dessa duração (1,5 a 2,5 minutos numa aula de 5): sem vídeo ligado ao tema nessa faixa, use o mais próximo e registre o motivo, ou indique um trecho com início e fim confirmados.
+**Duração avulsa.** Se o aluno indicar uma duração (`5`, `5min`, `5 minutos`, `meia hora`), ela vale só para esta prática: o padrão da missão e do idioma não muda. Sem indicação, use a duração da missão (padrão de 20 minutos). Registre a duração em `Overrides` da sessão e em `lab_duracao_pratica_min`. As etapas 1 a 5 são redistribuídas na proporção do padrão (briefing 25%, treino guiado 10%, simulação 35%, imprevisto 20%, feedback 10%); em práticas muito curtas, simplifique o cenário, mas mantenha as sete etapas, o feedback e o encerramento. O vídeo do Lab segue 30% a 50% dessa duração (1,5 a 2,5 minutos numa prática de 5): sem vídeo ligado ao tema nessa faixa, use o mais próximo e registre o motivo, ou indique um trecho com início e fim confirmados.
 
 1. **Idioma.** Use o idioma indicado. Sem indicação e com mais de um idioma em andamento na Central, pergunte qual; com um só, use esse.
-2. **Aula em andamento.** Se houver aula `Em andamento` nesse idioma (preparada, em execução ou pausada), não crie outra. Diga qual é (sessão e etapa) e peça para encerrá-la antes: ofereça encerrar agora (Finish-Lesson com a [conferência de encerramento](ENTERTAINMENT-LAB.md#encerramento-conferência-obrigatória)) ou retomá-la. Só depois que ela estiver `Concluída` siga para a próxima. O Lab de uma aula concluída nunca bloqueia a próxima.
+2. **Prática em andamento.** Se houver prática `Em andamento` nesse idioma (preparada, em execução ou pausada), não crie outra. Diga qual é (sessão e etapa) e peça para encerrá-la antes: ofereça encerrar agora (Finish-Practice com a [conferência de encerramento](ENTERTAINMENT-LAB.md#encerramento-conferência-obrigatória)) ou retomá-la. Só depois que ela estiver `Concluída` siga para a próxima. O Lab de uma prática concluída nunca bloqueia a próxima.
 3. **Pré-requisitos.** Sem diagnóstico regular, encaminhe ao diagnóstico.
-4. **Plano.** Escolha o plano conforme [PLANOS.md](PLANOS.md#escolher-o-plano-no-next-lesson): nenhum plano ativo, encaminhe ao `Plan-Mission <idioma> novo`; um, use esse; mais de um, use o indicado (`plano <plano_id>` ou o nome) ou pergunte qual, listando nome e próxima aula de cada um. A aula é a primeira linha `Pendente` do plano; ao criar a sessão, marque-a `Em andamento (preparada)` com o ID da sessão e grave `plano_id` na aula.
-5. **Criar e preparar.** Crie a sessão da próxima aula do plano e faça o [preparo do Entertainment Lab](ENTERTAINMENT-LAB.md#preparar-antes-da-etapa-1): vídeo do YouTube escolhido e verificado, registro gravado, relido e conferido (`lab.py pronto`). Se a verificação falhar, diga o que falhou e pergunte se o aluno aceita começar sem o vídeo.
-6. **Resumo das etapas.** Mostre, numa única mensagem, o plano e o número da aula, a duração da aula (dizendo se é avulsa) e o plano das sete etapas com o tempo de cada uma: 1 Briefing (objetivo, cenário e itens), 2 Prática guiada, 3 Simulação (cenário e papel), 4 Imprevisto (sem revelar qual), 5 Feedback, 6 Encerramento e 7 Entertainment Lab, opcional e sugerido depois do encerramento (título, canal, duração e link do vídeo já verificado).
-7. **Gravar e confirmar.** Grave a sessão com status `Em andamento (preparada)`, a linha do plano e o ponteiro de sessão ativa, releia e diga "Aula preparada e salva na sua Central: <sessão>". Pergunte apenas: "Começamos pela etapa 1?". Se o aluno for para o modo voz, a aula começa lá já com tudo pronto.
+4. **Missão e situação.** Escolha a missão conforme [MISSOES.md](MISSOES.md#escolher-a-missão-no-next-practice): nenhuma missão ativa, encaminhe ao `Mission <idioma> nova`; uma, use essa; mais de uma, use a indicada (`missao <missao_id>` ou o título) ou pergunte qual, listando título, data-alvo e próxima situação de cada uma. A situação é a indicada pelo aluno ou a primeira da missão com menos práticas concluídas. Ao criar a sessão, grave `missao_id` e a situação na prática e acrescente a linha dela na tabela Práticas da missão, com status `Em andamento (preparada)`.
+5. **Criar e preparar.** Crie a sessão de prática e faça o [preparo do Entertainment Lab](ENTERTAINMENT-LAB.md#preparar-antes-da-etapa-1): vídeo do YouTube escolhido e verificado, registro gravado, relido e conferido (`lab.py pronto`). Se a verificação falhar, diga o que falhou e pergunte se o aluno aceita começar sem o vídeo.
+6. **Resumo das etapas.** Mostre, numa única mensagem, a missão (título e data-alvo), a situação desta prática, o ID da sessão, a duração (dizendo se é avulsa) e o roteiro das sete etapas com o tempo de cada uma: 1 Briefing (objetivo, cenário e itens), 2 Treino guiado, 3 Simulação (cenário e papel), 4 Imprevisto (sem revelar qual), 5 Feedback, 6 Encerramento e 7 Entertainment Lab, opcional e sugerido depois do encerramento (título, canal, duração e link do vídeo já verificado).
+7. **Gravar e confirmar.** Grave a sessão com status `Em andamento (preparada)`, a linha da prática na missão e o ponteiro de sessão ativa, releia e diga "Prática preparada e salva na sua Central: <sessão>". Pergunte apenas: "Começamos pela etapa 1?". Se o aluno for para o modo voz, a prática começa lá já com tudo pronto.
 
-No fim da aula, depois do encerramento, a etapa 7 só sugere o vídeo já salvo, sem preparar nada.
+No fim da prática, depois do encerramento, a etapa 7 só sugere o vídeo já salvo, sem preparar nada.
 
 ## Lab
 
-Abre o Entertainment Lab da aula indicada ou, sem argumento, da última aula do idioma. Com mais de um idioma possível, pergunte qual. Apresente o material salvo, sem nova pesquisa, e pergunte só se o aluno quer fazer agora. Se a aula começou sem o vídeo (pendência aceita), prepare agora, em texto, conforme o preparo. O Lab não tem status: o comando funciona quantas vezes o aluno quiser, e o status da aula não muda. Se o aluno fizer, grave o resultado na mesma sessão e confirme, ou dê o comando `Save-Lesson lab` se não for possível gravar (veja [Finish-Lab](FRASES-E-VOZ.md#finish-lab)).
+Abre o Entertainment Lab da prática indicada ou, sem argumento, da última prática do idioma. Com mais de um idioma possível, pergunte qual. Apresente o material salvo, sem nova pesquisa, e pergunte só se o aluno quer fazer agora. Se a prática começou sem o vídeo (pendência aceita), prepare agora, em texto, conforme o preparo. O Lab não tem status: o comando funciona quantas vezes o aluno quiser, e o status da prática não muda. Se o aluno fizer, grave o resultado na mesma sessão e confirme, ou dê o comando `Save-Practice lab` se não for possível gravar (veja [Finish-Lab](FRASES-E-VOZ.md#finish-lab)).
