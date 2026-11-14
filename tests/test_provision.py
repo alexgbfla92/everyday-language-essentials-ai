@@ -277,10 +277,12 @@ class TemplateTests(unittest.TestCase):
             self.assertIn("## Entertainment Lab", lesson, folder)
             self.assertIn("https://www.youtube.com/watch?v=", lesson, folder)
             self.assertIn("30–50", lesson, folder)
-            self.assertIn("lab_status: a_preparar", lesson, folder)
+            self.assertNotIn("lab_status", lesson, folder)
+            self.assertIn("status: Em andamento (preparada)", lesson, folder)
+            self.assertIn("lab_sugerido_apos_encerramento:", lesson, folder)
             self.assertIn("encerramento_proximo_passo:", lesson, folder)
             self.assertIn("| 7 Entertainment Lab", lesson, folder)
-            self.assertIn("| 0 Lab", lesson, folder)
+            self.assertIn("| 0 ", lesson, folder)
             self.assertIn("(1–5)", diagnostic, folder)
 
     def test_feedback_module_hands_over_to_closing_and_lab(self):

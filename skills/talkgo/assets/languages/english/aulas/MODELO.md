@@ -8,23 +8,23 @@ Type: regular lesson or test
 Include in metrics: yes/no (no for tests)
 Mission: 90 days by default; planned lesson duration: 20 minutes by default
 Created / started / finished:
-State: planned, active, paused, completed
+status: Em andamento (preparada)  # Em andamento (preparada) | Em andamento (em execução) | Em andamento (pausada) | Concluída
 Current stage (1–7): Briefing, Guided practice, Simulation, Unexpected event, Feedback, Wrap-up, Entertainment Lab
 Scenario, module and goal:
 Overrides and support level:
 Actual observed duration:
 
-## Roadmap (mark each stage done; the lesson is complete only when all seven are done)
+## Roadmap (mark each stage done; the lesson is complete when stages 0–6 are done; stage 7 is the optional Lab, suggested right after the wrap-up)
 | Stage | Status |
 |---|---|
-| 0 Lab ready and reread before stage 1 (or pending accepted by the learner) | pending |
+| 0 Lab material ready and reread before stage 1 (or learner accepted starting without the video) | pending |
 | 1 Briefing | pending |
 | 2 Guided practice | pending |
 | 3 Simulation | pending |
 | 4 Unexpected event | pending |
 | 5 Feedback | pending |
 | 6 Wrap-up (saved and confirmed) | pending |
-| 7 Entertainment Lab (presented; done / postponed / declined) | pending |
+| 7 Entertainment Lab suggested after the wrap-up (optional) | pending |
 
 ## Phrase index (global F numbers for this language; never reused)
 | ID | Dialogue | Speaker | Mode (text/voice) | English phrase | Reliability |
@@ -44,7 +44,6 @@ encerramento_aula_salva_relida:  # sim depois do Finish-Lesson relido
 encerramento_proximo_passo:
 
 ## Entertainment Lab (prepared and verified before stage 1; fields per references/ENTERTAINMENT-LAB.md)
-lab_status: a_preparar  # a_preparar | pronto | pendente_aceito | em_andamento | feito | adiado | recusado
 lab_titulo:
 lab_canal:  # nao_confirmado só com fonte busca
 lab_url:  # só https://www.youtube.com/watch?v=<ID>
@@ -63,7 +62,7 @@ lab_fonte_verificacao:  # pagina_youtube | navegador | busca
 lab_evidencia_busca:  # só com busca: resultado usado (link, título, canal, duração)
 lab_verificado_em:  # data e hora da releitura do registro salvo
 lab_pendencia_motivo:
-lab_pendencia_aceita_pelo_aluno:
-lab_oferecido_na_etapa_7:
-lab_resultado:
+lab_pendencia_aceita_pelo_aluno:  # só se o aluno aceitou começar sem o vídeo
+lab_sugerido_apos_encerramento:  # sim quando o Lab foi sugerido logo depois do encerramento
+lab_resultado:  # só se o aluno fizer o Lab
 lab_gravacao_confirmada:

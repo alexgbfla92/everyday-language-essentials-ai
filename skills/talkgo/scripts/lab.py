@@ -1,7 +1,9 @@
 """Confere o registro do Entertainment Lab de uma aula, sem acessar a rede.
 
-  python scripts/lab.py pronto ARQUIVO        # a aula pode começar? (Lab pronto ou pendente aceito)
-  python scripts/lab.py encerramento ARQUIVO  # a aula pode ser encerrada?
+  python scripts/lab.py pronto ARQUIVO        # a aula pode começar? (material do Lab pronto ou falta aceita)
+  python scripts/lab.py encerramento ARQUIVO  # o encerramento está completo? (aula Concluída e Lab sugerido)
+
+O Lab não tem status próprio: quem tem status é a aula (campo `status:`).
 
 ARQUIVO é o arquivo da sessão (Markdown) ou "-" para ler o texto pela entrada padrão
 (por exemplo, o conteúdo de um Google Doc). A saída é JSON; o código de saída é 0 só
@@ -17,8 +19,8 @@ from youtube import normalize  # noqa: E402
 
 TRANSCRIPT = {"obtida", "legendas_indicadas", "nao_confirmada"}
 SOURCES = {"pagina_youtube", "navegador", "busca"}
-STATUS = {"a_preparar", "pronto", "pendente_aceito", "em_andamento", "feito", "adiado", "recusado"}
-FINAL = {"feito", "adiado", "recusado"}
+LESSON_STATUS = {"Pendente", "Em andamento (preparada)", "Em andamento (em execução)", "Em andamento (pausada)",
+                 "Concluída"}
 REQUIRED = ["lab_titulo", "lab_canal", "lab_url", "lab_idioma_variante", "lab_duracao_aula_min",
             "lab_duracao_video_min", "lab_trecho", "lab_transcricao", "lab_itens_da_aula", "lab_tarefa"]
 YES = {"sim", "yes", "sí", "si", "oui"}
@@ -28,7 +30,7 @@ def fields(text):
     """Lê linhas `campo: valor` (comentários após ' #' são ignorados)."""
     found = {}
     for line in text.splitlines():
-        match = re.match(r"^\s*((?:lab|encerramento)_[a-z0-9_]+)\s*:\s*(.*)$", line)
+        match = re.match(r"^\s*((?:lab|encerramento)_[a-z0-9_]+|status)\s*:\s*(.*)$", line)
         if match:
             raw = match.group(2)
             value = "" if raw.lstrip().startswith("#") else re.split(r"\s+#", raw, maxsplit=1)[0].strip()
@@ -58,19 +60,16 @@ def clock(value):
 
 def check_ready(data):
     problems, warnings = [], []
-    status = data.get("lab_status", "")
-    if status not in STATUS:
-        return {"pode_iniciar": False, "status": status or None,
-                "problemas": ["lab_status ausente ou inválido"], "avisos": []}
-    if status == "a_preparar":
-        return {"pode_iniciar": False, "status": status,
-                "problemas": ["Lab ainda não preparado: prepare e verifique antes da etapa 1, "
-                              "ou avise a falha e peça a aceitação do aluno"], "avisos": []}
-    if status == "pendente_aceito":
+    if data.get("lab_pendencia_motivo") or data.get("lab_pendencia_aceita_pelo_aluno"):
         for key in ("lab_pendencia_motivo", "lab_pendencia_aceita_pelo_aluno"):
             if not data.get(key):
-                problems.append(f"{key} vazio: pendência só vale com motivo e aceitação registrada do aluno")
-        return {"pode_iniciar": not problems, "status": status, "problemas": problems, "avisos": warnings}
+                problems.append(f"{key} vazio: começar sem o vídeo só vale com motivo e aceitação registrada do aluno")
+        return {"pode_iniciar": not problems, "material": "pendencia_aceita" if not problems else None,
+                "problemas": problems, "avisos": warnings}
+    if not data.get("lab_url") and not data.get("lab_verificado_em"):
+        return {"pode_iniciar": False, "material": None,
+                "problemas": ["material do Lab ainda não preparado: prepare e verifique antes da etapa 1, "
+                              "ou avise a falha e peça a aceitação do aluno"], "avisos": []}
     for key in REQUIRED:
         if not data.get(key):
             problems.append(f"{key} vazio")
@@ -126,27 +125,27 @@ def check_ready(data):
         pass
     except ValueError:
         problems.append("durações ou trecho em formato inválido (minutos, mm:ss ou mm:ss-mm:ss)")
-    if status == "pronto" and not data.get("lab_verificado_em"):
-        problems.append("lab_verificado_em vazio: o Lab só está pronto depois de reler o registro salvo")
-    return {"pode_iniciar": not problems, "status": status, "problemas": problems, "avisos": warnings,
+    if not data.get("lab_verificado_em"):
+        problems.append("lab_verificado_em vazio: o material só está pronto depois de reler o registro salvo")
+    return {"pode_iniciar": not problems, "material": "pronto" if not problems else None,
+            "problemas": problems, "avisos": warnings,
             "minutos_assistidos": round(watch, 1) if watch is not None else None}
 
 
 def check_closing(data):
     problems = []
+    status = data.get("status", "")
+    if status not in LESSON_STATUS:
+        problems.append(f"status da aula inválido ({status or 'vazio'}): use {', '.join(sorted(LESSON_STATUS))}")
+    elif status != "Concluída":
+        problems.append("aula não marcada como Concluída (status)")
     if data.get("encerramento_aula_salva_relida", "").lower() not in YES:
         problems.append("aula não salva e relida (encerramento_aula_salva_relida)")
     if not data.get("encerramento_proximo_passo"):
         problems.append("próximo passo não informado (encerramento_proximo_passo)")
-    if data.get("lab_oferecido_na_etapa_7", "").lower() not in YES:
-        problems.append("Lab não oferecido na etapa 7 (lab_oferecido_na_etapa_7)")
-    if data.get("lab_status") not in FINAL:
-        problems.append("decisão do Lab não registrada: lab_status deve ser feito, adiado ou recusado")
-    elif data.get("lab_gravacao_confirmada", "").lower() not in YES:
-        problems.append("gravação da decisão do Lab não confirmada ao aluno (lab_gravacao_confirmada)")
-    if data.get("lab_status") == "feito" and not data.get("lab_resultado"):
-        problems.append("Lab feito sem lab_resultado")
-    return {"pode_encerrar": not problems, "status_lab": data.get("lab_status"), "problemas": problems}
+    if data.get("lab_sugerido_apos_encerramento", "").lower() not in YES:
+        problems.append("Lab não sugerido depois do encerramento (lab_sugerido_apos_encerramento)")
+    return {"pode_encerrar": not problems, "status": status or None, "problemas": problems}
 
 
 def main(argv):

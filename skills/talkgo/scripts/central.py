@@ -386,9 +386,65 @@ def cmd_remove(data, args, path):
     return result
 
 
+LESSON_TABLE_HEADS = {"session id", "identificador", "identifiant"}
+LESSON_SUMMARY_ROWS = {"completed regular lessons", "actual observed duration", "clases regulares completadas",
+                       "duración real acumulada", "séances régulières terminées", "durée réelle cumulée"}
+
+
+def _cells(line):
+    return [c.strip() for c in line.strip().strip("|").split("|")]
+
+
+def _is_row(line):
+    return line.lstrip().startswith("|")
+
+
+def _is_separator(line):
+    return _is_row(line) and all(set(c) <= set("-: ") for c in _cells(line))
+
+
+def plan_without_sessions(text):
+    """Linhas de aula com sessão (ou status diferente de Pendente) voltam a Pendente, sem sessão."""
+    lines, out, columns = text.splitlines(), [], None
+    for line in lines:
+        if not _is_row(line):
+            columns = None
+        elif columns is None:
+            cells = [c.lower() for c in _cells(line)]
+            if "status" in cells and "sessão" in cells:
+                columns = (cells.index("status"), cells.index("sessão"))
+        elif not _is_separator(line):
+            cells = _cells(line)
+            status, session = columns
+            if len(cells) > max(columns) and (cells[session] or cells[status] != "Pendente"):
+                cells[status], cells[session] = "Pendente", ""
+                line = "| " + " | ".join(cells) + " |"
+        out.append(line)
+    return "\n".join(out) + ("\n" if text.endswith("\n") else "")
+
+
+def progress_without_lessons(text, template):
+    """Tira do registro 08 as linhas de aulas e devolve ao modelo o total de aulas e a duração real."""
+    model = {_cells(l)[0].lower(): l for l in template.splitlines() if _is_row(l) and len(_cells(l)) == 2}
+    out, in_lessons = [], False
+    for line in text.splitlines():
+        if not _is_row(line):
+            in_lessons = False
+        elif _cells(line)[0].lower() in LESSON_TABLE_HEADS:
+            in_lessons = True
+        elif in_lessons and not _is_separator(line):
+            continue
+        else:
+            label = _cells(line)[0].lower()
+            if label in LESSON_SUMMARY_ROWS and label in model:
+                line = model[label]
+        out.append(line)
+    return "\n".join(out) + ("\n" if text.endswith("\n") else "")
+
+
 def _reset_plan(root, kind, tags):
     spec = RESETS[kind]
-    remove, restore, warnings = [], [], []
+    remove, restore, warnings, adjust = [], [], [], []
     for tag in tags:
         folder = LANGUAGES[tag]
         base = root / "languages" / folder
@@ -410,10 +466,24 @@ def _reset_plan(root, kind, tags):
                 restore.append((current, template))
         progress = base / "progresso" / "08-registro-progresso.md"
         template = ASSETS / "languages" / folder / "progresso" / "08-registro-progresso.md"
-        if kind != "progresso" and progress.is_file() and progress.read_bytes() != template.read_bytes():
+        if kind == "aulas" and remove:
+            if progress.is_file():
+                current = progress.read_text(encoding="utf-8")
+                cleaned = progress_without_lessons(current, template.read_text(encoding="utf-8"))
+                if cleaned != current:
+                    adjust.append((progress, cleaned))
+            plans = base / "planos"
+            for plan in sorted(plans.glob("*.md")) if plans.is_dir() else []:
+                if plan.name in ("MODELO.md", "README.md"):
+                    continue
+                current = plan.read_text(encoding="utf-8")
+                cleaned = plan_without_sessions(current)
+                if cleaned != current:
+                    adjust.append((plan, cleaned))
+        elif kind == "diagnostico" and progress.is_file() and progress.read_bytes() != template.read_bytes():
             warnings.append(f"O progresso de {NAMES[tag]} foi calculado com esses registros. "
                             "Considere também Reset-Progress.")
-    return remove, restore, warnings
+    return remove, restore, warnings, adjust
 
 
 def cmd_reset(data, args):
@@ -431,12 +501,13 @@ def cmd_reset(data, args):
         tags = present
     else:
         ask("Qual idioma?", [NAMES[t] for t in present] + ["Todos"], central=entry["nome"])
-    remove, restore, warnings = _reset_plan(root, args.tipo, tags)
+    remove, restore, warnings, adjust = _reset_plan(root, args.tipo, tags)
     rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
     preview = {"central": entry["nome"], "padrao": entry["nome"] == data["padrao"], "tipo": args.tipo,
                "idiomas": [NAMES[t] for t in tags], "remover": [rel(p) for p in remove],
-               "restaurar_modelo": [rel(c) for c, _ in restore], "avisos": warnings}
-    if not remove and not restore:
+               "restaurar_modelo": [rel(c) for c, _ in restore], "ajustar": [rel(c) for c, _ in adjust],
+               "avisos": warnings}
+    if not remove and not restore and not adjust:
         return {"status": "ok", **preview, "mensagem": "Nada a zerar."}
     if not args.confirmar:
         return {"status": "previa", **preview, "confirmacao": "--confirmar"}
@@ -447,7 +518,7 @@ def cmd_reset(data, args):
     while backup.exists():
         backup = backup.with_name(f"{stamp}-reset-{args.tipo}-{label}-{suffix}")
         suffix += 1
-    for item in remove + [c for c, _ in restore if c.is_file()]:
+    for item in remove + [c for c, _ in restore if c.is_file()] + [c for c, _ in adjust]:
         copy = backup / rel(item)
         copy.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(item, copy)
@@ -458,6 +529,10 @@ def cmd_reset(data, args):
     for current, template in restore:
         current.write_bytes(template.read_bytes())
         if current.read_bytes() != template.read_bytes():
+            fail(f"Releitura divergente em {rel(current)}.")
+    for current, cleaned in adjust:
+        current.write_text(cleaned, encoding="utf-8")
+        if current.read_text(encoding="utf-8") != cleaned:
             fail(f"Releitura divergente em {rel(current)}.")
     return {"status": "ok", **preview, "backup": rel(backup)}
 
