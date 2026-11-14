@@ -6,7 +6,7 @@ Toda frase no idioma que o aluno está aprendendo recebe um número, seja da IA 
 
 - **Frase (F):** cada sentença no idioma-alvo. Uma resposta com três sentenças recebe três números. Exemplo: `F132`.
 - **Diálogo (D):** um bloco de falas apresentado ou praticado junto (diálogo-modelo, simulação, troca de turnos de um cenário). As frases dentro dele mantêm seus números F. Exemplo: `D145` reúne F140–F151.
-- **Únicos por idioma na Central.** A numeração continua de uma sessão para outra e entre diagnóstico e práticas. Nunca volta a 1 e nunca é reaproveitada, nem depois de Reset-Diagnostic, Reset-Practices ou Reset-Progress. Cada idioma tem a sua sequência.
+- **Únicos por idioma na Central.** A numeração continua de uma sessão para outra e entre diagnóstico e práticas. Nunca volta a 1 e nunca é reaproveitada, nem depois de Reset-Diagnostics, Reset-Practices ou Reset-Progress. Cada idioma tem a sua sequência.
 
 ### Onde fica o contador
 
@@ -17,7 +17,7 @@ Cada sessão registra no cabeçalho o intervalo usado (`F120 – F158 | D12 – 
 ### Como mostrar
 
 - **Texto:** prefixe cada frase da IA no idioma-alvo com o número entre colchetes: `[F132] Could you send me the agenda?`. Para as frases do aluno, abra a resposta com uma linha curta que dá os números sem repetir o texto: `Você: F133, F134`. Diálogos começam com `[D145]`.
-- **Voz:** com `ids_em_voz: sim` (padrão), diga o número de forma curta antes de cada frase nova da IA ("cento e trinta e dois: Could you send me the agenda?") e confirme o número das frases do aluno no início da resposta ("a sua foi a cento e trinta e três"). O aluno liga e desliga com `IDs-Voz on` e `IDs-Voz off`. Desligado, os números continuam sendo atribuídos e gravados; a IA diz o número quando o aluno perguntar.
+- **Voz:** com `ids_em_voz: sim` (padrão), diga o número de forma curta antes de cada frase nova da IA ("cento e trinta e dois: Could you send me the agenda?") e confirme o número das frases do aluno no início da resposta ("a sua foi a cento e trinta e três"). O aluno liga e desliga com `Set-VoiceIds on` e `Set-VoiceIds off`. Desligado, os números continuam sendo atribuídos e gravados; a IA diz o número quando o aluno perguntar.
 
 ### Pedir algo sobre uma frase ou diálogo
 
@@ -53,7 +53,7 @@ O Finish-Practice é a etapa 6 (encerramento) e roda sempre ao fim da prática, 
 
 ### Finish-Lab
 
-Quando o aluno faz o Entertainment Lab (logo depois do encerramento ou mais tarde, com o comando `Lab`):
+Quando o aluno faz o Entertainment Lab (logo depois do encerramento ou mais tarde, com o comando `Start-Lab`):
 
 1. Grave na seção Entertainment Lab da sessão, numa única escrita: `lab_resultado` (respostas, tarefa e feedback breve) e as frases e diálogos numerados. Depois da releitura e da confirmação ao aluno, grave `lab_gravacao_confirmada: sim`. O status da prática não muda (continua `Concluída`), e o Lab não tem status próprio. Se o aluno não fizer o Lab, nada é gravado.
 2. Atualize os contadores de frases e diálogos no estado global.

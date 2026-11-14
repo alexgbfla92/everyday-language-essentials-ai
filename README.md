@@ -70,7 +70,7 @@ Com a IA, você pode:
 - **Conversar por voz ou texto**, conforme os recursos disponíveis, e praticar situações do seu cotidiano.
 - **Consultar qualquer frase pelo número**: cada frase no idioma estudado recebe um número único ("repita a frase 132", "explique o diálogo 145").
 - **Pausar e retomar sem perder nada**, inclusive no modo voz.
-- **Várias missões por idioma** (ex.: "Me preparar para uma viagem a Londres" até uma data, nas situações aeroporto, migração, transporte público e restaurantes), criadas e ajustadas com `Mission`, e a próxima sessão de prática da missão escolhida com `Next-Practice`.
+- **Várias missões por idioma** (ex.: "Me preparar para uma viagem a Londres" até uma data, nas situações aeroporto, migração, transporte público e restaurantes), criadas e ajustadas com `New-Mission` e `Set-Mission`, e a próxima sessão de prática da missão escolhida com `Start-Practice`.
 - **Falar sem saber a frase inteira:** começar no idioma que está aprendendo, completar uma parte em português e pedir ajuda para formular o restante.
 - **Perguntar sem constrangimento:** como montar a frase, por que determinada palavra foi usada ou como expressar a mesma ideia no passado, presente ou futuro.
 - **Pedir correções e exemplos**, sem transformar cada erro em uma interrupção ou avaliação.
@@ -187,7 +187,20 @@ Não descompacte o arquivo: o mesmo .zip serve para o Claude e para o ChatGPT.
 
 ### Primeiro uso
 
-Envie `Help`: a resposta mostra a versão instalada (por exemplo, "TalkGo v0.17.0") e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
+Envie `Help`: a resposta mostra a versão instalada (por exemplo, "TalkGo v0.19.0"), o contexto padrão e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
+
+Os comandos seguem o padrão `Verbo-Entidade` em inglês: `Get` mostra, `New` cria, `Set` altera, `Remove` apaga, `Start`/`Pause`/`Resume`/`Finish` conduzem a prática. O caminho básico é:
+
+| Passo | Comando |
+| --- | --- |
+| Criar a sua Central no Google Drive | `New-Central googledrive Idiomas Inglês` |
+| Fazer o diagnóstico do idioma | `Start-Diagnostic Inglês` |
+| Criar uma missão (título, descrição, data-alvo e situações) | `New-Mission Inglês` |
+| Praticar | `Start-Practice` |
+| Ver as práticas por missão e status | `Get-Practices` |
+| Ver o progresso | `Get-Progress` |
+
+Quando você não indica Central, idioma ou missão e há mais de uma opção, o TalkGo pergunta, já sugerindo a padrão; para mudar a padrão, use `Set-Default central|language|mission`. Você também pode pedir em linguagem natural ("quero praticar inglês", "quais práticas eu fiz?").
 
 ### Atualizar
 

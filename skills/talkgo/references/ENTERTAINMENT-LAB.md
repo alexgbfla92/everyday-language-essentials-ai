@@ -59,7 +59,7 @@ Faça isto ao criar a prática, sem perguntas ao aluno, e antes de mostrar a eta
 Falha é qualquer caso em que o passo 6 não passa: sem ferramenta de busca, nenhum vídeo confirmado por página, navegador ou resultado de busca, link fora do YouTube, duração ou trecho não confirmados, ou registro que não pôde ser gravado e relido.
 
 1. **Antes de iniciar a prática**, diga ao aluno em uma ou duas frases o que falhou e pergunte: "Quer começar a prática sem o vídeo do Entertainment Lab? Eu o preparo depois." Não comece a etapa 1 antes da resposta.
-2. Se aceitar: grave `lab_pendencia_motivo` e `lab_pendencia_aceita_pelo_aluno` (com data), releia e siga. Se não aceitar: ofereça tentar de novo ou preparar em texto (`Next-Practice <idioma>`), sem iniciar a prática.
+2. Se aceitar: grave `lab_pendencia_motivo` e `lab_pendencia_aceita_pelo_aluno` (com data), releia e siga. Se não aceitar: ofereça tentar de novo ou preparar em texto (`Start-Practice <idioma>`), sem iniciar a prática.
 3. Nunca grave `lab_verificado_em` sem o passo 6 e nunca preencha `lab_pendencia_aceita_pelo_aluno` sem a resposta do aluno.
 
 ## Etapa 7 (sugerir depois do encerramento)
@@ -67,7 +67,7 @@ Falha é qualquer caso em que o passo 6 não passa: sem ferramenta de busca, nen
 1. Na mesma mensagem que confirma a prática concluída, leia a seção salva e apresente: título e canal, link, trecho e duração, a tarefa e as perguntas. Se canal ou duração estiverem `nao_confirmado(a)`, diga isso em poucas palavras ("duração não confirmada: o YouTube estava inacessível na preparação"). Não faça nova pesquisa e não pergunte tema nem duração.
 2. Faça uma única pergunta: "Quer fazer o Lab agora?".
 3. Se a prática começou sem o vídeo (pendência aceita), diga isso e pergunte se o aluno quer que você prepare agora, em texto. Só aqui uma pesquisa no fim é permitida, e só se o aluno pedir.
-4. Se o aluno fizer o Lab, grave `lab_resultado` (Finish-Lab), releia e confirme. Se não fizer, não grave nada: a prática continua `Concluída` e o comando `Lab` abre o material depois.
+4. Se o aluno fizer o Lab, grave `lab_resultado` (Finish-Lab), releia e confirme. Se não fizer, não grave nada: a prática continua `Concluída` e o comando `Start-Lab` abre o material depois.
 
 ## Encerramento (conferência obrigatória)
 
@@ -82,9 +82,9 @@ Com Python: `python scripts/lab.py encerramento ARQUIVO` deve responder `"pode_e
 
 ## Voz e retomada
 
-- **Início em voz.** Se a sessão consegue pesquisar, gravar e reler em voz, siga o preparo normalmente. Se não consegue, diga que não é possível preparar nem salvar o Lab no modo voz, não afirme que algo está pronto ou salvo, e encaminhe para o texto: "Saia do modo voz e envie `Next-Practice <idioma>` nesta conversa; depois volte ao modo voz." A prática só começa em voz sem o material pronto se o aluno aceitar começar sem o vídeo, e essa aceitação precisa ser gravada (em texto, pelo Save-Practice, se a voz não grava).
+- **Início em voz.** Se a sessão consegue pesquisar, gravar e reler em voz, siga o preparo normalmente. Se não consegue, diga que não é possível preparar nem salvar o Lab no modo voz, não afirme que algo está pronto ou salvo, e encaminhe para o texto: "Saia do modo voz e envie `Start-Practice <idioma>` nesta conversa; depois volte ao modo voz." A prática só começa em voz sem o material pronto se o aluno aceitar começar sem o vídeo, e essa aceitação precisa ser gravada (em texto, pelo Save-Practice, se a voz não grava).
 - **Retomada.** Ao retomar uma prática, leia a seção do Lab antes de continuar a etapa salva. Se o material não estiver pronto nem houver pendência aceita, faça o preparo agora (ou o caminho de falha) antes de seguir. Se a prática for retomada na etapa 6, faça o encerramento e a conferência.
-- **Voz sem acesso ao registro.** Não diga que o material está pronto nem que algo foi salvo. Diga a limitação e dê o comando de texto: `Next-Practice <idioma>` para preparar, ou `Save-Practice pausar|concluir|lab <sessão> <F inicial>-<F final>` para gravar.
+- **Voz sem acesso ao registro.** Não diga que o material está pronto nem que algo foi salvo. Diga a limitação e dê o comando de texto: `Start-Practice <idioma>` para preparar, ou `Save-Practice pausar|concluir|lab <sessão> <F inicial>-<F final>` para gravar.
 
 ## Confirmação de gravação
 

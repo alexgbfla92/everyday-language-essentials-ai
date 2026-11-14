@@ -176,6 +176,89 @@ class CentralTests(unittest.TestCase):
                       (backup / "languages/english/missoes/viagem-londres.md").read_text(encoding="utf-8"))
         self.assertEqual(self.run_cli("reset", "praticas", "en")["mensagem"], "Nada a zerar.")
 
+    def mission(self, root, folder, mission_id, title):
+        template = (ASSETS / "modelos" / "missao.md").read_text(encoding="utf-8")
+        text = (template.replace("missao_id:  #", f"missao_id: {mission_id}  #", 1)
+                .replace("missao_titulo:  #", f"missao_titulo: {title}  #", 1))
+        (root / f"languages/{folder}/missoes/{mission_id}.md").write_text(text, encoding="utf-8")
+
+    def practice(self, root, folder, practice_id, mission_id, status, situation="Aeroporto"):
+        text = f"missao_id: {mission_id}\nsituacao: {situation}\nstatus: {status}\n"
+        (root / f"languages/{folder}/praticas/{practice_id}.md").write_text(text, encoding="utf-8")
+
+    def test_language_and_mission_defaults(self):
+        root = self.create("Pessoal", "Espanhol", "Inglês")
+        state = (root / "config/estado-global.md").read_text(encoding="utf-8")
+        self.assertIn("idioma_padrao: es-ES", state)
+        asked = self.run_cli("practices")
+        self.assertEqual((asked["status"], asked["opcoes"], asked["padrao"]), ("ambiguo", ["Espanhol", "Inglês"],
+                                                                               "Espanhol"))
+        self.assertEqual(self.run_cli("default", "--idioma", "en")["padrao"], "Inglês")
+        self.assertEqual(self.run_cli("practices")["opcoes"][0], "Inglês")
+        self.mission(root, "english", "viagem-londres", "Viagem a Londres")
+        self.mission(root, "english", "reunioes", "Reuniões")
+        done = self.run_cli("default", "--missao", "Viagem a Londres", "--idioma", "en")
+        self.assertEqual((done["nivel"], done["padrao"]), ("mission", "viagem-londres"))
+        info = self.run_cli("info")["centrais"][0]["idiomas"]
+        english = next(i for i in info if i["tag"] == "en-US")
+        self.assertEqual((english["padrao"], english["missao_padrao"]), (True, "viagem-londres"))
+        self.assertEqual(self.run_cli("default", "--missao", "nada", "--idioma", "en")["status"], "erro")
+
+    def test_get_practices_groups_by_mission_and_status(self):
+        root = self.create("Pessoal", "en")
+        self.mission(root, "english", "viagem-londres", "Viagem a Londres")
+        self.mission(root, "english", "reunioes", "Reuniões")
+        self.run_cli("default", "--missao", "reunioes", "--idioma", "en")
+        self.practice(root, "english", "pratica-20261110-01", "viagem-londres", "Concluída")
+        self.practice(root, "english", "pratica-20261111-01", "viagem-londres", "Em andamento (pausada)", "Hotel")
+        self.practice(root, "english", "pratica-20261112-01", "reunioes", "Concluída")
+        listed = self.run_cli("practices")
+        self.assertEqual(listed["total"], 3)
+        self.assertEqual([m["id"] for m in listed["missoes"]], ["reunioes", "viagem-londres"])
+        self.assertTrue(listed["missoes"][0]["padrao"])
+        london = listed["missoes"][1]
+        self.assertEqual([g["status"] for g in london["praticas"]], ["Em andamento (pausada)", "Concluída"])
+        self.assertEqual(london["praticas"][0]["itens"][0]["data"], "11/11/2026")
+        paused = self.run_cli("practices", "--status", "pausada")
+        self.assertEqual(paused["total"], 1)
+        self.assertEqual(self.run_cli("practices", "--missao", "reunioes")["total"], 1)
+
+    def test_remove_mission_with_preview_backup_and_id_confirmation(self):
+        root = self.create("Pessoal", "en")
+        base = root / "languages/english"
+        self.mission(root, "english", "viagem-londres", "Viagem a Londres")
+        self.mission(root, "english", "reunioes", "Reuniões")
+        self.run_cli("default", "--missao", "viagem-londres", "--idioma", "en")
+        self.practice(root, "english", "pratica-20261110-01", "viagem-londres", "Concluída")
+        self.practice(root, "english", "pratica-20261112-01", "reunioes", "Concluída")
+        progress_path = base / "progresso/08-registro-progresso.md"
+        progress = progress_path.read_text(encoding="utf-8").replace(
+            "| Completed regular practices | 0 (tests excluded) |", "| Completed regular practices | 2 |")
+        progress += "| pratica-20261110-01 | 2026-11-10 | Check-in | F1-F9 | Hotel |\n"
+        progress += "| pratica-20261112-01 | 2026-11-12 | Daily | F10-F20 | Status |\n"
+        progress_path.write_text(progress, encoding="utf-8")
+        self.assertEqual(self.run_cli("remove-mission")["status"], "ambiguo")
+        preview = self.run_cli("remove-mission", "viagem-londres")
+        self.assertEqual(preview["status"], "previa")
+        self.assertEqual(preview["remover"], ["languages/english/missoes/viagem-londres.md",
+                                              "languages/english/praticas/pratica-20261110-01.md"])
+        self.assertEqual(preview["missao_padrao_depois"], "reunioes")
+        self.assertTrue((base / "missoes/viagem-londres.md").exists())
+        self.assertEqual(self.run_cli("remove-mission", "viagem-londres", "--confirmar", "reunioes")["status"], "erro")
+        done = self.run_cli("remove-mission", "viagem-londres", "--confirmar", "viagem-londres")
+        self.assertEqual(done["status"], "ok")
+        self.assertFalse((base / "missoes/viagem-londres.md").exists())
+        self.assertFalse((base / "praticas/pratica-20261110-01.md").exists())
+        self.assertTrue((base / "praticas/pratica-20261112-01.md").exists())
+        progress_now = progress_path.read_text(encoding="utf-8")
+        self.assertNotIn("pratica-20261110-01", progress_now)
+        self.assertIn("pratica-20261112-01", progress_now)
+        self.assertIn("| Completed regular practices | 1 |", progress_now)
+        self.assertTrue((root / done["backup"] / "languages/english/praticas/pratica-20261110-01.md").exists())
+        english = self.run_cli("info")["centrais"][0]["idiomas"][0]
+        self.assertEqual(english["missao_padrao"], "reunioes")
+        self.assertEqual(self.run_cli("practices")["total"], 1)
+
     def test_reset_diagnostic_keeps_practice_pointer(self):
         root = self.create("Pessoal", "en")
         self.fake_practices(root)
@@ -202,12 +285,16 @@ class CentralTests(unittest.TestCase):
         self.assertEqual(self.run_cli("reset", "praticas", "Espanhol")["status"], "erro")
         self.assertEqual(self.run_cli("reset", "praticas", "klingon")["status"], "erro")
 
-    def test_reset_uses_default_but_central_choice_wins(self):
+    def test_several_centrals_ask_with_default_first_and_marked(self):
         self.create("Pessoal", "en")
         work = self.create("Trabalho", "en")
         self.fake_practices(work)
-        preview = self.run_cli("reset", "praticas", "en")
-        self.assertEqual((preview["central"], preview["padrao"]), ("Pessoal", True))
+        asked = self.run_cli("reset", "praticas", "en")
+        self.assertEqual((asked["status"], asked["opcoes"], asked["padrao"]),
+                         ("ambiguo", ["Pessoal", "Trabalho"], "Pessoal"))
+        self.run_cli("default", "Trabalho")
+        asked = self.run_cli("practices", "en")
+        self.assertEqual((asked["opcoes"], asked["padrao"]), (["Trabalho", "Pessoal"], "Trabalho"))
         preview = self.run_cli("reset", "praticas", "en", "--central", "Trabalho")
         self.assertEqual((preview["central"], len(preview["remover"])), ("Trabalho", 2))
 

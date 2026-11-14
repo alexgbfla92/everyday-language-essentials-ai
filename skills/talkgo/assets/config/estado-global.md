@@ -7,7 +7,8 @@ provedor: null  # local | google-drive | onedrive
 armazenamento: null  # pasta-local | drive | onedrive | manual
 raiz: null  # caminho local ou ID da pasta no Drive/OneDrive
 formato_registros: null  # markdown | nativo (Google Docs/Sheets, só no adaptador Drive)
-idioma_padrao: en-US
+idioma_padrao: null  # idioma assumido quando o aluno não indica um (Set-Default language); na criação, o primeiro escolhido
+missoes_padrao: {en-US: null, es-ES: null, fr-FR: null}  # missão assumida por idioma (Set-Default mission); a primeira criada vira a padrão
 idiomas_habilitados: [fr-FR, es-ES, en-US]
 idiomas_escolhidos_pelo_aluno: []
 idioma_de_apoio: pt-BR
