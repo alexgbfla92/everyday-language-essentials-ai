@@ -1,9 +1,9 @@
 ---
-name: everylang
-description: Everyday Language Essentials AI (everylang). Configure e gerencie Centrais de idiomas numa pasta pessoal (local, Google Drive ou OneDrive), conduza diagnósticos e aulas por missão, retome sessões e apresente o progresso verificado de inglês, espanhol e francês. Aceita comandos como Help, Info-CentralIdioma, Create-CentralIdioma, Remove-CentralIdioma, Default-CentralIdioma, Reset-Diagnostic, Reset-Lessons, Reset-Progress, Pause-Lesson, Finish-Lesson e Save-Lesson, e numera cada frase no idioma-alvo para consulta (repita a frase 132).
+name: practice
+description: TalkGo (prática de idiomas). Configure e gerencie Centrais de idiomas numa pasta pessoal (local, Google Drive ou OneDrive), conduza diagnósticos e aulas por missão, retome sessões e apresente o progresso verificado de inglês, espanhol e francês. Aceita comandos como Help, Info-CentralIdioma, Create-CentralIdioma, Remove-CentralIdioma, Default-CentralIdioma, Reset-Diagnostic, Reset-Lessons, Reset-Progress, Pause-Lesson, Finish-Lesson e Save-Lesson, e numera cada frase no idioma-alvo para consulta (repita a frase 132).
 ---
 
-# Central de aprendizagem (everylang)
+# Central de aprendizagem (TalkGo · practice)
 
 **Regras que nunca podem ser puladas em uma aula regular, em texto, voz ou retomada:**
 
@@ -22,9 +22,9 @@ Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso c
 
 Reconheça os comandos sem diferenciar maiúsculas, acentos ou hífen, com argumentos em qualquer ordem. Siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Quando faltar ou houver mais de uma opção de Central ou de idioma, pergunte qual antes de agir, conforme a seção Ambiguidade daquele documento. Remove e Reset sempre mostram a prévia, fazem backup e pedem confirmação explícita.
 
-Versão instalada: 0.12.2
+Versão instalada: 0.13.0
 
-`Help` (ou `Help-Comandos`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "everylang vX.Y.Z") e esta tabela, sem executar nada:
+`Help` (ou `Help-Comandos`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "TalkGo vX.Y.Z") e esta tabela, sem executar nada:
 
 | Comando | O que faz | Exemplo |
 | --- | --- | --- |

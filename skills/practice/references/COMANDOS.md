@@ -1,6 +1,6 @@
 # Comandos da Central
 
-Os comandos funcionam em qualquer plataforma. São texto: o aluno digita depois de chamar a skill (`/everylang:everylang Reset-Lessons Inglês` no Claude e `$everylang:everylang Reset-Lessons Inglês` no ChatGPT e no Codex, quando instalada como plugin; `/everylang` e `$everylang` quando instalada como skill avulsa) ou em qualquer mensagem de uma conversa em que a skill já esteja ativa.
+Os comandos funcionam em qualquer plataforma. São texto: o aluno digita depois de chamar a skill (`/talkgo:practice Reset-Lessons Inglês` no Claude e `$talkgo:practice Reset-Lessons Inglês` no ChatGPT e no Codex, quando instalada como plugin; `/practice` e `$practice` quando instalada como skill avulsa) ou em qualquer mensagem de uma conversa em que a skill já esteja ativa.
 
 ## Como reconhecer
 
@@ -39,14 +39,14 @@ Com Google Drive ou OneDrive por conector, ou no modo manual, siga as mesmas reg
 
 O registro guarda nome, provedor (local, google-drive, onedrive), acesso (pasta-local, drive, onedrive, manual), raiz, idiomas e qual é a padrão. Ele não guarda progresso.
 
-- Com sistema de arquivos persistente, o registro fica em `~/.everylang/centrais.json` (ou na pasta indicada por `EVERYLANG_HOME`, ou em `--registro`). Se só uma pasta do aluno estiver conectada, use `--registro PASTA_CONECTADA/.everylang/centrais.json`.
+- Com sistema de arquivos persistente, o registro fica em `~/.talkgo/centrais.json` (ou na pasta indicada por `TALKGO_HOME`, ou em `--registro`). Se só uma pasta do aluno estiver conectada, use `--registro PASTA_CONECTADA/.talkgo/centrais.json`.
 - Uma Central criada por conector entra no registro com `register --raiz ID --nome NOME --provedor google-drive|onedrive --acesso drive|onedrive IDIOMA...`.
-- Sem sistema de arquivos, guarde o registro na memória da plataforma ou nas instruções do Projeto, com a concordância do aluno, no formato "Centrais everylang: NOME → provedor, raiz; padrão: NOME". Sem nenhum desses, pergunte a Central no início da conversa.
+- Sem sistema de arquivos, guarde o registro na memória da plataforma ou nas instruções do Projeto, com a concordância do aluno, no formato "Centrais TalkGo: NOME → provedor, raiz; padrão: NOME". Sem nenhum desses, pergunte a Central no início da conversa.
 - Cada Central também se descreve em `config/estado-global.md` (`nome_central`, `provedor`, `armazenamento`, `raiz`, `idiomas_escolhidos_pelo_aluno`). Se o registro e a Central divergirem, a Central vale; atualize o registro.
 
 ## Help
 
-Mostre primeiro a versão instalada ("everylang vX.Y.Z", da linha "Versão instalada" do SKILL.md) e depois a tabela da seção Comandos do SKILL.md, com uma linha de exemplo por comando e a Central padrão atual, se conhecida. Não execute nada.
+Mostre primeiro a versão instalada ("TalkGo vX.Y.Z", da linha "Versão instalada" do SKILL.md) e depois a tabela da seção Comandos do SKILL.md, com uma linha de exemplo por comando e a Central padrão atual, se conhecida. Não execute nada.
 
 ## Info-CentralIdioma
 

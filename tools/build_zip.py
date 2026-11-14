@@ -1,12 +1,12 @@
 """Gera o pacote .zip da skill para envio pelo navegador (Claude e ChatGPT).
 
-  python tools/build_zip.py            # skill: dist/everylang-<versão>.zip (Claude e ChatGPT > Habilidades)
-  python tools/build_zip.py --plugin   # plugin: dist/everylang-plugin-<versão>.zip (ChatGPT > Plugins > Adicionar)
+  python tools/build_zip.py            # skill: dist/talkgo-practice-<versão>.zip (Claude e ChatGPT > Habilidades)
+  python tools/build_zip.py --plugin   # plugin: dist/talkgo-plugin-<versão>.zip (ChatGPT > Plugins > Adicionar)
 
-O .zip contém só a pasta everylang/ (SKILL.md, references/, assets/, scripts/), como exigem o
+O .zip contém só a pasta practice/ (SKILL.md, references/, assets/, scripts/), como exigem o
 Claude (pasta com o nome da skill na raiz do arquivo) e o ChatGPT (uma skill completa por envio).
 Antes de gravar, confere: nome da pasta = name do SKILL.md, frontmatter válido, nenhuma entrada fora
-de everylang/ e nenhum arquivo oculto, compilado ou de sistema.
+de practice/ e nenhum arquivo oculto, compilado ou de sistema.
 """
 import io
 import json
@@ -17,7 +17,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = "everylang"
+SKILL = "practice"
 FORBIDDEN = re.compile(r"(^|/)(\.[^/]+|__pycache__|Thumbs\.db)(/|$)|\.(pyc|pyo|exe|dll|so)$")
 
 
@@ -33,7 +33,7 @@ def frontmatter(text):
 
 
 def plugin_zip(skill_zip, version):
-    """Remonta o pacote no formato de plugin: .codex-plugin/plugin.json + skills/everylang/."""
+    """Remonta o pacote no formato de plugin: .codex-plugin/plugin.json + skills/practice/."""
     meta = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))
     manifest = {k: meta[k] for k in ("name", "version", "description", "author", "homepage", "repository",
                                      "keywords")}
@@ -70,9 +70,9 @@ def build(plugin=False):
         problems.append("linha 'Versão instalada' do SKILL.md diferente do VERSION")
     if problems:
         raise SystemExit("Pacote recusado:\n- " + "\n- ".join(problems))
-    name = f"{SKILL}-{version}.zip"
+    name = f"talkgo-{SKILL}-{version}.zip"
     if plugin:
-        raw, name = plugin_zip(raw, version), f"{SKILL}-plugin-{version}.zip"
+        raw, name = plugin_zip(raw, version), f"talkgo-plugin-{version}.zip"
         with zipfile.ZipFile(io.BytesIO(raw)) as archive:
             names = archive.namelist()
     out = ROOT / "dist" / name

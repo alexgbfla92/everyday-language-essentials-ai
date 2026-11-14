@@ -1,10 +1,10 @@
-# Everyday Language Essentials AI
+# TalkGo
 
 ## Aprenda o idioma que você precisa para viver o que importa.
 
 **Fale antes de estar pronto. Erre, pergunte, tente de novo. O importante é não parar de se comunicar.**
 
-O **Everyday Language Essentials AI** é uma **skill pública e open source** de aprendizagem de idiomas orientada a situações reais, disponibilizada à comunidade como uma abordagem prática e personalizável. Em vez de exigir que você percorra um currículo inteiro antes de começar a conversar, a proposta é ajudar você a se preparar para **as experiências que fazem sentido na sua vida** — no idioma, no ritmo e no prazo que você escolher.
+O **TalkGo** é uma **skill pública e open source** de aprendizagem de idiomas orientada a situações reais, disponibilizada à comunidade como uma abordagem prática e personalizável. Em vez de exigir que você percorra um currículo inteiro antes de começar a conversar, a proposta é ajudar você a se preparar para **as experiências que fazem sentido na sua vida** — no idioma, no ritmo e no prazo que você escolher.
 
 Você não precisa dominar todas as regras gramaticais para pedir ajuda, conhecer alguém, participar de um evento ou resolver um imprevisto. Precisa de prática, repertório útil e coragem para tentar. É por aí que a prática começa.
 
@@ -12,7 +12,7 @@ A ideia não é vender um curso nem tratar quem aprende como cliente. É compart
 
 ## O que torna essa abordagem diferente?
 
-Cursos tradicionais frequentemente organizam o aprendizado em níveis, unidades gramaticais e provas. Essa abordagem pode ser valiosa para quem busca formação ampla, certificações ou domínio acadêmico. O Everyday Language Essentials AI parte de outra pergunta:
+Cursos tradicionais frequentemente organizam o aprendizado em níveis, unidades gramaticais e provas. Essa abordagem pode ser valiosa para quem busca formação ampla, certificações ou domínio acadêmico. O TalkGo parte de outra pergunta:
 
 > **O que você precisa conseguir fazer, de verdade, usando esse idioma?**
 
@@ -26,7 +26,7 @@ Como referência **ilustrativa, não como escala científica ou garantia de dese
 
 Por isso, a pergunta não é “quanto falta para conhecer o idioma inteiro?”, mas **“quais palavras, frases e situações preciso praticar para ser compreendido na minha próxima experiência?”**
 
-| Ensino tradicional, em muitos formatos | Everyday Language Essentials AI |
+| Ensino tradicional, em muitos formatos | TalkGo |
 | --- | --- |
 | Currículo predefinido por níveis e tópicos | Missões construídas a partir dos objetivos do usuário |
 | Gramática frequentemente apresentada antes da aplicação | Comunicação primeiro; explicações quando necessárias |
@@ -45,7 +45,7 @@ O mesmo princípio vale para quem vai a um casamento, batizado, conferência, vi
 
 ## Fale. Mesmo que saia errado.
 
-No Everyday Language Essentials AI, você não precisa esperar pela frase perfeita.
+No TalkGo, você não precisa esperar pela frase perfeita.
 
 - **Sabe uma parte?** Diga essa parte.
 - **Esqueceu uma palavra?** Explique com as palavras que conhece.
@@ -55,13 +55,13 @@ No Everyday Language Essentials AI, você não precisa esperar pela frase perfei
 
 O princípio é simples: **a tentativa vem antes da perfeição**.
 
-O Everyday Language Essentials AI ajuda você a transformar frases incompletas em mensagens cada vez mais claras e naturais. A correção não deve interromper cada palavra nem transformar toda conversa em uma prova. Ela existe para ajudar você a seguir em frente.
+O TalkGo ajuda você a transformar frases incompletas em mensagens cada vez mais claras e naturais. A correção não deve interromper cada palavra nem transformar toda conversa em uma prova. Ela existe para ajudar você a seguir em frente.
 
 ## Aqui, você não precisa ter vergonha de errar
 
 Para muita gente, o maior obstáculo ao aprender um idioma não é a falta de vocabulário. É a vergonha: o medo de pronunciar uma palavra errada, esquecer uma frase, confundir os tempos verbais ou parecer incapaz diante de alguém. Esse bloqueio pode aparecer em aulas particulares, turmas, conversas pela internet e até entre amigos e familiares.
 
-O Everyday Language Essentials AI oferece uma alternativa poderosa: **um espaço de prática com inteligência artificial, sem constrangimento social**. Você não está diante de uma plateia, de colegas ou de alguém que vai tirar sarro do seu sotaque. A IA não tem interesse em humilhar, discriminar ou ridicularizar você. Sua função é ajudar você a praticar, compreender, corrigir e tentar novamente.
+O TalkGo oferece uma alternativa poderosa: **um espaço de prática com inteligência artificial, sem constrangimento social**. Você não está diante de uma plateia, de colegas ou de alguém que vai tirar sarro do seu sotaque. A IA não tem interesse em humilhar, discriminar ou ridicularizar você. Sua função é ajudar você a praticar, compreender, corrigir e tentar novamente.
 
 **Erre uma vez. Erre cem. Erre mil vezes, se precisar. Você pode continuar tentando.**
 
@@ -143,13 +143,13 @@ A experiência é orientada pelo que você precisa fazer, não por uma lista obr
 
 ## Fluência não é a promessa. Comunicação é o propósito.
 
-O Everyday Language Essentials AI não promete que você se tornará fluente em 30, 60 ou 90 dias, nem que deixará de cometer erros ou falar com sotaque. O objetivo é mais concreto: **ajudar você a se comunicar melhor nas situações para as quais decidiu se preparar**.
+O TalkGo não promete que você se tornará fluente em 30, 60 ou 90 dias, nem que deixará de cometer erros ou falar com sotaque. O objetivo é mais concreto: **ajudar você a se comunicar melhor nas situações para as quais decidiu se preparar**.
 
 Uma missão curta pode ampliar sua segurança para um contexto específico. Várias missões, acumuladas ao longo do tempo, podem construir um repertório cada vez mais amplo e contribuir para níveis relevantes de proficiência. Esse progresso depende da frequência de prática, da exposição ao idioma e das características de cada pessoa.
 
 Não é necessário esperar pela fluência para começar a conversar. E começar a conversar pode ser um dos caminhos para desenvolvê-la.
 
-## Para quem é o Everyday Language Essentials AI?
+## Para quem é o TalkGo?
 
 Para quem tem uma viagem marcada, um encontro importante, uma oportunidade profissional, um evento social ou simplesmente uma razão concreta para falar outro idioma — e não quer adiar essa experiência até sentir que domina a língua inteira.
 
@@ -157,11 +157,11 @@ Para quem tem uma viagem marcada, um encontro importante, uma oportunidade profi
 
 ## Uma skill aberta à comunidade
 
-O Everyday Language Essentials AI é uma iniciativa **open source**, pensada para ser usada, adaptada e aprimorada pela comunidade. Cada pessoa escolhe suas missões e o que deseja praticar; a proposta não é impor uma jornada única, mas tornar a prática de idiomas mais acessível, contextualizada e menos intimidante. A disponibilidade de voz, texto e outros recursos depende da plataforma de IA utilizada.
+O TalkGo é uma iniciativa **open source**, pensada para ser usada, adaptada e aprimorada pela comunidade. Cada pessoa escolhe suas missões e o que deseja praticar; a proposta não é impor uma jornada única, mas tornar a prática de idiomas mais acessível, contextualizada e menos intimidante. A disponibilidade de voz, texto e outros recursos depende da plataforma de IA utilizada.
 
 ## Como instalar
 
-A skill se chama **everylang** e é a mesma para Claude e ChatGPT: fica em [`skills/everylang`](skills/everylang/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
+O plugin se chama **TalkGo** (`talkgo`), e a skill dentro dele, **practice**. A skill e é a mesma para Claude e ChatGPT: fica em [`skills/practice`](skills/practice/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
 
 Depois de instalar, envie `Help` para ver a versão instalada e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
 
@@ -170,10 +170,10 @@ Depois de instalar, envie `Help` para ver a versão instalada e todos os comando
 **App do Claude (web, desktop e celular)**
 
 1. Em **Configurações → Plugins → Adicionar marketplace**, informe `alexgbfla92/everyday-language-essentials-ai` e clique em **Sincronizar**.
-2. Instale o plugin **everylang**.
+2. Instale o plugin **TalkGo**.
 3. Para salvar no Google Drive, ative em **Configurações → Conectores** os conectores **Google Drive**, **Google Docs** e **Google Sheets**.
    - Recomendado: em **Configurações → Capacidades**, libere os domínios `youtube.com`, `www.youtube.com`, `m.youtube.com` e `youtu.be`. Assim a skill confirma título, canal e duração do vídeo do Entertainment Lab na própria página do YouTube. Sem isso, o Lab usa link e título vindos da busca e avisa que canal e duração não foram confirmados.
-4. Chame com `/everylang:everylang` (por exemplo, `/everylang:everylang Help`). Como no ChatGPT, o nome do plugin vem antes do nome da skill; para chamar só com `/everylang`, use a skill avulsa abaixo.
+4. Chame com `/talkgo:practice` (por exemplo, `/talkgo:practice Help`). Como no ChatGPT, o nome do plugin vem antes do nome da skill; para chamar só com `/practice`, use a skill avulsa abaixo.
 
 Para atualizar, sincronize o marketplace de novo.
 
@@ -181,15 +181,15 @@ Para atualizar, sincronize o marketplace de novo.
 
 ```
 /plugin marketplace add alexgbfla92/everyday-language-essentials-ai
-/plugin install everylang@everyday-essentials
+/plugin install talkgo@talkgo
 ```
 
-**Como skill avulsa (atalho `/everylang`)**
+**Como skill avulsa (atalho `/practice`)**
 
-Gere o pacote e envie em **Configurações → Skills**, ou copie a pasta `skills/everylang` para `~/.claude/skills/everylang` no Claude Code:
+Gere o pacote e envie em **Configurações → Skills**, ou copie a pasta `skills/practice` para `~/.claude/skills/practice` no Claude Code:
 
 ```
-git archive --format=zip --prefix=everylang/ -o everylang.zip HEAD:skills/everylang
+git archive --format=zip --prefix=practice/ -o talkgo-practice.zip HEAD:skills/practice
 ```
 
 ### ChatGPT
@@ -200,7 +200,7 @@ Antes de usar, ative o app **Google Drive** no ChatGPT. Ele precisa criar e edit
 
 1. Um admin abre **Admin → Plugins → Add → Import marketplace**.
 2. Em **Source**, informa `https://github.com/alexgbfla92/everyday-language-essentials-ai` e conclui a importação.
-3. Define a política de instalação do **everylang** (Available ou Installed) para os papéis desejados.
+3. Define a política de instalação do **TalkGo** (Available ou Installed) para os papéis desejados.
 4. Os membros instalam pelo diretório de plugins. A skill vale na web, no desktop e no celular.
 
 A importação sincroniza diariamente; para atualizar na hora, use **Sync now**.
@@ -211,49 +211,49 @@ Pelo Codex CLI, que usa o mesmo diretório de plugins do ChatGPT:
 
 ```
 codex plugin marketplace add alexgbfla92/everyday-language-essentials-ai
-codex plugin add everylang@everyday-essentials
+codex plugin add talkgo@talkgo
 ```
 
-Depois, abra o app de desktop do ChatGPT e confira o **everylang** em **Plugins**. Use a skill numa conversa no modo **Work**: plugins instalados pelo Codex ficam disponíveis ali.
+Depois, abra o app de desktop do ChatGPT e confira o **TalkGo** em **Plugins**. Use a skill numa conversa no modo **Work**: plugins instalados pelo Codex ficam disponíveis ali.
 
 **Para atualizar** (os dois comandos são necessários; o primeiro só atualiza a lista do marketplace):
 
 ```
 codex plugin marketplace upgrade
-codex plugin add everylang@everyday-essentials
+codex plugin add talkgo@talkgo
 ```
 
 Depois **feche e abra de novo o app** e comece uma conversa nova. A atualização apaga a pasta da versão anterior, e conversas abertas antes dela deixam de encontrar a skill. Confira com `codex plugin list` (deve mostrar `installed, enabled` e a versão nova) e com `Help`, que mostra a versão instalada.
 
-**Se a skill sumir** ("não aparece entre as skills disponíveis"): rode `codex plugin list`. Se o everylang não estiver `installed, enabled`, rode os dois comandos acima. Em seguida, reinicie o app e abra uma conversa nova no modo Work.
+**Se a skill sumir** ("não aparece entre as skills disponíveis"): rode `codex plugin list`. Se o talkgo não estiver `installed, enabled`, rode os dois comandos acima. Em seguida, reinicie o app e abra uma conversa nova no modo Work.
 
 **Como chamar no ChatGPT**
 
-Instalada como plugin, a skill se chama `$everylang:everylang`: o ChatGPT põe o nome do plugin antes do nome da skill, e isso não pode ser desligado. Você também pode só pedir normalmente (por exemplo, "quero fazer uma aula de inglês"), que a skill é acionada.
+Instalada como plugin, a skill se chama `$talkgo:practice`: o ChatGPT põe o nome do plugin antes do nome da skill, e isso não pode ser desligado. Você também pode só pedir normalmente (por exemplo, "quero fazer uma aula de inglês"), que a skill é acionada.
 
-**Atalho `$everylang` (skill avulsa, só no app de desktop e no Codex)**
+**Atalho `$practice` (skill avulsa, só no app de desktop e no Codex)**
 
-Para chamar só com `$everylang`, instale a pasta da skill em vez do plugin. Desinstale o plugin antes, para não ficar com as duas versões. Skill avulsa não aparece no ChatGPT web nem no celular e não se atualiza sozinha (repita os comandos para atualizar).
+Para chamar só com `$practice`, instale a pasta da skill em vez do plugin. Desinstale o plugin antes, para não ficar com as duas versões. Skill avulsa não aparece no ChatGPT web nem no celular e não se atualiza sozinha (repita os comandos para atualizar).
 
 Windows (PowerShell):
 
 ```
-git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai "$env:TEMP\everylang-src"
+git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai "$env:TEMP\talkgo-src"
 New-Item -ItemType Directory -Force "$HOME\.agents\skills" | Out-Null
-Remove-Item -Recurse -Force "$HOME\.agents\skills\everylang" -ErrorAction SilentlyContinue
-Copy-Item -Recurse "$env:TEMP\everylang-src\skills\everylang" "$HOME\.agents\skills\everylang"
-Remove-Item -Recurse -Force "$env:TEMP\everylang-src"
+Remove-Item -Recurse -Force "$HOME\.agents\skills\practice" -ErrorAction SilentlyContinue
+Copy-Item -Recurse "$env:TEMP\talkgo-src\skills\practice" "$HOME\.agents\skills\practice"
+Remove-Item -Recurse -Force "$env:TEMP\talkgo-src"
 ```
 
 macOS e Linux:
 
 ```
-git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai /tmp/everylang-src
-mkdir -p ~/.agents/skills && rm -rf ~/.agents/skills/everylang
-cp -R /tmp/everylang-src/skills/everylang ~/.agents/skills/everylang && rm -rf /tmp/everylang-src
+git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai /tmp/talkgo-src
+mkdir -p ~/.agents/skills && rm -rf ~/.agents/skills/practice
+cp -R /tmp/talkgo-src/skills/practice ~/.agents/skills/practice && rm -rf /tmp/talkgo-src
 ```
 
-Reinicie o app de desktop e chame com `$everylang`.
+Reinicie o app de desktop e chame com `$practice`.
 
 **Confirmar canal e duração do vídeo do Lab (Codex e app de desktop)**
 
@@ -272,11 +272,11 @@ Reinicie o app depois de salvar. Com a lista `domains`, só os domínios liberad
 
 ### Codex CLI
 
-Mesmas opções do ChatGPT: como plugin (os dois comandos `codex plugin`), chamado com `$everylang:everylang`; ou como skill avulsa (cópia para `~/.agents/skills/everylang`), chamada com `$everylang`.
+Mesmas opções do ChatGPT: como plugin (os dois comandos `codex plugin`), chamado com `$talkgo:practice`; ou como skill avulsa (cópia para `~/.agents/skills/practice`), chamada com `$practice`.
 
 ### Se você instalou uma versão anterior
 
-Desinstale o plugin antigo (`everyday-language-essentials-ai`), sincronize o marketplace e instale **everylang**. Suas Centrais não são afetadas, porque ficam na sua pasta pessoal, fora do pacote.
+Desinstale o plugin antigo (`everyday-language-essentials-ai`), sincronize o marketplace e instale **TalkGo** (`talkgo`). Suas Centrais não são afetadas, porque ficam na sua pasta pessoal, fora do pacote.
 
 ## A filosofia da comunidade
 
@@ -284,4 +284,4 @@ Desinstale o plugin antigo (`everyday-language-essentials-ai`), sincronize o mar
 >
 > Você não precisa falar perfeitamente para ser compreendido. E não precisa dominar um idioma inteiro para dar o próximo passo.
 
-**Everyday Language Essentials AI — menos medo de errar. Mais liberdade para se comunicar.**
+**TalkGo — menos medo de errar. Mais liberdade para se comunicar.**
