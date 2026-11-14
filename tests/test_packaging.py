@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL_DIR = ROOT / "skills" / "practice"
+SKILL_DIR = ROOT / "skills" / "talkgo"
 
 
 def frontmatter(path):
@@ -62,8 +62,7 @@ class PackagingTests(unittest.TestCase):
         with zipfile.ZipFile(io.BytesIO(build_zip.plugin_zip(version))) as z:
             names = z.namelist()
             manifest = json.loads(z.read(".codex-plugin/plugin.json"))
-        self.assertIn("skills/practice/SKILL.md", names)
-        self.assertIn("skills/central/SKILL.md", names)
+        self.assertIn("skills/talkgo/SKILL.md", names)
         self.assertIn(".claude-plugin/plugin.json", names)
         self.assertEqual((manifest["name"], manifest["skills"]), ("talkgo", "./skills/"))
         manifests = {".codex-plugin/plugin.json", ".claude-plugin/plugin.json"}

@@ -1,6 +1,6 @@
 # Comandos da Central
 
-Os comandos funcionam em qualquer plataforma. São texto: o aluno digita depois de chamar a skill (`/talkgo:practice Reset-Lessons Inglês` no Claude e `$talkgo:practice Reset-Lessons Inglês` no ChatGPT e no Codex, quando instalada como plugin; `/practice` e `$practice` quando instalada como skill avulsa) ou em qualquer mensagem de uma conversa em que a skill já esteja ativa.
+Os comandos funcionam em qualquer plataforma. São texto: o aluno digita depois de chamar a skill (`/talkgo:talkgo Reset-Lessons Inglês` no Claude e `$talkgo:talkgo Reset-Lessons Inglês` no ChatGPT e no Codex, quando instalada como plugin; `/talkgo` e `$talkgo` quando instalada como skill avulsa) ou em qualquer mensagem de uma conversa em que a skill já esteja ativa.
 
 ## Como reconhecer
 

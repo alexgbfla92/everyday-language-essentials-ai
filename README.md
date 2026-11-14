@@ -161,7 +161,7 @@ O TalkGo é uma iniciativa **open source**, pensada para ser usada, adaptada e a
 
 ## Como instalar
 
-O plugin se chama **TalkGo** (`talkgo`) e tem duas skills: **practice** (aulas, diagnóstico, progresso e comandos) e **central** (por enquanto só uma skill de teste, que vai receber os comandos de gestão da Central). A skill é a mesma para Claude e ChatGPT: fica em [`skills/practice`](skills/practice/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
+O plugin se chama **TalkGo** (`talkgo`), e a skill dentro dele também se chama **talkgo**, para o nome ser o mesmo no Claude e no ChatGPT. A skill é a mesma para Claude e ChatGPT: fica em [`skills/talkgo`](skills/talkgo/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
 
 Depois de instalar, envie `Help` para ver a versão instalada e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
 
@@ -173,18 +173,18 @@ Depois de instalar, envie `Help` para ver a versão instalada e todos os comando
 2. Instale o plugin **TalkGo**.
 3. Para salvar no Google Drive, ative em **Configurações → Conectores** os conectores **Google Drive**, **Google Docs** e **Google Sheets**.
    - Recomendado: em **Configurações → Capacidades**, libere os domínios `youtube.com`, `www.youtube.com`, `m.youtube.com` e `youtu.be`. Assim a skill confirma título, canal e duração do vídeo do Entertainment Lab na própria página do YouTube. Sem isso, o Lab usa link e título vindos da busca e avisa que canal e duração não foram confirmados.
-4. Chame com `/talkgo:practice` (por exemplo, `/talkgo:practice Help`). Como no ChatGPT, o nome do plugin vem antes do nome da skill; para chamar só com `/practice`, use a skill avulsa abaixo.
+4. Chame com `/talkgo` no menu da `/` (por exemplo, `/talkgo Help`); o nome completo é `/talkgo:talkgo`, exigido no Claude Code.
 
 Para atualizar, sincronize o marketplace de novo.
 
 **Pelo navegador, com o arquivo .zip (Claude e ChatGPT)**
 
-Gere o pacote de plugin com `python tools/build_zip.py --plugin` (cria `dist/talkgo-plugin-<versão>.zip`, com `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json` e `skills/practice/`) e envie o mesmo arquivo nas duas plataformas:
+Gere o pacote de plugin com `python tools/build_zip.py --plugin` (cria `dist/talkgo-plugin-<versão>.zip`, com `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json` e `skills/talkgo/`) e envie o mesmo arquivo nas duas plataformas:
 
 - Claude: **Configurações → Personalização → Plugins → Adicionar → Enviar plugin** (Upload plugin).
 - ChatGPT: **Plugins → Adicionar** e escolha o arquivo.
 
-Chame com `/talkgo:practice` no Claude e `$talkgo:practice` no ChatGPT. Para atualizar, envie o .zip da versão nova. Instale o plugin por um caminho só (marketplace ou .zip) para não duplicar.
+Chame com `/talkgo` no Claude e `@TalkGo` (ou `$talkgo:talkgo`) no ChatGPT. Para atualizar, envie o .zip da versão nova. Instale o plugin por um caminho só (marketplace ou .zip) para não duplicar.
 
 **Claude Code**
 
@@ -193,12 +193,12 @@ Chame com `/talkgo:practice` no Claude e `$talkgo:practice` no ChatGPT. Para atu
 /plugin install talkgo@talkgo
 ```
 
-**Como skill avulsa (atalho `/practice`)**
+**Como skill avulsa (atalho `/talkgo`)**
 
-Gere o pacote (`python tools/build_zip.py`, que cria `dist/talkgo-practice-<versão>.zip`) e envie em **Configurações → Personalização → Skills → Adicionar**, ou copie a pasta `skills/practice` para `~/.claude/skills/practice` no Claude Code:
+Gere o pacote (`python tools/build_zip.py`, que cria `dist/talkgo-skill-<versão>.zip`) e envie em **Configurações → Personalização → Skills → Adicionar**, ou copie a pasta `skills/talkgo` para `~/.claude/skills/talkgo` no Claude Code:
 
 ```
-git archive --format=zip --prefix=practice/ -o talkgo-practice.zip HEAD:skills/practice
+git archive --format=zip --prefix=talkgo/ -o talkgo-skill.zip HEAD:skills/talkgo
 ```
 
 ### ChatGPT
@@ -238,19 +238,19 @@ Depois **feche e abra de novo o app** e comece uma conversa nova. A atualizaçã
 
 **Como chamar no ChatGPT**
 
-Instalada como plugin, a skill se chama `$talkgo:practice`: o ChatGPT põe o nome do plugin antes do nome da skill, e isso não pode ser desligado. Você também pode só pedir normalmente (por exemplo, "quero fazer uma aula de inglês"), que a skill é acionada.
+Instalada como plugin, chame com `@TalkGo` ou `$talkgo:talkgo` (o ChatGPT põe o nome do plugin antes do nome da skill). Você também pode só pedir normalmente (por exemplo, "quero fazer uma aula de inglês"), que a skill é acionada.
 
-**Atalho `$practice` (skill avulsa, só no app de desktop e no Codex)**
+**Atalho `$talkgo` (skill avulsa, só no app de desktop e no Codex)**
 
-Para chamar só com `$practice`, instale a pasta da skill em vez do plugin. Desinstale o plugin antes, para não ficar com as duas versões. Skill avulsa não aparece no ChatGPT web nem no celular e não se atualiza sozinha (repita os comandos para atualizar).
+Para chamar só com `$talkgo`, instale a pasta da skill em vez do plugin. Desinstale o plugin antes, para não ficar com as duas versões. Skill avulsa não aparece no ChatGPT web nem no celular e não se atualiza sozinha (repita os comandos para atualizar).
 
 Windows (PowerShell):
 
 ```
 git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai "$env:TEMP\talkgo-src"
 New-Item -ItemType Directory -Force "$HOME\.agents\skills" | Out-Null
-Remove-Item -Recurse -Force "$HOME\.agents\skills\practice" -ErrorAction SilentlyContinue
-Copy-Item -Recurse "$env:TEMP\talkgo-src\skills\practice" "$HOME\.agents\skills\practice"
+Remove-Item -Recurse -Force "$HOME\.agents\skills\talkgo" -ErrorAction SilentlyContinue
+Copy-Item -Recurse "$env:TEMP\talkgo-src\skills\talkgo" "$HOME\.agents\skills\talkgo"
 Remove-Item -Recurse -Force "$env:TEMP\talkgo-src"
 ```
 
@@ -258,11 +258,11 @@ macOS e Linux:
 
 ```
 git clone --depth 1 https://github.com/alexgbfla92/everyday-language-essentials-ai /tmp/talkgo-src
-mkdir -p ~/.agents/skills && rm -rf ~/.agents/skills/practice
-cp -R /tmp/talkgo-src/skills/practice ~/.agents/skills/practice && rm -rf /tmp/talkgo-src
+mkdir -p ~/.agents/skills && rm -rf ~/.agents/skills/talkgo
+cp -R /tmp/talkgo-src/skills/talkgo ~/.agents/skills/talkgo && rm -rf /tmp/talkgo-src
 ```
 
-Reinicie o app de desktop e chame com `$practice`.
+Reinicie o app de desktop e chame com `$talkgo`.
 
 **Confirmar canal e duração do vídeo do Lab (Codex e app de desktop)**
 
@@ -281,7 +281,7 @@ Reinicie o app depois de salvar. Com a lista `domains`, só os domínios liberad
 
 ### Codex CLI
 
-Mesmas opções do ChatGPT: como plugin (os dois comandos `codex plugin`), chamado com `$talkgo:practice`; ou como skill avulsa (cópia para `~/.agents/skills/practice`), chamada com `$practice`.
+Mesmas opções do ChatGPT: como plugin (os dois comandos `codex plugin`), chamado com `$talkgo:talkgo`; ou como skill avulsa (cópia para `~/.agents/skills/talkgo`), chamada com `$talkgo`.
 
 ### Se você instalou uma versão anterior
 

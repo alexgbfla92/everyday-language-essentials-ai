@@ -7,7 +7,7 @@ from contextlib import redirect_stdout
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "practice"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "talkgo"))
 
 from scripts.provision import (ASSETS, DOC, FOLDER, LANGUAGES, MARKDOWN, SHEET, apply_local, classify,
                                main, plan, sheet_spec)
