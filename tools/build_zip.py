@@ -32,8 +32,10 @@ def frontmatter(text):
     return fields
 
 
-def plugin_zip(skill_zip, version):
-    """Remonta o pacote como plugin para Claude e ChatGPT: .claude-plugin/ e .codex-plugin/ + skills/practice/."""
+def plugin_zip(version):
+    """Monta o plugin para Claude e ChatGPT: .claude-plugin/, .codex-plugin/ e todas as skills em skills/."""
+    skills_zip = subprocess.run(["git", "-C", str(ROOT), "archive", "--format=zip", "--prefix=skills/",
+                                 "HEAD:skills"], check=True, capture_output=True).stdout
     meta = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))
     manifest = {k: meta[k] for k in ("name", "version", "description", "author", "homepage", "repository",
                                      "keywords")}
@@ -42,12 +44,12 @@ def plugin_zip(skill_zip, version):
     if manifest["version"] != version:
         raise SystemExit("plugin.json com versão diferente do VERSION")
     out = io.BytesIO()
-    with zipfile.ZipFile(io.BytesIO(skill_zip)) as src, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as dst:
+    with zipfile.ZipFile(io.BytesIO(skills_zip)) as src, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as dst:
         dst.writestr(".codex-plugin/plugin.json", json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
         dst.writestr(".claude-plugin/plugin.json", (ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
         for info in src.infolist():
             if not info.is_dir():
-                dst.writestr("skills/" + info.filename, src.read(info))
+                dst.writestr(info.filename, src.read(info))
     return out.getvalue()
 
 
@@ -73,9 +75,17 @@ def build(plugin=False):
         raise SystemExit("Pacote recusado:\n- " + "\n- ".join(problems))
     name = f"talkgo-{SKILL}-{version}.zip"
     if plugin:
-        raw, name = plugin_zip(raw, version), f"talkgo-plugin-{version}.zip"
+        raw, name = plugin_zip(version), f"talkgo-plugin-{version}.zip"
         with zipfile.ZipFile(io.BytesIO(raw)) as archive:
             names = archive.namelist()
+            for skill_md in (n for n in names if re.fullmatch(r"skills/[^/]+/SKILL\.md", n)):
+                folder = skill_md.split("/")[1]
+                meta = frontmatter(archive.read(skill_md).decode("utf-8"))
+                if meta.get("name") != folder or set(meta) != {"name", "description"}:
+                    raise SystemExit(f"Pacote recusado: frontmatter inválido em {skill_md}")
+            bad = [n for n in names if FORBIDDEN.search(n.split("/", 2)[-1]) and not n.endswith("plugin.json")]
+            if bad:
+                raise SystemExit("Pacote recusado: arquivos ocultos ou compilados: " + ", ".join(bad))
     out = ROOT / "dist" / name
     out.parent.mkdir(exist_ok=True)
     out.write_bytes(raw)

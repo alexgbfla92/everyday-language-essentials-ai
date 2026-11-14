@@ -161,7 +161,7 @@ O TalkGo é uma iniciativa **open source**, pensada para ser usada, adaptada e a
 
 ## Como instalar
 
-O plugin se chama **TalkGo** (`talkgo`), e a skill dentro dele, **practice**. A skill é a mesma para Claude e ChatGPT: fica em [`skills/practice`](skills/practice/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
+O plugin se chama **TalkGo** (`talkgo`) e tem duas skills: **practice** (aulas, diagnóstico, progresso e comandos) e **central** (por enquanto só uma skill de teste, que vai receber os comandos de gestão da Central). A skill é a mesma para Claude e ChatGPT: fica em [`skills/practice`](skills/practice/), e cada plataforma tem um manifesto próprio apontando para ela. Seu progresso fica numa pasta pessoal sua, no Google Drive (100% na nuvem: celular, PC e tablet) ou no computador.
 
 Depois de instalar, envie `Help` para ver a versão instalada e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
 
