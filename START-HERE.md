@@ -8,5 +8,5 @@ Para **desenvolver**:
 - **Procedimentos da skill:** [comandos](skills/everylang/references/COMANDOS.md), [frases e voz](skills/everylang/references/FRASES-E-VOZ.md), [persistência](skills/everylang/references/PERSISTENCIA.md) e [adaptadores](skills/everylang/references/adaptadores/).
 - **Documentação de desenvolvimento:** [arquitetura](docs/ARQUITETURA.md), [metodologia](docs/METODOLOGIA.md) e [validação](docs/VALIDACAO-E-ROADMAP.md).
 - **Testes:** `python -B -m unittest discover -s tests`.
-- **Pacote .zip** (envio pelo navegador no Claude e no ChatGPT): `python tools/build_zip.py` gera e confere `dist/everylang-<versão>.zip`.
+- **Pacote .zip** (envio pelo navegador no Claude e no ChatGPT): `python tools/build_zip.py` gera e confere `dist/everylang-<versão>.zip` (skill); com `--plugin`, gera `dist/everylang-plugin-<versão>.zip` (plugin com `.codex-plugin/plugin.json`, para ChatGPT > Plugins > Adicionar).
 - **Versão.** `VERSION` é a fonte única. Todo PR sobe a versão com `python tools/bump_version.py patch|minor|major`, que atualiza também `plugin.json`, `.claude-plugin/plugin.json` e a linha "Versão instalada" do SKILL.md, mostrada no `Help`. A verificação do GitHub recusa PR sem versão nova ou com versões divergentes.

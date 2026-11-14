@@ -53,6 +53,20 @@ class PackagingTests(unittest.TestCase):
         bad = [f for f in tracked if re.search(r"(^|/)(\.[^/]+|__pycache__)(/|$)|\.(pyc|pyo)$", f)]
         self.assertEqual(bad, [])
 
+    def test_plugin_zip_layout(self):
+        sys.path.insert(0, str(ROOT / "tools"))
+        import build_zip
+        skill = subprocess.run(["git", "-C", str(ROOT), "archive", "--format=zip", "--prefix=everylang/",
+                                "HEAD:skills/everylang"], capture_output=True, check=True).stdout
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        import io, zipfile
+        with zipfile.ZipFile(io.BytesIO(build_zip.plugin_zip(skill, version))) as z:
+            names = z.namelist()
+            manifest = json.loads(z.read(".codex-plugin/plugin.json"))
+        self.assertIn("skills/everylang/SKILL.md", names)
+        self.assertEqual((manifest["name"], manifest["skills"]), ("everylang", "./skills/"))
+        self.assertTrue(all(n == ".codex-plugin/plugin.json" or n.startswith("skills/everylang/") for n in names))
+
     def test_links_inside_skill_stay_inside_skill(self):
         link = re.compile(r"\]\(([^)\s#]+)")
         for path in SKILL_DIR.rglob("*.md"):
