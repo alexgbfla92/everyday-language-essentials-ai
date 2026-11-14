@@ -10,7 +10,7 @@ Identificadores: o caminho relativo à raiz, com `/` como separador (por exemplo
 
 ## Identificar a raiz
 
-Use a pasta dedicada indicada pelo aluno. Se ele indicar só um pai, crie ou reutilize uma única subpasta EverydayEssentials. Recuse links simbólicos e caminhos dentro da pasta da skill.
+Use a pasta dedicada indicada pelo aluno. Se ele indicar só um pai, crie ou reutilize uma única subpasta TalkGo. Recuse links simbólicos e caminhos dentro da pasta da skill.
 
 ## Provisionar
 

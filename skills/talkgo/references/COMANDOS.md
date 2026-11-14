@@ -11,8 +11,9 @@ Todo comando é `Verbo-Entidade`, em inglês, com o verbo de uma lista curta:
 | `Get` | mostrar ou listar, sem alterar nada |
 | `New` | criar |
 | `Set` | alterar (inclusive o padrão) |
-| `Remove` | apagar um item, com prévia, backup e confirmação |
-| `Reset` | apagar todos os registros de um tipo num idioma, com prévia, backup e confirmação |
+| `Remove` | apagar um item, com prévia e confirmação |
+| `Reset` | apagar todos os registros de um tipo num idioma, com prévia e confirmação |
+| `Backup` | copiar a Central inteira para fora dela, só quando o aluno pede |
 | `Start`, `Pause`, `Resume`, `Finish`, `Save` | conduzir uma sessão |
 
 Entidades: `Central` (pasta pessoal com os registros), `Language` (idioma estudado numa Central), `Mission` (cenário com data-alvo num idioma), `Practice` (sessão de prática de uma missão), `Diagnostic`, `Progress`, `Lab`, `Stage` (etapa da sessão), `Phrase` (frase ou diálogo numerado). Comandos que listam usam o plural (`Get-Missions`, `Get-Practices`); os que agem sobre um item usam o singular.
@@ -52,7 +53,8 @@ Com uma pasta local acessível e Python disponível, use `scripts/central.py` a 
 | New-Central [provedor] [pasta] [idiomas] | `create --raiz PASTA [--nome NOME] [--provedor local\|google-drive\|onedrive] IDIOMA...` |
 | Add-Language [idiomas] [central] | `create --raiz PASTA_DA_CENTRAL IDIOMA...` |
 | Set-Default central\|language\|mission [nome] | `default [NOME]`; `default --idioma IDIOMA [--central NOME]`; `default --missao ID --idioma IDIOMA [--central NOME]` |
-| Remove-Central [central] | `remove --central NOME`, depois `--confirmar NOME` (e opcional `--backup ARQUIVO.zip`) |
+| Remove-Central [central] | `remove --central NOME`, depois `--confirmar NOME` |
+| Backup-Central [central] [destino] | `backup [--central NOME] [--destino PASTA]` |
 | Get-Missions [idioma] | `info [--central NOME]` (lista `lista_missoes` por idioma) |
 | Remove-Mission [missão] | `remove-mission ID --idioma IDIOMA [--central NOME]`, depois `--confirmar ID` |
 | Get-Practices [idioma] [missão] [status] | `practices [IDIOMA] [--missao ID] [--status TEXTO] [--central NOME]` |
@@ -79,7 +81,7 @@ Mostre primeiro a versão instalada ("TalkGo vX.Y.Z", da linha "Versão instalad
 
 ### Get-Central
 
-Leitura apenas. Para cada Central (ou só a indicada) mostre: nome, se é a padrão, provedor (Local, Google Drive, OneDrive), modo de acesso, formato dos registros (Markdown ou nativo Google Docs/Sheets), caminho ou link da pasta, status da configuração e os idiomas (marcando o padrão), cada um com a quantidade de diagnósticos e práticas e as missões (título, data-alvo, status, marcando a padrão), sem contar MODELO.md e o roteiro 09, e a quantidade de backups de reset. Se a pasta estiver inacessível, diga isso em vez de omitir a Central. Por conector, leia `config/estado-global` e liste `languages/`; no Drive, conte os Docs `pratica-*` e `diagnostico-*`.
+Leitura apenas. Para cada Central (ou só a indicada) mostre: nome, se é a padrão, provedor (Local, Google Drive, OneDrive), modo de acesso, formato dos registros (Markdown ou nativo Google Docs/Sheets), caminho ou link da pasta, status da configuração e os idiomas (marcando o padrão), cada um com a quantidade de diagnósticos e práticas e as missões (título, data-alvo, status, marcando a padrão), sem contar MODELO.md e o roteiro 09. Se a pasta estiver inacessível, diga isso em vez de omitir a Central. Por conector, leia `config/estado-global` e liste `languages/`; no Drive, conte os Docs `pratica-*` e `diagnostico-*`.
 
 ### New-Central
 
@@ -95,11 +97,19 @@ Cria a pasta da Central com toda a estrutura de subpastas e modelos.
 Apaga a pasta da Central inteira. É irreversível na pasta local.
 
 1. Resolva a Central (com várias, pergunte sempre). Mostre a prévia: nome, provedor, caminho ou link, idiomas e quantidades de missões, práticas e diagnósticos. Diga como será apagada: lixeira (recuperável) ou exclusão definitiva (quando o conector só oferecer essa).
-2. Ofereça um backup em .zip fora da Central (`--backup`).
-3. Peça que o aluno digite o nome da Central para confirmar. Qualquer outra resposta cancela.
-4. Pasta local: `remove --confirmar NOME`. O script recusa pastas sem a estrutura de uma Central, links simbólicos, a pasta pessoal do usuário, a raiz do disco e a pasta da skill.
-5. Conector: apague a pasta raiz pela ação do conector, conforme o [adaptador](adaptadores/drive.md#remover-e-zerar): lixeira, se houver (no Claude, `trash_file`); senão, exclusão definitiva, já avisada na prévia e confirmada pelo nome. Confirme pela releitura que a pasta não está mais na Central e atualize o registro (`remove --confirmar NOME --somente-registro`). Só peça que o aluno apague à mão se o conector não puder apagar de nenhuma forma.
-6. Se a removida era a padrão e sobrou uma única Central, ela vira a padrão; com várias, avise que não há padrão.
+2. Peça que o aluno digite o nome da Central para confirmar. Qualquer outra resposta cancela. Não faça backup: se o aluno quiser uma cópia, ele pede `Backup-Central` antes.
+3. Pasta local: `remove --confirmar NOME`. O script recusa pastas sem a estrutura de uma Central, links simbólicos, a pasta pessoal do usuário, a raiz do disco e a pasta da skill.
+4. Conector: apague a pasta raiz pela ação do conector, conforme o [adaptador](adaptadores/drive.md#remover-e-zerar): lixeira, se houver (no Claude, `trash_file`); senão, exclusão definitiva, já avisada na prévia e confirmada pelo nome. Confirme pela releitura que a pasta não está mais na Central e atualize o registro (`remove --confirmar NOME --somente-registro`). Só peça que o aluno apague à mão se o conector não puder apagar de nenhuma forma.
+5. Se a removida era a padrão e sobrou uma única Central, ela vira a padrão; com várias, avise que não há padrão.
+
+### Backup-Central
+
+`Backup-Central [central] [destino]` copia a Central inteira para fora dela. Só roda quando o aluno pede um backup explicitamente; nenhum outro comando faz backup, e nada é copiado para dentro da Central.
+
+1. Resolva a Central conforme Contexto e padrões. Destino: o indicado pelo aluno ou, sem indicação, a pasta que contém a Central (nunca a própria Central nem uma subpasta dela). Diga o destino e o nome da cópia antes de começar.
+2. Pasta local: `backup [--central NOME] [--destino PASTA]` cria `<pasta>-backup-AAAAMMDD-HHMMSS.zip` e confere que todos os arquivos entraram.
+3. Conector: crie, no destino, a pasta `<nome da Central> backup AAAAMMDD-HHMMSS` e copie para ela a árvore da Central, pasta por pasta, com a cópia nativa do conector (Docs e Sheets continuam nativos; no Claude, `copy_file`). Releia e confira a quantidade de arquivos por pasta.
+4. Informe onde ficou a cópia e quantos arquivos ela tem. A skill nunca lê backups para responder ao aluno; eles servem só para o aluno restaurar à mão.
 
 ## Language
 
@@ -118,7 +128,7 @@ Procedimento completo, campos do modelo e regras de revisão em [MISSOES.md](MIS
 - **`Get-Missions [idioma] [status]`**: lista as missões do idioma (ou de todos os idiomas da Central, se o aluno pedir `Todos`): título, data-alvo, status, situações e quantas práticas concluídas em cada uma, marcando a padrão. Leitura apenas.
 - **`New-Mission [idioma]`**: cria uma missão (título, descrição, data-alvo obrigatória, situações, duração, frequência e reavaliação). A primeira missão do idioma vira a padrão.
 - **`Set-Mission [missão]`**: altera uma missão existente (qualquer campo, situações ou status `ativa`, `pausada`, `concluida`), com revisão e histórico.
-- **`Remove-Mission [missão]`**: apaga a missão e as práticas dela, com o mesmo cuidado dos resets: prévia (missão, situações, práticas que serão apagadas e como), backup em `_backups/` conferido antes de apagar, e confirmação pelo `missao_id`. As práticas apagadas seguem a regra das práticas apagadas (somem do progresso e de qualquer lista; veja a seção Reset). Se era a padrão do idioma e sobrou uma única missão, ela vira a padrão. Para encerrar uma missão sem apagar o histórico, sugira antes `Set-Mission <missão> status concluida`.
+- **`Remove-Mission [missão]`**: apaga a missão e as práticas dela, com o mesmo cuidado dos resets: prévia (missão, situações, práticas que serão apagadas e como) e confirmação pelo `missao_id`, sem backup. As práticas apagadas seguem a regra das práticas apagadas (somem do progresso e de qualquer lista; veja a seção Reset). Se era a padrão do idioma e sobrou uma única missão, ela vira a padrão. Para encerrar uma missão sem apagar o histórico, sugira antes `Set-Mission <missão> status concluida`.
 
 ## Practice
 
@@ -138,7 +148,7 @@ Procedimento completo, campos do modelo e regras de revisão em [MISSOES.md](MIS
 4. **Situação.** A indicada pelo aluno ou, sem indicação, a primeira situação da missão com menos práticas concluídas, conforme [MISSOES.md](MISSOES.md#escolher-a-missão-no-start-practice). Ao criar a sessão, grave `missao_id` e `situacao` na prática e acrescente a linha dela na tabela Práticas da missão, com status `Em andamento (preparada)`.
 5. **Criar e preparar.** Crie a sessão de prática e faça o [preparo do Entertainment Lab](ENTERTAINMENT-LAB.md#preparar-antes-da-etapa-1): vídeo do YouTube escolhido e verificado, registro gravado, relido e conferido (`lab.py pronto`). Se a verificação falhar, diga o que falhou e pergunte se o aluno aceita começar sem o vídeo.
 6. **Resumo das etapas.** Mostre, numa única mensagem, a missão (título e data-alvo), a situação desta prática, o ID da sessão, a duração (dizendo se é avulsa) e o roteiro das sete etapas com o tempo de cada uma: 1 Briefing (objetivo, cenário e itens), 2 Treino guiado, 3 Simulação (cenário e papel), 4 Imprevisto (sem revelar qual), 5 Feedback, 6 Encerramento e 7 Entertainment Lab, opcional e sugerido depois do encerramento (título, canal, duração e link do vídeo já verificado).
-7. **Gravar e confirmar.** Grave a sessão com status `Em andamento (preparada)`, a linha da prática na missão e o ponteiro de sessão ativa, releia e diga "Prática preparada e salva na sua Central: <sessão>". Pergunte apenas: "Começamos pela etapa 1?". Se o aluno for para o modo voz, a prática começa lá já com tudo pronto.
+7. **Gravar e confirmar.** Grave a sessão com status `Em andamento (preparada)`, a linha da prática na missão e o ponteiro de sessão ativa, releia e diga "Prática preparada e salva na sua Central: <sessão>". Sugira, em uma linha, o nome do chat desta prática: `Practice-NNNN-<situação>`, com NNNN o número desta prática na missão, com quatro dígitos (a primeira é `Practice-0001-Airport check-in`), e, se o chat atual não estiver num projeto ou já tiver outra atividade, recomende abrir um chat novo no projeto com esse nome e retomar lá com `Resume-Practice`. Pergunte apenas: "Começamos pela etapa 1?". Se o aluno for para o modo voz, a prática começa lá já com tudo pronto.
 
 No fim da prática, depois do encerramento, a etapa 7 só sugere o vídeo já salvo, sem preparar nada.
 
@@ -172,7 +182,7 @@ Pausam, encerram ou salvam a prática ou o diagnóstico em andamento, em texto o
 
 Zeram um tipo de registro de um idioma (ou de todos) e devolvem os arquivos derivados ao modelo. Perfil global e configuração do idioma não são tocados; nas missões, só o Reset-Practices mexe, e apenas nas linhas das práticas apagadas.
 
-Registros apagados por um reset ou pelo Remove-Mission deixam de existir para a skill: não aparecem em nenhum comando, lista, status, total ou resumo, e não recebem marcas como "excluída no reset". Os backups em `_backups/` servem só para restauração manual e nunca são lidos para responder ao aluno.
+Registros apagados por um reset ou pelo Remove-Mission deixam de existir para a skill: não aparecem em nenhum comando, lista, status, total ou resumo, e não recebem marcas como "excluída no reset". Nenhum reset faz backup nem cria cópias dentro da Central; se o aluno quiser uma cópia, ele pede `Backup-Central` antes.
 
 | Comando | Remove | Volta ao modelo |
 | --- | --- | --- |
@@ -183,10 +193,10 @@ Registros apagados por um reset ou pelo Remove-Mission deixam de existir para a 
 MODELO.md e o roteiro 09 nunca são removidos. No Drive, sessões e derivados são Docs e o 08 é uma Sheet, com o mesmo nome sem `.md`.
 
 1. Resolva Central e idioma conforme Contexto e padrões.
-2. Mostre a prévia: Central (e se é a padrão), idioma, lista do que será removido e do que volta ao modelo, e como os removidos serão apagados (lixeira ou exclusão definitiva, se o conector só oferecer essa; o backup em `_backups/` é feito antes de qualquer forma). No Reset-Practices, a prévia lista também as missões cujas linhas de prática saem e as linhas de prática que saem do progresso. Se o Reset-Diagnostics deixar o progresso calculado com diagnósticos apagados, a prévia traz o aviso; ofereça também Reset-Progress.
+2. Mostre a prévia: Central (e se é a padrão), idioma, lista do que será removido e do que volta ao modelo, e como os removidos serão apagados (lixeira ou exclusão definitiva, se o conector só oferecer essa). Diga que não há backup automático. No Reset-Practices, a prévia lista também as missões cujas linhas de prática saem e as linhas de prática que saem do progresso. Se o Reset-Diagnostics deixar o progresso calculado com diagnósticos apagados, a prévia traz o aviso; ofereça também Reset-Progress.
 3. Peça confirmação explícita ("sim"). Sem ela, não altere nada.
-4. Antes de apagar, copie tudo o que muda para `_backups/AAAAMMDD-HHMMSS-reset-TIPO-IDIOMA/` dentro da Central e confira a cópia. Pasta local: `reset ... --confirmar` faz isso.
-5. Conector: crie a pasta de backup, copie cada arquivo com a cópia nativa do conector (Docs e Sheets continuam nativos) e confira, apague os removidos pela lixeira ou, se o conector só oferecer essa ação, por exclusão definitiva, somente depois do backup conferido (sem pedir que o aluno apague à mão), e releia a pasta para confirmar e devolva os derivados ao modelo do pacote, relendo cada um. No Drive: Doc por substituição total; Sheet limpando as abas `Resumo` e `Práticas` e regravando as tabelas do modelo (veja o [adaptador](adaptadores/drive.md#remover-e-zerar)). No Reset-Practices, edite também o Doc de cada missão afetada (tire da tabela Práticas as linhas das práticas apagadas) e, na Sheet do progresso, apague as linhas dessas práticas na aba `Práticas` e devolva ao modelo, na aba `Resumo`, o total de práticas regulares e a duração real; releia cada um.
-6. Informe o que foi zerado, onde está o backup e qual é a próxima etapa do idioma (depois de Reset-Diagnostics, o diagnóstico inicial).
+4. Pasta local: `reset ... --confirmar`.
+5. Conector: apague os removidos pela lixeira ou, se o conector só oferecer essa ação, por exclusão definitiva (sem pedir que o aluno apague à mão), e releia a pasta para confirmar e devolva os derivados ao modelo do pacote, relendo cada um. No Drive: Doc por substituição total; Sheet limpando as abas `Resumo` e `Práticas` e regravando as tabelas do modelo (veja o [adaptador](adaptadores/drive.md#remover-e-zerar)). No Reset-Practices, edite também o Doc de cada missão afetada (tire da tabela Práticas as linhas das práticas apagadas) e, na Sheet do progresso, apague as linhas dessas práticas na aba `Práticas` e devolva ao modelo, na aba `Resumo`, o total de práticas regulares e a duração real; releia cada um.
+6. Informe o que foi zerado e qual é a próxima etapa do idioma (depois de Reset-Diagnostics, o diagnóstico inicial).
 
 Os resets nunca zeram `contador_frases` nem `contador_dialogos`: os números de frases e diálogos continuam únicos depois de qualquer reset.
