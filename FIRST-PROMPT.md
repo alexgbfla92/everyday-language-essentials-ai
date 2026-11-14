@@ -4,8 +4,8 @@ Copie o pedido da sua plataforma e troque os idiomas pelos seus. Para ver todos 
 
 ## Claude
 
-/talkgo Create-CentralIdioma googledrive Inglês Espanhol. Vou indicar minha pasta pessoal no Google Drive. Prepare a estrutura, confira o que foi salvo e me encaminhe à primeira etapa pendente.
+/talkgo New-Central googledrive Inglês Espanhol. Vou indicar minha pasta pessoal no Google Drive. Prepare a estrutura, confira o que foi salvo e me encaminhe à primeira etapa pendente.
 
 ## ChatGPT
 
-@TalkGo Create-CentralIdioma googledrive Inglês Espanhol. Vou indicar minha pasta pessoal no Google Drive. Prepare a estrutura, confira o que foi salvo e me encaminhe à primeira etapa pendente.
+@TalkGo New-Central googledrive Inglês Espanhol. Vou indicar minha pasta pessoal no Google Drive. Prepare a estrutura, confira o que foi salvo e me encaminhe à primeira etapa pendente.

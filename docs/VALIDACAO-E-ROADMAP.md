@@ -4,14 +4,14 @@ Rode `python -B -m unittest discover -s tests` na raiz. A suíte usa listagens f
 
 ## Ensaio do Drive nativo
 
-1. No Claude, com os conectores Google Drive, Google Docs e Google Sheets ativos, rode `Create-CentralIdioma googledrive` com uma pasta vazia e Inglês. Confira na pasta: `estado-global`, `perfil`, os três arquivos de `estado/` como Google Docs sem `.md`; `08-registro-progresso` como Google Sheet com as abas `Resumo` e `Práticas` (sem "Untitled"); os demais arquivos como `.md`.
+1. No Claude, com os conectores Google Drive, Google Docs e Google Sheets ativos, rode `New-Central googledrive` com uma pasta vazia e Inglês. Confira na pasta: `estado-global`, `perfil`, os três arquivos de `estado/` como Google Docs sem `.md`; `08-registro-progresso` como Google Sheet com as abas `Resumo` e `Práticas` (sem "Untitled"); os demais arquivos como `.md`.
 2. Abra o `estado-global` e confira o marcador do teste de escrita e a tabela Índice com IDs e formatos.
 3. Interrompa um setup no meio (feche o chat) e rode de novo: nada pode ser duplicado e as abas da planilha devem ser completadas.
 4. Faça um diagnóstico curto e uma prática: os Docs `diagnostico-*` e `pratica-*` devem receber cada resposta, mantendo o mesmo ID. Edite o Doc da sessão à mão durante a prática e confirme que a próxima escrita da skill é recusada pela revisão, relida e reconciliada.
 5. Conclua a prática: uma linha nova na aba `Práticas` e a contagem no `Resumo`, sem duplicar ao repetir a consolidação.
 6. Retome pelo celular e pelo tablet: mesma pergunta pendente.
-7. `Reset-Practices Inglês`: backup nativo em `_backups/`, Docs das práticas na lixeira, `contexto-recente` devolvido ao modelo, linhas dessas práticas fora da tabela Práticas das missões e fora da aba `Práticas` do progresso. Depois, `Info-CentralIdioma` e "quais práticas eu fiz em inglês?" não citam as práticas apagadas nem status como "excluída no reset". `Reset-Progress Inglês`: abas `Resumo` e `Práticas` iguais ao modelo.
-8. `Remove-CentralIdioma`: pasta raiz na lixeira do Drive.
+7. `Reset-Practices Inglês`: backup nativo em `_backups/`, Docs das práticas na lixeira, `contexto-recente` devolvido ao modelo, linhas dessas práticas fora da tabela Práticas das missões e fora da aba `Práticas` do progresso. Depois, `Get-Central` e "quais práticas eu fiz em inglês?" não citam as práticas apagadas nem status como "excluída no reset". `Reset-Progress Inglês`: abas `Resumo` e `Práticas` iguais ao modelo.
+8. `Remove-Central`: pasta raiz na lixeira do Drive.
 9. Repita 1, 4 e 5 no ChatGPT na mesma Central e numa Central nova criada por ele.
 
 ## Aceite em pasta pessoal de ensaio
@@ -35,7 +35,7 @@ Em pasta pessoal de ensaio, anote operações e tempo de espera de três turnos 
 
 1. Em texto, confira que cada frase da IA no idioma-alvo vem com `[Fn]`, que cada resposta abre com os números das frases do aluno e que diálogos vêm com `[Dn]`. Peça "repita a frase N", "explique a estrutura do diálogo N" e "traduza a N", inclusive de uma sessão anterior.
 2. Faça Reset-Practices e uma prática nova: os números continuam de onde pararam.
-3. Em voz, confira o anúncio curto dos números e `IDs-Voz off`.
+3. Em voz, confira o anúncio curto dos números e `Set-VoiceIds off`.
 4. Em voz, diga "pausar": se a gravação funcionar, a sessão fica `pausada` com a próxima pergunta; se não, a IA não diz que salvou e passa o comando Save-Practice. Saia do modo voz, envie o comando e confira as falas do trecho em voz gravadas com modo `voz`.
 5. Repita com "terminar a prática": sessão `concluída`, progresso consolidado uma única vez.
 6. Feche o modo voz sem pausar e volte ao texto: a skill deve oferecer Save-Practice.
@@ -46,16 +46,25 @@ A conferência mecânica fica em `skills/talkgo/scripts/lab.py` (`pronto` antes 
 
 1. **Vídeo disponível** (também com o YouTube bloqueado: a confirmação vem de um resultado de busca do youtube.com, com `lab_fonte_verificacao: busca`). Antes da etapa 1, a sessão tem status `Em andamento (preparada)` e a seção do Lab com link `https://www.youtube.com/watch?v=…`, duração de 30–50% da prática (ou o mais próximo, com motivo), perguntas, tarefa e `lab_verificado_em`; `lab.py pronto` passa; o roteiro da abertura mostra o título.
 2. **Falha na busca.** Sem busca (ou sem vídeo confirmado), a IA diz o que falhou e pergunta se o aluno aceita começar sem o vídeo **antes** da etapa 1; a etapa 1 só começa depois do "sim", gravado em `lab_pendencia_aceita_pelo_aluno`.
-3. **Início em voz.** Sem acesso a busca e gravação, a IA diz a limitação, não afirma que nada está pronto ou salvo e encaminha `Next-Practice <idioma>` em texto.
+3. **Início em voz.** Sem acesso a busca e gravação, a IA diz a limitação, não afirma que nada está pronto ou salvo e encaminha `Start-Practice <idioma>` em texto.
 4. **Retomada.** Ao retomar uma prática sem o material do Lab preparado, a IA prepara (ou segue o caminho de falha) antes de continuar a etapa salva.
 5. **Pedido de encerramento.** "Quero encerrar" no meio da prática leva à etapa 6 (salvar, reler, próximo passo) e à 7 (material salvo, sem nova pesquisa, uma única pergunta).
 6. **Lab depois do encerramento.** A prática fica `Concluída` no encerramento, com `lab_sugerido_apos_encerramento: sim`, e `lab.py encerramento` passa antes de o aluno responder; a mesma mensagem sugere o Lab. Recusar não grava nada; fazer grava só `lab_resultado`. Nenhum status de Lab aparece. `Lab` abre o mesmo material depois.
-7. **Next-Practice.** Com dois idiomas em andamento, pergunta qual; com prática pausada no idioma, pede para encerrá-la (ou retomá-la) antes; senão cria a prática, prepara e verifica o Lab, mostra o resumo das sete etapas com o link do vídeo, grava, confirma e pergunta só "Começamos pela etapa 1?". Com duração avulsa (`Next-Practice Inglês 5min`), o resumo mostra 5 minutos e as etapas proporcionais, o Lab mira 1,5–2,5 minutos e o padrão da missão continua 20 minutos.
+7. **Start-Practice.** Com dois idiomas em andamento, pergunta qual; com prática pausada no idioma, pede para encerrá-la (ou retomá-la) antes; senão cria a prática, prepara e verifica o Lab, mostra o resumo das sete etapas com o link do vídeo, grava, confirma e pergunta só "Começamos pela etapa 1?". Com duração avulsa (`Start-Practice Inglês 5min`), o resumo mostra 5 minutos e as etapas proporcionais, o Lab mira 1,5–2,5 minutos e o padrão da missão continua 20 minutos.
 
 ## Ensaio de missões
 
-1. `Mission Inglês` sem ação lista as missões (título, data-alvo, status e práticas concluídas) e pergunta se é para criar ou atualizar.
-2. `Mission Inglês nova` sem diagnóstico encaminha ao diagnóstico; com diagnóstico, pergunta só o que falta (título, descrição, data-alvo obrigatória, situações), propõe as situações e grava `missoes/<missao_id>` após aprovação, confirmando "Missão salva".
-3. `Mission Inglês atualizar` com duas missões pergunta qual; mostra o resumo, aplica a mudança aprovada sem apagar práticas feitas, soma a revisão e registra o histórico.
-4. `Next-Practice Inglês` com duas missões ativas pergunta qual; com `missao <id>` usa a indicada; escolhe a situação com menos práticas concluídas (ou a pedida); a prática grava `missao_id` e `situacao`, e a linha dela na missão fica `Em andamento (preparada)`, depois `(em execução)` e, ao pausar, `(pausada)`; ao concluir, `Concluída`.
-5. `Info-CentralIdioma` lista as missões de cada idioma com data-alvo e status.
+1. `Get-Missions Inglês` lista as missões (título, data-alvo, status e práticas concluídas), com a padrão marcada.
+2. `New-Mission Inglês` sem diagnóstico encaminha ao diagnóstico; com diagnóstico, pergunta só o que falta (título, descrição, data-alvo obrigatória, situações), propõe as situações e grava `missoes/<missao_id>` após aprovação, confirmando "Missão salva".
+3. `Set-Mission` com duas missões pergunta qual, com a padrão marcada e já assumida; mostra o resumo, aplica a mudança aprovada sem apagar práticas feitas, soma a revisão e registra o histórico.
+4. `Start-Practice Inglês` com duas missões ativas pergunta qual; com `missao <id>` usa a indicada; escolhe a situação com menos práticas concluídas (ou a pedida); a prática grava `missao_id` e `situacao`, e a linha dela na missão fica `Em andamento (preparada)`, depois `(em execução)` e, ao pausar, `(pausada)`; ao concluir, `Concluída`.
+5. `Get-Central` lista as missões de cada idioma com data-alvo e status.
+
+## Ensaio de comandos e contexto
+
+1. `Help` mostra a versão, o contexto padrão (Central, idioma e missão) e a tabela agrupada por entidade, só com nomes `Verbo-Entidade`.
+2. Com duas Centrais, `Get-Practices` pergunta a Central com a padrão marcada "(padrão)"; "ok" confirma a padrão. Com uma Central e um idioma, não pergunta nada e diz quais usou.
+3. `Set-Default mission <id>` grava `missoes_padrao` do idioma; o próximo `Start-Practice` assume essa missão na pergunta.
+4. `Get-Practices Inglês` agrupa por missão e por status, mostra a etapa das práticas em andamento e não mostra práticas apagadas.
+5. `Resume-Practice` sem argumento retoma a prática do ponteiro de sessão ativa; com duas práticas em andamento em idiomas diferentes, pergunta qual.
+6. `Remove-Mission` mostra a prévia com as práticas que serão apagadas, faz o backup e só apaga com o `missao_id` digitado; depois, `Get-Practices` e `Get-Progress` não citam essas práticas.

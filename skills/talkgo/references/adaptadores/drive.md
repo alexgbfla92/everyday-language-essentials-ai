@@ -92,7 +92,7 @@ A gravação de valores não tem controle de revisão. Mantenha um único chat e
 
 ## Remover e zerar
 
-Remove-CentralIdioma e os Reset-* (veja [comandos](../COMANDOS.md)) apagam pela ação que o conector oferecer, nesta ordem de preferência, o que vale também para Docs e Sheets:
+Remove-Central e os Reset-* (veja [comandos](../COMANDOS.md)) apagam pela ação que o conector oferecer, nesta ordem de preferência, o que vale também para Docs e Sheets:
 
 1. **Lixeira**, quando o conector tiver essa ação (no Claude, `trash_file`). O aluno pode recuperar pela lixeira do Drive.
 2. **Exclusão definitiva**, quando o conector só oferecer essa (comum no ChatGPT). Use-a sem pedir que o aluno apague à mão, desde que: a prévia tenha avisado que a exclusão é definitiva e não passa pela lixeira; o aluno tenha confirmado depois desse aviso; e, nos resets, o backup em `_backups/` já esteja copiado e conferido. Releia a pasta depois para confirmar que os itens sumiram.

@@ -1,17 +1,22 @@
 """Gerencie as Centrais de idioma numa pasta local, sem acessar a rede.
 
 Comandos (a skill traduz os comandos do aluno para estes):
-  info     [--central NOME]                         Info-CentralIdioma
-  create   --raiz PASTA [--nome N] [--provedor P] IDIOMA...   Create-CentralIdioma
+  info     [--central NOME]                         Get-Central
+  create   --raiz PASTA [--nome N] [--provedor P] IDIOMA...   New-Central
   register --raiz ID --acesso A --provedor P --nome N IDIOMA...  (central criada por conector)
-  default  [NOME]                                   Default-CentralIdioma
+  default  [NOME]                                   Set-Default central
+  default  --idioma IDIOMA [--central NOME]          Set-Default language
+  default  --missao ID --idioma IDIOMA [--central NOME]  Set-Default mission
+  practices [IDIOMA] [--missao ID] [--status TEXTO] [--central NOME]  Get-Practices
+  remove-mission [ID] --idioma IDIOMA [--central NOME] [--confirmar ID]  Remove-Mission
   remove   [--central NOME] [--confirmar NOME] [--backup ZIP] [--somente-registro]
-                                                    Remove-CentralIdioma
+                                                    Remove-Central
   reset    {diagnostico,praticas,progresso} [IDIOMA] [--central NOME] [--confirmar]
-                                                    Reset-Diagnostic / Reset-Practices / Reset-Progress
+                                                    Reset-Diagnostics / Reset-Practices / Reset-Progress
 
 Sem --confirmar, remove e reset só mostram a prévia. A saída é sempre JSON com
-"status": ok | previa | ambiguo | erro. Em "ambiguo", pergunte ao aluno usando "opcoes".
+"status": ok | previa | ambiguo | erro. Em "ambiguo", pergunte ao aluno usando "opcoes", com a
+opção "padrao" (quando houver) em primeiro lugar, marcada e já assumida.
 O registro das centrais fica em ~/.talkgo/centrais.json (ou $TALKGO_HOME, ou --registro).
 """
 import argparse
@@ -125,12 +130,14 @@ def resolve(data, name, allow_default=True):
         return find(data, name)
     centrals = data["centrais"]
     if not centrals:
-        fail("Nenhuma Central registrada. Use Create-CentralIdioma.")
+        fail("Nenhuma Central registrada. Use New-Central.")
     if len(centrals) == 1:
         return centrals[0]
-    if allow_default and data["padrao"]:
-        return find(data, data["padrao"])
-    ask("Há mais de uma Central. Qual delas?", [e["nome"] for e in centrals])
+    names = [e["nome"] for e in centrals]
+    default = data["padrao"] if allow_default and data["padrao"] in names else None
+    if default:
+        names = [default] + [n for n in names if n != default]
+    ask("Há mais de uma Central. Qual delas?", names, padrao=default)
 
 
 def local_root(entry):
@@ -186,6 +193,81 @@ def write_fields(root, values):
             fail("Releitura divergente de config/estado-global.md.")
 
 
+def set_field(root, field, value):
+    """Grava um campo do estado global, substituindo o valor atual (cria a linha se faltar)."""
+    state = root / "config" / "estado-global.md"
+    lines = state.read_text(encoding="utf-8").splitlines()
+    new = f"{field}: {value}"
+    for index, line in enumerate(lines):
+        if line.partition(":")[0] == field:
+            comment = line.split("#", 1)[1] if "#" in line else None
+            lines[index] = new + (f"  #{comment}" if comment else "")
+            break
+    else:
+        lines.insert(next((i for i, l in enumerate(lines) if l.startswith("## ")), len(lines)), new)
+    text = "\n".join(lines) + "\n"
+    state.write_text(text, encoding="utf-8")
+    if state.read_text(encoding="utf-8") != text:
+        fail("Releitura divergente de config/estado-global.md.")
+
+
+def default_missions(root):
+    raw = read_field(root, "missoes_padrao") or ""
+    found = {}
+    for part in raw.strip("{}").split(","):
+        key, sep, value = part.partition(":")
+        if sep:
+            value = value.strip()
+            found[key.strip()] = None if value in ("", "null") else value
+    return found
+
+
+def set_default_mission(root, tag, mission):
+    current = default_missions(root)
+    current = {t: current.get(t) for t in LANGUAGES}
+    current[tag] = mission
+    set_field(root, "missoes_padrao", "{" + ", ".join(f"{t}: {current[t] or 'null'}" for t in LANGUAGES) + "}")
+
+
+def resolve_language(root, name, central):
+    present = languages_in(root)
+    if not present:
+        fail("A Central não tem idiomas. Use Add-Language.")
+    if name:
+        tag = parse_language(name)
+        if tag not in present:
+            fail(f"A Central {central} não tem {NAMES[tag]}.", opcoes=[NAMES[t] for t in present])
+        return tag
+    if len(present) == 1:
+        return present[0]
+    default = read_field(root, "idioma_padrao")
+    options = sorted(present, key=lambda t: t != default)
+    ask("Qual idioma?", [NAMES[t] for t in options], central=central,
+        padrao=NAMES[default] if default in present else None)
+
+
+def fields_of(path, keys):
+    values = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        key, sep, rest = line.partition(":")
+        if sep and key.strip() in keys:
+            values[key.strip()] = rest.split("#", 1)[0].strip() or None
+    return values
+
+
+def practices_in(base):
+    found = []
+    folder = base / "praticas"
+    for path in sorted(folder.glob("pratica-*.md")) if folder.is_dir() else []:
+        values = fields_of(path, ("status", "missao_id", "situacao"))
+        stamp = path.stem.split("-")[1] if path.stem.count("-") >= 2 else ""
+        date = f"{stamp[6:8]}/{stamp[4:6]}/{stamp[:4]}" if len(stamp) == 8 else None
+        found.append({"id": path.stem, "data": date, "missao_id": values.get("missao_id"),
+                      "situacao": values.get("situacao"), "status": values.get("status") or "desconhecido",
+                      "arquivo": path})
+    return found
+
+
 def count(folder, prefix):
     if not folder.is_dir():
         return 0
@@ -233,7 +315,9 @@ def describe(entry, default):
             "idioma": NAMES[tag], "tag": tag,
             "diagnosticos": count(base / "diagnosticos", "diagnostico-"),
             "praticas": count(base / "praticas", "pratica-"),
+            "padrao": tag == read_field(root, "idioma_padrao"),
             "missoes": count(base / "missoes", ""),
+            "missao_padrao": default_missions(root).get(tag),
             "lista_missoes": missions_in(base / "missoes"),
         })
     backups = root / BACKUPS
@@ -249,7 +333,7 @@ def cmd_info(data, args):
                 "padrao": data["padrao"]}
     if not data["centrais"]:
         return {"status": "ok", "centrais": [], "padrao": None,
-                "mensagem": "Nenhuma Central registrada. Use Create-CentralIdioma."}
+                "mensagem": "Nenhuma Central registrada. Use New-Central."}
     return {"status": "ok", "padrao": data["padrao"],
             "centrais": [describe(e, data["padrao"]) for e in data["centrais"]]}
 
@@ -302,7 +386,8 @@ def cmd_create(data, args, path):
     present = languages_in(root)
     write_fields(root, {"nome_central": name, "provedor": provider, "armazenamento": "pasta-local",
                         "formato_registros": "markdown",
-                        "raiz": str(root), "idiomas_escolhidos_pelo_aluno": present})
+                        "raiz": str(root), "idiomas_escolhidos_pelo_aluno": present,
+                        "idioma_padrao": tags[0] if tags else None})
     entry, new = _upsert(data, {"nome": name, "provedor": provider, "acesso": "pasta-local",
                                 "raiz": str(root), "idiomas": present,
                                 "criada_em": datetime.now().strftime("%Y-%m-%d")})
@@ -323,18 +408,140 @@ def cmd_register(data, args, path):
 
 
 def cmd_default(data, args, path):
+    if args.idioma or args.missao:
+        entry = resolve(data, args.central)
+        root = local_root(entry)
+        tag = resolve_language(root, args.idioma, entry["nome"])
+        if not args.missao:
+            before = read_field(root, "idioma_padrao")
+            set_field(root, "idioma_padrao", tag)
+            return {"status": "ok", "central": entry["nome"], "nivel": "language",
+                    "anterior": NAMES.get(before), "padrao": NAMES[tag]}
+        missions = {m["id"]: m for m in missions_in(root / "languages" / LANGUAGES[tag] / "missoes")}
+        wanted = next((m for m in missions.values() if _key(m["id"]) == _key(args.missao)
+                       or _key(m["titulo"]) == _key(args.missao)), None)
+        if not wanted:
+            fail(f"Missão {args.missao} não encontrada em {NAMES[tag]}.", opcoes=sorted(missions))
+        before = default_missions(root).get(tag)
+        set_default_mission(root, tag, wanted["id"])
+        return {"status": "ok", "central": entry["nome"], "nivel": "mission", "idioma": NAMES[tag],
+                "anterior": before, "padrao": wanted["id"]}
     if args.nome:
         entry = find(data, args.nome)
     elif len(data["centrais"]) == 1:
         entry = data["centrais"][0]
     elif not data["centrais"]:
-        fail("Nenhuma Central registrada. Use Create-CentralIdioma.")
+        fail("Nenhuma Central registrada. Use New-Central.")
     else:
         ask("Qual Central deve ser a padrão?", [e["nome"] for e in data["centrais"]],
             padrao_atual=data["padrao"])
+    before = data["padrao"]
     data["padrao"] = entry["nome"]
     save(path, data)
-    return {"status": "ok", "padrao": entry["nome"]}
+    return {"status": "ok", "nivel": "central", "anterior": before, "padrao": entry["nome"]}
+
+
+def cmd_practices(data, args):
+    entry = resolve(data, args.central)
+    root = local_root(entry)
+    tag = resolve_language(root, args.idioma, entry["nome"])
+    base = root / "languages" / LANGUAGES[tag]
+    missions = {m["id"]: m for m in missions_in(base / "missoes")}
+    default = default_missions(root).get(tag)
+    groups = {}
+    for practice in practices_in(base):
+        if args.missao and _key(practice["missao_id"] or "") != _key(args.missao):
+            continue
+        if args.status and _key(args.status) not in _key(practice["status"]):
+            continue
+        practice = {k: v for k, v in practice.items() if k != "arquivo"}
+        groups.setdefault(practice["missao_id"], {}).setdefault(practice["status"], []).append(practice)
+    order = sorted(groups, key=lambda m: (m != default, m is None, m or ""))
+    result = []
+    for mission_id in order:
+        info = missions.get(mission_id, {"id": mission_id, "titulo": None, "data_alvo": None, "status": None})
+        by_status = groups[mission_id]
+        statuses = sorted(by_status, key=lambda s: (s == "Concluída", s))
+        result.append({**info, "padrao": mission_id is not None and mission_id == default,
+                       "praticas": [{"status": s, "itens": by_status[s]} for s in statuses]})
+    return {"status": "ok", "central": entry["nome"], "idioma": NAMES[tag], "missoes": result,
+            "total": sum(len(i) for g in groups.values() for i in g.values())}
+
+
+def cmd_remove_mission(data, args):
+    entry = resolve(data, args.central)
+    root = local_root(entry)
+    tag = resolve_language(root, args.idioma, entry["nome"])
+    base = root / "languages" / LANGUAGES[tag]
+    missions = {m["id"]: m for m in missions_in(base / "missoes")}
+    if not missions:
+        fail(f"{NAMES[tag]} não tem missões.")
+    if not args.missao:
+        ask("Qual missão?", sorted(missions), central=entry["nome"], idioma=NAMES[tag])
+    mission = next((m for m in missions.values() if _key(m["id"]) == _key(args.missao)
+                    or _key(m["titulo"]) == _key(args.missao)), None)
+    if not mission:
+        fail(f"Missão {args.missao} não encontrada em {NAMES[tag]}.", opcoes=sorted(missions))
+    mission_file = base / "missoes" / f"{mission['id']}.md"
+    if not mission_file.is_file():
+        mission_file = next(p for p in (base / "missoes").glob("*.md") if missions_in_file(p) == mission["id"])
+    practices = [p for p in practices_in(base) if p["missao_id"] == mission["id"]]
+    ids = {p["id"] for p in practices}
+    remove = [mission_file] + [p["arquivo"] for p in practices]
+    adjust, restore = [], []
+    progress = base / "progresso" / "08-registro-progresso.md"
+    template = ASSETS / "languages" / LANGUAGES[tag] / "progresso" / "08-registro-progresso.md"
+    if ids and progress.is_file():
+        current = progress.read_text(encoding="utf-8")
+        cleaned = progress_without_practices(current, template.read_text(encoding="utf-8"), ids)
+        if cleaned != current:
+            adjust.append((progress, cleaned))
+    pointer = base / "estado" / "sessao-ativa.md"
+    if pointer.is_file() and any(i in pointer.read_text(encoding="utf-8") for i in ids):
+        restore.append((pointer, ASSETS / "languages" / LANGUAGES[tag] / "estado" / "sessao-ativa.md"))
+    rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
+    remaining = sorted(set(missions) - {mission["id"]})
+    default = default_missions(root).get(tag)
+    new_default = default if default != mission["id"] else (remaining[0] if len(remaining) == 1 else None)
+    preview = {"central": entry["nome"], "idioma": NAMES[tag], "missao": mission,
+               "remover": [rel(p) for p in remove], "ajustar": [rel(c) for c, _ in adjust],
+               "restaurar_modelo": [rel(c) for c, _ in restore], "missao_padrao_depois": new_default}
+    if _key(args.confirmar or "") != _key(mission["id"]):
+        if args.confirmar:
+            fail("A confirmação não corresponde ao missao_id.", esperado=mission["id"])
+        return {"status": "previa", **preview, "confirmacao": f"--confirmar {mission['id']}"}
+    backup = _backup(root, remove + [c for c, _ in adjust + restore], f"remove-mission-{mission['id']}")
+    for item in remove:
+        item.unlink()
+    for current, template_path in restore:
+        current.write_bytes(template_path.read_bytes())
+    for current, cleaned in adjust:
+        current.write_text(cleaned, encoding="utf-8")
+        if current.read_text(encoding="utf-8") != cleaned:
+            fail(f"Releitura divergente em {rel(current)}.")
+    if default != new_default:
+        set_default_mission(root, tag, new_default)
+    return {"status": "ok", **preview, "backup": rel(backup)}
+
+
+def missions_in_file(path):
+    return fields_of(path, ("missao_id",)).get("missao_id")
+
+
+def _backup(root, items, label):
+    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    backup = root / BACKUPS / f"{stamp}-{label}"
+    suffix = 2
+    while backup.exists():
+        backup = backup.with_name(f"{stamp}-{label}-{suffix}")
+        suffix += 1
+    for item in items:
+        copy = backup / item.relative_to(root)
+        copy.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(item, copy)
+        if copy.read_bytes() != item.read_bytes():
+            fail(f"Backup divergente em {item.relative_to(root).as_posix()}. Nada foi apagado.")
+    return backup
 
 
 def _check_central_root(root):
@@ -384,11 +591,12 @@ def cmd_remove(data, args, path):
     save(path, data)
     result["padrao"] = data["padrao"]
     if data["padrao"] is None and len(data["centrais"]) > 1:
-        result["aviso"] = "Não há Central padrão. Use Default-CentralIdioma."
+        result["aviso"] = "Não há Central padrão. Use Set-Default central."
     return result
 
 
 PRACTICE_TABLE_HEADS = {"session id", "identificador", "identifiant"}
+COUNT_ROWS = {"completed regular practices", "prácticas regulares completadas", "pratiques régulières terminées"}
 PRACTICE_SUMMARY_ROWS = {"completed regular practices", "actual observed duration", "prácticas regulares completadas",
                          "duración real acumulada", "pratiques régulières terminées", "durée réelle cumulée"}
 
@@ -419,21 +627,29 @@ def mission_without_practices(text):
     return "\n".join(out) + ("\n" if text.endswith("\n") else "")
 
 
-def progress_without_practices(text, template):
-    """Tira do registro 08 as linhas de práticas e devolve ao modelo o total de práticas e a duração real."""
+def progress_without_practices(text, template, ids=None):
+    """Tira do registro 08 as linhas das práticas (todas, ou só as de `ids`). Sem nenhuma prática
+    restante, devolve ao modelo o total de práticas e a duração real; senão, recalcula o total."""
     model = {_cells(l)[0].lower(): l for l in template.splitlines() if _is_row(l) and len(_cells(l)) == 2}
-    out, in_practices = [], False
+    kept, in_practices, remaining = [], False, 0
     for line in text.splitlines():
         if not _is_row(line):
             in_practices = False
         elif _cells(line)[0].lower() in PRACTICE_TABLE_HEADS:
             in_practices = True
         elif in_practices and not _is_separator(line):
-            continue
-        else:
-            label = _cells(line)[0].lower()
-            if label in PRACTICE_SUMMARY_ROWS and label in model:
+            if ids is None or _cells(line)[0] in ids:
+                continue
+            remaining += 1
+        kept.append(line)
+    out = []
+    for line in kept:
+        label = _cells(line)[0].lower() if _is_row(line) else ""
+        if label in PRACTICE_SUMMARY_ROWS and label in model:
+            if remaining == 0:
                 line = model[label]
+            elif label in COUNT_ROWS:
+                line = f"| {_cells(line)[0]} | {remaining} |"
         out.append(line)
     return "\n".join(out) + ("\n" if text.endswith("\n") else "")
 
@@ -496,7 +712,10 @@ def cmd_reset(data, args):
     elif len(present) == 1:
         tags = present
     else:
-        ask("Qual idioma?", [NAMES[t] for t in present] + ["Todos"], central=entry["nome"])
+        default = read_field(root, "idioma_padrao")
+        options = sorted(present, key=lambda t: t != default)
+        ask("Qual idioma?", [NAMES[t] for t in options] + ["Todos"], central=entry["nome"],
+            padrao=NAMES[default] if default in present else None)
     remove, restore, warnings, adjust = _reset_scope(root, args.tipo, tags)
     rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
     preview = {"central": entry["nome"], "padrao": entry["nome"] == data["padrao"], "tipo": args.tipo,
@@ -552,6 +771,19 @@ def main(argv=None):
     p.add_argument("idiomas", nargs="*")
     p = sub.add_parser("default")
     p.add_argument("nome", nargs="?")
+    p.add_argument("--idioma")
+    p.add_argument("--missao")
+    p.add_argument("--central")
+    p = sub.add_parser("practices")
+    p.add_argument("idioma", nargs="?")
+    p.add_argument("--missao")
+    p.add_argument("--status")
+    p.add_argument("--central")
+    p = sub.add_parser("remove-mission")
+    p.add_argument("missao", nargs="?")
+    p.add_argument("--idioma")
+    p.add_argument("--central")
+    p.add_argument("--confirmar")
     p = sub.add_parser("remove")
     p.add_argument("--central")
     p.add_argument("--confirmar")
@@ -576,6 +808,10 @@ def main(argv=None):
             result = cmd_default(data, args, path)
         elif args.comando == "remove":
             result = cmd_remove(data, args, path)
+        elif args.comando == "practices":
+            result = cmd_practices(data, args)
+        elif args.comando == "remove-mission":
+            result = cmd_remove_mission(data, args)
         else:
             result = cmd_reset(data, args)
     except ValueError as error:
