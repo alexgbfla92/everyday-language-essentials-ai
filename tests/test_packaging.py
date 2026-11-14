@@ -37,15 +37,16 @@ class PackagingTests(unittest.TestCase):
         interface = portable["extensions"]["com.openai"]["interface"]
         for field in ("displayName", "shortDescription", "category", "defaultPrompt"):
             self.assertIn(field, interface)
-        claude_market = json.loads((ROOT / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
-        openai_market = json.loads((ROOT / ".agents" / "plugins" / "marketplace.json").read_text(encoding="utf-8"))
-        self.assertEqual(claude_market["name"], openai_market["name"])
-        self.assertEqual([p["name"] for p in claude_market["plugins"]], [portable["name"]])
-        entry = openai_market["plugins"][0]
-        self.assertEqual(entry["name"], portable["name"])
-        self.assertEqual(entry["source"], {"source": "local", "path": "./"})
-        for field in ("policy", "category"):
-            self.assertIn(field, entry)
+        self.assertFalse((ROOT / ".claude-plugin" / "marketplace.json").exists(), "instalação só pelo .zip")
+        self.assertFalse((ROOT / ".agents").exists(), "instalação só pelo .zip")
+
+    def test_release_workflow_publishes_the_plugin_zip(self):
+        workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+        for needle in ('tags: ["v*"]', "workflow_dispatch", "contents: write", "build_zip.py --plugin",
+                       "dist/talkgo-plugin.zip", "gh release create"):
+            self.assertIn(needle, workflow)
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("releases/latest/download/talkgo-plugin.zip", readme)
 
     def test_no_compiled_hidden_or_system_files_tracked_in_skill(self):
         tracked = subprocess.run(["git", "-C", str(ROOT), "ls-files", "skills"], capture_output=True,
