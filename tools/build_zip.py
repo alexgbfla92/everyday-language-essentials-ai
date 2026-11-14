@@ -1,12 +1,12 @@
 """Gera o pacote .zip da skill para envio pelo navegador (Claude e ChatGPT).
 
-  python tools/build_zip.py            # skill: dist/talkgo-practice-<versão>.zip (Claude e ChatGPT > Habilidades)
+  python tools/build_zip.py            # skill: dist/talkgo-skill-<versão>.zip (Claude e ChatGPT > Habilidades)
   python tools/build_zip.py --plugin   # plugin: dist/talkgo-plugin-<versão>.zip (Claude e ChatGPT > Plugins > Adicionar)
 
-O .zip contém só a pasta practice/ (SKILL.md, references/, assets/, scripts/), como exigem o
+O .zip contém só a pasta talkgo/ (SKILL.md, references/, assets/, scripts/), como exigem o
 Claude (pasta com o nome da skill na raiz do arquivo) e o ChatGPT (uma skill completa por envio).
 Antes de gravar, confere: nome da pasta = name do SKILL.md, frontmatter válido, nenhuma entrada fora
-de practice/ e nenhum arquivo oculto, compilado ou de sistema.
+de talkgo/ e nenhum arquivo oculto, compilado ou de sistema.
 """
 import io
 import json
@@ -17,7 +17,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = "practice"
+SKILL = "talkgo"
 FORBIDDEN = re.compile(r"(^|/)(\.[^/]+|__pycache__|Thumbs\.db)(/|$)|\.(pyc|pyo|exe|dll|so)$")
 
 
@@ -73,7 +73,7 @@ def build(plugin=False):
         problems.append("linha 'Versão instalada' do SKILL.md diferente do VERSION")
     if problems:
         raise SystemExit("Pacote recusado:\n- " + "\n- ".join(problems))
-    name = f"talkgo-{SKILL}-{version}.zip"
+    name = f"talkgo-skill-{version}.zip"
     if plugin:
         raw, name = plugin_zip(version), f"talkgo-plugin-{version}.zip"
         with zipfile.ZipFile(io.BytesIO(raw)) as archive:

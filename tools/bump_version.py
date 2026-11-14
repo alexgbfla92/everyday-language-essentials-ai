@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = ROOT / "VERSION"
 MANIFESTS = [ROOT / "plugin.json", ROOT / ".claude-plugin" / "plugin.json"]
-SKILL = ROOT / "skills" / "practice" / "SKILL.md"
+SKILL = ROOT / "skills" / "talkgo" / "SKILL.md"
 SKILL_LINE = re.compile(r"^(Versão instalada: )(\S+)$", re.M)
 SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
 

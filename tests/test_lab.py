@@ -7,7 +7,7 @@ import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "practice"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "talkgo"))
 from scripts.lab import check_closing, check_ready, fields, main  # noqa: E402
 from scripts.provision import ASSETS, LANGUAGES  # noqa: E402
 
