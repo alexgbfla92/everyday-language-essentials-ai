@@ -11,6 +11,7 @@ everyday-language-essentials-ai/
 │   ├── references/            # procedimentos lidos sob demanda (comandos, persistência, frases e voz, adaptadores)
 │   ├── assets/                # modelos copiados para a Central e módulos pedagógicos
 │   └── scripts/               # provision.py e central.py (sem rede)
+├── skills/central/            # skill de teste; vai receber os comandos de gestão da Central
 ├── plugin.json                # manifesto portátil (Agent Plugins 1.0) com extensões da OpenAI
 ├── .agents/plugins/marketplace.json   # marketplace para ChatGPT e Codex
 ├── .claude-plugin/            # manifesto e marketplace para Claude
