@@ -29,6 +29,7 @@ Entities: `Central` (personal folder with the records), `Language` (target langu
 The entities form a chain: **Central → Language → Mission → Practice**. Before running a command, resolve only the levels it uses, top to bottom, one at a time:
 
 1. **Given in the command**: use it.
+   A context line (`TalkGo · Central: <name> · <link or path> · ...`) in the message, in the project instructions or in the project files counts as given: open that Central, and its language and mission if the line has them. This is how a new chat finds the Central of the previous one.
 2. **A single option**: use it and say which one in the answer, without asking.
 3. **Several options**: ask, with numbered options and the default first, marked as default and preselected: the learner confirms with "ok" or "yes" (in any language), or picks another. With no default, ask without marking any.
 4. **No option**: route to the command that creates it (`New-Central` or `Start`, `Add-Language`, `New-Mission`).
@@ -144,7 +145,7 @@ Full procedure, template fields and review rules in [MISSIONS.md](MISSIONS.md).
 
 1. **Context.** Resolve Central, language and mission as in Context and defaults (only `active` missions). No active mission: route to `New-Mission`.
 2. **Practice in progress.** If there is a practice in progress in that language (prepared, running or paused), do not create another. Say which one (session, mission and stage) and offer to resume it (`Resume-Practice`) or close it now (`Finish-Practice`, with the [closing check](ENTERTAINMENT-LAB.md#closing-mandatory-check)). Go on to the next only after it is `completed`. The Lab of a completed practice never blocks the next.
-3. **Prerequisites.** Without a regular diagnostic in the language, route to `Start-Diagnostic`.
+3. **Prerequisites.** Without a completed regular diagnostic in the language (closing check passing), route to `Start-Diagnostic`; with a diagnostic `running` or `paused`, offer to resume it first (`Resume-Practice <diagnostic ID>`).
 4. **Situation.** The one the learner gives or, without it, the first situation of the mission with the fewest completed practices, as in [MISSIONS.md](MISSIONS.md#choose-the-mission-in-start-practice). When creating the session, write `mission_id` and `situation` in the practice and add its row to the mission's Practices table, with the label for `prepared`.
 5. **Create and prepare.** Create the practice session from the practice template of the native language and do the [Entertainment Lab preparation](ENTERTAINMENT-LAB.md#prepare-before-stage-1): YouTube video chosen and verified, record written, reread and checked (`lab.py ready`). If the verification fails, say what failed and ask whether the learner accepts starting without the video.
 6. **Stage summary.** Show, in a single message, the mission (title and target date), the situation of this practice, the session ID, the length (saying whether it is one-off) and the roadmap of the seven stages with the time of each: 1 Briefing (goal, scenario and items), 2 Guided drill, 3 Simulation (scenario and role), 4 Unexpected event (without revealing which), 5 Feedback, 6 Closing and 7 Entertainment Lab, optional and suggested after the closing (title, channel, length and link of the verified video).
@@ -175,7 +176,7 @@ They pause, close or save the practice or diagnostic in progress, in text or voi
 
 ## Diagnostic and Progress
 
-- **`Start-Diagnostic [language]`**: starts (or resumes, if one is paused) the diagnostic of the language, as in SKILL.md (section Diagnostic, practice and resume). Pause-Practice, Finish-Practice and Save-Practice also apply to the diagnostic.
+- **`Start-Diagnostic [language]`**: starts (or resumes, if one is paused) the diagnostic of the language, as in SKILL.md (sections Diagnostic, practice and resume, and Diagnostic saving): the file is created in the Central before the first question, every answer is saved and the closing saves results and derived records and confirms. Pause-Practice, Finish-Practice and Save-Practice also apply to the diagnostic. If the setup is not finished, the closing points back to `Start`.
 - **`Get-Progress [language]`**: shows the confirmed progress of the language: missions with target date and completed practices per situation, CEFR by skill with evidence, observed duration, limitations, next practice and next review, as in the Follow-up section of SKILL.md. Read only; tests stay out of the totals.
 
 ## Reset-Diagnostics, Reset-Practices and Reset-Progress

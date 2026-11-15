@@ -16,7 +16,10 @@ Resolve Central, language and mission as in [Context and defaults](COMMANDS.md#c
 
 ### New-Mission
 
-1. Require a completed regular diagnostic in the language; without it, route to the diagnostic.
+1. Require a completed regular diagnostic in the language: read the language's diagnostics folder; a diagnostic counts only when it is `completed` and passes the closing check (with Python: `python scripts/diagnostic.py closing FILE`). Never create the mission on the learner's word alone.
+   - Latest diagnostic `running` or `paused`: do not create the mission. Say at which stage it stopped and resume it now (`Resume-Practice <diagnostic ID>`) until the closing; then come back to step 2.
+   - Stages 1 to 4 done but the closing incomplete (results, derived records or `closing_saved_reread` missing): run the closing now from the saved file ([Diagnostic saving](../SKILL.md#diagnostic-saving-mandatory)), confirm, then go on.
+   - None: route to `Start-Diagnostic <language>`.
 2. Ask, one thing at a time, only what is still unknown: title (what the learner wants to get ready for), description (scenario and context), target date, situations to practice, practice length, frequency and date of the first review. The target date is required: if the learner has none, suggest one and ask for confirmation. For length, frequency and review, use the defaults (20 minutes, review every 14 days) when the learner has no preference, and say so.
 3. Propose the situations, each with what the learner needs to be able to do in it, adjusted to the diagnostic and to the time left until the target date (including a very close date, such as a trip tomorrow).
 4. With the learner's approval, copy the template, fill the fields (`mission_id`, `mission_title`, `mission_description`, `mission_target_date`, `mission_language`…) and the situations table, choose a `mission_id` unique in the language (short, kebab-case, in the learner's native language) and save it in the language's missions folder with `mission_status: active`. If it is the first mission of the language, save it as the default too (`default_missions` in the central state). Reread and confirm, in the native language, that the mission was saved in the Central.

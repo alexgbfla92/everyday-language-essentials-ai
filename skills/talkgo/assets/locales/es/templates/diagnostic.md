@@ -8,7 +8,16 @@ status: running  # running | paused | completed
 current_stage:  # 1–5
 phrase_range:  # F?–F? | D?–D?
 created_at:
+saved_in_central_at:
 finished_at:
+result_listening:  # … | not_observed
+result_speaking_interaction:  # … | not_observed
+result_reading:  # … | not_observed
+result_cefr_estimate:  # A1–C2
+result_confidence:  # low | medium | high
+closing_derived_updated:  # yes
+closing_saved_reread:  # yes
+closing_next_step:
 
 ## Etapas
 1. Comprensión oral: evidencias, confianza, MCER provisional:

@@ -15,7 +15,7 @@ everyday-language-essentials-ai/
 │   │   ├── reference/             # defaults, methodology and language catalog (read from the skill)
 │   │   ├── targets/<language>/    # notes, essentials and diagnostic roadmap of each target language
 │   │   └── modules/               # teaching modules 00–07
-│   └── scripts/                   # layout.py, provision.py, central.py, lab.py, youtube.py (no network, except youtube info)
+│   └── scripts/                   # layout.py, provision.py, central.py, lab.py, diagnostic.py, youtube.py (no network, except youtube info)
 ├── plugin.json                    # portable manifest (Agent Plugins 1.0) with OpenAI extensions
 ├── .claude-plugin/plugin.json     # plugin manifest for Claude
 ├── tools/                         # bump_version.py, build_zip.py, render_locales.py
