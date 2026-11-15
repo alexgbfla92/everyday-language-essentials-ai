@@ -1,12 +1,14 @@
-# Começar
+# Start here
 
-Para **instalar e usar**, baixe o .zip em [Releases](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases) e siga a seção [Como instalar](README.md#como-instalar) do README e o [primeiro pedido](FIRST-PROMPT.md).
+To **install and use** TalkGo, download the .zip from [Releases](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases), follow [How to install](README.md#how-to-install) in the README and send the [first message](FIRST-PROMPT.md) (`Start`).
 
-Para **desenvolver**:
+To **develop**:
 
-- **Estrutura.** A skill fica inteira em [`skills/talkgo/`](skills/talkgo/): [SKILL.md](skills/talkgo/SKILL.md), `references/` (procedimentos), `assets/` (modelos e módulos) e `scripts/`. Os manifestos de cada plataforma ficam na raiz e só apontam para essa pasta. Veja a [arquitetura](docs/ARQUITETURA.md).
-- **Procedimentos da skill:** [comandos](skills/talkgo/references/COMANDOS.md), [frases e voz](skills/talkgo/references/FRASES-E-VOZ.md), [persistência](skills/talkgo/references/PERSISTENCIA.md) e [adaptadores](skills/talkgo/references/adaptadores/).
-- **Documentação de desenvolvimento:** [arquitetura](docs/ARQUITETURA.md), [metodologia](docs/METODOLOGIA.md) e [validação](docs/VALIDACAO-E-ROADMAP.md).
-- **Testes:** `python -B -m unittest discover -s tests`.
-- **Pacote e releases:** `python tools/build_zip.py --plugin` gera e confere `dist/talkgo-plugin-<versão>.zip` (`.claude-plugin/`, `.codex-plugin/` e `skills/talkgo/`), a única forma de instalação. Para publicar uma versão para os usuários, crie a tag `v<versão>` ou rode **Actions → Release**; veja [Releases](docs/ARQUITETURA.md#releases).
-- **Versão.** `VERSION` é a fonte única. Todo PR sobe a versão com `python tools/bump_version.py patch|minor|major`, que atualiza também `plugin.json`, `.claude-plugin/plugin.json` e a linha "Versão instalada" do SKILL.md, mostrada no `Help`. A verificação do GitHub recusa PR sem versão nova ou com versões divergentes.
+- **Structure.** The skill lives entirely in [`skills/talkgo/`](skills/talkgo/): [SKILL.md](skills/talkgo/SKILL.md), `references/` (procedures), `assets/` (templates, locales, reference, target notes and modules) and `scripts/`. Platform manifests live at the root and only point to that folder. See the [architecture](docs/ARCHITECTURE.md).
+- **Skill procedures:** [Start wizard](skills/talkgo/references/START.md), [commands](skills/talkgo/references/COMMANDS.md), [missions](skills/talkgo/references/MISSIONS.md), [phrases and voice](skills/talkgo/references/PHRASES-AND-VOICE.md), [Entertainment Lab](skills/talkgo/references/ENTERTAINMENT-LAB.md), [persistence](skills/talkgo/references/PERSISTENCE.md) and [adapters](skills/talkgo/references/adapters/).
+- **Native languages.** Central folder and file names and record templates come from `skills/talkgo/assets/locales/<code>/` (`en`, `pt-BR`, `es`, `fr`, `de`). Edit the master templates in `assets/templates/` and the strings in each `locale.json`, then run `python tools/render_locales.py`. To add a native language, copy `locales/en/locale.json` to a new folder, translate every value and render.
+- **Development docs:** [architecture](docs/ARCHITECTURE.md), [methodology](docs/METHODOLOGY.md) and [validation](docs/VALIDATION.md).
+- **Tests:** `python -B -m unittest discover -s tests`.
+- **Package and releases:** `python tools/build_zip.py --plugin` builds and checks `dist/talkgo-plugin-<version>.zip` (`.claude-plugin/`, `.codex-plugin/` and `skills/talkgo/`), the only install path. To publish a version, create the tag `v<version>` or run **Actions → Release**; see [Releases](docs/ARCHITECTURE.md#releases).
+- **Version.** `VERSION` is the single source. Every PR bumps it with `python tools/bump_version.py patch|minor|major`, which also updates `plugin.json`, `.claude-plugin/plugin.json` and the "Installed version" line of SKILL.md, shown by `Help`. The GitHub check refuses a PR without a new version or with diverging versions.
+- **Translated READMEs.** `README.md` is the source; `README-pt-BR.md`, `README-es.md`, `README-fr.md`, `README-de.md` and `README-zh-CN.md` must keep the same sections (a test checks it).

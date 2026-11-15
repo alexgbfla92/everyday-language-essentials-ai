@@ -1,11 +1,13 @@
-# Primeira conversa
+# First conversation
 
-Copie o pedido da sua plataforma e troque os idiomas pelos seus. Para ver todos os comandos, envie `Help` no lugar do pedido. Antes, instale o plugin e conecte o Google Drive, conforme [Como instalar](README.md#como-instalar).
+Install the plugin as described in [How to install](README.md#how-to-install), then send one of these messages. TalkGo asks for your native language first and uses it from then on.
 
 ## Claude
 
-/talkgo New-Central googledrive Inglês Espanhol. Vou indicar minha pasta pessoal no Google Drive. Prepare a estrutura, confira o que foi salvo e me encaminhe à primeira etapa pendente.
+/talkgo Start
 
 ## ChatGPT
 
-@TalkGo New-Central googledrive Inglês Espanhol. Vou indicar minha pasta pessoal no Google Drive. Prepare a estrutura, confira o que foi salvo e me encaminhe à primeira etapa pendente.
+@TalkGo Start
+
+`Start` guides you through every step: your Central (on Google Drive, recommended), the languages you want to practice, a short diagnostic, your first mission and your first practice. At the end it suggests how to organize a project and one chat per practice. Send `Help` at any time to see every command.

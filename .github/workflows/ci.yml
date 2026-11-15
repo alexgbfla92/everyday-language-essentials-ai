@@ -15,11 +15,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Testes
+      - name: Tests
         run: python -B -m unittest discover -s tests -v
-      - name: Versão igual em todos os manifestos
+      - name: Locale templates up to date
+        run: python tools/render_locales.py --check
+      - name: Same version in every manifest
         run: python tools/bump_version.py --check
-      - name: PR precisa subir a versão
+      - name: PR must bump the version
         if: github.event_name == 'pull_request'
         run: |
           base=$(git show "origin/${{ github.base_ref }}:VERSION" | tr -d '[:space:]')
@@ -29,5 +31,5 @@ jobs:
           import sys
           base, head = (tuple(map(int, v.split("."))) for v in sys.argv[1:])
           if head <= base:
-              sys.exit(f"Suba o VERSION neste PR (main está em {sys.argv[1]}). Use: python tools/bump_version.py patch|minor|major")
+              sys.exit(f"Bump VERSION in this PR (main is at {sys.argv[1]}). Use: python tools/bump_version.py patch|minor|major")
           PY

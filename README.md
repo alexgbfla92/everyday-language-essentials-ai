@@ -1,235 +1,253 @@
 # TalkGo
 
-## Aprenda o idioma que você precisa para viver o que importa.
+**English** · [Português (Brasil)](README-pt-BR.md) · [Español](README-es.md) · [Français](README-fr.md) · [Deutsch](README-de.md) · [简体中文](README-zh-CN.md)
 
-**Fale antes de estar pronto. Erre, pergunte, tente de novo. O importante é não parar de se comunicar.**
+## Learn the language you need to live what matters.
 
-O **TalkGo** é uma **skill pública e open source** de aprendizagem de idiomas orientada a situações reais, disponibilizada à comunidade como uma abordagem prática e personalizável. Em vez de exigir que você percorra um currículo inteiro antes de começar a conversar, a proposta é ajudar você a se preparar para **as experiências que fazem sentido na sua vida** — no idioma, no ritmo e no prazo que você escolher.
+**Speak before you are ready. Make mistakes, ask, try again. What matters is that you keep communicating.**
 
-Você não precisa dominar todas as regras gramaticais para pedir ajuda, conhecer alguém, participar de um evento ou resolver um imprevisto. Precisa de prática, repertório útil e coragem para tentar. É por aí que a prática começa.
+**TalkGo** is a **public, open-source skill** for language learning built around real situations, shared with the community as a practical, customizable approach. Instead of making you go through a whole curriculum before you start talking, it helps you get ready for **the experiences that matter in your life**, in the language, at the pace and by the date you choose.
 
-A ideia não é vender um curso nem tratar quem aprende como cliente. É compartilhar com a comunidade uma ferramenta aberta para experimentar outra maneira de aprender: com objetivos próprios, espaço para errar e oportunidades constantes de conversar.
+You don't need to master every grammar rule to ask for help, meet someone, take part in an event or deal with something unexpected. You need practice, useful phrases and the courage to try. That is where practice begins.
 
-## O que torna essa abordagem diferente?
+The idea is not to sell a course or to treat learners as customers. It is to share an open tool with the community to try a different way of learning: with your own goals, room to make mistakes and constant chances to talk.
 
-Cursos tradicionais frequentemente organizam o aprendizado em níveis, unidades gramaticais e provas. Essa abordagem pode ser valiosa para quem busca formação ampla, certificações ou domínio acadêmico. O TalkGo parte de outra pergunta:
+## What makes this approach different?
 
-> **O que você precisa conseguir fazer, de verdade, usando esse idioma?**
+Traditional courses often organize learning into levels, grammar units and tests. That can be valuable for anyone who wants broad training, certificates or academic mastery. TalkGo starts from another question:
 
-A resposta define sua missão. A prioridade não é prometer fluência absoluta em um prazo mágico, mas desenvolver **autonomia comunicativa para situações específicas**, com prática oral, repetição e feedback.
+> **What do you really need to be able to do in this language?**
 
-### Um idioma é enorme. Sua próxima conversa não precisa ser.
+The answer defines your mission. The priority is not to promise complete fluency within a magic deadline, but to build **communicative autonomy for specific situations**, with speaking practice, repetition and feedback.
 
-O português, por exemplo, reúne **mais de 200 mil verbetes em grandes obras lexicográficas**; descrições detalhadas da gramática podem envolver centenas de regras e sub-regras, dependendo da forma de contá-las. O inglês e outros idiomas também possuem vastos vocabulários, estruturas e expressões. Aprender tudo isso é um projeto de longo prazo. **Preparar-se para uma conversa específica é uma meta muito mais delimitada.**
+### A language is huge. Your next conversation doesn't have to be.
 
-Como referência **ilustrativa, não como escala científica ou garantia de desempenho**, uma pessoa com cerca de **100 palavras úteis** pode tentar cumprimentos, pedidos e necessidades básicas; com **200 a 500**, pode ampliar interações simples com apoio do contexto; com **500 a 1.000**, pode começar a sustentar conversas limitadas sobre temas familiares; e com **2.000 ou mais palavras frequentes**, tende a ter mais recursos para situações cotidianas. O resultado real depende de compreensão oral, combinações de palavras, contexto, interlocutor e prática — não apenas da contagem de vocábulos.
+Major dictionaries list **hundreds of thousands of entries** for languages such as English, Portuguese or Spanish, and detailed grammars describe hundreds of rules and sub-rules, depending on how you count them. Learning all of that is a long-term project. **Getting ready for a specific conversation is a much smaller goal.**
 
-Por isso, a pergunta não é “quanto falta para conhecer o idioma inteiro?”, mas **“quais palavras, frases e situações preciso praticar para ser compreendido na minha próxima experiência?”**
+As an **illustration, not a scientific scale or a promise of results**: with about **100 useful words**, someone can try greetings, requests and basic needs; with **200 to 500**, they can handle more simple exchanges with help from the context; with **500 to 1,000**, they can begin to hold limited conversations on familiar topics; and with **2,000 or more frequent words**, they tend to have more resources for everyday situations. Real results depend on listening, word combinations, context, the other person and practice, not only on word counts.
 
-| Ensino tradicional, em muitos formatos | TalkGo |
+So the question is not "how far am I from knowing the whole language?", but **"which words, phrases and situations do I need to practice to be understood in my next experience?"**
+
+| Traditional teaching, in many formats | TalkGo |
 | --- | --- |
-| Currículo predefinido por níveis e tópicos | Missões construídas a partir dos objetivos do usuário |
-| Gramática frequentemente apresentada antes da aplicação | Comunicação primeiro; explicações quando necessárias |
-| Exercícios que podem privilegiar leitura e escrita | Simulações e prática de fala como eixo principal |
-| Erro frequentemente tratado como algo a evitar | Erro tratado como parte natural do treino |
-| Mesma sequência de temas para muitos alunos | Cenários, prioridades e duração ajustáveis |
-| Progresso associado ao conteúdo concluído | Progresso associado ao que a pessoa consegue comunicar |
+| Curriculum set in advance by levels and topics | Missions built from the learner's goals |
+| Grammar often presented before use | Communication first; explanations when needed |
+| Exercises that may favor reading and writing | Simulations and speaking practice at the core |
+| Mistakes often treated as something to avoid | Mistakes treated as a natural part of training |
+| The same sequence of topics for many learners | Adjustable scenarios, priorities and length |
+| Progress tied to content covered | Progress tied to what the person can communicate |
 
-## Sua vida define o conteúdo. Não o contrário.
+## Your life defines the content. Not the other way around.
 
-Imagine uma viagem à Disney daqui a 90 dias. Sua missão pode concentrar-se em interações nos parques, restaurantes, hotéis, compras e situações inesperadas. Se você não vai passar por um aeroporto, não precisa dedicar práticas a esse assunto.
+Imagine a trip to Disney in 90 days. Your mission can focus on interactions in the parks, restaurants, hotels, shopping and unexpected situations. If you won't go through an airport, you don't need practices about it.
 
-Agora imagine alguém que participa de uma igreja e vai a um congresso na Espanha. Essa pessoa pode priorizar apresentações pessoais, conversas após as reuniões, refeições em grupo, pedidos de informação e interações sociais — em espanhol, com o vocabulário e as situações daquele contexto.
+Now imagine someone who belongs to a church and is going to a conference in Spain. They can prioritize introducing themselves, conversations after the meetings, group meals, asking for information and social interactions, in Spanish, with the vocabulary and situations of that context.
 
-O mesmo princípio vale para quem vai a um casamento, batizado, conferência, visita familiar, reunião profissional ou qualquer outro evento. **Não é você que precisa se encaixar em um currículo fixo: é a prática que deve se adaptar à sua missão.**
+The same goes for a wedding, a christening, a conference, a family visit, a business meeting or any other event. **You don't have to fit into a fixed curriculum: the practice adapts to your mission.**
 
-## Fale. Mesmo que saia errado.
+## Speak. Even if it comes out wrong.
 
-No TalkGo, você não precisa esperar pela frase perfeita.
+In TalkGo, you don't have to wait for the perfect sentence.
 
-- **Sabe uma parte?** Diga essa parte.
-- **Esqueceu uma palavra?** Explique com as palavras que conhece.
-- **Travou?** Misture temporariamente seu idioma com o idioma que está aprendendo e peça ajuda.
-- **Não sabe usar passado, presente ou futuro?** Pergunte, ouça um exemplo e tente novamente.
-- **Errou?** Receba uma correção útil, reformule e continue a conversa.
+- **Know part of it?** Say that part.
+- **Forgot a word?** Explain it with the words you know.
+- **Got stuck?** Mix your own language with the one you are learning for a moment and ask for help.
+- **Not sure how to use the past, present or future?** Ask, hear an example and try again.
+- **Made a mistake?** Get a useful correction, rephrase and keep the conversation going.
 
-O princípio é simples: **a tentativa vem antes da perfeição**.
+The principle is simple: **trying comes before perfection**.
 
-O TalkGo ajuda você a transformar frases incompletas em mensagens cada vez mais claras e naturais. A correção não deve interromper cada palavra nem transformar toda conversa em uma prova. Ela existe para ajudar você a seguir em frente.
+TalkGo helps you turn incomplete sentences into messages that are clearer and more natural every time. Corrections should not interrupt every word or turn every conversation into a test. They are there to help you move on.
 
-## Aqui, você não precisa ter vergonha de errar
+## Here, you don't need to be ashamed of making mistakes
 
-Para muita gente, o maior obstáculo ao aprender um idioma não é a falta de vocabulário. É a vergonha: o medo de pronunciar uma palavra errada, esquecer uma frase, confundir os tempos verbais ou parecer incapaz diante de alguém. Esse bloqueio pode aparecer em práticas particulares, turmas, conversas pela internet e até entre amigos e familiares.
+For many people, the biggest obstacle to learning a language is not a lack of vocabulary. It is embarrassment: the fear of mispronouncing a word, forgetting a sentence, mixing up tenses or looking incapable in front of someone. This block can show up in private lessons, classes, online conversations and even among friends and family.
 
-O TalkGo oferece uma alternativa poderosa: **um espaço de prática com inteligência artificial, sem constrangimento social**. Você não está diante de uma plateia, de colegas ou de alguém que vai tirar sarro do seu sotaque. A IA não tem interesse em humilhar, discriminar ou ridicularizar você. Sua função é ajudar você a praticar, compreender, corrigir e tentar novamente.
+TalkGo offers a powerful alternative: **a practice space with artificial intelligence, without social pressure**. You are not in front of an audience, classmates or someone who will make fun of your accent. The AI has no interest in humiliating, discriminating against or ridiculing you. Its job is to help you practice, understand, correct and try again.
 
-**Erre uma vez. Erre cem. Erre mil vezes, se precisar. Você pode continuar tentando.**
+**Make a mistake once. Make it a hundred times. Make it a thousand times if you need to. You can keep trying.**
 
-Com a IA, você pode:
+With the AI, you can:
 
-- **Conversar por voz ou texto**, conforme os recursos disponíveis, e praticar situações do seu cotidiano.
-- **Consultar qualquer frase pelo número**: cada frase no idioma estudado recebe um número único ("repita a frase 132", "explique o diálogo 145").
-- **Pausar e retomar sem perder nada**, inclusive no modo voz.
-- **Várias missões por idioma** (ex.: "Me preparar para uma viagem a Londres" até uma data, nas situações aeroporto, migração, transporte público e restaurantes), criadas e ajustadas com `New-Mission` e `Set-Mission`, e a próxima sessão de prática da missão escolhida com `Start-Practice`.
-- **Falar sem saber a frase inteira:** começar no idioma que está aprendendo, completar uma parte em português e pedir ajuda para formular o restante.
-- **Perguntar sem constrangimento:** como montar a frase, por que determinada palavra foi usada ou como expressar a mesma ideia no passado, presente ou futuro.
-- **Pedir correções e exemplos**, sem transformar cada erro em uma interrupção ou avaliação.
-- **Solicitar repetições quantas vezes precisar:** uma palavra, uma frase ou um diálogo inteiro.
-- **Controlar o ritmo:** pedir para falar mais devagar, ainda mais devagar ou mais rápido, de acordo com sua compreensão.
-- **Recomeçar a mesma simulação** até se sentir mais confortável com as respostas.
+- **Talk by voice or text**, depending on the features available, and practice situations from your daily life.
+- **Look up any sentence by its number**: each sentence in the target language gets a unique number ("repeat sentence 132", "explain dialogue 145").
+- **Pause and resume without losing anything**, including in voice mode.
+- **Have several missions per language** (e.g. "Get ready for a trip to London" by a date, in the situations airport, immigration, public transport and restaurants), created and adjusted with `New-Mission` and `Set-Mission`, with the next practice session of the chosen mission started with `Start-Practice`.
+- **Speak without knowing the whole sentence:** start in the language you are learning, finish part of it in your native language and ask for help with the rest.
+- **Ask without embarrassment:** how to build the sentence, why a word was used or how to say the same idea in the past, present or future.
+- **Ask for corrections and examples**, without turning each mistake into an interruption or an evaluation.
+- **Ask for repetitions as many times as you need:** a word, a sentence or a whole dialogue.
+- **Control the pace:** ask the AI to speak slower, even slower or faster, depending on how much you understand.
+- **Restart the same simulation** until you feel more comfortable with your answers.
 
-Não importa se a frase saiu incompleta, se a pronúncia ficou estranha ou se você esqueceu algo que já havia aprendido. **Você não precisa impressionar a IA. Precisa apenas se permitir praticar.**
+It doesn't matter if the sentence came out incomplete, if the pronunciation sounded strange or if you forgot something you had already learned. **You don't need to impress the AI. You only need to let yourself practice.**
 
-A inteligência artificial não substitui todas as experiências de conversar com pessoas reais, e suas correções também podem falhar. Mas ela pode ser uma parceira de treino disponível para repetir, explicar e adaptar a prática sem a pressão social que tantas vezes nos faz ficar em silêncio.
+Artificial intelligence does not replace every experience of talking to real people, and its corrections can be wrong too. But it can be a training partner that is always available to repeat, explain and adapt the practice, without the social pressure that so often keeps us silent.
 
-> **A vergonha não precisa fazer parte da sua prática. O erro pode fazer parte do seu progresso.**
+> **Embarrassment doesn't have to be part of your practice. Mistakes can be part of your progress.**
 
-## Aprender por familiaridade, contexto e repetição
+## Learning through familiarity, context and repetition
 
-Muitas estruturas se tornam familiares porque as ouvimos e utilizamos repetidamente: numa conversa, numa música, num vídeo, numa série ou durante uma simulação.
+Many structures become familiar because we hear and use them again and again: in a conversation, a song, a video, a series or a simulation.
 
-É essa familiaridade que a skill procura desenvolver. Você escuta uma forma natural de dizer algo, experimenta usá-la, recebe feedback e volta a encontrá-la em novas situações. Aos poucos, expressões e padrões passam a surgir com menos esforço.
+That familiarity is what the skill sets out to build. You hear a natural way of saying something, try using it, get feedback and meet it again in new situations. Little by little, expressions and patterns come with less effort.
 
-A gramática continua disponível como ferramenta: se uma explicação curta sobre um tempo verbal ou a ordem das palavras destravar sua fala, ela é bem-vinda. **Mas memorizar um grande conjunto de regras não é o ponto de partida nem o objetivo central.**
+Grammar is still there as a tool: if a short explanation of a tense or of word order unlocks your speech, it is welcome. **But memorizing a large set of rules is neither the starting point nor the main goal.**
 
-## Seu ponto de partida: um diagnóstico rápido e sem pressão
+## Your starting point: a quick, pressure-free diagnostic
 
-Antes de começar a missão, a skill propõe uma **breve sessão de diagnóstico no idioma escolhido**. Não é uma prova para aprovar ou reprovar ninguém: é uma conversa inicial para reconhecer seu nível atual, identificar **pontos fortes, dificuldades e oportunidades de melhoria** e ajustar as próximas atividades ao que você realmente precisa.
+Before your mission begins, the skill suggests a **short diagnostic session in the language you chose**. It is not a test to pass or fail: it is a first conversation to recognize your current level, find **strengths, difficulties and room for improvement** and fit the next activities to what you really need.
 
-**Está começando do zero? Tudo bem.** Responda apenas o que entender. Se precisar, fale na sua língua nativa, faça perguntas, peça que a IA repita ou explique. Tente reproduzir uma palavra, completar uma expressão ou montar uma frase no idioma que deseja aprender — mesmo que ela saia errada. Essas tentativas também ajudam a encontrar o melhor ponto de partida.
+**Starting from zero? That's fine.** Answer only what you understand. If you need to, speak your native language, ask questions, ask the AI to repeat or explain. Try to say a word, finish an expression or build a sentence in the language you want to learn, even if it comes out wrong. Those attempts also help find the best starting point.
 
-O diagnóstico não existe para exigir que você já saiba falar. Existe para **descobrir como ajudar você a começar**.
+The diagnostic doesn't exist to demand that you already speak. It exists to **find out how to help you begin**.
 
-## Seu progresso fica visível — e pode ser reavaliado
+## Your progress is visible, and can be re-evaluated
 
-**A qualquer momento, você pode pedir um relatório do seu progresso**, para entender o que já praticou, onde ganhou segurança e quais situações ou estruturas ainda merecem atenção, com base nos registros disponíveis da sua jornada.
+**At any time, you can ask for a progress report** to understand what you have practiced, where you have gained confidence and which situations or structures still need attention, based on the records of your journey.
 
-De tempos em tempos, você também pode solicitar **uma nova avaliação de diagnóstico**. Comparar seus resultados com o ponto de partida ajuda a perceber sua evolução e a ajustar o foco das próximas missões. O objetivo não é colecionar notas: é enxergar, cada vez mais claramente, **o que você já consegue comunicar**.
+From time to time, you can also ask for **a new diagnostic**. Comparing your results with your starting point helps you see your progress and adjust the focus of your next missions. The goal is not to collect scores: it is to see, more and more clearly, **what you can already communicate**.
 
-## Entertainment Lab: aprender também pode ser divertido
+## Entertainment Lab: learning can be fun too
 
-Ao final de cada prática, a proposta inclui um momento leve no **Entertainment Lab**: um convite para assistir a um **vídeo curto, com uma história ou música**, relacionado ao que você acabou de praticar. A ideia é aproveitar **legendas no seu idioma nativo e no idioma que está aprendendo**, quando disponíveis, para reconhecer palavras, expressões e construções em um contexto mais natural.
+At the end of each practice there is a light moment in the **Entertainment Lab**: an invitation to watch a **short YouTube video, with a story or a song**, related to what you have just practiced. The idea is to use **subtitles in your native language and in the language you are learning**, when available, to recognize words, expressions and structures in a more natural context.
 
-Não é mais uma prova nem uma lista de exercícios. É uma oportunidade de ouvir o idioma fora da simulação, perceber como as frases aparecem em situações reais e, por que não, terminar a prática se divertindo. A seleção de vídeos e a disponibilidade de legendas dependem dos conteúdos e recursos acessíveis na plataforma.
+It is not another test or a list of exercises. It is a chance to hear the language outside the simulation, notice how sentences appear in real situations and, why not, end the practice having fun. The choice of videos and the availability of subtitles depend on the content and features available on the platform.
 
-## Missões curtas, configuradas para você
+## Short missions, set up for you
 
-Cada pessoa pode definir o que deseja praticar e ajustar a experiência às próprias necessidades:
+Each person can decide what to practice and adjust the experience to their own needs:
 
-- **Idioma e contexto:** inglês para uma viagem, espanhol para um congresso, ou outro objetivo de comunicação.
-- **Missão e prazo:** preparar-se para um evento daqui a semanas ou meses.
-- **Situações prioritárias:** praticar o que será útil e deixar de lado o que não se aplica.
-- **Duração das práticas:** sessões curtas ou mais longas, conforme a rotina.
-- **Foco da prática:** conversação, compreensão oral, frases úteis e simulações contextualizadas.
-- **Ritmo e apoio:** pedir exemplos, repetir, receber correções e voltar aos pontos difíceis.
+- **Language and context:** English for a trip, Spanish for a conference, or another communication goal.
+- **Mission and deadline:** get ready for an event weeks or months away.
+- **Priority situations:** practice what will be useful and leave aside what doesn't apply.
+- **Practice length:** short or longer sessions, to fit your routine.
+- **Practice focus:** conversation, listening, useful phrases and simulations in context.
+- **Pace and support:** ask for examples, repeat, get corrections and go back to the hard parts.
+- **Your native language:** every explanation, message and folder of your Central is in your native language.
 
-A experiência é orientada pelo que você precisa fazer, não por uma lista obrigatória de assuntos desconectados da sua realidade.
+The experience is guided by what you need to do, not by a mandatory list of topics disconnected from your reality.
 
-## Como funciona uma missão?
+## How does a mission work?
 
-**Antes de começar: faça seu diagnóstico inicial.** Uma conversa breve ajuda a adaptar a missão ao seu nível, mesmo que você ainda não consiga formar frases completas.
+**Before you begin: take your first diagnostic.** A short conversation helps fit the mission to your level, even if you can't form complete sentences yet.
 
-**1. Defina sua experiência.** Conte para onde vai, o que pretende fazer, com quem deverá conversar e quanto tempo tem para se preparar.
+**1. Describe your experience.** Say where you are going, what you plan to do, who you will need to talk to and how much time you have to get ready.
 
-**2. Escolha o que importa.** Selecione situações prováveis, objetivos de comunicação e o tempo disponível para praticar.
+**2. Choose what matters.** Pick the likely situations, communication goals and the time you have to practice.
 
-**3. Entre em cena.** Pratique diálogos e simulações. Tente responder no idioma-alvo, mesmo sem saber formular tudo corretamente.
+**3. Step into the scene.** Practice dialogues and simulations. Try to answer in the target language, even if you can't say everything correctly.
 
-**4. Receba ajuda e tente novamente.** Aprenda expressões úteis, ajuste suas frases e repita até ganhar familiaridade.
+**4. Get help and try again.** Learn useful expressions, adjust your sentences and repeat until they feel familiar.
 
-**5. Leve o aprendizado para a vida.** Use o que treinou em interações reais e, quando surgir uma nova necessidade, comece outra missão.
+**5. Take what you learned into your life.** Use what you trained in real interactions and, when a new need comes up, start another mission.
 
-**Durante a jornada:** peça seu relatório de progresso sempre que quiser, solicite uma reavaliação periódica e aproveite o Entertainment Lab ao final das práticas para reforçar o que praticou de maneira leve.
+**Along the way:** ask for your progress report whenever you want, ask for a periodic re-evaluation and enjoy the Entertainment Lab at the end of your practices to reinforce what you practiced in a light way.
 
-## Fluência não é a promessa. Comunicação é o propósito.
+## Fluency is not the promise. Communication is the purpose.
 
-O TalkGo não promete que você se tornará fluente em 30, 60 ou 90 dias, nem que deixará de cometer erros ou falar com sotaque. O objetivo é mais concreto: **ajudar você a se comunicar melhor nas situações para as quais decidiu se preparar**.
+TalkGo does not promise that you will be fluent in 30, 60 or 90 days, or that you will stop making mistakes or speaking with an accent. The goal is more concrete: **to help you communicate better in the situations you decided to prepare for**.
 
-Uma missão curta pode ampliar sua segurança para um contexto específico. Várias missões, acumuladas ao longo do tempo, podem construir um repertório cada vez mais amplo e contribuir para níveis relevantes de proficiência. Esse progresso depende da frequência de prática, da exposição ao idioma e das características de cada pessoa.
+A short mission can increase your confidence in a specific context. Several missions, over time, can build a wider and wider repertoire and contribute to meaningful levels of proficiency. That progress depends on how often you practice, on your exposure to the language and on each person.
 
-Não é necessário esperar pela fluência para começar a conversar. E começar a conversar pode ser um dos caminhos para desenvolvê-la.
+You don't have to wait for fluency to start talking. And starting to talk can be one of the ways to develop it.
 
-## Para quem é o TalkGo?
+## Who is TalkGo for?
 
-Para quem tem uma viagem marcada, um encontro importante, uma oportunidade profissional, um evento social ou simplesmente uma razão concreta para falar outro idioma — e não quer adiar essa experiência até sentir que domina a língua inteira.
+For anyone with a trip booked, an important meeting, a work opportunity, a social event or simply a concrete reason to speak another language, who doesn't want to put off that experience until they feel they master the whole language.
 
-É especialmente útil para quem entende algumas palavras, mas trava na hora de montar frases; para quem tem receio de ser julgado pelos erros; e para quem prefere aprender praticando situações com significado pessoal.
+It is especially useful for people who understand some words but freeze when building sentences; for those afraid of being judged for their mistakes; and for those who prefer to learn by practicing situations that mean something to them.
 
-## Uma skill aberta à comunidade
+## An open skill for the community
 
-O TalkGo é uma iniciativa **open source**, pensada para ser usada, adaptada e aprimorada pela comunidade. Cada pessoa escolhe suas missões e o que deseja praticar; a proposta não é impor uma jornada única, mas tornar a prática de idiomas mais acessível, contextualizada e menos intimidante. A disponibilidade de voz, texto e outros recursos depende da plataforma de IA utilizada.
+TalkGo is an **open-source** initiative, made to be used, adapted and improved by the community. Each person chooses their missions and what they want to practice; the idea is not to impose a single journey, but to make language practice more accessible, more contextual and less intimidating. The availability of voice, text and other features depends on the AI platform you use.
 
-## Como instalar
+## How to install
 
-O TalkGo é instalado pelo navegador, com um arquivo .zip, no Claude e no ChatGPT. Instalado assim, ele fica na sua conta e aparece em todos os seus dispositivos: web, app de desktop e celular.
+TalkGo is installed through the browser, with a .zip file, in Claude and in ChatGPT. Installed this way, it stays in your account and shows up on all your devices: web, desktop app and phone.
 
-### 1. Baixe o plugin
+### 1. Download the plugin
 
-Baixe o arquivo da versão mais recente: **[talkgo-plugin.zip](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases/latest/download/talkgo-plugin.zip)**. Versões anteriores e o que mudou em cada uma estão em [Releases](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases).
+Download the latest version: **[talkgo-plugin.zip](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases/latest/download/talkgo-plugin.zip)**. Earlier versions and what changed in each one are in [Releases](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases).
 
-Não descompacte o arquivo: o mesmo .zip serve para o Claude e para o ChatGPT.
+Don't unzip the file: the same .zip works for Claude and ChatGPT.
 
-### 2. Instale no Claude
+### 2. Install in Claude
 
-1. Abra [claude.ai](https://claude.ai) no navegador e vá em **Configurações → Personalização → Plugins**.
-2. Clique em **Adicionar → Enviar plugin** (Upload plugin) e escolha o `talkgo-plugin.zip`.
-3. Em **Configurações → Personalização → Conectores**, ative **Google Drive**, **Google Docs** e **Google Sheets** (a sua Central fica no Google Drive).
-4. Recomendado: em **Configurações → Recursos**, libere os domínios `youtube.com`, `www.youtube.com`, `m.youtube.com` e `youtu.be`. Assim o Entertainment Lab confirma título, canal e duração do vídeo na página do YouTube; sem isso, ele usa o resultado da busca e avisa o que não foi confirmado.
-5. Numa conversa nova, digite `/talkgo` e escolha a skill (por exemplo, `/talkgo Help`).
+1. Open [claude.ai](https://claude.ai) in the browser and go to **Settings → Customize → Plugins**.
+2. Click **Add → Upload plugin** and choose `talkgo-plugin.zip`.
+3. In **Settings → Customize → Connectors**, turn on **Google Drive**, **Google Docs** and **Google Sheets** (your Central lives on Google Drive).
+4. Recommended: in **Settings → Capabilities**, allow the domains `youtube.com`, `www.youtube.com`, `m.youtube.com` and `youtu.be`. Then the Entertainment Lab confirms the title, channel and length of the video on the YouTube page; without it, it uses the search result and says what could not be confirmed.
+5. In a new chat, type `/talkgo` and pick the skill (for example, `/talkgo Start`).
 
-### 3. Instale no ChatGPT
+### 3. Install in ChatGPT
 
-1. Abra [chatgpt.com](https://chatgpt.com) no navegador e clique em **Plugins** na barra lateral.
-2. Clique em **Adicionar**, escolha o `talkgo-plugin.zip` e confirme em **Adicionar plugin**.
-3. Conecte o app **Google Drive** com permissão para criar e editar arquivos (a Central usa Google Docs e Sheets).
-4. Deixe a busca na web disponível na conversa, para o Entertainment Lab encontrar o vídeo do YouTube.
-5. Numa conversa nova, chame com `@TalkGo` (por exemplo, `@TalkGo Help`). Também funciona `$talkgo:talkgo`.
+1. Open [chatgpt.com](https://chatgpt.com) in the browser and click **Plugins** in the side bar.
+2. Click **Add**, choose `talkgo-plugin.zip` and confirm with **Add plugin**.
+3. Connect the **Google Drive** app with permission to create and edit files (the Central uses Google Docs and Sheets).
+4. Keep web search available in the chat, so the Entertainment Lab can find the YouTube video.
+5. In a new chat, call it with `@TalkGo` (for example, `@TalkGo Start`). `$talkgo:talkgo` works too.
 
-### Primeiro uso
+### First use: Start
 
-Envie `Help`: a resposta mostra a versão instalada (por exemplo, "TalkGo v0.19.0"), o contexto padrão e todos os comandos. Pedidos prontos para a primeira conversa estão em [FIRST-PROMPT.md](FIRST-PROMPT.md).
+Send `Start`. A short wizard guides you, one question at a time:
 
-Os comandos seguem o padrão `Verbo-Entidade` em inglês: `Get` mostra, `New` cria, `Set` altera, `Remove` apaga, `Start`/`Pause`/`Resume`/`Finish` conduzem a prática. O caminho básico é:
+1. **Your native language.** TalkGo uses it for every message, for the descriptions in `Help` and for the folders, files and contents of your Central. If your first message doesn't show which language you speak, the question comes in English, Spanish, Portuguese and French.
+2. **Your Central:** a folder of your own (Google Drive recommended) that keeps diagnostics, missions, practices and progress, so any chat on any device can resume.
+3. **The languages you want to practice:** American English, Spanish (Spain) and French (France).
+4. **A short diagnostic** of your level.
+5. **Your first mission**, with a target date and situations.
+6. **Your first practice**, already prepared.
+7. **How to organize projects and chats**, with the names to use and the command for each chat.
 
-| Passo | Comando |
+You can run `Start` again at any time: it continues from where you stopped. `Help` shows the installed version (for example, "TalkGo v0.21.0"), the default context and every command. Ready-made messages for the first chat are in [FIRST-PROMPT.md](FIRST-PROMPT.md).
+
+### Your native language
+
+Commands are always in English, in the form `Verb-Entity`: `Get` shows, `New` creates, `Set` changes, `Remove` deletes, `Start`/`Pause`/`Resume`/`Finish` run a practice. Everything else follows your native language: messages, explanations, feedback, the descriptions and examples in `Help`, and the names of the folders and files of your Central (for example, `Missions` and `Practices` for an English speaker, `Missões` and `Práticas` for a Brazilian Portuguese speaker). Folder and file names are available in English, Portuguese (Brazil), Spanish, French and German; with any other native language, they are in English and everything else stays in your language.
+
+The basic path, after `Start`:
+
+| Step | Command |
 | --- | --- |
-| Criar a sua Central no Google Drive | `New-Central googledrive Idiomas Inglês` |
-| Fazer o diagnóstico do idioma | `Start-Diagnostic Inglês` |
-| Criar uma missão (título, descrição, data-alvo e situações) | `New-Mission Inglês` |
-| Praticar | `Start-Practice` |
-| Ver as práticas por missão e status | `Get-Practices` |
-| Ver o progresso | `Get-Progress` |
+| First setup (wizard) | `Start` |
+| Take the diagnostic of a language | `Start-Diagnostic English` |
+| Create a mission (title, description, target date and situations) | `New-Mission English` |
+| Practice | `Start-Practice` |
+| See your practices by mission and status | `Get-Practices` |
+| See your progress | `Get-Progress` |
 
-Quando você não indica Central, idioma ou missão e há mais de uma opção, o TalkGo pergunta, já sugerindo a padrão; para mudar a padrão, use `Set-Default central|language|mission`. Você também pode pedir em linguagem natural ("quero praticar inglês", "quais práticas eu fiz?").
+When you don't give a Central, language or mission and there is more than one option, TalkGo asks, suggesting the default; to change the default, use `Set-Default central|language|mission`. You can also ask in plain words ("I want to practice English", "which practices did I do?").
 
-### Organize em projetos e um chat por prática
+### Organize in projects and one chat per practice
 
-Recomendamos usar o TalkGo sempre dentro de **projetos** da sua ferramenta de IA (o Claude e o ChatGPT permitem criar projetos):
+We recommend always using TalkGo inside **projects** of your AI tool (Claude and ChatGPT both let you create projects). At the end of `Start`, TalkGo suggests the names with your real data:
 
-- **Crie um projeto novo para organizar as suas práticas**, por idioma ou por missão. Por exemplo: um projeto `English-Travel` para a missão da viagem e outro `English-Meeting` para as reuniões de trabalho.
-- **Abra um chat novo para cada prática**, dentro do projeto. No projeto `English-Travel`, por exemplo: `Practice-0001-Airport check-in`, `Practice-0002-Immigration`, `Practice-0003-Public transport`, e assim por diante. Ao preparar uma prática, o TalkGo sugere o nome do chat.
-- Use também um chat próprio para tarefas de organização, como criar a Central, fazer o diagnóstico ou criar uma missão.
+- **Create a project for each mission**, with a short name linked to it. For example: an `English-Travel` project for the trip mission and another `English-Meeting` project for work meetings.
+- **Keep a `Progress` chat** in the project for follow-up and management: `Get-Progress`, `Get-Practices`, `Get-Missions`, `Set-Mission`.
+- **Open a new chat for each practice**, named after it. In the `English-Travel` project, for example: `Practice-0001-Airport check-in`, `Practice-0002-Immigration`, `Practice-0003-Public transport`, and so on. When it prepares a practice, TalkGo suggests the chat name and the first command.
+- **To rename a chat:** in Claude, click the chat title at the top (or **…** next to it in the side bar) → **Rename**; in ChatGPT, **…** next to the chat in the side bar → **Rename**, and **Move to project** to bring it into the project.
 
-Assim cada conversa fica curta e focada, fica fácil voltar a uma prática específica, e o histórico de cada missão fica reunido num só lugar. O que vale entre os chats é a sua Central: qualquer chat do projeto retoma de onde você parou.
+That way each conversation stays short and focused, it's easy to go back to a specific practice and the history of each mission stays in one place. What carries over between chats is your Central: any chat in the project resumes where you stopped.
 
-### Atualizar
+### Update
 
-O plugin enviado por arquivo não se atualiza sozinho. Quando sair uma versão nova em [Releases](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases):
+A plugin uploaded as a file doesn't update itself. When a new version comes out in [Releases](https://github.com/alexgbfla92/everyday-language-essentials-ai/releases):
 
-1. Baixe o `talkgo-plugin.zip` de novo pelo mesmo link.
-2. No Claude e no ChatGPT, remova o plugin TalkGo instalado e envie o arquivo novo, como na instalação.
-3. Abra uma conversa nova e confira a versão com `Help`.
+1. Download `talkgo-plugin.zip` again from the same link.
+2. In Claude and ChatGPT, remove the installed TalkGo plugin and upload the new file, as in the installation.
+3. Open a new chat and check the version with `Help`.
 
-A sua Central não é afetada: missões, práticas e progresso ficam no seu Google Drive, fora do plugin.
+Your Central is not affected: missions, practices and progress stay on your Google Drive, outside the plugin.
 
-### Se você instalou de outra forma
+### If you installed it another way
 
-Antes de enviar o .zip, remova qualquer instalação anterior (por marketplace, pelo Codex ou como skill avulsa, inclusive com nomes antigos). Assim o TalkGo não aparece duplicado.
+Before uploading the .zip, remove any earlier installation (from a marketplace, from Codex or as a standalone skill, including under old names). That way TalkGo doesn't show up twice.
 
-## A filosofia da comunidade
+## The community philosophy
 
-> **Fale o que você sabe. Peça ajuda com o que ainda não sabe. Ouça, repita, ajuste e tente de novo.**
+> **Say what you know. Ask for help with what you don't know yet. Listen, repeat, adjust and try again.**
 >
-> Você não precisa falar perfeitamente para ser compreendido. E não precisa dominar um idioma inteiro para dar o próximo passo.
+> You don't need to speak perfectly to be understood. And you don't need to master a whole language to take the next step.
 
-**TalkGo — menos medo de errar. Mais liberdade para se comunicar.**
+**TalkGo: less fear of mistakes. More freedom to communicate.**

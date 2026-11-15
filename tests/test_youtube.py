@@ -24,7 +24,7 @@ class YouTubeTests(unittest.TestCase):
                     "https://vimeo.com/123456",
                     "https://www.youtube.com/playlist?list=PL123",
                     "https://www.youtube.com/@OxfordOnlineEnglish",
-                    "https://www.youtube.com/watch?v=curto",
+                    "https://www.youtube.com/watch?v=short",
                     "ftp://www.youtube.com/watch?v=dQw4w9WgXcQ"):
             with self.assertRaises(ValueError, msg=url):
                 normalize(url)
@@ -35,10 +35,10 @@ class YouTubeTests(unittest.TestCase):
                 '"title":"Real life English \\"Airport check-in\\"","lengthSeconds":"412",'
                 '"keywords":["airport"],"thumbnail":{"thumbnails":[{"url":"x"}]},'
                 '"author":"English &amp; Co","isPrivate":false}};</script></html>')
-        self.assertEqual(parse_page(page), {"titulo": 'Real life English "Airport check-in"',
-                                            "canal": "English & Co", "duracao_seg": 412})
+        self.assertEqual(parse_page(page), {"title": 'Real life English "Airport check-in"',
+                                            "channel": "English & Co", "duration_s": 412})
         self.assertEqual(parse_page("<html>consent page</html>"),
-                         {"titulo": None, "canal": None, "duracao_seg": None})
+                         {"title": None, "channel": None, "duration_s": None})
 
 
 if __name__ == "__main__":

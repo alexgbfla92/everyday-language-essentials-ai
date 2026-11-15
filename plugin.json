@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "talkgo",
-  "version": "0.20.0",
-  "description": "Central pessoal de idiomas (inglês, espanhol, francês) com diagnóstico, práticas por missão, frases numeradas, progresso e comandos de gestão; salva no Google Drive (Docs e Sheets nativos) ou numa pasta local.",
+  "version": "0.21.0",
+  "description": "Personal language Central (English, Spanish, French) with a guided Start, diagnostic, missions with a target date, practice sessions, numbered phrases, progress and management commands, all in the learner's native language; saves to Google Drive (native Docs and Sheets) or a local folder.",
   "author": {
     "name": "alexgbfla92",
     "url": "https://github.com/alexgbfla92"
@@ -21,8 +21,8 @@
     "com.openai": {
       "interface": {
         "displayName": "TalkGo",
-        "shortDescription": "Aprenda inglês, espanhol e francês por missões, com progresso salvo no seu Google Drive.",
-        "longDescription": "Diagnóstico adaptativo, práticas por missão com simulações reais, frases numeradas para consulta (\"repita a frase 132\"), pausa e retomada em texto ou voz, e progresso verificado por idioma, tudo numa pasta pessoal sua.",
+        "shortDescription": "Practice English, Spanish and French for real missions, in your own language, with progress saved in your Google Drive.",
+        "longDescription": "Guided first setup (Start), adaptive diagnostic, missions with a target date and real situations, practice sessions with simulations, numbered phrases for lookup (\"repeat phrase 132\"), pause and resume in text or voice, and verified progress per language, all in a personal folder of yours and in your native language.",
         "developerName": "alexgbfla92",
         "category": "Education",
         "capabilities": [
@@ -31,9 +31,9 @@
         ],
         "websiteURL": "https://github.com/alexgbfla92/everyday-language-essentials-ai",
         "defaultPrompt": [
+          "Start",
           "Help",
-          "New-Central googledrive Inglês",
-          "Quero fazer uma prática de inglês"
+          "Start-Practice"
         ]
       }
     }

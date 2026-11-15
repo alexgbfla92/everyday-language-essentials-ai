@@ -1,91 +1,91 @@
-# Entertainment Lab: preparo, apresentação e encerramento
+# Entertainment Lab: preparation, suggestion and closing
 
-Este é o procedimento único do Entertainment Lab. O SKILL.md resume as regras; em caso de dúvida, vale este documento.
+This is the single procedure of the Entertainment Lab. SKILL.md summarizes the rules; when in doubt, this document wins. Everything said to the learner is in the learner's native language; the video is in the target language.
 
-## Princípio
+## Principle
 
-O Lab faz parte da prática e não tem status próprio: a prática é que tem status (veja Status das práticas no SKILL.md). O material é preparado **antes da etapa 1** e só é considerado pronto depois que o registro salvo na sessão é relido e conferido. A prática termina no encerramento (etapa 6), como `Concluída`; logo depois, na mesma mensagem, o Lab é sempre sugerido com o material já salvo. Fazer ou não o Lab não muda a prática. Não existe preparo silencioso no fim: ou o material está pronto antes da etapa 1, ou o aluno foi avisado da falha e aceitou começar sem o vídeo.
+The Lab is part of the practice and has no status of its own: the practice has the status (see Practice status in SKILL.md). The material is prepared **before stage 1** and counts as ready only after the record saved in the session has been reread and checked. The practice ends at the closing (stage 6), as `completed`; right after, in the same message, the Lab is always suggested with the material already saved. Doing the Lab or not never changes the practice. There is no silent preparation at the end: either the material is ready before stage 1, or the learner was told about the failure and accepted starting without the video.
 
-## Registro na sessão
+## Record in the session
 
-A seção Entertainment Lab do arquivo da prática usa campos com nomes fixos (iguais nos três idiomas), um por linha, no formato `campo: valor`:
+The Entertainment Lab section of the practice file uses fields with fixed English names (the same in every native language), one per line, as `field: value`:
 
-| Campo | Conteúdo |
+| Field | Content |
 | --- | --- |
-| `lab_titulo`, `lab_canal` | título e canal como aparecem no YouTube |
-| `lab_url` | só `https://www.youtube.com/watch?v=<ID>` (um vídeo; nunca outro site, playlist ou canal) |
-| `lab_idioma_variante` | idioma e variante do vídeo (ex.: inglês americano) |
-| `lab_duracao_pratica_min` | duração combinada da prática, em minutos |
-| `lab_duracao_video_min` | duração do vídeo inteiro, em minutos, como informada pelo YouTube |
-| `lab_trecho` | `inteiro` ou `mm:ss-mm:ss` com início e fim confirmados |
-| `lab_motivo_fora_da_faixa` | obrigatório se o que será assistido ficar fora de 30–50% da prática |
-| `lab_transcricao` | `obtida`, `legendas_indicadas` ou `nao_confirmada` |
-| `lab_itens_da_pratica` | itens da prática que o vídeo e a tarefa reutilizam |
-| `lab_pergunta_1` a `lab_pergunta_3` | pelo menos uma pergunta, no máximo três |
-| `lab_tarefa` | uma tarefa curta |
-| `lab_fonte_verificacao` | `pagina_youtube`, `navegador` ou `busca`: de onde vieram título, canal e duração. Só com `busca`, `lab_canal` e `lab_duracao_video_min` podem ser `nao_confirmado(a)` |
-| `lab_evidencia_busca` | só com `busca`: o resultado usado (link do YouTube, título, canal e duração como aparecem) |
-| `lab_verificado_em` | data e hora da releitura do registro salvo |
-| `lab_pendencia_motivo`, `lab_pendencia_aceita_pelo_aluno` | só quando a verificação falhou: por que falhou e quando o aluno aceitou começar sem o vídeo |
-| `lab_sugerido_apos_encerramento` | `sim` quando o Lab foi sugerido logo depois do encerramento |
-| `lab_resultado` | respostas, tarefa e feedback, só se o aluno fizer o Lab |
-| `lab_gravacao_confirmada` | `sim` depois de gravar o resultado de um Lab feito e confirmar ao aluno |
+| `lab_title`, `lab_channel` | title and channel as they appear on YouTube |
+| `lab_url` | only `https://www.youtube.com/watch?v=<ID>` (one video; never another site, a playlist or a channel) |
+| `lab_language_variant` | language and variety of the video (e.g. American English) |
+| `lab_practice_minutes` | agreed practice length, in minutes |
+| `lab_video_minutes` | length of the whole video, in minutes, as shown by YouTube |
+| `lab_segment` | `whole` or `mm:ss-mm:ss` with confirmed start and end |
+| `lab_off_range_reason` | required if what will be watched is outside 30–50% of the practice |
+| `lab_transcript` | `obtained`, `captions_indicated` or `unconfirmed` |
+| `lab_practice_items` | items of the practice that the video and the task reuse |
+| `lab_question_1` to `lab_question_3` | at least one question, at most three |
+| `lab_task` | one short task |
+| `lab_verification_source` | `youtube_page`, `browser` or `search`: where title, channel and length came from. Only with `search` can `lab_channel` and `lab_video_minutes` be `unconfirmed` |
+| `lab_search_evidence` | only with `search`: the result used (YouTube link, title, channel and length as shown) |
+| `lab_verified_at` | date and time the saved record was reread |
+| `lab_missing_reason`, `lab_missing_accepted_by_learner` | only when the verification failed: why it failed and when the learner accepted starting without the video |
+| `lab_suggested_after_closing` | `yes` when the Lab was suggested right after the closing |
+| `lab_result` | answers, task and feedback, only if the learner does the Lab |
+| `lab_save_confirmed` | `yes` after saving the result of a Lab done and confirming it to the learner |
 
-Não há campo de status do Lab. Material preenchido e `lab_verificado_em` indicam que ele está pronto; `lab_resultado` indica que foi feito.
+There is no Lab status field. Filled material and `lab_verified_at` mean it is ready; `lab_result` means it was done.
 
-O encerramento da prática usa: `status: Concluída`, `encerramento_pratica_salva_relida` (`sim`), `encerramento_proximo_passo` (texto).
+The closing of the practice uses: `status: completed`, `closing_saved_reread` (`yes`), `closing_next_step` (text).
 
-## Preparar (antes da etapa 1)
+## Prepare (before stage 1)
 
-Faça isto ao criar a prática, sem perguntas ao aluno, e antes de mostrar a etapa 1:
+Do this when the practice is created, without questions to the learner, and before showing stage 1:
 
-1. Defina cenário e itens da prática. Pesquise no YouTube um vídeo no idioma e na variante da prática, adequado ao nível e ligado ao tema e aos itens.
-2. Confirme os dados do vídeo, tentando nesta ordem e parando na primeira que funcionar:
-   1. **Página do YouTube.** Com Python: `python scripts/youtube.py info <link> [<link>...]` lê título, canal e duração na página (passe os candidatos de uma vez, para um único pedido de permissão). Sem Python, abra o link do vídeo. Registre `lab_fonte_verificacao: pagina_youtube`.
-      - **Sem rede no ambiente de comandos** (resposta com `"sem_rede": true`): se a plataforma permite pedir aprovação para rodar um comando com acesso à internet (por exemplo, o Codex e o app de desktop do ChatGPT, cujo padrão é rede desligada), peça essa aprovação, explicando em uma frase que é para confirmar canal e duração do vídeo, e rode o mesmo comando de novo. Só passe para a busca se a aprovação não existir, for negada ou o acesso continuar bloqueado.
-   2. **Navegador** disponível na sessão (navegador do app de desktop, extensão do Chrome): `navegador`.
-   3. **Resultado da busca**, quando o YouTube está bloqueado no ambiente. Use um vídeo cujo link do youtube.com (com o ID) apareça num resultado de busca, direto ou numa página que mostre o ID, e cujo título esteja ligado ao tema. Registre `busca` e copie em `lab_evidencia_busca` o que o resultado mostra. O que o resultado não mostrar fica `nao_confirmado`: em geral o canal (`lab_canal: nao_confirmado`) e a duração (`lab_duracao_video_min: nao_confirmada`). Use o vídeo inteiro (`lab_trecho: inteiro`) e a transcrição `nao_confirmada`, salvo se o resultado mostrar que ela existe. Entre os candidatos, prefira títulos que indiquem conversa curta ligada ao tema da prática.
+1. Define the scenario and items of the practice. Search YouTube for a video in the language and variety of the practice, suited to the level and linked to the topic and items.
+2. Confirm the video data, trying in this order and stopping at the first that works:
+   1. **YouTube page.** With Python: `python scripts/youtube.py info <link> [<link>...]` reads title, channel and length from the page (pass the candidates at once, for a single permission request). Without Python, open the video link. Record `lab_verification_source: youtube_page`.
+      - **No network in the command environment** (answer with `"no_network": true`): if the platform lets you ask for approval to run a command with internet access (for example, the ChatGPT desktop app, whose default is network off), ask for it, explaining in one sentence that it is to confirm the channel and length of the video, and run the same command again. Move to search only if approval does not exist, is denied or access stays blocked.
+   2. **Browser** available in the session (desktop app browser, Chrome extension): `browser`.
+   3. **Search result**, when YouTube is blocked in the environment. Use a video whose youtube.com link (with the ID) appears in a search result, directly or on a page that shows the ID, and whose title is linked to the topic. Record `search` and copy into `lab_search_evidence` what the result shows. What the result does not show stays `unconfirmed`: usually the channel (`lab_channel: unconfirmed`) and the length (`lab_video_minutes: unconfirmed`). Use the whole video (`lab_segment: whole`) and transcript `unconfirmed`, unless the result shows that it exists. Among the candidates, prefer titles that suggest a short conversation linked to the topic of the practice.
 
-   Não invente duração, canal, transcrição, conteúdo ou timestamps. A verificação só falha se nem a busca trouxer um link do YouTube com título ligado ao tema.
+   Never invent length, channel, transcript, content or timestamps. The verification fails only if not even search brings a YouTube link with a title linked to the topic.
 
-3. Duração: quando a duração é confirmada, o que será assistido (vídeo inteiro ou trecho) deve ter de 30% a 50% da prática (6 a 10 minutos numa prática de 20). Com a duração `nao_confirmada`, a faixa não pode ser conferida: diga isso ao aluno na etapa 7. A ligação com o conteúdo vem primeiro; se nenhum vídeo ligado ao tema couber, escolha o mais próximo e preencha `lab_motivo_fora_da_faixa`. Use trecho só com início e fim confirmados.
-4. Prepare até 3 perguntas e 1 tarefa curta que reutilizem os itens da prática.
-5. Grave a seção e releia o registro salvo.
-6. Confira o registro relido. Com Python: `python scripts/lab.py pronto ARQUIVO` (ou `-` lendo o texto do Doc pela entrada padrão) deve responder `"pode_iniciar": true`. Sem Python, confira os mesmos itens: todos os campos acima preenchidos; link no formato do YouTube; duração dentro da faixa ou motivo preenchido; trecho válido e dentro do vídeo; transcrição com um dos três valores; 1 a 3 perguntas; tarefa.
-7. Grave `lab_verificado_em` e marque a etapa 0 da tabela Roteiro. Só então mostre o roteiro, já com o título do vídeo, e comece a etapa 1.
+3. Length: when the length is confirmed, what will be watched (whole video or segment) must be 30% to 50% of the practice (6 to 10 minutes in a 20-minute practice). With length `unconfirmed`, the range cannot be checked: tell the learner at stage 7. The link with the content comes first; if no video linked to the topic fits, choose the closest and fill `lab_off_range_reason`. Use a segment only with confirmed start and end.
+4. Prepare up to 3 questions and 1 short task that reuse the items of the practice.
+5. Write the section and reread the saved record.
+6. Check the reread record. With Python: `python scripts/lab.py ready FILE` (or `-` reading the text of the Doc from standard input) must answer `"can_start": true`. Without Python, check the same items: all fields above filled; link in YouTube format; length within range or reason filled; valid segment inside the video; transcript with one of the three values; 1 to 3 questions; task.
+7. Write `lab_verified_at` and mark stage 0 of the roadmap table. Only then show the roadmap, with the title of the video, and start stage 1.
 
-### Se a verificação falhar
+### If the verification fails
 
-Falha é qualquer caso em que o passo 6 não passa: sem ferramenta de busca, nenhum vídeo confirmado por página, navegador ou resultado de busca, link fora do YouTube, duração ou trecho não confirmados, ou registro que não pôde ser gravado e relido.
+Failure is any case in which step 6 does not pass: no search tool, no video confirmed by page, browser or search result, a link outside YouTube, unconfirmed length or segment, or a record that could not be written and reread.
 
-1. **Antes de iniciar a prática**, diga ao aluno em uma ou duas frases o que falhou e pergunte: "Quer começar a prática sem o vídeo do Entertainment Lab? Eu o preparo depois." Não comece a etapa 1 antes da resposta.
-2. Se aceitar: grave `lab_pendencia_motivo` e `lab_pendencia_aceita_pelo_aluno` (com data), releia e siga. Se não aceitar: ofereça tentar de novo ou preparar em texto (`Start-Practice <idioma>`), sem iniciar a prática.
-3. Nunca grave `lab_verificado_em` sem o passo 6 e nunca preencha `lab_pendencia_aceita_pelo_aluno` sem a resposta do aluno.
+1. **Before starting the practice**, tell the learner in one or two sentences what failed and ask whether they want to start the practice without the Entertainment Lab video, to be prepared later. Do not start stage 1 before the answer.
+2. If they accept: write `lab_missing_reason` and `lab_missing_accepted_by_learner` (with the date), reread and go on. If not: offer to try again or to prepare it in text (`Start-Practice <language>`), without starting the practice.
+3. Never write `lab_verified_at` without step 6 and never fill `lab_missing_accepted_by_learner` without the learner's answer.
 
-## Etapa 7 (sugerir depois do encerramento)
+## Stage 7 (suggest after the closing)
 
-1. Na mesma mensagem que confirma a prática concluída, leia a seção salva e apresente: título e canal, link, trecho e duração, a tarefa e as perguntas. Se canal ou duração estiverem `nao_confirmado(a)`, diga isso em poucas palavras ("duração não confirmada: o YouTube estava inacessível na preparação"). Não faça nova pesquisa e não pergunte tema nem duração.
-2. Faça uma única pergunta: "Quer fazer o Lab agora?".
-3. Se a prática começou sem o vídeo (pendência aceita), diga isso e pergunte se o aluno quer que você prepare agora, em texto. Só aqui uma pesquisa no fim é permitida, e só se o aluno pedir.
-4. Se o aluno fizer o Lab, grave `lab_resultado` (Finish-Lab), releia e confirme. Se não fizer, não grave nada: a prática continua `Concluída` e o comando `Start-Lab` abre o material depois.
+1. In the same message that confirms the completed practice, read the saved section and show: title and channel, link, segment and length, the task and the questions. If channel or length are `unconfirmed`, say so in a few words (for example, that the length is unconfirmed because YouTube was unreachable during preparation). Do no new search and do not ask about topic or length.
+2. Ask a single question: whether the learner wants to do the Lab now.
+3. If the practice started without the video (accepted absence), say so and ask whether the learner wants you to prepare it now, in text. Only here is a search at the end allowed, and only if the learner asks.
+4. If the learner does the Lab, write `lab_result` (Finish-Lab), reread and confirm. If not, write nothing: the practice stays `completed` and `Start-Lab` opens the material later.
 
-## Encerramento (conferência obrigatória)
+## Closing (mandatory check)
 
-Antes de confirmar o encerramento de qualquer prática regular, inclusive quando o aluno pede para encerrar no meio, confira os quatro itens e corrija o que faltar:
+Before confirming the closing of any regular practice, including when the learner asks to stop in the middle, check the four items and fix what is missing:
 
-1. **Status**: `status: Concluída`.
-2. **Prática salva e relida**: `encerramento_pratica_salva_relida: sim`, depois do Finish-Practice.
-3. **Próximo passo informado**: `encerramento_proximo_passo` preenchido e dito ao aluno.
-4. **Lab sugerido**: `lab_sugerido_apos_encerramento: sim`, gravado na mesma escrita do Finish-Practice, com a sugestão feita na mesma mensagem.
+1. **Status**: `status: completed`.
+2. **Practice saved and reread**: `closing_saved_reread: yes`, after Finish-Practice.
+3. **Next step given**: `closing_next_step` filled and told to the learner.
+4. **Lab suggested**: `lab_suggested_after_closing: yes`, written in the same write as Finish-Practice, with the suggestion made in the same message.
 
-Com Python: `python scripts/lab.py encerramento ARQUIVO` deve responder `"pode_encerrar": true`. O aluno nunca é obrigado a fazer o Lab, e a resposta dele não muda o status da prática. Depois de "quer encerrar?" do aluno, nunca pule a conferência.
+With Python: `python scripts/lab.py closing FILE` must answer `"can_close": true`. The learner is never required to do the Lab, and the answer never changes the practice status. After a "do you want to stop?" from the learner, never skip the check.
 
-## Voz e retomada
+## Voice and resume
 
-- **Início em voz.** Se a sessão consegue pesquisar, gravar e reler em voz, siga o preparo normalmente. Se não consegue, diga que não é possível preparar nem salvar o Lab no modo voz, não afirme que algo está pronto ou salvo, e encaminhe para o texto: "Saia do modo voz e envie `Start-Practice <idioma>` nesta conversa; depois volte ao modo voz." A prática só começa em voz sem o material pronto se o aluno aceitar começar sem o vídeo, e essa aceitação precisa ser gravada (em texto, pelo Save-Practice, se a voz não grava).
-- **Retomada.** Ao retomar uma prática, leia a seção do Lab antes de continuar a etapa salva. Se o material não estiver pronto nem houver pendência aceita, faça o preparo agora (ou o caminho de falha) antes de seguir. Se a prática for retomada na etapa 6, faça o encerramento e a conferência.
-- **Voz sem acesso ao registro.** Não diga que o material está pronto nem que algo foi salvo. Diga a limitação e dê o comando de texto: `Start-Practice <idioma>` para preparar, ou `Save-Practice pausar|concluir|lab <sessão> <F inicial>-<F final>` para gravar.
+- **Starting in voice.** If the session can search, write and reread in voice, prepare as usual. If it cannot, say that the Lab cannot be prepared or saved in voice mode, never claim anything is ready or saved, and route to text: leave voice mode and send `Start-Practice <language>` in this conversation, then go back to voice. The practice starts in voice without the material only if the learner accepts starting without the video, and that acceptance must be recorded (in text, with Save-Practice, if voice cannot write).
+- **Resume.** When resuming a practice, read the Lab section before continuing the saved stage. If the material is not ready and no absence was accepted, prepare it now (or follow the failure path) before going on. If the practice is resumed at stage 6, do the closing and the check.
+- **Voice without access to the record.** Never say the material is ready or that anything was saved. State the limitation and give the text command: `Start-Practice <language>` to prepare, or `Save-Practice pause|finish|lab <session> <first F>-<last F>` to save.
 
-## Confirmação de gravação
+## Save confirmation
 
-Só o resultado de um Lab feito é gravado depois do encerramento. Ele segue a Garantia de gravação do SKILL.md: gravar, reler e dizer "Salvo na sua Central: <sessão> — resultado do Lab"; sem gravação possível, dizer que não salvou e dar o `Save-Practice lab`.
+Only the result of a Lab done is saved after the closing. It follows the save guarantee of SKILL.md: write, reread and confirm it was saved in the Central (session and "Lab result"); with no write possible, say it was not saved and give `Save-Practice lab`.

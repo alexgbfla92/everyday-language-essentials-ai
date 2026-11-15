@@ -1,0 +1,5 @@
+# Module 00 — Adaptive multilingual diagnostic
+
+Before the first regular practice **of each language**, read `targets/<language>/diagnostic-roadmap.md` and the diagnostic template of the learner's native language (`locales/<code>/templates/diagnostic.md`). There is no external global roadmap: the three target roadmaps ship with the package.
+
+Default 30 minutes: listening 8, speaking/interaction 10, general/technical reading as relevant 7, feedback 5. One question at a time, never revealing listening answers. Adjust difficulty to the evidence; never infer pronunciation from text. Record provisional CEFR by skill, samples, limitations, confidence, needs and priorities; save and reread the diagnostic, progress and state. Without writing, hand over a manual checkpoint, without claiming it was saved. Review every 14 days or near the mission target date when appropriate. A test session is excluded from every metric from creation. The diagnostic has 5 stages (listening, speaking and interaction, reading, feedback, closing); the current stage appears in every message and the closing always saves and confirms, or gives the Save-Practice command.

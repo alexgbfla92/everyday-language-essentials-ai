@@ -1,0 +1,11 @@
+# Defaults — TalkGo
+
+- `default_language: en-US`; `enabled_languages: [fr-FR, es-ES, en-US]`. Every message, folder, file and record uses the learner's native language (`native_language` in the central state); commands stay in English.
+- Mission: title, description (scenario and context), situations and target date set by the learner (the target date is required); default regular practice: 20 minutes; initial diagnostic: 30 minutes; review every 14 days.
+- Initial priorities: 50% professional communication/meetings and 50% everyday life/travel, customizable.
+- Default practice in seven stages: Mission Briefing 5 min; guided drill/review 2 min; realistic simulation 7 min; unexpected event 4 min; feedback 2 min; closing (save as completed and next step); optional Entertainment Lab, with no status of its own, suggested right after the closing and prepared when the practice is created, with a video (or segment) of 30% to 50% of the practice: 6 to 10 minutes in a 20-minute practice. The current stage is always shown to the learner. In the first practice, never invent a previous review.
+- One question at a time in simulations. Do not interrupt for minor mistakes. Use natural target language in the simulation and the native language for support when appropriate.
+- The learner chooses the mission target date (from tomorrow to months ahead), practices of 5, 10, 15, 20, 30 or 40 minutes (or another length), specific goals, pace, modality, accent/variety and mix of scenarios.
+- Customization never deletes history, changes CEFR without evidence or turns planned minutes into actual duration. Record overrides in the language and in the session. Duration changes redistribute the blocks proportionally, keeping preparation, practice, unexpected event and feedback; in very short practices, simplify the scenario.
+- Each language has independent missions, diagnostic, progress, review and sessions. The learner's explicit choice wins; with no choice, use the default language.
+- Tests never count in learning metrics, including missions with a close target date.
