@@ -1,0 +1,3 @@
+# Notes — Italian (Italy) (it-IT)
+
+Explanations in the learner's native language. Keep diagnostics, practices, preferences and progress independent from the other languages. Use natural standard Italian. Distinguish «tu» and «Lei» by context. Focus on double consonants, open and closed vowels, stress, articles and prepositions with articles, «essere/avere» as auxiliaries, passato prossimo and imperfetto by situation, and common false friends with the learner's native language. Use present, past and future when relevant to the actual scenario, not as mandatory grammar coverage; one question at a time.

@@ -194,7 +194,7 @@ Sende `Start`. Ein kurzer Assistent führt dich, eine Frage nach der anderen:
 
 1. **Deine Muttersprache.** TalkGo verwendet sie für alle Nachrichten, für die Beschreibungen in `Help` und für Ordner, Dateien und Inhalte deiner Central. Wenn deine erste Nachricht nicht zeigt, welche Sprache du sprichst, kommt die Frage auf Englisch, Spanisch, Portugiesisch und Französisch.
 2. **Deine Central:** ein eigener Ordner (empfohlen: Google Drive), der Einstufungen, Missionen, Übungen und Fortschritt speichert, damit jeder Chat auf jedem Gerät dort weitermacht, wo du aufgehört hast.
-3. **Die Sprachen, die du üben willst:** amerikanisches Englisch, Spanisch (Spanien) und Französisch (Frankreich).
+3. **Die Sprachen, die du üben willst:** wähle eine oder mehrere aus amerikanischem Englisch, Spanisch, Französisch, brasilianischem Portugiesisch, Mandarin-Chinesisch, Italienisch, Japanisch, Deutsch, Koreanisch, Hindi und Arabisch.
 4. **Eine kurze Einstufung** deines Niveaus.
 5. **Deine erste Mission**, mit Zieldatum und Situationen.
 6. **Deine erste Übung**, schon vorbereitet.

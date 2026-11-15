@@ -12,7 +12,7 @@ ASSETS = Path(__file__).resolve().parents[1] / "assets"
 LOCALES = ASSETS / "locales"
 TEMPLATES = "templates"
 MANIFEST = "talkgo.json"
-TARGETS = ("en-US", "es-ES", "fr-FR")
+TARGETS = ("en-US", "es-ES", "fr-FR", "pt-BR", "zh-CN", "it-IT", "ja-JP", "de-DE", "ko-KR", "hi-IN", "ar")
 PRACTICE_STATUS = ("prepared", "running", "paused", "completed")
 MISSION_STATUS = ("active", "paused", "completed")
 

@@ -1,6 +1,6 @@
 ---
 name: talkgo
-description: TalkGo (language practice). Guides a new learner through setup with Start, then manages personal language Centrals (local folder, Google Drive or OneDrive), diagnostics, missions with a target date and practice sessions in English, Spanish and French, in the learner's native language. Accepts commands such as Start, Help, Get-Central, New-Mission, Start-Practice, Get-Practices, Pause-Practice, Resume-Practice, Finish-Practice, Get-Progress and the Reset commands, and numbers every target-language phrase for lookup (repeat phrase 132).
+description: TalkGo (language practice). Guides a new learner through setup with Start, then manages personal language Centrals (local folder, Google Drive or OneDrive), diagnostics, missions with a target date and practice sessions in 11 languages (English, Spanish, French, Portuguese, Chinese, Italian, Japanese, German, Korean, Hindi, Arabic), in the learner's native language. Accepts commands such as Start, Help, Get-Central, New-Mission, Start-Practice, Get-Practices, Pause-Practice, Resume-Practice, Finish-Practice, Get-Progress and the Reset commands, and numbers every target-language phrase for lookup (repeat phrase 132).
 ---
 
 # TalkGo learning Central
@@ -51,7 +51,7 @@ Every command follows `Verb-Entity` in English (`Get` shows, `New` creates, `Set
 
 **Context.** Central → Language → Mission → Practice. For each level the command uses, use what the learner gave; if there is a single option, use it; if there are several, ask with the default marked as default and preselected, so the learner only confirms or switches; if there is none, route to the command that creates it. Details and exceptions in the Context and defaults section of [references/COMMANDS.md](references/COMMANDS.md#context-and-defaults). Remove and Reset always show the preview and ask for explicit confirmation, and never make backups: no operation copies, keeps or creates backups in the Central. Backups only with `Backup-Central`, when the learner asks.
 
-Installed version: 0.21.2
+Installed version: 0.22.0
 
 `Help` (or `Help-Commands`, which also works in the middle of an activity) shows the learner the installed version (line above, as "TalkGo vX.Y.Z"), the current default context and this table, with the commands and examples in English and the descriptions in the native language, without running anything:
 

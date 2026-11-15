@@ -5,7 +5,7 @@ mission_title:  # worauf sich die lernende Person vorbereiten will
 mission_description:  # Szenario und Kontext, in den Worten der lernenden Person
 mission_target_date:  # TT/MM/JJJJ, Pflicht: bis wann die lernende Person bereit sein will
 mission_status: active  # active | paused | completed
-mission_language:  # en-US | es-ES | fr-FR
+mission_language:  # en-US | es-ES | fr-FR | pt-BR | zh-CN | it-IT | ja-JP | de-DE | ko-KR | hi-IN | ar
 mission_diagnostic:  # reguläre Diagnosesitzung, auf der die Mission beruht
 mission_practice_minutes: 20
 mission_frequency:  # z. B. 3 Übungen pro Woche

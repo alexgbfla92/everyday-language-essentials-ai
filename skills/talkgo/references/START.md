@@ -49,7 +49,7 @@ A new chat knows nothing about the previous one; it only finds the Central throu
 
 ## 3. Target languages
 
-1. Ask which languages the learner wants to practice as a multiple choice: American English · Spanish (Spain) · French (France), labels in the native language. The set is closed (these are the supported languages): if the learner asks for another one, say it is not supported yet.
+1. Ask which languages the learner wants to practice as a multiple choice with every supported language, in the order of the [language catalog](../assets/reference/languages.md): American English · Spanish (Spain) · French (France) · Brazilian Portuguese · Mandarin Chinese · Italian · Japanese · German · Korean · Hindi · Arabic, labels in the native language, without the learner's own native language. The learner can select one or more. The set is closed: if the learner asks for another language, say it is not supported yet. If the option card of the platform cannot show all the languages in one question, use the numbered list instead ("Reply with one or more numbers, e.g. 1, 4"); never drop languages or split them into several questions.
 2. Add them (`New-Central` already created the first ones; others with `Add-Language`). With one language, it is the default. With several, ask which one is the default as a single choice among them, the first chosen preselected; say that `Set-Default language` changes it later.
 3. Save `setup_step: diagnostic`.
 

@@ -58,7 +58,10 @@ class CentralTests(unittest.TestCase):
 
     def test_language_aliases(self):
         for text, tag in [("Inglês", "en-US"), ("english", "en-US"), ("en", "en-US"), ("Español", "es-ES"),
-                          ("espanhol", "es-ES"), ("Français", "fr-FR"), ("fr-FR", "fr-FR"), ("Englisch", "en-US")]:
+                          ("espanhol", "es-ES"), ("Français", "fr-FR"), ("fr-FR", "fr-FR"), ("Englisch", "en-US"),
+                          ("Português brasileiro", "pt-BR"), ("Chinês", "zh-CN"), ("Mandarin", "zh-CN"), ("italiano", "it-IT"),
+                          ("Japonês", "ja-JP"), ("Alemão", "de-DE"), ("Deutsch", "de-DE"), ("coreano", "ko-KR"), ("Híndi", "hi-IN"),
+                          ("Árabe", "ar"), ("arabic", "ar")]:
             self.assertEqual(parse_language(text), tag)
 
     def test_create_registers_default_native_language_and_fills_state(self):

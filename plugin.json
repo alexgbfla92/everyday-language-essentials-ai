@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "talkgo",
-  "version": "0.21.2",
-  "description": "Personal language Central (English, Spanish, French) with a guided Start, diagnostic, missions with a target date, practice sessions, numbered phrases, progress and management commands, all in the learner's native language; saves to Google Drive (native Docs and Sheets) or a local folder.",
+  "version": "0.22.0",
+  "description": "Personal language Central (English, Spanish, French, Portuguese, Chinese, Italian, Japanese, German, Korean, Hindi, Arabic) with a guided Start, diagnostic, missions with a target date, practice sessions, numbered phrases, progress and management commands, all in the learner's native language; saves to Google Drive (native Docs and Sheets) or a local folder.",
   "author": {
     "name": "alexgbfla92",
     "url": "https://github.com/alexgbfla92"
@@ -15,13 +15,21 @@
     "english",
     "spanish",
     "french",
+    "portuguese",
+    "chinese",
+    "italian",
+    "japanese",
+    "german",
+    "korean",
+    "hindi",
+    "arabic",
     "google-drive"
   ],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "TalkGo",
-        "shortDescription": "Practice English, Spanish and French for real missions, in your own language, with progress saved in your Google Drive.",
+        "shortDescription": "Practice 11 languages, from English and Spanish to Japanese and Arabic, for real missions, in your own language, with progress saved in your Google Drive.",
         "longDescription": "Guided first setup (Start), adaptive diagnostic, missions with a target date and real situations, practice sessions with simulations, numbered phrases for lookup (\"repeat phrase 132\"), pause and resume in text or voice, and verified progress per language, all in a personal folder of yours and in your native language.",
         "developerName": "alexgbfla92",
         "category": "Education",

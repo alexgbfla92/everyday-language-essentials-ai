@@ -194,7 +194,7 @@ Envía `Start`. Un asistente breve te guía, una pregunta cada vez:
 
 1. **Tu idioma nativo.** TalkGo lo usa en todos los mensajes, en las descripciones de `Help` y en las carpetas, archivos y contenidos de tu Central. Si tu primer mensaje no muestra qué idioma hablas, la pregunta llega en inglés, español, portugués y francés.
 2. **Tu Central:** una carpeta tuya (recomendado: Google Drive) que guarda diagnósticos, misiones, prácticas y progreso, para que cualquier chat, en cualquier dispositivo, retome donde lo dejaste.
-3. **Los idiomas que quieres practicar:** inglés americano, español (España) y francés (Francia).
+3. **Los idiomas que quieres practicar:** elige uno o más entre inglés americano, español, francés, portugués de Brasil, chino mandarín, italiano, japonés, alemán, coreano, hindi y árabe.
 4. **Un diagnóstico breve** de tu nivel.
 5. **Tu primera misión**, con fecha objetivo y situaciones.
 6. **Tu primera práctica**, ya preparada.
