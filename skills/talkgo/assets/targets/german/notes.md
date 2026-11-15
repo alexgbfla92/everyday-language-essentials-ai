@@ -1,0 +1,3 @@
+# Notes — German (Germany) (de-DE)
+
+Explanations in the learner's native language. Keep diagnostics, practices, preferences and progress independent from the other languages. Use natural standard German (Germany). Distinguish «du» and «Sie» by context. Focus on verb-second word order and verb-final subordinate clauses, separable verbs, articles and the four cases only as the scenario needs them, Perfekt for spoken past, modal verbs for polite requests (Könnten Sie…?), umlauts, final devoicing and word stress. Use present, past and future when relevant to the actual scenario, not as mandatory grammar coverage; one question at a time.

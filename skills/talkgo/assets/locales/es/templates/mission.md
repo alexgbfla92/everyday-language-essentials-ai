@@ -5,7 +5,7 @@ mission_title:  # para qué quiere prepararse el alumno
 mission_description:  # escenario y contexto, con las palabras del alumno
 mission_target_date:  # DD/MM/AAAA, obligatoria: cuándo quiere estar preparado el alumno
 mission_status: active  # active | paused | completed
-mission_language:  # en-US | es-ES | fr-FR
+mission_language:  # en-US | es-ES | fr-FR | pt-BR | zh-CN | it-IT | ja-JP | de-DE | ko-KR | hi-IN | ar
 mission_diagnostic:  # sesión de diagnóstico regular en la que se basa la misión
 mission_practice_minutes: 20
 mission_frequency:  # p. ej.: 3 prácticas por semana

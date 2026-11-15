@@ -95,6 +95,26 @@ class PackagingTests(unittest.TestCase):
             self.assertEqual(shape, keys, code)
             self.assertEqual(len(set(data["paths"].values())), len(data["paths"]), code)
 
+    def test_every_target_language_is_complete(self):
+        sys.path.insert(0, str(SKILL_DIR / "scripts"))
+        from layout import TARGETS
+        from central import NAMES, parse_language
+        catalog = (SKILL_DIR / "assets" / "reference" / "languages.md").read_text(encoding="utf-8")
+        rows = dict(re.findall(r"^\| ([a-z]{2}(?:-[A-Z]{2})?) \|.*\[targets/([a-z]+)\]", catalog, re.M))
+        self.assertEqual(list(rows), list(TARGETS))
+        for tag in TARGETS:
+            folder = SKILL_DIR / "assets" / "targets" / rows[tag]
+            for name in ("notes.md", "essentials.md", "diagnostic-roadmap.md"):
+                self.assertTrue((folder / name).is_file(), f"{tag}: {name}")
+            self.assertIn(f"({tag})", (folder / "notes.md").read_text(encoding="utf-8"))
+            self.assertEqual(parse_language(NAMES[tag]), tag)
+            self.assertEqual(parse_language(tag), tag)
+        for code in ("en", "pt-BR", "es", "fr", "de"):
+            data = json.loads((SKILL_DIR / "assets" / "locales" / code / "locale.json").read_text(encoding="utf-8"))
+            self.assertEqual(list(data["targets"]), list(TARGETS), code)
+            folders = [data["targets"][t]["folder"] for t in TARGETS]
+            self.assertEqual(len(set(folders)), len(folders), code)
+
     def test_translated_readmes_keep_the_same_sections(self):
         def sections(path):
             return len(re.findall(r"^## ", path.read_text(encoding="utf-8"), re.M))

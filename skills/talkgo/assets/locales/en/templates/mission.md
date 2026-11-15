@@ -5,7 +5,7 @@ mission_title:  # what the learner wants to get ready for
 mission_description:  # scenario and context, in the learner's words
 mission_target_date:  # DD/MM/YYYY, required: when the learner wants to be ready
 mission_status: active  # active | paused | completed
-mission_language:  # en-US | es-ES | fr-FR
+mission_language:  # en-US | es-ES | fr-FR | pt-BR | zh-CN | it-IT | ja-JP | de-DE | ko-KR | hi-IN | ar
 mission_diagnostic:  # regular diagnostic session the mission is based on
 mission_practice_minutes: 20
 mission_frequency:  # e.g. 3 practices per week

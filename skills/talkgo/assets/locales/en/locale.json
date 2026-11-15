@@ -34,6 +34,38 @@
   "fr-FR": {
    "folder": "French",
    "name": "French (France)"
+  },
+  "pt-BR": {
+   "folder": "Portuguese",
+   "name": "Brazilian Portuguese"
+  },
+  "zh-CN": {
+   "folder": "Chinese",
+   "name": "Mandarin Chinese (Simplified)"
+  },
+  "it-IT": {
+   "folder": "Italian",
+   "name": "Italian (Italy)"
+  },
+  "ja-JP": {
+   "folder": "Japanese",
+   "name": "Japanese"
+  },
+  "de-DE": {
+   "folder": "German",
+   "name": "German (Germany)"
+  },
+  "ko-KR": {
+   "folder": "Korean",
+   "name": "Korean (South Korea)"
+  },
+  "hi-IN": {
+   "folder": "Hindi",
+   "name": "Hindi (India)"
+  },
+  "ar": {
+   "folder": "Arabic",
+   "name": "Arabic (Modern Standard)"
   }
  },
  "tabs": {

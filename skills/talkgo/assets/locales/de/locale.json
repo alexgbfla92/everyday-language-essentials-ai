@@ -34,6 +34,38 @@
   "fr-FR": {
    "folder": "Französisch",
    "name": "Französisch (Frankreich)"
+  },
+  "pt-BR": {
+   "folder": "Portugiesisch",
+   "name": "Brasilianisches Portugiesisch"
+  },
+  "zh-CN": {
+   "folder": "Chinesisch",
+   "name": "Mandarin-Chinesisch (vereinfacht)"
+  },
+  "it-IT": {
+   "folder": "Italienisch",
+   "name": "Italienisch (Italien)"
+  },
+  "ja-JP": {
+   "folder": "Japanisch",
+   "name": "Japanisch"
+  },
+  "de-DE": {
+   "folder": "Deutsch",
+   "name": "Deutsch (Deutschland)"
+  },
+  "ko-KR": {
+   "folder": "Koreanisch",
+   "name": "Koreanisch (Südkorea)"
+  },
+  "hi-IN": {
+   "folder": "Hindi",
+   "name": "Hindi (Indien)"
+  },
+  "ar": {
+   "folder": "Arabisch",
+   "name": "Arabisch (Hocharabisch)"
   }
  },
  "tabs": {

@@ -194,7 +194,7 @@ Send `Start`. A short wizard guides you, one question at a time:
 
 1. **Your native language.** TalkGo uses it for every message, for the descriptions in `Help` and for the folders, files and contents of your Central. If your first message doesn't show which language you speak, the question comes in English, Spanish, Portuguese and French.
 2. **Your Central:** a folder of your own (Google Drive recommended) that keeps diagnostics, missions, practices and progress, so any chat on any device can resume.
-3. **The languages you want to practice:** American English, Spanish (Spain) and French (France).
+3. **The languages you want to practice:** choose one or more from American English, Spanish, French, Brazilian Portuguese, Mandarin Chinese, Italian, Japanese, German, Korean, Hindi and Arabic.
 4. **A short diagnostic** of your level.
 5. **Your first mission**, with a target date and situations.
 6. **Your first practice**, already prepared.

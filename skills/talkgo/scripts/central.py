@@ -36,11 +36,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from layout import ASSETS, MANIFEST, TARGETS, Layout  # noqa: E402
 from provision import apply_local  # noqa: E402
 
-NAMES = {"en-US": "English", "es-ES": "Spanish", "fr-FR": "French"}
+NAMES = {"en-US": "English", "es-ES": "Spanish", "fr-FR": "French", "pt-BR": "Portuguese", "zh-CN": "Chinese",
+         "it-IT": "Italian", "ja-JP": "Japanese", "de-DE": "German", "ko-KR": "Korean", "hi-IN": "Hindi",
+         "ar": "Arabic"}
 ALIASES = {
     "en-US": {"en", "enus", "english", "ingles", "inglesamericano", "americanenglish", "anglais", "englisch"},
     "es-ES": {"es", "eses", "spanish", "espanhol", "espanol", "espagnol", "spanisch"},
     "fr-FR": {"fr", "frfr", "french", "frances", "francais", "franzosisch"},
+    "pt-BR": {"pt", "ptbr", "portuguese", "brazilianportuguese", "portugues", "portuguesbrasileiro",
+              "portuguesdobrasil", "portuguesdebrasil", "portugais", "portugaisdubresil", "portugiesisch",
+              "brasilianischesportugiesisch"},
+    "zh-CN": {"zh", "zhcn", "chinese", "mandarin", "mandarinchinese", "chines", "chinesmandarim", "chino",
+              "chinomandarin", "chinois", "chinesisch", "zhongwen", "putonghua"},
+    "it-IT": {"it", "itit", "italian", "italiano", "italien", "italienisch"},
+    "ja-JP": {"ja", "jajp", "jp", "japanese", "japones", "japonais", "japanisch", "nihongo"},
+    "de-DE": {"de", "dede", "german", "alemao", "aleman", "allemand", "deutsch"},
+    "ko-KR": {"ko", "kokr", "korean", "coreano", "coreen", "koreanisch", "hangugeo"},
+    "hi-IN": {"hi", "hiin", "hindi", "hindustani"},
+    "ar": {"ar", "arabic", "arabe", "arabisch", "arabicmsa", "modernstandardarabic"},
 }
 ALL = {"all", "todos", "todas", "tous", "alle"}
 PROVIDERS = ("local", "google-drive", "onedrive")

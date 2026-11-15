@@ -11,8 +11,8 @@ Whenever a question has a set of likely answers, the learner picks from options 
 ## Rules for the options
 
 - **Single or multiple.** Single selection when only one answer makes sense (native language, storage, yes/no, one Central, one mission). Multiple selection when several can apply (target languages, situations of a mission, skills to focus on, days of the week).
-- **Two to four options**, the most common or recommended ones, short labels in the learner's native language (the native-language question in step 1 of `Start` shows each language in its own language). Put the recommended or default option first, marked "(recommended)" or "(default)" in the native language.
-- **Always "Other".** Add a last option "Other" (in the native language) that lets the learner type freely, except when the answer set is truly closed and complete (for example, the three supported target languages, or a confirmation of a destructive command, where the learner types the name as the command requires). If the tool already adds a free-text field, do not add a second "Other".
+- **Two to four options**, the most common or recommended ones (except the target languages, where every supported language is shown: when the option card cannot show them all, use the numbered list), short labels in the learner's native language (the native-language question in step 1 of `Start` shows each language in its own language). Put the recommended or default option first, marked "(recommended)" or "(default)" in the native language.
+- **Always "Other".** Add a last option "Other" (in the native language) that lets the learner type freely, except when the answer set is truly closed and complete (for example, the supported target languages, or a confirmation of a destructive command, where the learner types the name as the command requires). If the tool already adds a free-text field, do not add a second "Other".
 - **One question at a time.** Show one question per message, as the wizard requires; never pack unrelated questions in one card.
 - **A short description per option** only when the label alone is ambiguous (one line, for example what "Folder on the computer" means).
 - **Confirmations are options too**: "Yes" / "No" (or "Start now" / "Later"), never "type yes to confirm". Destructive confirmations are the exception: `Remove-*` and `Reset-*` still require the learner to type the name or ID, as their procedures say.
@@ -25,7 +25,7 @@ Whenever a question has a set of likely answers, the learner picks from options 
 | Existing Central or new | single | Create a new Central · I already have one · Other |
 | Where to keep the Central | single | Google Drive (recommended) · Folder on the computer · Manual mode |
 | Central folder | single | Create a `TalkGo` folder in my Drive (recommended) · Use a folder I choose · Other |
-| Target languages | multiple | American English · Spanish (Spain) · French (France) |
+| Target languages | multiple | all supported languages, in catalog order, without the native language: American English · Spanish (Spain) · French (France) · Brazilian Portuguese · Mandarin Chinese · Italian · Japanese · German · Korean · Hindi · Arabic (closed set) |
 | Default language when several | single | the chosen languages |
 | Diagnostic now or in another chat | single | In a chat of its own (recommended) · Now, in this chat |
 | Diagnostic length | single | 30 minutes (recommended) · 15 minutes · 45 minutes · Other |
