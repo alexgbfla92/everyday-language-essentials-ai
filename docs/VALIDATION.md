@@ -10,10 +10,11 @@ The names below are the English ones (native language `en`). With another native
 2. Start again by writing a sentence in Portuguese ("Quero começar a praticar inglês"): the question comes in Portuguese, with Portuguese (Brazil) offered to confirm.
 3. With native `pt-BR`, follow the wizard: Central created with `talkgo.json` at the root, folder, file and tab names as in `assets/locales/pt-BR/locale.json` (for example `Idiomas/Inglês/Missões`). Every message is in Portuguese; command names stay in English.
 4. `Help` in that Central: descriptions and examples in Portuguese, commands in English, installed version shown.
-5. Close the chat after step 3 of the wizard and send `Start` in another chat: it resumes from the saved `setup_step` instead of starting over.
-6. At the end, the wizard suggests a project named after the mission (for example `English-Travel`), a `Progress` chat, one `Practice-0001-<situation>` chat with `Resume-Practice <ID>` and how to rename chats in Claude and ChatGPT. Stage 1 of the practice did not start in the wizard.
-7. Every question of the wizard with likely answers (native language, storage, folder, languages, default language, diagnostic now or later, length) comes as options to pick, single or multiple, with "Other" for free text: as an option card where the platform shows one, as a numbered list otherwise (a number answers it).
-8. With a native language without a locale (for example `ja`): the wizard says once that folder and file names will be in English and keeps every message in Japanese.
+5. Right after choosing the languages, the diagnostic of the default language starts in the same chat, with no question about chat, length or whether to start.
+6. Close the chat after step 3 of the wizard and send `Start` in another chat: it resumes from the saved `setup_step` instead of starting over.
+7. At the end, the wizard suggests a project named after the mission (for example `English-Travel`), a `Progress` chat, one `Practice-0001-<situation>` chat with `Resume-Practice <ID>` and how to rename chats in Claude and ChatGPT. Stage 1 of the practice did not start in the wizard.
+8. Every question of the wizard with likely answers (native language, storage, folder, languages, default language) comes as options to pick, single or multiple, with "Other" for free text: as an option card where the platform shows one, as a numbered list otherwise (a number answers it).
+9. With a native language without a locale (for example `ja`): the wizard says once that folder and file names will be in English and keeps every message in Japanese.
 
 ## Native Drive rehearsal
 
