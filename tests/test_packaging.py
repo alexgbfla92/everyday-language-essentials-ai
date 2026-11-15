@@ -95,6 +95,16 @@ class PackagingTests(unittest.TestCase):
             self.assertEqual(shape, keys, code)
             self.assertEqual(len(set(data["paths"].values())), len(data["paths"]), code)
 
+    def test_help_examples_use_the_complete_command_form(self):
+        text = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
+        table = text[text.index("| Command | What it does | Example |"):]
+        table = table[:table.index("\n\n")]
+        for row in table.splitlines()[2:]:
+            example = row.rsplit(" | ", 1)[-1]
+            if example.strip(" |"):
+                for code in re.findall(r"`([^`]+)`", example):
+                    self.assertTrue(code.startswith("/talkgo "), row)
+
     def test_every_target_language_is_complete(self):
         sys.path.insert(0, str(SKILL_DIR / "scripts"))
         from layout import TARGETS

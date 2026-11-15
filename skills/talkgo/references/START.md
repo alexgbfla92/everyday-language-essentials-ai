@@ -16,10 +16,10 @@ Rules for the whole wizard:
 A new chat knows nothing about the previous one; it only finds the Central through the context line. So:
 
 1. **Context line.** As soon as the Central exists (step 2), build one line with the real data: `TalkGo · Central: <name> · <Drive link or local path> · Native language: <tag>`. Ask the learner to create the project now (step 7 explains how) and paste this line into the project instructions, so every chat of the project opens the same Central. If the learner does not use projects, the line goes inside every handoff message.
-2. **Handoff message.** When a step moves to another chat (the first practice; the diagnostic always stays in the setup chat), give, in a code block the learner can copy, exactly what to send in the new chat: the command and the context line, for example:
+2. **Handoff message.** When a step moves to another chat (the first practice; the diagnostic always stays in the setup chat), give, in a code block the learner can copy, exactly what to send in the new chat: the command in the complete form for the platform (`/talkgo …` in Claude, `@TalkGo …` in ChatGPT, as in SKILL.md, Commands told to the learner) and the context line, for example:
 
    ```
-   Start-Diagnostic English
+   /talkgo Resume-Practice practice-20261115-01
    TalkGo · Central: TalkGo · https://drive.google.com/drive/folders/<ID> · Native language: pt-BR
    ```
 
