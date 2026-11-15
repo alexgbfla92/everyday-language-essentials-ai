@@ -81,6 +81,7 @@
   "c_next_question": "prochaine question d'inscription",
   "c_practice_minutes": "20 par défaut, ou celle de la mission",
   "c_root": "chemin local ou ID du dossier sur Drive/OneDrive",
+  "c_setup_step": "assistant Start : native_language | central | languages | diagnostic | mission | practice | projects | done",
   "c_situation": "situation de la mission travaillée dans cette séance",
   "c_tests_excluded": "no pour les tests",
   "c_voice_ids": "annoncer les numéros des phrases en mode vocal",

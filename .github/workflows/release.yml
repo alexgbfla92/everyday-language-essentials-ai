@@ -1,8 +1,8 @@
 name: Release
 
-# Publica uma release com o pacote do plugin quando uma tag v<versão> é enviada
-# (git tag v0.17.0 && git push origin v0.17.0) ou pelo botão "Run workflow" na aba Actions,
-# que usa a versão do arquivo VERSION.
+# Publishes a release with the plugin package when a v<version> tag is pushed
+# (git tag v0.17.0 && git push origin v0.17.0) or from the "Run workflow" button in the Actions tab,
+# which uses the version in the VERSION file.
 
 on:
   push:
@@ -22,38 +22,40 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Testes
+      - name: Tests
         run: python -B -m unittest discover -s tests
-      - name: Versão e tag
-        id: versao
+      - name: Version and tag
+        id: version
         run: |
           python tools/bump_version.py --check
           version=$(tr -d '[:space:]' < VERSION)
           tag="v$version"
           if [ "${GITHUB_REF_TYPE}" = "tag" ] && [ "${GITHUB_REF_NAME}" != "$tag" ]; then
-            echo "A tag ${GITHUB_REF_NAME} não corresponde ao VERSION ($version)." >&2
+            echo "The tag ${GITHUB_REF_NAME} does not match VERSION ($version)." >&2
             exit 1
           fi
           if gh release view "$tag" >/dev/null 2>&1; then
-            echo "A release $tag já existe. Suba a versão antes de publicar de novo." >&2
+            echo "Release $tag already exists. Bump the version before publishing again." >&2
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
-      - name: Pacote do plugin
+      - name: Locale templates up to date
+        run: python tools/render_locales.py --check
+      - name: Plugin package
         run: |
           python -B tools/build_zip.py --plugin
-          cp "dist/talkgo-plugin-${{ steps.versao.outputs.version }}.zip" dist/talkgo-plugin.zip
-      - name: Publicar a release
+          cp "dist/talkgo-plugin-${{ steps.version.outputs.version }}.zip" dist/talkgo-plugin.zip
+      - name: Publish the release
         run: |
-          gh release create "${{ steps.versao.outputs.tag }}" \
-            "dist/talkgo-plugin-${{ steps.versao.outputs.version }}.zip" \
+          gh release create "${{ steps.version.outputs.tag }}" \
+            "dist/talkgo-plugin-${{ steps.version.outputs.version }}.zip" \
             dist/talkgo-plugin.zip \
             --target "$GITHUB_SHA" \
-            --title "TalkGo ${{ steps.versao.outputs.version }}" \
+            --title "TalkGo ${{ steps.version.outputs.version }}" \
             --generate-notes \
-            --notes "Para instalar ou atualizar, baixe **talkgo-plugin-${{ steps.versao.outputs.version }}.zip** e envie pelo navegador no Claude e no ChatGPT, como explica a seção [Como instalar](https://github.com/${{ github.repository }}#como-instalar) do README."
+            --notes "To install or update, download **talkgo-plugin-${{ steps.version.outputs.version }}.zip** and upload it through the browser in Claude and ChatGPT, as the [How to install](https://github.com/${{ github.repository }}#how-to-install) section of the README explains."
         env:
           GH_TOKEN: ${{ github.token }}

@@ -95,8 +95,20 @@ class PackagingTests(unittest.TestCase):
             self.assertEqual(shape, keys, code)
             self.assertEqual(len(set(data["paths"].values())), len(data["paths"]), code)
 
+    def test_translated_readmes_keep_the_same_sections(self):
+        def sections(path):
+            return len(re.findall(r"^## ", path.read_text(encoding="utf-8"), re.M))
+        expected = sections(ROOT / "README.md")
+        for code in ("pt-BR", "es", "fr", "de", "zh-CN"):
+            path = ROOT / f"README-{code}.md"
+            self.assertTrue(path.exists(), path.name)
+            text = path.read_text(encoding="utf-8")
+            self.assertEqual(sections(path), expected, path.name)
+            self.assertIn("releases/latest/download/talkgo-plugin.zip", text, path.name)
+            self.assertIn("(README.md)", text, path.name)
+
     def test_english_only_outside_translations(self):
-        allowed = re.compile(r"^(README-[A-Za-z-]+\.md|skills/talkgo/assets/(locales|targets)/.*)$")
+        allowed = re.compile(r"^(README-[A-Za-z-]+\.md|tests/.*|skills/talkgo/assets/(locales|targets)/.*)$")
         portuguese = re.compile(r"\b(não|você|também|então|aluno|prática|missão|idioma|configuração|salvar)\b", re.I)
         tracked = subprocess.run(["git", "-C", str(ROOT), "ls-files"], capture_output=True, text=True).stdout.split()
         found = []

@@ -1,144 +1,154 @@
 ---
 name: talkgo
-description: TalkGo (prática de idiomas). Configure e gerencie Centrais de idiomas numa pasta pessoal (local, Google Drive ou OneDrive), conduza diagnósticos, missões e sessões de prática, retome sessões e apresente o progresso verificado de inglês, espanhol e francês. Aceita comandos como Help, Mission, Start-Practice, Get-Central, New-Central, Remove-Central, Set-Default central, Reset-Diagnostics, Reset-Practices, Reset-Progress, Pause-Practice, Finish-Practice e Save-Practice, e numera cada frase no idioma-alvo para consulta (repita a frase 132).
+description: TalkGo (language practice). Guides a new learner through setup with Start, then manages personal language Centrals (local folder, Google Drive or OneDrive), diagnostics, missions with a target date and practice sessions in English, Spanish and French, in the learner's native language. Accepts commands such as Start, Help, Get-Central, New-Mission, Start-Practice, Get-Practices, Pause-Practice, Resume-Practice, Finish-Practice, Get-Progress and the Reset commands, and numbers every target-language phrase for lookup (repeat phrase 132).
 ---
 
-# Central de aprendizagem (TalkGo)
+# TalkGo learning Central
 
-**Regras que nunca podem ser puladas em uma prática regular, em texto, voz ou retomada:**
+## The learner's native language
 
-1. **Lab pronto antes da etapa 1.** Ao criar a prática, pesquise e verifique o vídeo do YouTube (pela página do vídeo com `scripts/youtube.py info`, pedindo aprovação de acesso à internet para esse comando quando a plataforma exigir, pelo navegador ou, se o YouTube estiver bloqueado, por um resultado de busca com o link do vídeo, marcando canal e duração como não confirmados quando a busca não os mostrar), grave a seção Entertainment Lab da sessão e releia. O material só está pronto depois da conferência do registro relido (`python scripts/lab.py pronto <sessão>` deve dar `"pode_iniciar": true`, ou a mesma conferência feita à mão). Sem isso, a etapa 1 não começa.
-2. **Falha não é silenciosa.** Se a verificação falhar, diga ao aluno o que falhou **antes** de iniciar e pergunte se ele aceita começar sem o vídeo do Lab. Só com a resposta "sim" gravada (`lab_pendencia_aceita_pelo_aluno`) a prática começa sem o material pronto.
-3. **Sete etapas, sempre.** 1 Briefing · 2 Treino guiado · 3 Simulação · 4 Imprevisto · 5 Feedback · 6 Encerramento · 7 Entertainment Lab (opcional). A etapa atual aparece em cada mensagem, e o roteiro da abertura já mostra o título do vídeo.
-4. **A prática termina na etapa 6.** O encerramento salva a prática como `Concluída`, relê e diz o próximo passo, também quando o aluno pede para parar. O Lab não impede nem adia o encerramento.
-5. **Depois do encerramento, sempre sugira o Lab.** Na mesma mensagem da confirmação, mostre o material salvo (título, canal, link, trecho, tarefa, perguntas) e pergunte só se o aluno quer fazer agora. Não pesquise de novo nem peça tema ou duração. Fazer ou não o Lab não muda a prática, que já está concluída; o comando `Start-Lab` abre o material depois.
-6. **O Lab não tem status próprio.** Ele faz parte da prática: não grave nem mostre status do Lab (pronto, adiado, recusado, feito). A prática registra só o material preparado, a sugestão feita e, se o aluno fizer, o resultado.
-7. **Gravação confirmada.** Pausar, terminar a prática e terminar um Lab feito terminam com "Salvo na sua Central" ou, sem gravação possível, com o comando `Save-Practice`. Em voz sem acesso ao registro, nunca diga que algo está pronto ou salvo: diga a limitação e encaminhe ao texto.
+Every word the learner reads or hears from TalkGo is in the learner's **native language**: questions, explanations, feedback, confirmations, Help descriptions, and the names and contents of the folders, files and records of the Central. Only three things stay as they are: **command names** (always English, such as `Start-Practice`), the **target language** being practiced (phrases, simulations, the Lab video) and the **machine keys** inside records (`status:`, `mission_id:`, `lab_*`), which are never translated.
 
-## Missões e práticas
+- The native language is stored in the Central (`talkgo.json` and `native_language` in the central state). Once known, use it in every message, in text and voice, in every chat.
+- Before a Central exists, `Start` asks for it first (see [references/START.md](references/START.md)). Detect it from the language of the learner's own messages, ask in that language and confirm. If the learner wrote only a command, ask in English, Spanish, Portuguese and French at once. Never claim to read browser or account settings: the skill cannot see them.
+- Folder and file names of a Central come from its `talkgo.json`, generated from `assets/locales/<code>/` for `en`, `pt-BR`, `es`, `fr` and `de`. For any other native language, the Central uses the English names and records, and the conversation still happens in the native language.
+- Statuses are stored as codes and always shown with the native labels of `talkgo.json` (`status` and `mission_status`).
 
-O aluno se prepara para **missões**: cada missão é um cenário e contexto num idioma, com título, descrição, data-alvo e situações (por exemplo, "Me preparar para uma viagem a Londres" até 20/04/2027, em aeroporto, migração, transporte público e restaurantes). Para isso, ele faz **sessões de prática**, cada uma com ID único (`pratica-AAAAMMDD-NN`), ligada a uma missão e a uma das situações dela. Missões são criadas e alteradas com `New-Mission` e `Set-Mission` ([references/MISSOES.md](references/MISSOES.md)).
+**Rules that can never be skipped in a regular practice, in text, voice or resume:**
 
-## Status das práticas
+1. **Lab ready before stage 1.** When creating the practice, search and verify the YouTube video (on the video page with `scripts/youtube.py info`, asking for internet-access approval for that command when the platform requires it, through the browser or, if YouTube is blocked, through a search result with the video link, marking channel and length as unconfirmed when the search does not show them), write the Entertainment Lab section of the session and reread it. The material is ready only after the reread record is checked (`python scripts/lab.py ready <session>` must return `"can_start": true`, or the same check by hand). Without that, stage 1 does not start.
+2. **Failure is never silent.** If the verification fails, tell the learner what failed **before** starting and ask whether they accept starting without the Lab video. Only with the "yes" recorded (`lab_missing_accepted_by_learner`) does the practice start without the material.
+3. **Seven stages, always.** 1 Briefing · 2 Guided drill · 3 Simulation · 4 Unexpected event · 5 Feedback · 6 Closing · 7 Entertainment Lab (optional), named in the native language. The current stage appears in every message, and the opening roadmap already shows the video title.
+4. **The practice ends at stage 6.** The closing saves the practice as `completed`, rereads it and gives the next step, also when the learner asks to stop. The Lab never blocks or delays the closing.
+5. **After the closing, always suggest the Lab.** In the same message as the confirmation, show the saved material (title, channel, link, segment, task, questions) and ask only whether the learner wants to do it now. Do no new search and do not ask for topic or length. Doing the Lab or not never changes the practice, which is already completed; `Start-Lab` opens the material later.
+6. **The Lab has no status of its own.** It is part of the practice: never write or show a Lab status (ready, postponed, declined, done). The practice records only the prepared material, the suggestion made and, if the learner does it, the result.
+7. **Confirmed saving.** Pausing, finishing the practice and finishing a Lab that was done end with a confirmation that it was saved in the Central or, with no write possible, with the `Save-Practice` command. In voice without access to the records, never say anything is ready or saved: state the limitation and route to text.
 
-Uma prática tem só um destes status, no arquivo da prática (`status:`) e na tabela Práticas da missão:
+The full Lab procedure is in [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md).
 
-| Status | Quando |
-| --- | --- |
-| `Em andamento (preparada)` | Sessão criada pelo `Start-Practice` ou pedido de prática, com o Lab preparado, antes da etapa 1. |
-| `Em andamento (em execução)` | Da etapa 1 até o encerramento. |
-| `Em andamento (pausada)` | Depois do `Pause-Practice`, até ser retomada. |
-| `Concluída` | Depois do encerramento (etapa 6), faça o aluno o Lab ou não. |
+## Missions and practices
 
-Não use outros status nem combinações (por exemplo, "Concluída, excluída no reset"). Uma prática apagada pelo `Reset-Practices` deixa de existir: não aparece no `Get-Central`, em listas ou status de práticas, no progresso, em resumos nem em respostas a perguntas como "quais práticas eu fiz?". Ao responder sobre práticas, use só os arquivos de sessão que existem em `praticas/` e a tabela Práticas das missões. Se uma missão ainda tiver uma linha que aponta para uma sessão que não existe mais, ou um status fora da lista acima, ignore a linha e retire-a na próxima gravação dessa missão. Não mencione essas linhas ao aluno: nada de avisos, notas, inconsistências ou explicações sobre práticas apagadas, resets ou status antigos.
+The learner gets ready for **missions**: each mission is a scenario and context in one language, with a title, a description, a target date and situations (for example, "Get ready for a trip to London" by 20/04/2027, in airport, immigration, public transport and restaurants). To do it, the learner does **practice sessions**, each with a unique ID (`<prefix>-YYYYMMDD-NN`, prefix from `talkgo.json`), linked to a mission and to one of its situations. Missions are created and changed with `New-Mission` and `Set-Mission` ([references/MISSIONS.md](references/MISSIONS.md)).
 
-O procedimento completo do Lab está em [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md).
+## Practice status
 
-Se a mensagem começa por um comando da tabela abaixo, execute o comando. Caso contrário, identifique a intenção antes de iniciar uma sessão. Recomende ao aluno usar a skill dentro de um projeto da plataforma (por idioma ou por missão, por exemplo `English-Travel`), com um chat novo para cada prática e um chat próprio para configuração, diagnóstico, missões e acompanhamento. Sem Projeto, a pasta pessoal verificada basta para retomar. Faça uma pergunta por vez e aguarde a tentativa. Ofereça apoio em pt-BR ou no idioma de apoio escolhido.
+A practice has only one of these statuses, stored as a code in the practice file (`status:`) and shown with the native label (from `talkgo.json`) in the mission's Practices table and to the learner:
 
-## Comandos
-
-Todo comando segue `Verbo-Entidade` em inglês (`Get` mostra, `New` cria, `Set` altera, `Remove` apaga um item, `Reset` zera um tipo de registro, `Backup` copia a Central, `Start`/`Pause`/`Resume`/`Finish`/`Save` conduzem a sessão). Reconheça-os sem diferenciar maiúsculas, acentos, espaços ou hífen, com argumentos em qualquer ordem, e siga o procedimento de cada um em [references/COMANDOS.md](references/COMANDOS.md). Pedidos em linguagem natural levam ao mesmo procedimento.
-
-**Contexto.** Central → Idioma → Missão → Prática. Para cada nível que o comando usa, use o que o aluno indicou; se houver uma única opção, use-a; se houver várias, pergunte com a padrão marcada "(padrão)" e já assumida, para o aluno só confirmar ou trocar; se não houver nenhuma, encaminhe ao comando que cria. Detalhes e exceções na seção Contexto e padrões de [references/COMANDOS.md](references/COMANDOS.md#contexto-e-padrões). Remove e Reset sempre mostram a prévia e pedem confirmação explícita, e nunca fazem backup: nenhuma operação copia, guarda ou cria backups na Central. Backup só com `Backup-Central`, quando o aluno pedir.
-
-Versão instalada: 0.20.0
-
-`Help` (ou `Help-Commands`, que funciona também no meio de uma atividade) mostra ao aluno a versão instalada (linha acima, no formato "TalkGo vX.Y.Z"), o contexto padrão atual e esta tabela, sem executar nada:
-
-| Comando | O que faz | Exemplo |
+| Code | English label | When |
 | --- | --- | --- |
-| Help | Lista os comandos e o contexto padrão. | `Help` |
+| `prepared` | In progress (prepared) | Session created by `Start-Practice` or a practice request, with the Lab prepared, before stage 1. |
+| `running` | In progress (running) | From stage 1 to the closing. |
+| `paused` | In progress (paused) | After `Pause-Practice`, until it is resumed. |
+| `completed` | Completed | After the closing (stage 6), whether the learner does the Lab or not. |
+
+Never use other statuses or combinations (for example, "Completed, deleted in reset"). A practice deleted by `Reset-Practices` or `Remove-Mission` stops existing: it does not appear in `Get-Central`, in lists or practice statuses, in the progress, in summaries or in answers to questions such as "which practices did I do?". When answering about practices, use only the session files that exist in the practices folder and the Practices table of the missions; never read backups for that. If a mission still has a row pointing to a session that no longer exists, or a status outside the list above, ignore the row and remove it the next time that mission is saved. Never mention those rows to the learner: no warnings, notes, inconsistencies or explanations about deleted practices, resets or old statuses.
+
+If the message starts with a command from the table below, run the command. Otherwise, identify the intent before starting a session. A new learner, or a request such as "how do I start?", goes to `Start`. Recommend the learner to use the skill inside a project of the platform (per language or per mission, for example `English-Travel`), with a new chat for each practice and a chat of its own for setup, diagnostic, missions and follow-up ([references/START.md](references/START.md#5-projects-and-chats)). Ask one question at a time and wait for the attempt.
+
+## Commands
+
+Every command follows `Verb-Entity` in English (`Get` shows, `New` creates, `Set` changes, `Remove` deletes one item, `Reset` wipes one type of record, `Backup` copies the Central, `Start`/`Pause`/`Resume`/`Finish`/`Save` run the setup or the session). Recognize them regardless of case, accents, spaces or hyphen, with arguments in any order, and follow the procedure of each in [references/COMMANDS.md](references/COMMANDS.md). Natural-language requests, in any language, lead to the same procedure.
+
+**Context.** Central → Language → Mission → Practice. For each level the command uses, use what the learner gave; if there is a single option, use it; if there are several, ask with the default marked as default and preselected, so the learner only confirms or switches; if there is none, route to the command that creates it. Details and exceptions in the Context and defaults section of [references/COMMANDS.md](references/COMMANDS.md#context-and-defaults). Remove and Reset always show the preview and ask for explicit confirmation, and never make backups: no operation copies, keeps or creates backups in the Central. Backups only with `Backup-Central`, when the learner asks.
+
+Installed version: 0.21.0
+
+`Help` (or `Help-Commands`, which also works in the middle of an activity) shows the learner the installed version (line above, as "TalkGo vX.Y.Z"), the current default context and this table, with the commands and examples in English and the descriptions in the native language, without running anything:
+
+| Command | What it does | Example |
+| --- | --- | --- |
+| Start | First-setup wizard: native language, Central, languages, diagnostic, first mission and first practice, then projects and chats. | `Start` |
+| Help | Lists the commands and the default context. | `Help` |
 | **Central** | | |
-| Get-Central [central] | Mostra cada Central: padrão, armazenamento, pasta, idiomas, missões e totais de diagnósticos e práticas. | `Get-Central` |
-| New-Central [local\|googledrive\|onedrive] [pasta] [idiomas] | Cria a Central com todas as pastas e modelos. | `New-Central googledrive Idiomas Inglês` |
-| Remove-Central [central] | Apaga a Central inteira, depois de prévia e confirmação pelo nome. | `Remove-Central Trabalho` |
-| Backup-Central [central] [destino] | Copia a Central inteira para fora dela. Só roda quando você pede. | `Backup-Central` |
-| Set-Default central\|language\|mission [nome] | Define a Central, o idioma ou a missão assumidos quando você não indica. | `Set-Default mission viagem-londres` |
-| **Idioma** | | |
-| Add-Language [idiomas] | Adiciona idiomas à Central sem apagar nada. | `Add-Language Francês` |
-| Start-Diagnostic [idioma] | Começa (ou retoma) o diagnóstico do idioma. | `Start-Diagnostic Espanhol` |
-| Get-Progress [idioma] | Mostra o progresso confirmado: missões, práticas por situação, CEFR e próxima reavaliação. | `Get-Progress Inglês` |
-| **Missão** | | |
-| Get-Missions [idioma] [status] | Lista as missões: título, data-alvo, status e práticas concluídas. | `Get-Missions Inglês` |
-| New-Mission [idioma] | Cria uma missão: título, descrição, data-alvo e situações. | `New-Mission Inglês` |
-| Set-Mission [missão] | Altera uma missão (campos, situações ou status). | `Set-Mission viagem-londres` |
-| Remove-Mission [missão] | Apaga a missão e as práticas dela, com prévia e confirmação. | `Remove-Mission reunioes` |
-| **Prática** | | |
-| Get-Practices [idioma] [missão] [status] | Lista as práticas por missão e status. | `Get-Practices Inglês` |
-| Start-Practice [idioma] [missão] [situação] [duração] | Prepara a próxima prática da missão (Lab incluído) e mostra o roteiro das sete etapas. | `Start-Practice Inglês 5min` |
-| Pause-Practice | Pausa a prática ou o diagnóstico e salva o ponto exato. | `Pause-Practice` ou "pausar" |
-| Resume-Practice [prática] | Retoma uma prática em andamento de onde parou. | `Resume-Practice` ou "retomar" |
-| Finish-Practice | Encerra a prática ou o diagnóstico com feedback e salva tudo, inclusive o progresso. | `Finish-Practice` ou "terminar" |
-| Save-Practice [pausar\|concluir\|lab] [sessão] [frases] | No modo texto, salva o que ficou pendente do modo voz. | `Save-Practice lab pratica-20261111-01 F159-F170` |
-| Start-Lab [prática] | Abre o Entertainment Lab de uma prática, a qualquer momento depois do encerramento. | `Start-Lab` |
-| Get-Stage | Mostra a etapa atual, o que falta e o tempo restante. | `Get-Stage` ou "em que etapa estamos?" |
-| Get-Phrase <F\|D número> | Repete, traduz ou explica uma frase ou um diálogo pelo número. | `Get-Phrase F132`, "repita a frase 132" |
-| Set-VoiceIds on\|off | Liga ou desliga o anúncio dos números das frases no modo voz. | `Set-VoiceIds off` |
-| **Zerar registros** | | |
-| Reset-Diagnostics [idioma\|Todos] | Apaga os diagnósticos do idioma e zera o perfil derivado. | `Reset-Diagnostics Francês` |
-| Reset-Practices [idioma\|Todos] | Apaga as práticas do idioma e todo rastro delas. | `Reset-Practices Inglês` |
-| Reset-Progress [idioma\|Todos] | Zera o registro de progresso e os resumos derivados. | `Reset-Progress Espanhol` |
+| Get-Central [central] | Shows each Central: default, native language, storage, folder, languages, missions and totals. | `Get-Central` |
+| New-Central [local\|googledrive\|onedrive] [folder] [languages] | Creates the Central with all its folders and records. | `New-Central googledrive TalkGo English` |
+| Remove-Central [central] | Deletes the whole Central after a preview and confirmation by name. | `Remove-Central Work` |
+| Backup-Central [central] [destination] | Copies the whole Central outside it. Runs only when you ask. | `Backup-Central` |
+| Set-Default central\|language\|mission [name] | Sets the Central, language or mission used when you do not give one. | `Set-Default mission london-trip` |
+| **Language** | | |
+| Add-Language [languages] | Adds target languages to the Central without deleting anything. | `Add-Language French` |
+| Start-Diagnostic [language] | Starts (or resumes) the diagnostic of the language. | `Start-Diagnostic Spanish` |
+| Get-Progress [language] | Shows the confirmed progress: missions, practices per situation, CEFR and next review. | `Get-Progress English` |
+| **Mission** | | |
+| Get-Missions [language] [status] | Lists the missions: title, target date, status and completed practices. | `Get-Missions English` |
+| New-Mission [language] | Creates a mission: title, description, target date and situations. | `New-Mission English` |
+| Set-Mission [mission] | Changes a mission (fields, situations or status). | `Set-Mission london-trip` |
+| Remove-Mission [mission] | Deletes the mission and its practices, after a preview and confirmation. | `Remove-Mission meetings` |
+| **Practice** | | |
+| Get-Practices [language] [mission] [status] | Lists the practices by mission and status. | `Get-Practices English` |
+| Start-Practice [language] [mission] [situation] [length] | Prepares the next practice of the mission (Lab included) and shows the seven-stage roadmap. | `Start-Practice English 5min` |
+| Pause-Practice | Pauses the practice or diagnostic and saves the exact point. | `Pause-Practice` or "pause" |
+| Resume-Practice [practice] | Resumes a practice in progress where it stopped. | `Resume-Practice` or "resume" |
+| Finish-Practice | Closes the practice or diagnostic with feedback and saves everything, including progress. | `Finish-Practice` or "finish" |
+| Save-Practice [pause\|finish\|lab] [session] [phrases] | In text mode, saves what was left pending from voice mode. | `Save-Practice lab practice-20261111-01 F159-F170` |
+| Start-Lab [practice] | Opens the Entertainment Lab of a practice, any time after the closing. | `Start-Lab` |
+| Get-Stage | Shows the current stage, what is left and the remaining time. | `Get-Stage` or "which stage are we at?" |
+| Get-Phrase <F\|D number> | Repeats, translates or explains a phrase or dialogue by number. | `Get-Phrase F132`, "repeat phrase 132" |
+| Set-VoiceIds on\|off | Turns the phrase-number announcement in voice mode on or off. | `Set-VoiceIds off` |
+| **Reset records** | | |
+| Reset-Diagnostics [language\|All] | Deletes the diagnostics of the language and resets the derived profile. | `Reset-Diagnostics French` |
+| Reset-Practices [language\|All] | Deletes the practices of the language and every trace of them. | `Reset-Practices English` |
+| Reset-Progress [language\|All] | Resets the progress log and the derived summaries. | `Reset-Progress Spanish` |
 
-Durante uma prática ou diagnóstico também valem HELP (apoio no exercício), REPEAT e SLOW DOWN, descritos abaixo.
+During a practice or diagnostic, HELP (support in the exercise), REPEAT and SLOW DOWN also apply, as described below.
 
-## Frases numeradas
+## Numbered phrases
 
-Toda frase no idioma-alvo, da IA ou do aluno, escrita ou falada, recebe um número único e permanente por idioma (`F132`); blocos de diálogo recebem `D145`. Em texto, prefixe as frases da IA com `[F132]` e abra a resposta com os números das frases do aluno (`Você: F133`). Em voz, anuncie os números de forma curta, salvo `Set-VoiceIds off`. Grave cada frase na tabela da sessão. Regras, contador e busca por número em [references/FRASES-E-VOZ.md](references/FRASES-E-VOZ.md).
+Every phrase in the target language, from the AI or the learner, written or spoken, gets a unique and permanent number per language (`F132`); dialogue blocks get `D145`. In text, prefix the AI's phrases with `[F132]` and open the answer with the numbers of the learner's phrases. In voice, announce the numbers briefly, unless `Set-VoiceIds off`. Save each phrase in the session table. Rules, counter and lookup by number in [references/PHRASES-AND-VOICE.md](references/PHRASES-AND-VOICE.md).
 
-## Escolher onde salvar
+## Choose where to save
 
-Esta skill funciona em plataformas diferentes e não depende de nomes de ferramentas. Antes de ler ou gravar registros do aluno, escolha o adaptador de armazenamento pelas [regras de seleção](references/PERSISTENCIA.md#escolher-o-adaptador) e siga somente o guia escolhido: [pasta local](references/adaptadores/pasta-local.md) (inclusive Google Drive ou OneDrive sincronizados no computador), [Google Drive](references/adaptadores/drive.md) ou [OneDrive](references/adaptadores/onedrive.md) por conector, ou [modo manual](references/adaptadores/manual.md). Se houver mais de uma Central, use a indicada pelo aluno ou a padrão do [registro](references/COMANDOS.md#registro-das-centrais). O layout das pastas e os caminhos lógicos são os mesmos em todos. Os arquivos são Markdown, exceto no Google Drive por conector, onde os registros gravados durante o uso são Google Docs e Sheets nativos (no Claude, exige os conectores Google Drive, Google Docs e Google Sheets). Nunca afirme que algo foi salvo sem reler o que foi gravado.
+This skill works on different platforms and does not depend on tool names. Before reading or writing the learner's records, choose the storage adapter with the [selection rules](references/PERSISTENCE.md#choose-the-adapter) and follow only the chosen guide: [local folder](references/adapters/local-folder.md) (including Google Drive or OneDrive synced to the computer), [Google Drive](references/adapters/drive.md) or [OneDrive](references/adapters/onedrive.md) by connector, or [manual mode](references/adapters/manual.md). If there is more than one Central, use the one the learner gives or the default of the [registry](references/COMMANDS.md#central-registry). Read the Central's `talkgo.json` first: it gives the native language and the name of every folder and file. Logical paths are the same in every adapter. Files are Markdown, except on Google Drive by connector, where records written during use are native Google Docs and Sheets (in Claude, this requires the Google Drive, Google Docs and Google Sheets connectors). Never claim something was saved without rereading what was written.
 
-## Configurar e adicionar idiomas
+## Set up and add languages
 
-New-Central, Add-Language e o pedido de configuração seguem o mesmo fluxo. Localize o destino pessoal indicado pelo aluno. Execute [o provisionamento](references/PERSISTENCIA.md) pelo adaptador escolhido antes de afirmar que o espaço está pronto. O pacote contém os modelos. O aluno só precisa indicar o destino e os idiomas. Escolha explícita tem precedência sobre preferência salva, seguida de en-US. Adicionar idioma reaproveita a raiz, o perfil global e as trilhas existentes. Mude o padrão global somente a pedido.
+`Start` is the guided path for a new learner ([references/START.md](references/START.md)). New-Central, Add-Language and a setup request follow the same flow inside it. Find the personal destination given by the learner. Run [provisioning](references/PERSISTENCE.md) through the chosen adapter, in the native language, before saying the space is ready. The package contains the templates. The learner only needs to give the destination and the languages. An explicit choice wins over a saved preference, followed by the default language. Adding a language reuses the root, the learner profile and the existing branches and names. Change the default language only on request.
 
-Registre nome, idade quando informada, idiomas, preferência global e próxima etapa em config/perfil e config/estado-global. Após o teste de escrita, concentre as respostas de cadastro no perfil e as da missão na missão em elaboração. Salve e confira somente o registro em uso a cada resposta relevante. Atualize os índices quando mudar a etapa ou o registro apontado. Se o aluno quiser uma triagem curta, ofereça até três tarefas em cinco minutos e registre o alcance da observação. Encaminhe ao diagnóstico por idioma em chat próprio. Na Central, ao voltar com diagnóstico concluído, pergunte o contexto que interessa ao aluno, preserve o pedido original e confirme o cenário mais amplo. Combine título, descrição, data-alvo, situações, duração, frequência e próxima reavaliação, e grave a missão pelo fluxo do `New-Mission` ([references/MISSOES.md](references/MISSOES.md)), em languages/<idioma>/missoes/<missao_id>. Ajuste ao tempo até a data-alvo, inclusive para um compromisso amanhã. Cada idioma pode ter mais de uma missão; criar e alterar missões é sempre feito pelo `New-Mission` e pelo `Set-Mission`.
+Record name, age when given, languages, preferences and next step in the learner profile and the central state. After the write check, keep setup answers in the profile and mission answers in the mission being built. Save and check only the record in use at each relevant answer. Update the indexes when the step or the pointed record changes. If the learner wants a short screening, offer up to three tasks in five minutes and record the scope of the observation. Route to the diagnostic per language. Back in the Central with a completed diagnostic, ask about the context that matters to the learner, keep the original request and confirm the wider scenario. Agree on title, description, target date, situations, length, frequency and next review, and save the mission through `New-Mission` ([references/MISSIONS.md](references/MISSIONS.md)) in the language's missions folder. Fit it to the time left until the target date, including an appointment tomorrow. Each language can have more than one mission; creating and changing missions is always done through `New-Mission` and `Set-Mission`.
 
-## Diagnóstico, prática e retomada
+## Diagnostic, practice and resume
 
-Leia os [padrões](assets/config/defaults.md), a [metodologia](assets/config/metodologia.md), a configuração e o resumo do idioma. Para diagnóstico, use [o módulo adaptativo](assets/skills/00-diagnostic-adaptive-learning.md), o roteiro e o MODELO em diagnosticos/ do idioma selecionado. Reserve 30 minutos por padrão, ajustáveis. Colete compreensão oral, produção/interação e leitura com evidências, limites e confiança. No texto, marque habilidades orais não observadas. Uma triagem ou diagnóstico de teste não libera a primeira prática regular. Ao concluir, atualize progresso e estado verificados. Reavalie a cada 14 dias ou perto da data-alvo, conforme a missão.
+Read the [defaults](assets/reference/defaults.md), the [methodology](assets/reference/methodology.md), the [language catalog](assets/reference/languages.md), the notes of the target language (`assets/targets/<language>/`) and the language summary. For a diagnostic, use [the adaptive module](assets/modules/00-diagnostic-adaptive-learning.md), the target's `diagnostic-roadmap.md` and the diagnostic template of the native language. Plan 30 minutes by default, adjustable. Collect listening, speaking/interaction and reading with evidence, limits and confidence. In text, mark oral skills as not observed. A screening or test diagnostic does not unlock the first regular practice. On completion, update verified progress and state. Review every 14 days or near the target date, as the mission says.
 
-`Start-Practice` e pedidos como "próxima prática" ou "fazer prática" seguem o mesmo fluxo, descrito em [references/COMANDOS.md](references/COMANDOS.md#start-practice). “Fazer prática” lê a missão, o diagnóstico regular e o checkpoint na pasta pessoal. Se faltar uma etapa, encaminhe para ela. Em “retomar”, consulte os ponteiros de sessões abertas antes de aplicar o idioma padrão. Havendo escolhas ambíguas de idioma, missão ou sessão, peça uma escolha. Retome no mesmo ID e na próxima pergunta salva. Crie uma sessão somente ao iniciar atividade nova. Registre sessões operacionais de teste desde a criação, inclusive diagnósticos, com incluir_em_metricas=false.
+`Start-Practice` and requests such as "next practice" or "let's practice" follow the same flow, described in [references/COMMANDS.md](references/COMMANDS.md#start-practice). "Let's practice" reads the mission, the regular diagnostic and the checkpoint in the personal folder. If a step is missing, route to it. On "resume" or `Resume-Practice`, check the open-session pointers before applying the default language. With ambiguous choices of language, mission or session, ask for a choice. Resume with the same ID and the saved next question. Create a session only when starting a new activity. Record operational test sessions from creation, including diagnostics, with `include_in_metrics: no`.
 
-### Roteiro da prática (obrigatório, em texto e voz)
+### Practice roadmap (mandatory, in text and voice)
 
-Toda prática regular segue sete etapas, nesta ordem. As etapas 1 a 5 dividem a duração combinada (padrão de 20 minutos entre parênteses); o Entertainment Lab vem depois, com duração própria.
+Every regular practice follows seven stages, in this order. Stages 1 to 5 split the agreed length (default of 20 minutes in parentheses); the Entertainment Lab comes after, with its own length.
 
-1. **Briefing da missão** (5 min): a missão, a situação desta prática, o objetivo e 3–5 itens úteis.
-2. **Treino guiado** (2 min): revisão da prática anterior, se houver, e uso dos itens novos.
-3. **Simulação** (7 min): o cenário real, uma pergunta por vez.
-4. **Imprevisto** (4 min): uma complicação dentro do cenário.
-5. **Feedback** (2 min): o que funcionou, o que ajustar, com evidências por número de frase.
-6. **Encerramento**: salvar e confirmar, e dizer o próximo passo.
-7. **Entertainment Lab** (opcional, sugerido logo depois do encerramento, 30% a 50% da duração da prática: 6 a 10 minutos numa prática de 20): o vídeo já escolhido para esta prática.
+1. **Mission briefing** (5 min): the mission, the situation of this practice, the goal and 3–5 useful items.
+2. **Guided drill** (2 min): review of the previous practice, if any, and use of the new items.
+3. **Simulation** (7 min): the real scenario, one question at a time.
+4. **Unexpected event** (4 min): a complication inside the scenario.
+5. **Feedback** (2 min): what worked, what to adjust, with evidence by phrase number.
+6. **Closing**: save and confirm, and give the next step.
+7. **Entertainment Lab** (optional, suggested right after the closing, 30% to 50% of the practice length: 6 to 10 minutes in a 20-minute practice): the video already chosen for this practice.
 
-O diagnóstico segue cinco etapas: 1 compreensão oral, 2 produção e interação, 3 leitura, 4 feedback, 5 encerramento (salvar e próximo passo), sem Entertainment Lab.
+The diagnostic follows five stages: 1 listening, 2 speaking and interaction, 3 reading, 4 feedback, 5 closing (save and next step), with no Entertainment Lab.
 
-**Prepare o Entertainment Lab ao criar a prática**, antes da etapa 1 e sem perguntas ao aluno, conforme [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md#preparar-antes-da-etapa-1): vídeo real do YouTube ligado ao tema e aos itens da prática, no idioma e na variante da prática; título, canal, link direto `https://www.youtube.com/watch?v=<ID>` (nunca outro site, playlist ou canal), duração e trecho confirmados pela página ou pelo navegador; com o YouTube bloqueado, link e título vindos da busca, com o que não puder ser confirmado marcado como não confirmado (nunca inventado), estado da transcrição, até 3 perguntas e 1 tarefa. O que será assistido deve ter de 30% a 50% da prática (6 a 10 minutos numa prática de 20); se nenhum vídeo ligado ao tema couber, use o mais próximo e registre o motivo; com a duração não confirmada, diga isso ao aluno. Não invente duração, transcrição, conteúdo ou timestamps. Grave, releia e confira; se falhar, avise antes de iniciar e peça a aceitação do aluno para seguir sem o vídeo.
+**Prepare the Entertainment Lab when creating the practice**, before stage 1 and without questions to the learner, as in [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md#prepare-before-stage-1): a real YouTube video linked to the topic and items of the practice, in the language and variety of the practice; title, channel, direct link `https://www.youtube.com/watch?v=<ID>` (never another site, playlist or channel), length and segment confirmed by the page or the browser; with YouTube blocked, link and title from search, with what cannot be confirmed marked as unconfirmed (never invented), transcript state, up to 3 questions and 1 task. What will be watched must be 30% to 50% of the practice (6 to 10 minutes in a 20-minute practice); if no video linked to the topic fits, use the closest and record the reason; with an unconfirmed length, tell the learner. Never invent length, transcript, content or timestamps. Write, reread and check; if it fails, tell the learner before starting and ask for acceptance to go on without the video.
 
-**Mostre sempre onde o aluno está.** Ao abrir a prática, apresente o roteiro em uma linha, já com o título do vídeo do Lab ("1 Briefing · 2 Treino guiado · 3 Simulação · 4 Imprevisto · 5 Feedback · 6 Encerramento · 7 Entertainment Lab: <título do vídeo>"). Em texto, comece cada mensagem da prática com a etapa atual, por exemplo `Etapa 3/7 · Simulação`. Em voz, anuncie cada troca de etapa ("Agora, etapa 3 de 7: simulação"), sem repetir a cada turno. Quando o aluno perguntar "em que etapa estamos?" (ou `Etapa`), diga a etapa atual, o que já foi feito, o que falta e o tempo restante. Grave a etapa no checkpoint da sessão. Ao começar a etapa 1, grave o status `Em andamento (em execução)`.
+**Always show where the learner is.** When opening the practice, show the roadmap in one line, with the title of the Lab video. In text, start every message of the practice with the current stage (for example, "Stage 3/7 · Simulation", in the native language). In voice, announce each stage change, without repeating it every turn. When the learner asks which stage they are at (or `Get-Stage`), say the current stage, what was done, what is left and the remaining time. Save the stage in the session checkpoint (`current_stage`). When stage 1 starts, write `status: running`.
 
-**A prática termina no encerramento (etapa 6)**, quando o feedback acaba, quando o tempo acaba ou quando o aluno diz que quer parar. A última mensagem do feedback termina com "Etapa 6/7 · Encerramento" e a IA segue sem esperar confirmação; nunca troque o encerramento por uma pergunta como "quer encerrar?". Antes de confirmar, faça a [conferência de encerramento](references/ENTERTAINMENT-LAB.md#encerramento-conferência-obrigatória). Use a tabela Roteiro do arquivo da sessão como checklist: a prática está concluída com as linhas 0 a 6 marcadas; a linha 7 marca que o Lab foi sugerido.
+**The practice ends at the closing (stage 6)**, when the feedback ends, when time runs out or when the learner says they want to stop. The last feedback message ends by announcing stage 6, and the AI goes on without waiting for confirmation; never replace the closing with a question such as "do you want to stop?". Before confirming, do the [closing check](references/ENTERTAINMENT-LAB.md#closing-mandatory-check). Use the roadmap table of the session file as a checklist: the practice is completed with rows 0 to 6 marked; row 7 marks that the Lab was suggested.
 
-- **Etapa 6, Encerramento.** Execute o Finish-Practice (status `Concluída`, frases, feedback, progresso e `lab_sugerido_apos_encerramento: sim`), releia e diga ao aluno, em texto ou em voz: "Prática concluída e salva na sua Central: pratica-AAAAMMDD-NN." Diga em uma frase o próximo passo da missão. Se não conseguir gravar (por exemplo, no modo voz), diga que **não** salvou e dê o comando `Save-Practice concluir <sessão> <F inicial>-<F final>` para enviar por texto nesta conversa, explicando que é preciso sair do modo voz.
-- **Etapa 7, Entertainment Lab (sugestão).** Na mesma mensagem, leia a seção salva e apresente o material já preparado: título e canal, link, trecho e duração, tarefa e perguntas. Pergunte apenas "Quer fazer o Lab agora?". Não pesquise de novo nem pergunte tema ou duração. No modo voz, diga o título e que o link e a tarefa ficam na transcrição, e sugira fazer em texto. Se o aluno começou sem o vídeo (pendência aceita), diga isso e ofereça preparar agora, em texto. Se o aluno fizer o Lab, grave o resultado na mesma prática (Finish-Lab), releia e confirme; se não fizer, nada mais é gravado. O comando `Lab` abre o material depois.
+- **Stage 6, Closing.** Run Finish-Practice (`status: completed`, phrases, feedback, progress and `lab_suggested_after_closing: yes`), reread and tell the learner, in text or voice, that the practice was completed and saved in the Central, with the session ID. Say in one sentence the next step of the mission. If it cannot be saved (for example, in voice mode), say that it was **not** saved and give `Save-Practice finish <session> <first F>-<last F>` to send as text in this conversation, explaining that voice mode must be left.
+- **Stage 7, Entertainment Lab (suggestion).** In the same message, read the saved section and show the material already prepared: title and channel, link, segment and length, task and questions. Ask only whether the learner wants to do the Lab now. Do no new search and do not ask for topic or length. In voice mode, say the title and that the link and the task are in the transcript, and suggest doing it in text. If the learner started without the video (accepted absence), say so and offer to prepare it now, in text. If the learner does the Lab, save the result in the same practice (Finish-Lab), reread and confirm; if not, nothing else is saved. `Start-Lab` opens the material later.
 
-Abra apenas o módulo necessário em assets/skills/: 01 para reuniões (START MEETING), 02 para cotidiano/viagem (START TRAVEL), 03 para comunicação técnica (START TECHNICAL), 04 para compreensão oral (START LISTENING), 05 para FEEDBACK. Use o repertório localizado em conteudo/. Para o Entertainment Lab, preparado antes da etapa 1 e apresentado na etapa 7, siga [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md) e os módulos 06 e 07.
+Open only the module needed in `assets/modules/`: 01 for meetings (START MEETING), 02 for everyday life/travel (START TRAVEL), 03 for technical communication (START TECHNICAL), 04 for listening (START LISTENING), 05 for FEEDBACK. Use the target's `essentials.md`. For the Entertainment Lab, prepared before stage 1 and suggested after the closing, follow [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md) and modules 06 and 07.
 
-Durante a atividade, “HELP”, “REPEAT” e “SLOW DOWN” adaptam o apoio; fora de atividade, “Help” mostra a tabela de comandos. Pedidos sobre uma frase ou diálogo pelo número seguem [references/FRASES-E-VOZ.md](references/FRASES-E-VOZ.md#pedir-algo-sobre-uma-frase-ou-diálogo). Antes de voz, salve e recupere o checkpoint. Ao começar uma prática por voz, diga em uma frase como ela será salva: a cada resposta, se a gravação estiver disponível, ou no encerramento, com o comando Save-Practice se for preciso. Se a voz não consegue pesquisar, gravar e reler o material do Lab, diga isso, não afirme que ele está pronto, e encaminhe ao texto: `Start-Practice <idioma>` prepara a prática e o Lab; depois o aluno volta à voz. Ao retomar uma prática, grave o status `Em andamento (em execução)` e confira a seção do Lab antes de continuar a etapa salva; se o material não estiver pronto nem houver pendência aceita pelo aluno, faça o preparo ou o caminho de falha primeiro. Durante a prática ou diagnóstico, reúna resposta, evidência, modalidade e próxima pergunta em uma única atualização verificada do arquivo da sessão. A retomada usa esse arquivo diretamente. Adie a consolidação do progresso e do perfil até a conclusão. Aplique o [protocolo de escrita e recuperação](references/PERSISTENCIA.md) também ao pausar, concluir ou reavaliar.
+During the activity, HELP, REPEAT and SLOW DOWN adapt the support; outside an activity, `Help` shows the command table. Requests about a phrase or dialogue by number follow [references/PHRASES-AND-VOICE.md](references/PHRASES-AND-VOICE.md#asking-about-a-phrase-or-dialogue). Before voice, save and recover the checkpoint. When starting a practice by voice, say in one sentence how it will be saved: after each answer, if writing is available, or at the closing, with Save-Practice if needed. If voice cannot search, write and reread the Lab material, say so, do not claim it is ready, and route to text: `Start-Practice <language>` prepares the practice and the Lab; then the learner goes back to voice. When resuming a practice, write `status: running` and check the Lab section before continuing the saved stage; if the material is not ready and no absence was accepted, prepare it or follow the failure path first. During the practice or diagnostic, gather answer, evidence, modality and next question in a single verified update of the session file. The resume uses that file directly. Leave the consolidation of progress and profile for the completion. Apply the [write and recovery protocol](references/PERSISTENCE.md) also when pausing, completing or reviewing.
 
-### Garantia de gravação (obrigatória, em texto e voz)
+### Save guarantee (mandatory, in text and voice)
 
-Em três momentos a gravação na Central é obrigatória e precisa ser confirmada ao aluno: ao **pausar** uma prática ou diagnóstico, ao **terminar** uma prática ou diagnóstico e ao **terminar um Lab feito** pelo aluno. Em todos eles:
+At three moments saving to the Central is mandatory and must be confirmed to the learner: when **pausing** a practice or diagnostic, when **finishing** a practice or diagnostic, and when **finishing a Lab** the learner did. In all of them:
 
-1. Grave na sessão o que mudou (status, checkpoint, frases, respostas, resultado do Lab), atualize os contadores e os derivados que o momento exige e releia.
-2. Só depois da releitura diga, em texto ou em voz: "Salvo na sua Central: <sessão>" e o que foi salvo (prática pausada, prática concluída, resultado do Lab).
-3. Se não for possível gravar (por exemplo, no modo voz sem ferramentas), diga claramente que **não** salvou e dê o comando exato para o modo texto: `Save-Practice pausar|concluir|lab <sessão> <F inicial>-<F final>`, explicando que é preciso sair do modo voz e enviá-lo nesta mesma conversa.
+1. Write to the session what changed (status, checkpoint, phrases, answers, Lab result), update the counters and the derived records the moment requires, and reread.
+2. Only after the reread say, in text or voice, that it was saved in the Central, with the session ID and what was saved (practice paused, practice completed, Lab result).
+3. If saving is not possible (for example, voice mode without tools), say clearly that it was **not** saved and give the exact command for text mode: `Save-Practice pause|finish|lab <session> <first F>-<last F>`, explaining that voice mode must be left and the command sent in this same conversation.
 
-Nunca encerre uma prática, um diagnóstico ou um Lab feito sem uma das duas saídas: confirmação de gravação ou comando Save-Practice. Procedimento em [references/FRASES-E-VOZ.md](references/FRASES-E-VOZ.md#pausar-e-concluir).
+Never end a practice, diagnostic or a Lab that was done without one of the two outcomes: save confirmation or the Save-Practice command. Procedure in [references/PHRASES-AND-VOICE.md](references/PHRASES-AND-VOICE.md#pause-and-complete).
 
-## Acompanhamento
+## Follow-up
 
-Consulte o progresso confirmado do idioma solicitado e até três sessões para fundamentar o relatório. Listas e status de práticas seguem a seção Status das práticas: só sessões existentes, só os cinco status, sem práticas apagadas por reset. Apresente objetivos já atingidos, evidências, limitações, próxima prática e reavaliação. Duração real exige observação. Exclua testes de totais, frequência, CEFR, tempo, metas e revisões. No chat de acompanhamento, todas as consultas são de leitura. Para zerar registros, use Reset-Diagnostics, Reset-Practices ou Reset-Progress, que delimitam idioma e alcance, fazem e conferem o backup e pedem confirmação explícita antes de executar.
+Check the confirmed progress of the requested language and up to three sessions to support the report (`Get-Progress`). Show the goals already reached, evidence, limitations, next practice and review. Actual duration requires observation. Exclude tests from totals, frequency, CEFR, time, goals and reviews. Lists and statuses of practices follow the Practice status section: only existing sessions, only the four statuses, no practices deleted by a reset. In a follow-up chat, every query is read-only. To wipe records, use Reset-Diagnostics, Reset-Practices or Reset-Progress, which limit language and scope and ask for explicit confirmation before running.

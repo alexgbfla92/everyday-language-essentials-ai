@@ -81,6 +81,7 @@
   "c_next_question": "nächste Frage zur Einrichtung",
   "c_practice_minutes": "Standard 20, oder die der Mission",
   "c_root": "lokaler Pfad oder ID des Ordners in Drive/OneDrive",
+  "c_setup_step": "Start-Assistent: native_language | central | languages | diagnostic | mission | practice | projects | done",
   "c_situation": "Situation der Mission, die in dieser Sitzung geübt wird",
   "c_tests_excluded": "no bei Tests",
   "c_voice_ids": "Satznummern im Sprachmodus ansagen",

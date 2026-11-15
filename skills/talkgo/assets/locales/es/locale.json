@@ -81,6 +81,7 @@
   "c_next_question": "siguiente pregunta de registro",
   "c_practice_minutes": "20 por defecto, o el de la misión",
   "c_root": "ruta local o ID de la carpeta en Drive/OneDrive",
+  "c_setup_step": "asistente Start: native_language | central | languages | diagnostic | mission | practice | projects | done",
   "c_situation": "situación de la misión practicada en esta sesión",
   "c_tests_excluded": "no para pruebas",
   "c_voice_ids": "anunciar los números de las frases en modo voz",

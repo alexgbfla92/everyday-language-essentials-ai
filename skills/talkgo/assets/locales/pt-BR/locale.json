@@ -81,6 +81,7 @@
   "c_next_question": "próxima pergunta de cadastro",
   "c_practice_minutes": "padrão 20, ou o da missão",
   "c_root": "caminho local ou ID da pasta no Drive/OneDrive",
+  "c_setup_step": "assistente Start: native_language | central | languages | diagnostic | mission | practice | projects | done",
   "c_situation": "situação da missão praticada nesta sessão",
   "c_tests_excluded": "no para testes",
   "c_voice_ids": "anunciar os números das frases no modo voz",

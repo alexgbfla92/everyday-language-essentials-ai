@@ -81,6 +81,7 @@
   "c_next_question": "next setup question",
   "c_practice_minutes": "default 20, or the mission's",
   "c_root": "local path or Drive/OneDrive folder ID",
+  "c_setup_step": "Start wizard: native_language | central | languages | diagnostic | mission | practice | projects | done",
   "c_situation": "mission situation practiced in this session",
   "c_tests_excluded": "no for tests",
   "c_voice_ids": "announce phrase numbers in voice mode",

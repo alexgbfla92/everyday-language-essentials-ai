@@ -1,10 +1,10 @@
-"""Atualiza a versão em todos os lugares a partir do VERSION da raiz.
+"""Update the version everywhere from the root VERSION file.
 
-  python tools/bump_version.py patch|minor|major   # sobe a versão e propaga
-  python tools/bump_version.py 1.2.3              # define a versão e propaga
-  python tools/bump_version.py --check            # só confere se tudo está igual ao VERSION
+  python tools/bump_version.py patch|minor|major   # bump the version and propagate it
+  python tools/bump_version.py 1.2.3              # set the version and propagate it
+  python tools/bump_version.py --check            # only check that everything matches VERSION
 
-Cada PR deve subir a versão (a verificação do GitHub recusa PR sem mudança no VERSION).
+Every PR must bump the version (the GitHub check refuses a PR without a VERSION change).
 """
 import json
 import re
@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 VERSION = ROOT / "VERSION"
 MANIFESTS = [ROOT / "plugin.json", ROOT / ".claude-plugin" / "plugin.json"]
 SKILL = ROOT / "skills" / "talkgo" / "SKILL.md"
-SKILL_LINE = re.compile(r"^(Versão instalada: )(\S+)$", re.M)
+SKILL_LINE = re.compile(r"^(Installed version: )(\S+)$", re.M)
 SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
 
 
@@ -49,7 +49,7 @@ def write(version):
         path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     text = SKILL.read_text(encoding="utf-8")
     if not SKILL_LINE.search(text):
-        raise SystemExit("SKILL.md sem a linha 'Versão instalada: X.Y.Z'.")
+        raise SystemExit("SKILL.md without the line 'Installed version: X.Y.Z'.")
     SKILL.write_text(SKILL_LINE.sub(rf"\g<1>{version}", text), encoding="utf-8")
 
 
@@ -60,9 +60,9 @@ def main(argv):
         versions = found()
         wrong = {k: v for k, v in versions.items() if v != current()}
         if wrong or not SEMVER.match(current()):
-            print("Versões divergentes do VERSION:", json.dumps(versions, indent=2))
+            print("Versions differ from VERSION:", json.dumps(versions, indent=2))
             return 1
-        print(f"Versão {current()} consistente em {len(versions)} arquivos.")
+        print(f"Version {current()} consistent in {len(versions)} files.")
         return 0
     version = argv[0] if SEMVER.match(argv[0]) else bump(current(), argv[0]) \
         if argv[0] in ("major", "minor", "patch") else None
