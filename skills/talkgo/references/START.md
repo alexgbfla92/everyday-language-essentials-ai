@@ -16,14 +16,14 @@ Rules for the whole wizard:
 A new chat knows nothing about the previous one; it only finds the Central through the context line. So:
 
 1. **Context line.** As soon as the Central exists (step 2), build one line with the real data: `TalkGo · Central: <name> · <Drive link or local path> · Native language: <tag>`. Ask the learner to create the project now (step 7 explains how) and paste this line into the project instructions, so every chat of the project opens the same Central. If the learner does not use projects, the line goes inside every handoff message.
-2. **Handoff message.** When a step moves to another chat (the diagnostic in a chat of its own, the first practice), give, in a code block the learner can copy, exactly what to send in the new chat: the command and the context line, for example:
+2. **Handoff message.** When a step moves to another chat (the first practice; the diagnostic always stays in the setup chat), give, in a code block the learner can copy, exactly what to send in the new chat: the command and the context line, for example:
 
    ```
    Start-Diagnostic English
    TalkGo · Central: TalkGo · https://drive.google.com/drive/folders/<ID> · Native language: pt-BR
    ```
 
-   Then say in one line: the name to give the new chat (for example `English-Diagnostic`), and what happens when it ends ("when the diagnostic is saved, the setup continues by itself in that chat; or come back here and send `Start`").
+   Then say in one line: the name to give the new chat (for example `Practice-0001-Airport check-in`), and what happens when it ends ("when it is saved, come back here or send `Start` there to see the next step").
 3. **Before leaving the chat**, save `setup_step` and `setup_chat` (the name suggested for this setup chat, for example `Setup`) in the learner profile and reread, so the other chat knows where the setup stopped.
 4. **Back from another chat.** Any activity that ends (diagnostic, mission, practice) reads `setup_step` in the learner profile. If it is not `done`, the closing message, after the save confirmation, says which wizard step comes next and offers both ways: continue right here (`Start`), or go back to the `setup_chat` chat and send `Start`. If the learner answers "yes" or `Start`, continue the wizard in that chat from the saved step.
 5. `Start` in any chat with the context line (in the message or in the project instructions) opens that Central, reads `setup_step` and resumes; it never asks again what is already saved.
@@ -55,11 +55,9 @@ A new chat knows nothing about the previous one; it only finds the Central throu
 
 ## 4. Diagnostic
 
-1. Explain in one or two sentences that a short diagnostic (30 minutes by default, adjustable) shows the learner's level in each skill and is needed before the first mission, so missions and practices fit the learner. Say that every answer is saved in the Central as the diagnostic goes, so nothing is lost if the chat closes.
-2. Ask as a single choice: In a chat of its own (recommended, named for example `English-Diagnostic`) · Now, in this chat. Then the length: 30 minutes (recommended) · 15 minutes · 45 minutes · Other.
-   - **In this chat:** run `Start-Diagnostic` for the default language.
-   - **In another chat:** save `setup_step: diagnostic`, give the handoff message (`Start-Diagnostic <language>` plus the context line) and stop here. The diagnostic chat runs the diagnostic, saves it and continues the wizard (or sends the learner back here).
-   With more than one language, do one diagnostic now and say that the others can be done later with `Start-Diagnostic <language>`.
+1. Ask nothing here: no question about which chat, length or whether to start. The diagnostic always runs in this same chat, right after step 3, with the default length (30 minutes; the learner can ask to change it at any time).
+2. In the same message that closes step 3, say in one or two sentences that a short diagnostic now shows the learner's level in each skill, so the mission and practices fit the learner, and that every answer is saved in the Central as it goes. Then run `Start-Diagnostic` for the default language and ask its first question in that same message.
+   With more than one language, do the diagnostic of the default language now and say in one line that the others can be done later with `Start-Diagnostic <language>`.
 3. The diagnostic is always saved as in SKILL.md ([Diagnostic saving](../SKILL.md#diagnostic-saving-mandatory)): file created before the first question, every answer written and reread, closing with results, derived records and confirmation.
 4. **Check before going on.** Do not move to step 5 on the learner's word alone: read the language's diagnostics folder and check that a regular diagnostic is `completed` (with Python: `python scripts/diagnostic.py closing FILE` answers `"can_close": true`).
    - Found: say in one line that it was found in the Central (ID and estimated level), save `setup_step: mission` and go on.

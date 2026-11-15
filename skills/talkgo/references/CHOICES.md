@@ -27,8 +27,7 @@ Whenever a question has a set of likely answers, the learner picks from options 
 | Central folder | single | Create a `TalkGo` folder in my Drive (recommended) · Use a folder I choose · Other |
 | Target languages | multiple | all supported languages, in catalog order, without the native language: American English · Spanish (Spain) · French (France) · Brazilian Portuguese · Mandarin Chinese · Italian · Japanese · German · Korean · Hindi · Arabic (closed set) |
 | Default language when several | single | the chosen languages |
-| Diagnostic now or in another chat | single | In a chat of its own (recommended) · Now, in this chat |
-| Diagnostic length | single | 30 minutes (recommended) · 15 minutes · 45 minutes · Other |
+| Diagnostic length (only with Start-Diagnostic outside Start; Start uses the default without asking) | single | 30 minutes (recommended) · 15 minutes · 45 minutes · Other |
 | Mission type | single | Trip · Work meetings · Event · Other |
 | Mission situations | multiple | the situations proposed for the mission · Other |
 | Target date | single | two or three suggested dates · Other |

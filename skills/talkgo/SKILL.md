@@ -51,7 +51,7 @@ Every command follows `Verb-Entity` in English (`Get` shows, `New` creates, `Set
 
 **Context.** Central → Language → Mission → Practice. For each level the command uses, use what the learner gave; if there is a single option, use it; if there are several, ask with the default marked as default and preselected, so the learner only confirms or switches; if there is none, route to the command that creates it. Details and exceptions in the Context and defaults section of [references/COMMANDS.md](references/COMMANDS.md#context-and-defaults). Remove and Reset always show the preview and ask for explicit confirmation, and never make backups: no operation copies, keeps or creates backups in the Central. Backups only with `Backup-Central`, when the learner asks.
 
-Installed version: 0.22.0
+Installed version: 0.22.1
 
 `Help` (or `Help-Commands`, which also works in the middle of an activity) shows the learner the installed version (line above, as "TalkGo vX.Y.Z"), the current default context and this table, with the commands and examples in English and the descriptions in the native language, without running anything:
 
@@ -128,7 +128,7 @@ The diagnostic follows five stages: 1 listening, 2 speaking and interaction, 3 r
 
 ### Diagnostic saving (mandatory)
 
-A diagnostic is never only a conversation: it exists in the Central from the first question to the closing, in this chat or in a chat of its own.
+A diagnostic is never only a conversation: it exists in the Central from the first question to the closing. Inside `Start`, it always runs in the setup chat, with no question before it.
 
 1. **Before the first question**, create the diagnostic file in the language's diagnostics folder from the native-language template (`diagnostic_id`, `language`, `type`, `status: running`, `created_at`), publish the active session pointer, reread and write `saved_in_central_at`. With Python, `python scripts/diagnostic.py started FILE` must answer `"can_start": true`. Say in one line, in the native language, that the diagnostic is being saved in the Central, with its ID. If nothing can be written (no connector, voice without tools), say so **before** starting, say what to turn on, and only go on if the learner accepts; then the closing ends with `Save-Practice finish`.
 2. **After each answer of the learner**, one verified write of the file: answer, evidence, modality, current stage and next question. Never let more than one answer go unsaved.
