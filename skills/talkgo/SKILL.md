@@ -49,46 +49,48 @@ If the message starts with a command from the table below, run the command. Othe
 
 Every command follows `Verb-Entity` in English (`Get` shows, `New` creates, `Set` changes, `Remove` deletes one item, `Reset` wipes one type of record, `Backup` copies the Central, `Start`/`Pause`/`Resume`/`Finish`/`Save` run the setup or the session). Recognize them regardless of case, accents, spaces or hyphen, with arguments in any order, and follow the procedure of each in [references/COMMANDS.md](references/COMMANDS.md). Natural-language requests, in any language, lead to the same procedure.
 
+**Commands told to the learner.** Whenever you tell the learner to send a command, at any moment (Help, next steps, failures, confirmations, handoff messages), write it in the complete form for the platform you run on, in code formatting: in Claude `/talkgo Save-Practice finish`, in ChatGPT `@TalkGo Save-Practice finish`. If you cannot tell which platform you run on, give both, Claude first: `/talkgo Save-Practice finish` (Claude) · `@TalkGo Save-Practice finish` (ChatGPT). Never tell the learner a bare command name. Inside an ongoing activity, the learner can still type a command or a word such as "pause" without the prefix.
+
 **Context.** Central → Language → Mission → Practice. For each level the command uses, use what the learner gave; if there is a single option, use it; if there are several, ask with the default marked as default and preselected, so the learner only confirms or switches; if there is none, route to the command that creates it. Details and exceptions in the Context and defaults section of [references/COMMANDS.md](references/COMMANDS.md#context-and-defaults). Remove and Reset always show the preview and ask for explicit confirmation, and never make backups: no operation copies, keeps or creates backups in the Central. Backups only with `Backup-Central`, when the learner asks.
 
-Installed version: 0.22.1
+Installed version: 0.23.0
 
-`Help` (or `Help-Commands`, which also works in the middle of an activity) shows the learner the installed version (line above, as "TalkGo vX.Y.Z"), the current default context and this table, with the commands and examples in English and the descriptions in the native language, without running anything:
+`Help` (or `Help-Commands`, which also works in the middle of an activity) shows the learner the installed version (line above, as "TalkGo vX.Y.Z"), the current default context and this table, with the commands and examples in English and the descriptions in the native language, without running anything. Show every example in the complete form of the platform: as written below for Claude (`/talkgo …`); in ChatGPT, replace `/talkgo` with `@TalkGo`:
 
 | Command | What it does | Example |
 | --- | --- | --- |
-| Start | First-setup wizard: native language, Central, languages, diagnostic, first mission and first practice, then projects and chats. | `Start` |
-| Help | Lists the commands and the default context. | `Help` |
+| Start | First-setup wizard: native language, Central, languages, diagnostic, first mission and first practice, then projects and chats. | `/talkgo Start` |
+| Help | Lists the commands and the default context. | `/talkgo Help` |
 | **Central** | | |
-| Get-Central [central] | Shows each Central: default, native language, storage, folder, languages, missions and totals. | `Get-Central` |
-| New-Central [local\|googledrive\|onedrive] [folder] [languages] | Creates the Central with all its folders and records. | `New-Central googledrive TalkGo English` |
-| Remove-Central [central] | Deletes the whole Central after a preview and confirmation by name. | `Remove-Central Work` |
-| Backup-Central [central] [destination] | Copies the whole Central outside it. Runs only when you ask. | `Backup-Central` |
-| Set-Default central\|language\|mission [name] | Sets the Central, language or mission used when you do not give one. | `Set-Default mission london-trip` |
+| Get-Central [central] | Shows each Central: default, native language, storage, folder, languages, missions and totals. | `/talkgo Get-Central` |
+| New-Central [local\|googledrive\|onedrive] [folder] [languages] | Creates the Central with all its folders and records. | `/talkgo New-Central googledrive TalkGo English` |
+| Remove-Central [central] | Deletes the whole Central after a preview and confirmation by name. | `/talkgo Remove-Central Work` |
+| Backup-Central [central] [destination] | Copies the whole Central outside it. Runs only when you ask. | `/talkgo Backup-Central` |
+| Set-Default central\|language\|mission [name] | Sets the Central, language or mission used when you do not give one. | `/talkgo Set-Default mission london-trip` |
 | **Language** | | |
-| Add-Language [languages] | Adds target languages to the Central without deleting anything. | `Add-Language French` |
-| Start-Diagnostic [language] | Starts (or resumes) the diagnostic of the language. | `Start-Diagnostic Spanish` |
-| Get-Progress [language] | Shows the confirmed progress: missions, practices per situation, CEFR and next review. | `Get-Progress English` |
+| Add-Language [languages] | Adds target languages to the Central without deleting anything. | `/talkgo Add-Language French` |
+| Start-Diagnostic [language] | Starts (or resumes) the diagnostic of the language. | `/talkgo Start-Diagnostic Spanish` |
+| Get-Progress [language] | Shows the confirmed progress: missions, practices per situation, CEFR and next review. | `/talkgo Get-Progress English` |
 | **Mission** | | |
-| Get-Missions [language] [status] | Lists the missions: title, target date, status and completed practices. | `Get-Missions English` |
-| New-Mission [language] | Creates a mission: title, description, target date and situations. | `New-Mission English` |
-| Set-Mission [mission] | Changes a mission (fields, situations or status). | `Set-Mission london-trip` |
-| Remove-Mission [mission] | Deletes the mission and its practices, after a preview and confirmation. | `Remove-Mission meetings` |
+| Get-Missions [language] [status] | Lists the missions: title, target date, status and completed practices. | `/talkgo Get-Missions English` |
+| New-Mission [language] | Creates a mission: title, description, target date and situations. | `/talkgo New-Mission English` |
+| Set-Mission [mission] | Changes a mission (fields, situations or status). | `/talkgo Set-Mission london-trip` |
+| Remove-Mission [mission] | Deletes the mission and its practices, after a preview and confirmation. | `/talkgo Remove-Mission meetings` |
 | **Practice** | | |
-| Get-Practices [language] [mission] [status] | Lists the practices by mission and status. | `Get-Practices English` |
-| Start-Practice [language] [mission] [situation] [length] | Prepares the next practice of the mission (Lab included) and shows the seven-stage roadmap. | `Start-Practice English 5min` |
-| Pause-Practice | Pauses the practice or diagnostic and saves the exact point. | `Pause-Practice` or "pause" |
-| Resume-Practice [practice] | Resumes a practice in progress where it stopped. | `Resume-Practice` or "resume" |
-| Finish-Practice | Closes the practice or diagnostic with feedback and saves everything, including progress. | `Finish-Practice` or "finish" |
-| Save-Practice [pause\|finish\|lab] [session] [phrases] | In text mode, saves what was left pending from voice mode. | `Save-Practice lab practice-20261111-01 F159-F170` |
-| Start-Lab [practice] | Opens the Entertainment Lab of a practice, any time after the closing. | `Start-Lab` |
-| Get-Stage | Shows the current stage, what is left and the remaining time. | `Get-Stage` or "which stage are we at?" |
-| Get-Phrase <F\|D number> | Repeats, translates or explains a phrase or dialogue by number. | `Get-Phrase F132`, "repeat phrase 132" |
-| Set-VoiceIds on\|off | Turns the phrase-number announcement in voice mode on or off. | `Set-VoiceIds off` |
+| Get-Practices [language] [mission] [status] | Lists the practices by mission and status. | `/talkgo Get-Practices English` |
+| Start-Practice [language] [mission] [situation] [length] | Prepares the next practice of the mission (Lab included) and shows the seven-stage roadmap. | `/talkgo Start-Practice English 5min` |
+| Pause-Practice | Pauses the practice or diagnostic and saves the exact point. | `/talkgo Pause-Practice` or "pause" |
+| Resume-Practice [practice] | Resumes a practice in progress where it stopped. | `/talkgo Resume-Practice` or "resume" |
+| Finish-Practice | Closes the practice or diagnostic with feedback and saves everything, including progress. | `/talkgo Finish-Practice` or "finish" |
+| Save-Practice [pause\|finish\|lab] [session] [phrases] | In text mode, saves what was left pending from voice mode. | `/talkgo Save-Practice lab practice-20261111-01 F159-F170` |
+| Start-Lab [practice] | Opens the Entertainment Lab of a practice, any time after the closing. | `/talkgo Start-Lab` |
+| Get-Stage | Shows the current stage, what is left and the remaining time. | `/talkgo Get-Stage` or "which stage are we at?" |
+| Get-Phrase <F\|D number> | Repeats, translates or explains a phrase or dialogue by number. | `/talkgo Get-Phrase F132`, "repeat phrase 132" |
+| Set-VoiceIds on\|off | Turns the phrase-number announcement in voice mode on or off. | `/talkgo Set-VoiceIds off` |
 | **Reset records** | | |
-| Reset-Diagnostics [language\|All] | Deletes the diagnostics of the language and resets the derived profile. | `Reset-Diagnostics French` |
-| Reset-Practices [language\|All] | Deletes the practices of the language and every trace of them. | `Reset-Practices English` |
-| Reset-Progress [language\|All] | Resets the progress log and the derived summaries. | `Reset-Progress Spanish` |
+| Reset-Diagnostics [language\|All] | Deletes the diagnostics of the language and resets the derived profile. | `/talkgo Reset-Diagnostics French` |
+| Reset-Practices [language\|All] | Deletes the practices of the language and every trace of them. | `/talkgo Reset-Practices English` |
+| Reset-Progress [language\|All] | Resets the progress log and the derived summaries. | `/talkgo Reset-Progress Spanish` |
 
 During a practice or diagnostic, HELP (support in the exercise), REPEAT and SLOW DOWN also apply, as described below.
 
@@ -130,13 +132,19 @@ The diagnostic follows five stages: 1 listening, 2 speaking and interaction, 3 r
 
 A diagnostic is never only a conversation: it exists in the Central from the first question to the closing. Inside `Start`, it always runs in the setup chat, with no question before it.
 
-1. **Before the first question**, create the diagnostic file in the language's diagnostics folder from the native-language template (`diagnostic_id`, `language`, `type`, `status: running`, `created_at`), publish the active session pointer, reread and write `saved_in_central_at`. With Python, `python scripts/diagnostic.py started FILE` must answer `"can_start": true`. Say in one line, in the native language, that the diagnostic is being saved in the Central, with its ID. If nothing can be written (no connector, voice without tools), say so **before** starting, say what to turn on, and only go on if the learner accepts; then the closing ends with `Save-Practice finish`.
-2. **After each answer of the learner**, one verified write of the file: answer, evidence, modality, current stage and next question. Never let more than one answer go unsaved.
-3. **Closing (stage 5) runs by itself** when stage 4 ends, when time runs out or when the learner says they are done or want to stop. Never end a diagnostic with a summary or feedback only, and never ask "do you want to save?" instead of saving. In one write: results by skill (`result_listening`, `result_speaking_interaction`, `result_reading`, with `not_observed` for what was not observed; in text, speaking is always `not_observed`), `result_cefr_estimate`, `result_confidence`, `status: completed`, `finished_at`, `closing_next_step`. Then update and reread the derived records: current profile (assessment by skill), progress log, learner profile and the central state counters; write `closing_derived_updated: yes` and `closing_saved_reread: yes`, and finalize the pointer last.
-4. **Check and confirm.** With Python, `python scripts/diagnostic.py closing FILE` must answer `"can_close": true`; without Python, check the same fields after the reread. Only then confirm to the learner that the diagnostic was saved in the Central, with the ID, the estimated level and the next step (`New-Mission <language>`).
-5. **If any write failed**, say clearly that the diagnostic was **not** fully saved, what is missing, and give `Save-Practice finish <diagnostic ID>` to send in this conversation. Never close the chat silently.
-6. **Never pending.** A diagnostic ends every conversation in one of two defined states: `completed` (the closing check passes) or `paused` (Pause-Practice, with checkpoint and next question, confirmed to the learner). Feedback (stage 4) and closing (stage 5) go in the same message, without waiting. If the learner stops answering or changes subject in the middle, pause it explicitly and say how to resume (`Resume-Practice <diagnostic ID>`). Any command that finds a `running` or `paused` diagnostic in the language (Start, New-Mission, Start-Practice, Get-Central, Get-Progress) says so first, with the stage where it stopped, and offers to resume it. Only a `completed` diagnostic that passes the closing check unlocks the mission.
-7. **Part of Start.** If `setup_step` in the learner profile is not `done`, end the confirmation with the next wizard step and the two ways to continue: send `Start` here, or go back to the setup chat (`setup_chat`) and send `Start` ([references/START.md](references/START.md#linking-chats-handoff)).
+1. **Progress always visible.** Every message of the diagnostic starts with one status line in the native language: activity, stage, stage name, a five-step bar and the time left, for example `Diagnostic · Stage 2 of 5 · Speaking and interaction · ■■□□□ · about 18 min left`. When a stage ends, say it in one line before the next one starts (`✓ Stage 1 of 5 completed: Listening. Next: Stage 2 of 5, Speaking and interaction`). In stage 4 (feedback), say that the closing comes right after; never call the feedback the end of the diagnostic. `Get-Stage` and questions such as "how much is left?" answer with the same line.
+2. **Before the first question**, create the diagnostic file in the language's diagnostics folder from the native-language template (`diagnostic_id`, `language`, `type`, `status: running`, `created_at`), publish the active session pointer, reread and write `saved_in_central_at`. With Python, `python scripts/diagnostic.py started FILE` must answer `"can_start": true`. Say in one line, in the native language, that the diagnostic is being saved in the Central, with its ID. If nothing can be written (no connector, voice without tools), say so **before** starting, say what to turn on, and only go on if the learner accepts; then the closing ends with `Save-Practice finish`.
+3. **After each answer of the learner**, one verified write of the file: answer, evidence, modality, current stage and next question. Never let more than one answer go unsaved.
+4. **Closing (stage 5) runs by itself** when stage 4 ends, when time runs out or when the learner says they are done or want to stop. Never end a diagnostic with a summary or feedback only, and never ask "do you want to save?" instead of saving. In one write: results by skill (`result_listening`, `result_speaking_interaction`, `result_reading`, with `not_observed` for what was not observed; in text, speaking is always `not_observed`), `result_cefr_estimate`, `result_confidence`, `status: completed`, `finished_at`, `closing_next_step`. Then update and reread the derived records: current profile (assessment by skill), progress log, learner profile and the central state counters; write `closing_derived_updated: yes` and `closing_saved_reread: yes`, and finalize the pointer last.
+5. **Check and confirm.** With Python, `python scripts/diagnostic.py closing FILE` must answer `"can_close": true`; without Python, check the same fields after the reread. Only then send the completion message, in the native language, set apart from the rest so it cannot be missed, in this order:
+   - a title line: `✅ DIAGNOSTIC COMPLETED: <language>` (for example, in Portuguese, `✅ DIAGNÓSTICO CONCLUÍDO: Inglês americano`);
+   - the save line: on Google Drive, "Your diagnostic was saved in the Drive!!!" (in Portuguese, "Seu diagnóstico foi salvo no Drive!!!"); in a local folder or OneDrive, the same sentence with "in your Central"; followed by the file link or path;
+   - the ID, the estimated level by skill and the confidence, in two or three lines;
+   - the next step, with the command in the complete form (for example `/talkgo New-Mission English`), or the next wizard step inside `Start`.
+   Never use the words "completed" or "saved" about the diagnostic before this message.
+6. **If the save cannot be confirmed** (a write failed, the reread differs, the check does not pass, or the session cannot write), send instead, set apart in the same way: `⚠️ DIAGNOSTIC FINISHED, BUT NOT SAVED` (in the native language), one line on what is missing, and the instruction to send, in this same conversation, `/talkgo Save-Practice finish` (in ChatGPT, `@TalkGo Save-Practice finish`). Never say the diagnostic was saved, and never close the chat silently.
+7. **Never pending.** A diagnostic ends every conversation in one of two defined states: `completed` (the closing check passes) or `paused` (Pause-Practice, with checkpoint and next question, confirmed to the learner). Feedback (stage 4) and closing (stage 5) go in the same message, without waiting. If the learner stops answering or changes subject in the middle, pause it explicitly and say how to resume (`Resume-Practice <diagnostic ID>`). Any command that finds a `running` or `paused` diagnostic in the language (Start, New-Mission, Start-Practice, Get-Central, Get-Progress) says so first, with the stage where it stopped, and offers to resume it. Only a `completed` diagnostic that passes the closing check unlocks the mission.
+8. **Part of Start.** If `setup_step` in the learner profile is not `done`, end the confirmation with the next wizard step and the two ways to continue: send `Start` here, or go back to the setup chat (`setup_chat`) and send `Start` ([references/START.md](references/START.md#linking-chats-handoff)).
 
 **Prepare the Entertainment Lab when creating the practice**, before stage 1 and without questions to the learner, as in [references/ENTERTAINMENT-LAB.md](references/ENTERTAINMENT-LAB.md#prepare-before-stage-1): a real YouTube video linked to the topic and items of the practice, in the language and variety of the practice; title, channel, direct link `https://www.youtube.com/watch?v=<ID>` (never another site, playlist or channel), length and segment confirmed by the page or the browser; with YouTube blocked, link and title from search, with what cannot be confirmed marked as unconfirmed (never invented), transcript state, up to 3 questions and 1 task. What will be watched must be 30% to 50% of the practice (6 to 10 minutes in a 20-minute practice); if no video linked to the topic fits, use the closest and record the reason; with an unconfirmed length, tell the learner. Never invent length, transcript, content or timestamps. Write, reread and check; if it fails, tell the learner before starting and ask for acceptance to go on without the video.
 

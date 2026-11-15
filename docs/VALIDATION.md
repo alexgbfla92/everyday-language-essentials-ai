@@ -16,6 +16,13 @@ The names below are the English ones (native language `en`). With another native
 8. Every question of the wizard with likely answers (native language, storage, folder, languages, default language) comes as options to pick, single or multiple, with "Other" for free text: as an option card where the platform shows one, as a numbered list otherwise (a number answers it).
 9. With a native language without a locale (for example `ja`): the wizard says once that folder and file names will be in English and keeps every message in Japanese.
 
+## Diagnostic progress and completion
+
+1. Every diagnostic message starts with the status line (stage N of 5, stage name, bar, time left); each stage change is announced; "how much is left?" answers with the same line.
+2. At the end, only after the reread and the closing check, the message `✅ DIAGNOSTIC COMPLETED` (in the native language) appears, with "Your diagnostic was saved in the Drive!!!", the file link, the level and the next step with the complete command.
+3. With writing blocked (connector off), the end shows `⚠️ DIAGNOSTIC FINISHED, BUT NOT SAVED` and `/talkgo Save-Practice finish` (or `@TalkGo Save-Practice finish` in ChatGPT); never "saved".
+4. Every command the AI tells the learner to send, and every Help example, has the platform prefix (`/talkgo` in Claude, `@TalkGo` in ChatGPT).
+
 ## Native Drive rehearsal
 
 1. In Claude, with the Google Drive, Google Docs and Google Sheets connectors on, run `New-Central` on Google Drive with an empty folder and English. Check the folder: `talkgo.json`; `central-state`, `learner-profile` and the three files of `State/` as Google Docs without `.md`; `progress-log` as a Google Sheet with the tabs `Summary` and `Practices` (no "Untitled"); `History/README.md` as Markdown. No reference assets are copied into the Central.
