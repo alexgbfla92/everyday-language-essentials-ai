@@ -1,6 +1,6 @@
 # Initial diagnostic roadmap — Spanish (Spain) (es-ES)
 
-Default length: 30 minutes, customizable. Before starting, create the diagnostic record (ID, language, regular/test type, `include_in_metrics`, status). Save a checkpoint at each stage change. Never confuse planned minutes with observed minutes. Instructions and feedback in the learner's native language; tasks in Spanish.
+Default length: 30 minutes, customizable. Before starting, create the diagnostic record (ID, language, regular/test type, `include_in_metrics`, status). Run all stages in one go, without pauses: each stage change saves a silent checkpoint and goes straight on to the next stage in the same message (SKILL.md, Diagnostic saving). Never confuse planned minutes with observed minutes. Instructions and feedback in the learner's native language; tasks in Spanish.
 
 1. Opening: ask in Spanish what the learner needs the language for and confirm the variety (Spain by default).
 2. Listening (8 min): short spoken announcements, for example «El tren sale del andén cuatro», or a hotel message. One question at a time. Without real audio, record “listening not assessed”.

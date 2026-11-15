@@ -1,6 +1,6 @@
 # Initial diagnostic roadmap — Brazilian Portuguese (pt-BR)
 
-Default length: 30 minutes, customizable. Before starting, create the diagnostic record (ID, language, regular/test type, `include_in_metrics`, status). Save a checkpoint at each stage change. Never confuse planned minutes with observed minutes. Instructions and feedback in the learner's native language; tasks in Portuguese.
+Default length: 30 minutes, customizable. Before starting, create the diagnostic record (ID, language, regular/test type, `include_in_metrics`, status). Run all stages in one go, without pauses: each stage change saves a silent checkpoint and goes straight on to the next stage in the same message (SKILL.md, Diagnostic saving). Never confuse planned minutes with observed minutes. Instructions and feedback in the learner's native language; tasks in Portuguese.
 
 1. Opening: ask in Portuguese (with support in the native language for beginners) what the learner needs the language for and confirm the variety (Brazil by default).
 2. Listening (8 min): short spoken announcements, such as «O voo para Recife está atrasado» or a hotel message. One question at a time. Without real audio, record “listening not assessed”; never replace it silently with reading.

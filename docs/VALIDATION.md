@@ -18,10 +18,11 @@ The names below are the English ones (native language `en`). With another native
 
 ## Diagnostic progress and completion
 
-1. Every diagnostic message starts with the status line (stage N of 5, stage name, bar, time left); each stage change is announced; "how much is left?" answers with the same line.
-2. At the end, only after the reread and the closing check, the message `✅ DIAGNOSTIC COMPLETED` (in the native language) appears, with "Your diagnostic was saved in the Drive!!!", the file link, the level and the next step with the complete command.
-3. With writing blocked (connector off), the end shows `⚠️ DIAGNOSTIC FINISHED, BUT NOT SAVED` and `/talkgo Save-Practice finish` (or `@TalkGo Save-Practice finish` in ChatGPT); never "saved".
-4. Every command the AI tells the learner to send, and every Help example, has the platform prefix (`/talkgo` in Claude, `@TalkGo` in ChatGPT).
+1. The diagnostic runs from stage 1 to the completion message without any pause, "let's stop here" or "shall we go on?" between stages; each stage change leads, in the same message, to the first question of the next stage.
+2. Every diagnostic message starts with the status line (stage N of 5, stage name, bar, time left); each stage change is announced; "how much is left?" answers with the same line.
+3. At the end, only after the reread and the closing check, the message `✅ DIAGNOSTIC COMPLETED` (in the native language) appears, with "Your diagnostic was saved in the Drive!!!", the file link, the level and the next step with the complete command.
+4. With writing blocked (connector off), the end shows `⚠️ DIAGNOSTIC FINISHED, BUT NOT SAVED` and `/talkgo Save-Practice finish` (or `@TalkGo Save-Practice finish` in ChatGPT); never "saved".
+5. Every command the AI tells the learner to send, and every Help example, has the platform prefix (`/talkgo` in Claude, `@TalkGo` in ChatGPT).
 
 ## Native Drive rehearsal
 
