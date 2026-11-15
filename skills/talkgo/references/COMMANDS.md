@@ -31,7 +31,7 @@ The entities form a chain: **Central → Language → Mission → Practice**. Be
 1. **Given in the command**: use it.
    A context line (`TalkGo · Central: <name> · <link or path> · ...`) in the message, in the project instructions or in the project files counts as given: open that Central, and its language and mission if the line has them. This is how a new chat finds the Central of the previous one.
 2. **A single option**: use it and say which one in the answer, without asking.
-3. **Several options**: ask, with numbered options and the default first, marked as default and preselected: the learner confirms with "ok" or "yes" (in any language), or picks another. With no default, ask without marking any.
+3. **Several options**: ask as a single choice ([CHOICES.md](CHOICES.md)), with the default first, marked as default and preselected: the learner confirms it or picks another (with a numbered list, "ok" or "yes" in any language confirms the default). With no default, ask without marking any.
 4. **No option**: route to the command that creates it (`New-Central` or `Start`, `Add-Language`, `New-Mission`).
 
 Defaults, set with `Set-Default`:

@@ -43,7 +43,7 @@ A practice has only one of these statuses, stored as a code in the practice file
 
 Never use other statuses or combinations (for example, "Completed, deleted in reset"). A practice deleted by `Reset-Practices` or `Remove-Mission` stops existing: it does not appear in `Get-Central`, in lists or practice statuses, in the progress, in summaries or in answers to questions such as "which practices did I do?". When answering about practices, use only the session files that exist in the practices folder and the Practices table of the missions; never read backups for that. If a mission still has a row pointing to a session that no longer exists, or a status outside the list above, ignore the row and remove it the next time that mission is saved. Never mention those rows to the learner: no warnings, notes, inconsistencies or explanations about deleted practices, resets or old statuses.
 
-If the message starts with a command from the table below, run the command. Otherwise, identify the intent before starting a session. A new learner, or a request such as "how do I start?", goes to `Start`. Recommend the learner to use the skill inside a project of the platform (per language or per mission, for example `English-Travel`), with a new chat for each practice and a chat of its own for setup, diagnostic, missions and follow-up ([references/START.md](references/START.md#5-projects-and-chats)). Ask one question at a time and wait for the attempt.
+If the message starts with a command from the table below, run the command. Otherwise, identify the intent before starting a session. A new learner, or a request such as "how do I start?", goes to `Start`. Recommend the learner to use the skill inside a project of the platform (per language or per mission, for example `English-Travel`), with a new chat for each practice and a chat of its own for setup, diagnostic, missions and follow-up ([references/START.md](references/START.md#7-projects-and-chats)). Ask one question at a time and wait for the attempt. Whenever a question has likely answers (yes/no, languages, storage, Central, mission, situations, length, now or later), let the learner pick from options instead of typing, with single or multiple selection and an "Other" option for free text, as in [references/CHOICES.md](references/CHOICES.md). The learner's answers in the target language during a practice or diagnostic always stay free.
 
 ## Commands
 
@@ -51,7 +51,7 @@ Every command follows `Verb-Entity` in English (`Get` shows, `New` creates, `Set
 
 **Context.** Central → Language → Mission → Practice. For each level the command uses, use what the learner gave; if there is a single option, use it; if there are several, ask with the default marked as default and preselected, so the learner only confirms or switches; if there is none, route to the command that creates it. Details and exceptions in the Context and defaults section of [references/COMMANDS.md](references/COMMANDS.md#context-and-defaults). Remove and Reset always show the preview and ask for explicit confirmation, and never make backups: no operation copies, keeps or creates backups in the Central. Backups only with `Backup-Central`, when the learner asks.
 
-Installed version: 0.21.1
+Installed version: 0.21.2
 
 `Help` (or `Help-Commands`, which also works in the middle of an activity) shows the learner the installed version (line above, as "TalkGo vX.Y.Z"), the current default context and this table, with the commands and examples in English and the descriptions in the native language, without running anything:
 
