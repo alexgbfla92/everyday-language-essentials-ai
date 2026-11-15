@@ -2,7 +2,7 @@
   "name": "talkgo",
   "displayName": "TalkGo",
   "description": "Personal language Central (English, Spanish, French) with a guided Start, diagnostic, missions with a target date, practice sessions, numbered phrases, progress and management commands, all in the learner's native language; saves to Google Drive (native Docs and Sheets) or a local folder.",
-  "version": "0.21.1",
+  "version": "0.21.2",
   "author": {
     "name": "alexgbfla92"
   },

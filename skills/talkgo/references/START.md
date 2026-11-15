@@ -5,6 +5,7 @@
 Rules for the whole wizard:
 
 - One question per message, short, in the learner's native language (from step 1 on). Show progress as "Step N of 7" in the native language.
+- Every question with likely answers is shown as options to pick (single or multiple selection, recommended first, "Other" for free text), as in [CHOICES.md](CHOICES.md). Typing is only for the Central name when the learner wants another one, the mission description in the learner's own words and answers in the target language.
 - Record the current step in `setup_step` of the learner profile as soon as the Central exists, and reread it. `Start` again (in this or another chat) resumes from the saved step instead of starting over; before the Central exists, ask whether a Central already exists and, if so, read it.
 - If the learner already has a Central with languages, missions or practices, skip what is done, say so in one line and go to the first missing step. If everything is done, go straight to step 7.
 - Never skip the confirmations of the underlying commands (the write check, the save confirmations, the Lab verification).
@@ -29,8 +30,8 @@ A new chat knows nothing about the previous one; it only finds the Central throu
 
 ## 1. Native language
 
-1. Detect the language of the learner's messages. If the learner wrote a sentence, ask in that language: "Which is your native language? I will use it for every message, folder and file of your Central. Commands stay in English." Offer it as the detected option to confirm.
-2. If the learner wrote only `Start` (or anything that does not reveal a language), ask the same question in English, Spanish, Portuguese and French in one message, one short line each.
+1. Detect the language of the learner's messages. If the learner wrote a sentence, ask in that language: "Which is your native language? I will use it for every message, folder and file of your Central. Commands stay in English." Show the options with the detected language first, marked as detected: that language · English · Español · Português · Français · Other (each label in its own language).
+2. If the learner wrote only `Start` (or anything that does not reveal a language), ask the same question in English, Spanish, Portuguese and French in one message, one short line each, with the options English · Español · Português · Français · Other ("Other" to type any other language).
 3. Never say the language was read from the browser or account settings: the skill cannot access them.
 4. Keep the answer as a language tag (`pt-BR`, `es`, `fr`, `de`, `en`, `ja`…). Folder and file names follow `assets/locales/` for `en`, `pt-BR`, `es`, `fr` and `de`; for any other language, say once that folder and file names will be in English and that everything else will be in the native language.
 5. From this answer on, speak only the native language (plus the target language inside practices).
@@ -38,24 +39,24 @@ A new chat knows nothing about the previous one; it only finds the Central throu
 ## 2. Central
 
 1. Explain in two sentences what the Central is: a folder of the learner's own that keeps diagnostics, missions, practices and progress, so any chat and any device can resume.
-2. Ask where to create it, recommending Google Drive because it works on web, desktop and phone:
+2. Ask where to create it, as a single choice with Google Drive first and marked as recommended, because it works on web, desktop and phone:
    - **Google Drive** by connector (in Claude: the Google Drive, Google Docs and Google Sheets connectors; in ChatGPT: the Google Drive app with edit permission). If the connectors are missing, say exactly which ones to turn on, and wait.
    - **Folder on the computer** (including a Google Drive or OneDrive folder synced to it), when the session can write there.
    - **Manual mode**, only if neither works.
-3. Ask for the folder (or offer to create a `TalkGo` folder in the root of the learner's Drive) and the Central name (default: the folder name).
+3. Ask for the folder as a single choice: Create a `TalkGo` folder in my Drive (recommended) · Use a folder I choose · Other. Then the Central name: Use "<folder name>" (recommended) · Other.
 4. Run `New-Central` with the native language from step 1 ([COMMANDS.md](COMMANDS.md#new-central)), then confirm with the folder link or path. Save `setup_step: languages`.
 5. Give the context line ([Linking chats](#linking-chats-handoff)) and suggest, in two short lines, creating the project now and pasting the line into its instructions, and renaming this chat `Setup` (in the native language). Save `setup_chat`. Go on without waiting if the learner prefers to do it later.
 
 ## 3. Target languages
 
-1. Ask which languages the learner wants to practice: English (American), Spanish (Spain) and French (France), one or more.
-2. Add them (`New-Central` already created the first ones; others with `Add-Language`). The first one chosen becomes the default language; if there are several, say which one is the default and that `Set-Default language` changes it.
+1. Ask which languages the learner wants to practice as a multiple choice: American English · Spanish (Spain) · French (France), labels in the native language. The set is closed (these are the supported languages): if the learner asks for another one, say it is not supported yet.
+2. Add them (`New-Central` already created the first ones; others with `Add-Language`). With one language, it is the default. With several, ask which one is the default as a single choice among them, the first chosen preselected; say that `Set-Default language` changes it later.
 3. Save `setup_step: diagnostic`.
 
 ## 4. Diagnostic
 
 1. Explain in one or two sentences that a short diagnostic (30 minutes by default, adjustable) shows the learner's level in each skill and is needed before the first mission, so missions and practices fit the learner. Say that every answer is saved in the Central as the diagnostic goes, so nothing is lost if the chat closes.
-2. Offer two options: do it now, in this chat, or in a chat of its own (recommended, named for example `English-Diagnostic`).
+2. Ask as a single choice: In a chat of its own (recommended, named for example `English-Diagnostic`) · Now, in this chat. Then the length: 30 minutes (recommended) · 15 minutes · 45 minutes · Other.
    - **In this chat:** run `Start-Diagnostic` for the default language.
    - **In another chat:** save `setup_step: diagnostic`, give the handoff message (`Start-Diagnostic <language>` plus the context line) and stop here. The diagnostic chat runs the diagnostic, saves it and continues the wizard (or sends the learner back here).
    With more than one language, do one diagnostic now and say that the others can be done later with `Start-Diagnostic <language>`.
