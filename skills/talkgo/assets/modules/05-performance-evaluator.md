@@ -1,0 +1,4 @@
+# Module 05 — Performance evaluator
+Score 0–5: comprehension, fluency, interaction, vocabulary and clarity; "not assessed" if evidence is missing. Record task success, 3 difficulties, 3 better alternatives, evidence, limitations and next task. Comment on observed reuse of the briefing without requiring specific expressions. Never invent duration, speech, score or pronunciation. FEEDBACK.
+
+This module is stage 5 of 7 of the practice, not the end. When the feedback is done, do not ask whether the learner wants to stop: announce the closing stage ("Stage 6/7 · Closing", in the learner's native language), save and confirm the write, and in the same message suggest the Entertainment Lab already saved in the session (stage 7), without any new search, after the closing check (references/ENTERTAINMENT-LAB.md). In the diagnostic, feedback is stage 4 of 5 and goes on to the closing (save and next step).

@@ -27,18 +27,18 @@ class PackagingTests(unittest.TestCase):
             self.assertEqual(meta["name"].strip(), skill.parent.name)
             self.assertRegex(meta["name"].strip(), r"^[a-z0-9]+(-[a-z0-9]+)*$")
             self.assertLessEqual(len(meta["description"].strip()), 1024)
-        self.assertFalse((ROOT / "SKILL.md").exists(), "a skill fica em skills/<nome>/, não na raiz")
+        self.assertFalse((ROOT / "SKILL.md").exists(), "the skill lives in skills/<name>/, not at the root")
 
     def test_manifests_point_to_the_same_plugin(self):
         portable = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))
         claude = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
         self.assertEqual(portable["name"], claude["name"])
-        self.assertNotIn("skills", claude, "skills/ é descoberto automaticamente")
+        self.assertNotIn("skills", claude, "skills/ is discovered automatically")
         interface = portable["extensions"]["com.openai"]["interface"]
         for field in ("displayName", "shortDescription", "category", "defaultPrompt"):
             self.assertIn(field, interface)
-        self.assertFalse((ROOT / ".claude-plugin" / "marketplace.json").exists(), "instalação só pelo .zip")
-        self.assertFalse((ROOT / ".agents").exists(), "instalação só pelo .zip")
+        self.assertFalse((ROOT / ".claude-plugin" / "marketplace.json").exists(), "install only through the .zip")
+        self.assertFalse((ROOT / ".agents").exists(), "install only through the .zip")
 
     def test_release_workflow_publishes_the_plugin_zip(self):
         workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
@@ -78,7 +78,35 @@ class PackagingTests(unittest.TestCase):
                 resolved = (path.parent / target).resolve()
                 self.assertTrue(resolved.exists(), f"{path}: {target}")
                 self.assertTrue(resolved == SKILL_DIR or SKILL_DIR in resolved.parents,
-                                f"{path}: {target} sai da pasta da skill")
+                                f"{path}: {target} leaves the skill folder")
+
+
+    def test_locale_templates_are_rendered_and_complete(self):
+        result = subprocess.run([sys.executable, "-B", str(ROOT / "tools" / "render_locales.py"), "--check"],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        locales = sorted(p.name for p in (SKILL_DIR / "assets" / "locales").iterdir())
+        self.assertEqual(locales, ["de", "en", "es", "fr", "pt-BR"])
+        keys = None
+        for code in locales:
+            data = json.loads((SKILL_DIR / "assets" / "locales" / code / "locale.json").read_text(encoding="utf-8"))
+            shape = {k: sorted(v) if isinstance(v, dict) else None for k, v in data.items()}
+            keys = keys or shape
+            self.assertEqual(shape, keys, code)
+            self.assertEqual(len(set(data["paths"].values())), len(data["paths"]), code)
+
+    def test_english_only_outside_translations(self):
+        allowed = re.compile(r"^(README-[A-Za-z-]+\.md|skills/talkgo/assets/(locales|targets)/.*)$")
+        portuguese = re.compile(r"\b(não|você|também|então|aluno|prática|missão|idioma|configuração|salvar)\b", re.I)
+        tracked = subprocess.run(["git", "-C", str(ROOT), "ls-files"], capture_output=True, text=True).stdout.split()
+        found = []
+        for name in tracked:
+            if allowed.match(name) or not name.endswith((".md", ".py", ".json", ".yml")):
+                continue
+            for number, line in enumerate((ROOT / name).read_text(encoding="utf-8").splitlines(), 1):
+                if portuguese.search(line) and "ALIASES" not in line and "portuguese = re.compile" not in line:
+                    found.append(f"{name}:{number}: {line.strip()[:80]}")
+        self.assertEqual(found, [])
 
 
 if __name__ == "__main__":

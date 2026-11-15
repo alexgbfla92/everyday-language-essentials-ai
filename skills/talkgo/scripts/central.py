@@ -1,75 +1,69 @@
-"""Gerencie as Centrais de idioma numa pasta local, sem acessar a rede.
+"""Manage TalkGo Centrals in a local folder, without network access.
 
-Comandos (a skill traduz os comandos do aluno para estes):
-  info     [--central NOME]                         Get-Central
-  create   --raiz PASTA [--nome N] [--provedor P] IDIOMA...   New-Central
-  register --raiz ID --acesso A --provedor P --nome N IDIOMA...  (central criada por conector)
-  default  [NOME]                                   Set-Default central
-  default  --idioma IDIOMA [--central NOME]          Set-Default language
-  default  --missao ID --idioma IDIOMA [--central NOME]  Set-Default mission
-  practices [IDIOMA] [--missao ID] [--status TEXTO] [--central NOME]  Get-Practices
-  remove-mission [ID] --idioma IDIOMA [--central NOME] [--confirmar ID]  Remove-Mission
-  backup   [--central NOME] [--destino PASTA]       Backup-Central (só a pedido do aluno)
-  remove   [--central NOME] [--confirmar NOME] [--somente-registro]
-                                                    Remove-Central
-  reset    {diagnostico,praticas,progresso} [IDIOMA] [--central NOME] [--confirmar]
-                                                    Reset-Diagnostics / Reset-Practices / Reset-Progress
+Commands (the skill maps the learner's commands to these):
+  info     [--central NAME]                                         Get-Central / Get-Missions
+  create   --root PATH [--name N] [--provider P] [--native CODE] LANGUAGE...   New-Central / Add-Language
+  register --root ID --access A --provider P --name N [--native CODE] LANGUAGE...  (Central created by connector)
+  default  [NAME]                                                   Set-Default central
+  default  --language LANGUAGE [--central NAME]                     Set-Default language
+  default  --mission ID --language LANGUAGE [--central NAME]        Set-Default mission
+  practices [LANGUAGE] [--mission ID] [--status CODE] [--central NAME]          Get-Practices
+  remove   [--central NAME] [--confirm NAME] [--registry-only]      Remove-Central
+  remove-mission [ID] --language LANGUAGE [--central NAME] [--confirm ID]       Remove-Mission
+  backup   [--central NAME] [--destination PATH]                    Backup-Central (only when the learner asks)
+  reset    {diagnostics,practices,progress} [LANGUAGE] [--central NAME] [--confirm]
+                                                                    Reset-Diagnostics / -Practices / -Progress
 
-Sem --confirmar, remove, remove-mission e reset só mostram a prévia. Nenhum comando faz backup
-automático nem grava cópias dentro da Central; backup só com `backup`, fora da Central.
-A saída é sempre JSON com "status": ok | previa | ambiguo | erro. Em "ambiguo", pergunte ao aluno usando "opcoes", com a
-opção "padrao" (quando houver) em primeiro lugar, marcada e já assumida.
-O registro das centrais fica em ~/.talkgo/centrais.json (ou $TALKGO_HOME, ou --registro).
+Without --confirm, remove, remove-mission and reset only return a preview. No command makes an automatic
+backup or writes copies inside a Central; backups only with `backup`, outside the Central.
+Output is always JSON with "status": ok | preview | ambiguous | error. On "ambiguous", ask the learner using
+"options", with "default" (when present) first, marked and preselected.
+Folder and file names come from each Central's talkgo.json (see layout.py).
+The registry lives in ~/.talkgo/centrals.json (or $TALKGO_HOME, or --registry).
 """
 import argparse
-import zipfile
 import json
 import os
+import re
 import shutil
 import sys
 import unicodedata
+import zipfile
 from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from provision import ASSETS, LANGUAGES, apply_local  # noqa: E402
+from layout import ASSETS, MANIFEST, TARGETS, Layout  # noqa: E402
+from provision import apply_local  # noqa: E402
 
-NAMES = {"en-US": "Inglês", "es-ES": "Espanhol", "fr-FR": "Francês"}
+NAMES = {"en-US": "English", "es-ES": "Spanish", "fr-FR": "French"}
 ALIASES = {
-    "en-US": {"en", "enus", "english", "ingles", "inglesamericano", "americanenglish"},
-    "es-ES": {"es", "eses", "spanish", "espanhol", "espanol"},
-    "fr-FR": {"fr", "frfr", "french", "frances", "francais"},
+    "en-US": {"en", "enus", "english", "ingles", "inglesamericano", "americanenglish", "anglais", "englisch"},
+    "es-ES": {"es", "eses", "spanish", "espanhol", "espanol", "espagnol", "spanisch"},
+    "fr-FR": {"fr", "frfr", "french", "frances", "francais", "franzosisch"},
 }
-ALL = {"todos", "todas", "all"}
+ALL = {"all", "todos", "todas", "tous", "alle"}
 PROVIDERS = ("local", "google-drive", "onedrive")
-ACCESS = ("pasta-local", "drive", "onedrive", "manual")
-RESETS = {
-    "diagnostico": {"remove": ("diagnosticos", "diagnostico-"),
-                    "restore": ["estado/perfil-atual.md"], "pointer": "diagnostico-"},
-    "praticas": {"remove": ("praticas", "pratica-"),
-              "restore": ["estado/contexto-recente.md"], "pointer": "pratica-"},
-    "progresso": {"remove": ("progresso/historico", ""),
-                  "restore": ["progresso/08-registro-progresso.md", "estado/perfil-atual.md",
-                              "estado/contexto-recente.md"], "pointer": None},
-}
+ACCESS = ("local-folder", "drive", "onedrive", "manual")
+RESET_KINDS = ("diagnostics", "practices", "progress")
 
 
 class Outcome(Exception):
     def __init__(self, status, message, **extra):
         super().__init__(message)
-        self.payload = {"status": status, "mensagem": message, **extra}
+        self.payload = {"status": status, "message": message, **extra}
 
 
 def fail(message, **extra):
-    raise Outcome("erro", message, **extra)
+    raise Outcome("error", message, **extra)
 
 
 def ask(message, options, **extra):
-    raise Outcome("ambiguo", message, opcoes=options, **extra)
+    raise Outcome("ambiguous", message, options=options, **extra)
 
 
 def _key(text):
-    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
+    text = unicodedata.normalize("NFKD", text or "").encode("ascii", "ignore").decode()
     return "".join(ch for ch in text.lower() if ch.isalnum())
 
 
@@ -78,24 +72,24 @@ def parse_language(text):
     for tag, aliases in ALIASES.items():
         if key == _key(tag) or key in aliases:
             return tag
-    fail(f"Idioma desconhecido: {text}.", opcoes=[NAMES[t] for t in LANGUAGES])
+    fail(f"Unknown language: {text}.", options=[NAMES[t] for t in TARGETS])
 
 
-# ---------- registro ----------
+# ---------- registry ----------
 
 def registry_path(explicit=None):
     if explicit:
         return Path(explicit).expanduser()
     home = os.environ.get("TALKGO_HOME")
-    return (Path(home).expanduser() if home else Path.home() / ".talkgo") / "centrais.json"
+    return (Path(home).expanduser() if home else Path.home() / ".talkgo") / "centrals.json"
 
 
 def load(path):
     if not path.exists():
-        return {"versao": 1, "padrao": None, "centrais": []}
+        return {"version": 1, "default": None, "centrals": []}
     data = json.loads(path.read_text(encoding="utf-8"))
-    data.setdefault("padrao", None)
-    data.setdefault("centrais", [])
+    data.setdefault("default", None)
+    data.setdefault("centrals", [])
     return data
 
 
@@ -106,115 +100,124 @@ def save(path, data):
     temp.write_text(text, encoding="utf-8")
     os.replace(temp, path)
     if path.read_text(encoding="utf-8") != text:
-        fail(f"Releitura divergente do registro {path}.")
+        fail(f"Reread mismatch in registry {path}.")
 
 
 def summary(entry, default):
-    return {"nome": entry["nome"], "provedor": entry["provedor"], "acesso": entry["acesso"],
-            "raiz": entry["raiz"], "padrao": entry["nome"] == default}
+    return {"name": entry["name"], "provider": entry["provider"], "access": entry["access"],
+            "root": entry["root"], "native_language": entry.get("native_language", "en"),
+            "default": entry["name"] == default}
 
 
 def find(data, name):
     key = _key(name)
-    for entry in data["centrais"]:
-        if _key(entry["nome"]) == key or entry["raiz"] == name:
+    for entry in data["centrals"]:
+        if _key(entry["name"]) == key or entry["root"] == name:
             return entry
     if Path(name).expanduser().exists():
         resolved = str(Path(name).expanduser().resolve())
-        for entry in data["centrais"]:
-            if entry["raiz"] == resolved:
+        for entry in data["centrals"]:
+            if entry["root"] == resolved:
                 return entry
-    fail(f"Central não encontrada: {name}.", opcoes=[e["nome"] for e in data["centrais"]])
+    fail(f"Central not found: {name}.", options=[e["name"] for e in data["centrals"]])
 
 
 def resolve(data, name, allow_default=True):
     if name:
         return find(data, name)
-    centrals = data["centrais"]
+    centrals = data["centrals"]
     if not centrals:
-        fail("Nenhuma Central registrada. Use New-Central.")
+        fail("No Central registered. Use New-Central (or Start).")
     if len(centrals) == 1:
         return centrals[0]
-    names = [e["nome"] for e in centrals]
-    default = data["padrao"] if allow_default and data["padrao"] in names else None
+    names = [e["name"] for e in centrals]
+    default = data["default"] if allow_default and data["default"] in names else None
     if default:
         names = [default] + [n for n in names if n != default]
-    ask("Há mais de uma Central. Qual delas?", names, padrao=default)
+    ask("There is more than one Central. Which one?", names, default=default)
 
 
 def local_root(entry):
-    if entry["acesso"] != "pasta-local":
-        fail(f"A Central {entry['nome']} usa {entry['acesso']}; esta operação é feita pelo conector.",
-             central=summary(entry, None))
-    return Path(entry["raiz"])
+    if entry["access"] != "local-folder":
+        fail(f"The Central {entry['name']} is on {entry['provider']}: use the connector, as the adapter says.",
+             access=entry["access"])
+    return Path(entry["root"])
 
 
-# ---------- leitura da central ----------
+# ---------- reading a Central ----------
 
-def languages_in(root):
-    return [tag for tag, folder in LANGUAGES.items() if (root / "languages" / folder).is_dir()]
+def layout_of(root):
+    try:
+        return Layout.read(root)
+    except ValueError as error:
+        fail(str(error))
 
 
-def read_field(root, field):
-    state = root / "config" / "estado-global.md"
-    if not state.is_file():
-        return None
-    for line in state.read_text(encoding="utf-8").splitlines():
+def languages_in(root, layout):
+    return [tag for tag in TARGETS if (root / layout.language(tag)).is_dir()]
+
+
+def _field_lines(path):
+    return path.read_text(encoding="utf-8").splitlines() if path.is_file() else []
+
+
+def read_field(root, layout, field):
+    for line in _field_lines(root / layout.central_state()):
         if line.startswith(f"{field}:"):
             value = line.split(":", 1)[1].split("#", 1)[0].strip()
             return None if value in ("", "null") else value
     return None
 
 
-def write_fields(root, values):
-    """Preenche campos ainda vazios (null) e une a lista de idiomas escolhidos."""
-    state = root / "config" / "estado-global.md"
-    lines = state.read_text(encoding="utf-8").splitlines()
+def write_fields(root, layout, values):
+    """Fill fields that are still empty (null) and merge the list of chosen languages."""
+    state = root / layout.central_state()
+    lines = _field_lines(state)
     changed = False
     for index, line in enumerate(lines):
         field, sep, rest = line.partition(":")
-        if not sep or field not in values:
+        if not sep or field not in values or values[field] is None:
             continue
         current = rest.split("#", 1)[0].strip()
+        comment = "  #" + rest.split("#", 1)[1] if "#" in rest else ""
         wanted = values[field]
         if isinstance(wanted, list):
             known = [t.strip() for t in current.strip("[]").split(",") if t.strip()]
             merged = known + [t for t in wanted if t not in known]
-            new = f"{field}: [{', '.join(merged)}]"
+            new = f"{field}: [{', '.join(merged)}]{comment}"
         elif current in ("", "null"):
-            new = f"{field}: {wanted}"
+            new = f"{field}: {wanted}{comment}"
         else:
             continue
         if new != line:
             lines[index] = new
             changed = True
     if changed:
-        text = "\n".join(lines) + "\n"
-        state.write_text(text, encoding="utf-8")
-        if state.read_text(encoding="utf-8") != text:
-            fail("Releitura divergente de config/estado-global.md.")
+        _write(state, "\n".join(lines) + "\n")
 
 
-def set_field(root, field, value):
-    """Grava um campo do estado global, substituindo o valor atual (cria a linha se faltar)."""
-    state = root / "config" / "estado-global.md"
-    lines = state.read_text(encoding="utf-8").splitlines()
-    new = f"{field}: {value}"
+def set_field(root, layout, field, value):
+    """Write a field of the central state, replacing its value (adds the line if missing)."""
+    state = root / layout.central_state()
+    lines = _field_lines(state)
     for index, line in enumerate(lines):
         if line.partition(":")[0] == field:
-            comment = line.split("#", 1)[1] if "#" in line else None
-            lines[index] = new + (f"  #{comment}" if comment else "")
+            comment = "  #" + line.split("#", 1)[1] if "#" in line else ""
+            lines[index] = f"{field}: {value}{comment}"
             break
     else:
-        lines.insert(next((i for i, l in enumerate(lines) if l.startswith("## ")), len(lines)), new)
-    text = "\n".join(lines) + "\n"
-    state.write_text(text, encoding="utf-8")
-    if state.read_text(encoding="utf-8") != text:
-        fail("Releitura divergente de config/estado-global.md.")
+        lines.insert(next((i for i, l in enumerate(lines) if l.startswith("## ")), len(lines)), f"{field}: {value}")
+    _write(state, "\n".join(lines) + "\n")
 
 
-def default_missions(root):
-    raw = read_field(root, "missoes_padrao") or ""
+def _write(path, text):
+    path.write_text(text, encoding="utf-8")
+    if path.read_text(encoding="utf-8") != text:
+        fail(f"Reread mismatch in {path.name}.")
+
+
+def default_missions(root, layout):
+    raw = read_field(root, layout, "default_missions") or ""
     found = {}
     for part in raw.strip("{}").split(","):
         key, sep, value = part.partition(":")
@@ -224,321 +227,318 @@ def default_missions(root):
     return found
 
 
-def set_default_mission(root, tag, mission):
-    current = default_missions(root)
-    current = {t: current.get(t) for t in LANGUAGES}
+def set_default_mission(root, layout, tag, mission):
+    current = default_missions(root, layout)
+    current = {t: current.get(t) for t in TARGETS}
     current[tag] = mission
-    set_field(root, "missoes_padrao", "{" + ", ".join(f"{t}: {current[t] or 'null'}" for t in LANGUAGES) + "}")
+    set_field(root, layout, "default_missions",
+              "{" + ", ".join(f"{t}: {current[t] or 'null'}" for t in TARGETS) + "}")
 
 
-def resolve_language(root, name, central):
-    present = languages_in(root)
+def resolve_language(root, layout, name, central):
+    present = languages_in(root, layout)
     if not present:
-        fail("A Central não tem idiomas. Use Add-Language.")
+        fail("The Central has no languages. Use Add-Language.")
     if name:
         tag = parse_language(name)
         if tag not in present:
-            fail(f"A Central {central} não tem {NAMES[tag]}.", opcoes=[NAMES[t] for t in present])
+            fail(f"The Central {central} does not have {NAMES[tag]}.", options=[NAMES[t] for t in present])
         return tag
     if len(present) == 1:
         return present[0]
-    default = read_field(root, "idioma_padrao")
+    default = read_field(root, layout, "default_language")
     options = sorted(present, key=lambda t: t != default)
-    ask("Qual idioma?", [NAMES[t] for t in options], central=central,
-        padrao=NAMES[default] if default in present else None)
+    ask("Which language?", [NAMES[t] for t in options], central=central,
+        default=NAMES[default] if default in present else None)
 
 
 def fields_of(path, keys):
     values = {}
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in _field_lines(path):
         key, sep, rest = line.partition(":")
         if sep and key.strip() in keys:
             values[key.strip()] = rest.split("#", 1)[0].strip() or None
     return values
 
 
-def practices_in(base):
+def session_pattern(layout, kind):
+    return re.compile(rf"^{re.escape(layout.prefix(kind))}-\d{{8}}-\d{{2}}$")
+
+
+def sessions(folder, layout, kind):
+    pattern = session_pattern(layout, kind)
+    if not folder.is_dir():
+        return []
+    return sorted(p for p in folder.glob("*.md") if pattern.match(p.stem))
+
+
+def practices_in(root, layout, tag):
     found = []
-    folder = base / "praticas"
-    for path in sorted(folder.glob("pratica-*.md")) if folder.is_dir() else []:
-        values = fields_of(path, ("status", "missao_id", "situacao"))
-        stamp = path.stem.split("-")[1] if path.stem.count("-") >= 2 else ""
-        date = f"{stamp[6:8]}/{stamp[4:6]}/{stamp[:4]}" if len(stamp) == 8 else None
-        found.append({"id": path.stem, "data": date, "missao_id": values.get("missao_id"),
-                      "situacao": values.get("situacao"), "status": values.get("status") or "desconhecido",
-                      "arquivo": path})
+    for path in sessions(root / layout.practices(tag), layout, "practice"):
+        values = fields_of(path, ("status", "mission_id", "situation", "current_stage"))
+        stamp = path.stem.split("-")[-2]
+        status = values.get("status") or "unknown"
+        found.append({"id": path.stem, "date": f"{stamp[6:8]}/{stamp[4:6]}/{stamp[:4]}",
+                      "mission_id": values.get("mission_id"), "situation": values.get("situation"),
+                      "stage": values.get("current_stage"), "status": status,
+                      "status_label": layout.status_label(status), "file": path})
     return found
 
 
-def count(folder, prefix):
-    if not folder.is_dir():
-        return 0
-    return sum(1 for f in folder.glob(f"{prefix}*.md") if f.is_file() and f.name != "MODELO.md")
-
-
 def missions_in(folder):
-    """Missões do idioma: id, título, data-alvo e status (campos missao_* do modelo)."""
+    """Missions of a language: id, title, target date and status (mission_* fields)."""
     missions = []
     if not folder.is_dir():
         return missions
     for path in sorted(folder.glob("*.md")):
-        if path.name == "MODELO.md":
-            continue
-        values = {}
-        for line in path.read_text(encoding="utf-8").splitlines():
-            key, sep, rest = line.partition(":")
-            if sep and key in ("missao_id", "missao_titulo", "missao_data_alvo", "missao_status"):
-                value = rest.split("#", 1)[0].strip()
-                values[key] = value or None
-        missions.append({"id": values.get("missao_id") or path.stem,
-                         "titulo": values.get("missao_titulo") or path.stem,
-                         "data_alvo": values.get("missao_data_alvo"),
-                         "status": values.get("missao_status") or "desconhecido"})
+        values = fields_of(path, ("mission_id", "mission_title", "mission_target_date", "mission_status"))
+        missions.append({"id": values.get("mission_id") or path.stem,
+                         "title": values.get("mission_title") or path.stem,
+                         "target_date": values.get("mission_target_date"),
+                         "status": values.get("mission_status") or "unknown", "file": path})
     return missions
+
+
+def _public(items):
+    return [{k: v for k, v in item.items() if k != "file"} for item in items]
 
 
 def describe(entry, default):
     info = summary(entry, default)
-    info["formato_registros"] = "nativo" if entry["acesso"] == "drive" else "markdown"
-    if entry["acesso"] != "pasta-local":
-        info["idiomas"] = [NAMES[t] for t in entry.get("idiomas", [])]
-        info["observacao"] = "Detalhes por idioma são lidos pelo conector."
+    info["record_format"] = "native" if entry["access"] == "drive" else "markdown"
+    if entry["access"] != "local-folder":
+        info["languages"] = [NAMES[t] for t in entry.get("languages", [])]
+        info["note"] = "Details per language are read through the connector."
         return info
-    root = Path(entry["raiz"])
-    if not root.is_dir():
-        info["idiomas"] = [NAMES[t] for t in entry.get("idiomas", [])]
-        info["raiz_inacessivel"] = True
+    root = Path(entry["root"])
+    if not root.is_dir() or not (root / MANIFEST).is_file():
+        info["languages"] = [NAMES[t] for t in entry.get("languages", [])]
+        info["root_unreachable"] = True
         return info
-    info["status"] = read_field(root, "status")
-    info["idiomas"] = []
-    for tag in languages_in(root):
-        base = root / "languages" / LANGUAGES[tag]
-        info["idiomas"].append({
-            "idioma": NAMES[tag], "tag": tag,
-            "diagnosticos": count(base / "diagnosticos", "diagnostico-"),
-            "praticas": count(base / "praticas", "pratica-"),
-            "padrao": tag == read_field(root, "idioma_padrao"),
-            "missoes": count(base / "missoes", ""),
-            "missao_padrao": default_missions(root).get(tag),
-            "lista_missoes": missions_in(base / "missoes"),
+    layout = Layout.read(root)
+    info["native_language"] = layout.native
+    info["status"] = read_field(root, layout, "status")
+    info["languages"] = []
+    for tag in languages_in(root, layout):
+        missions = missions_in(root / layout.missions(tag))
+        info["languages"].append({
+            "language": NAMES[tag], "tag": tag, "folder": layout.language(tag),
+            "default": tag == read_field(root, layout, "default_language"),
+            "diagnostics": len(sessions(root / layout.diagnostics(tag), layout, "diagnostic")),
+            "practices": len(sessions(root / layout.practices(tag), layout, "practice")),
+            "missions": len(missions),
+            "default_mission": default_missions(root, layout).get(tag),
+            "mission_list": [{**m, "status_label": layout.mission_status_label(m["status"])}
+                             for m in _public(missions)],
         })
     return info
 
 
-# ---------- comandos ----------
+# ---------- commands ----------
 
 def cmd_info(data, args):
     if args.central:
-        return {"status": "ok", "centrais": [describe(find(data, args.central), data["padrao"])],
-                "padrao": data["padrao"]}
-    if not data["centrais"]:
-        return {"status": "ok", "centrais": [], "padrao": None,
-                "mensagem": "Nenhuma Central registrada. Use New-Central."}
-    return {"status": "ok", "padrao": data["padrao"],
-            "centrais": [describe(e, data["padrao"]) for e in data["centrais"]]}
+        centrals = [find(data, args.central)]
+    else:
+        centrals = data["centrals"]
+    return {"status": "ok", "default": data["default"], "centrals": [describe(e, data["default"]) for e in centrals]}
 
 
 def guess_provider(root):
-    text = _key(str(root))
+    text = str(root).lower()
     if "onedrive" in text:
         return "onedrive"
-    if any(k in text for k in ("googledrive", "meudrive", "mydrive", "drivefs")):
+    if "google drive" in text or "googledrive" in text or "my drive" in text:
         return "google-drive"
     return "local"
 
 
 def _languages(values):
-    if not values:
-        ask("Quais idiomas a Central deve ter?", [NAMES[t] for t in LANGUAGES])
     tags = []
     for value in values:
-        chosen = list(LANGUAGES) if _key(value) in ALL else [parse_language(value)]
-        tags += [t for t in chosen if t not in tags]
+        for tag in (TARGETS if _key(value) in ALL else [parse_language(value)]):
+            if tag not in tags:
+                tags.append(tag)
     return tags
 
 
 def _upsert(data, entry):
-    for other in data["centrais"]:
-        same_name = _key(other["nome"]) == _key(entry["nome"])
-        same_root = other["raiz"] == entry["raiz"]
-        if same_name != same_root:
-            fail(f"Conflito com a Central {other['nome']} ({other['raiz']}). Escolha outro nome ou pasta.")
-        if same_name:
-            other["idiomas"] = sorted(set(other.get("idiomas", [])) | set(entry["idiomas"]))
-            return other, False
-    data["centrais"].append(entry)
-    if len(data["centrais"]) == 1 or not data["padrao"]:
-        data["padrao"] = entry["nome"]
+    for index, current in enumerate(data["centrals"]):
+        if current["root"] == entry["root"]:
+            merged = {**current, **{k: v for k, v in entry.items() if k not in ("name", "created_at")}}
+            data["centrals"][index] = merged
+            return merged, False
+        if _key(current["name"]) == _key(entry["name"]):
+            fail(f"There is already a Central named {current['name']} in another folder.")
+    data["centrals"].append(entry)
+    if not data["default"]:
+        data["default"] = entry["name"]
     return entry, True
 
 
 def cmd_create(data, args, path):
-    tags = _languages(args.idiomas)
-    root = Path(args.raiz).expanduser()
+    tags = _languages(args.languages)
+    root = Path(args.root).expanduser()
+    if not tags and not (root / MANIFEST).is_file():
+        ask("Which languages will the learner practice?", [NAMES[t] for t in TARGETS])
     if not root.exists():
         if not root.parent.is_dir():
-            fail(f"A pasta pai {root.parent} não existe.")
+            fail(f"The parent folder {root.parent} does not exist.")
         root.mkdir()
     root = root.resolve()
-    provider = args.provedor or guess_provider(root)
-    name = args.nome or root.name
-    result = apply_local(root, tags)
-    present = languages_in(root)
-    write_fields(root, {"nome_central": name, "provedor": provider, "armazenamento": "pasta-local",
-                        "formato_registros": "markdown",
-                        "raiz": str(root), "idiomas_escolhidos_pelo_aluno": present,
-                        "idioma_padrao": tags[0] if tags else None})
-    entry, new = _upsert(data, {"nome": name, "provedor": provider, "acesso": "pasta-local",
-                                "raiz": str(root), "idiomas": present,
-                                "criada_em": datetime.now().strftime("%Y-%m-%d")})
-    entry["idiomas"] = present
+    provider = args.provider or guess_provider(root)
+    name = args.name or root.name
+    try:
+        result = apply_local(root, tags, args.native or "en")
+    except ValueError as error:
+        fail(str(error))
+    layout = Layout.read(root)
+    present = languages_in(root, layout)
+    set_field(root, layout, "status", "configured")
+    write_fields(root, layout, {"central_name": name, "provider": provider,
+                                "storage": "local-folder", "record_format": "markdown", "root": str(root),
+                                "chosen_languages": present, "default_language": tags[0] if tags else None})
+    entry, new = _upsert(data, {"name": name, "provider": provider, "access": "local-folder",
+                                "root": str(root), "languages": present, "native_language": layout.native,
+                                "created_at": datetime.now().strftime("%Y-%m-%d")})
+    entry["languages"] = present
     save(path, data)
-    return {"status": "ok", "central": summary(entry, data["padrao"]), "nova": new,
-            "idiomas": [NAMES[t] for t in present], "criados": len(result["created"]),
-            "existentes": len(result["existing"])}
+    return {"status": "ok", "central": summary(entry, data["default"]), "new": new,
+            "languages": [NAMES[t] for t in present], "created": len(result["created"]),
+            "existing": len(result["existing"])}
 
 
 def cmd_register(data, args, path):
-    tags = _languages(args.idiomas)
-    entry, new = _upsert(data, {"nome": args.nome, "provedor": args.provedor, "acesso": args.acesso,
-                                "raiz": args.raiz, "idiomas": tags,
-                                "criada_em": datetime.now().strftime("%Y-%m-%d")})
+    tags = _languages(args.languages)
+    entry, new = _upsert(data, {"name": args.name, "provider": args.provider, "access": args.access,
+                                "root": args.root, "languages": tags, "native_language": args.native or "en",
+                                "created_at": datetime.now().strftime("%Y-%m-%d")})
     save(path, data)
-    return {"status": "ok", "central": summary(entry, data["padrao"]), "nova": new}
+    return {"status": "ok", "central": summary(entry, data["default"]), "new": new}
+
+
+def _find_mission(missions, wanted):
+    return next((m for m in missions if _key(m["id"]) == _key(wanted) or _key(m["title"]) == _key(wanted)), None)
 
 
 def cmd_default(data, args, path):
-    if args.idioma or args.missao:
+    if args.language or args.mission:
         entry = resolve(data, args.central)
         root = local_root(entry)
-        tag = resolve_language(root, args.idioma, entry["nome"])
-        if not args.missao:
-            before = read_field(root, "idioma_padrao")
-            set_field(root, "idioma_padrao", tag)
-            return {"status": "ok", "central": entry["nome"], "nivel": "language",
-                    "anterior": NAMES.get(before), "padrao": NAMES[tag]}
-        missions = {m["id"]: m for m in missions_in(root / "languages" / LANGUAGES[tag] / "missoes")}
-        wanted = next((m for m in missions.values() if _key(m["id"]) == _key(args.missao)
-                       or _key(m["titulo"]) == _key(args.missao)), None)
+        layout = layout_of(root)
+        tag = resolve_language(root, layout, args.language, entry["name"])
+        if not args.mission:
+            before = read_field(root, layout, "default_language")
+            set_field(root, layout, "default_language", tag)
+            return {"status": "ok", "central": entry["name"], "level": "language",
+                    "previous": NAMES.get(before), "default": NAMES[tag]}
+        missions = missions_in(root / layout.missions(tag))
+        wanted = _find_mission(missions, args.mission)
         if not wanted:
-            fail(f"Missão {args.missao} não encontrada em {NAMES[tag]}.", opcoes=sorted(missions))
-        before = default_missions(root).get(tag)
-        set_default_mission(root, tag, wanted["id"])
-        return {"status": "ok", "central": entry["nome"], "nivel": "mission", "idioma": NAMES[tag],
-                "anterior": before, "padrao": wanted["id"]}
-    if args.nome:
-        entry = find(data, args.nome)
-    elif len(data["centrais"]) == 1:
-        entry = data["centrais"][0]
-    elif not data["centrais"]:
-        fail("Nenhuma Central registrada. Use New-Central.")
+            fail(f"Mission {args.mission} not found in {NAMES[tag]}.", options=sorted(m["id"] for m in missions))
+        before = default_missions(root, layout).get(tag)
+        set_default_mission(root, layout, tag, wanted["id"])
+        return {"status": "ok", "central": entry["name"], "level": "mission", "language": NAMES[tag],
+                "previous": before, "default": wanted["id"]}
+    if args.name:
+        entry = find(data, args.name)
+    elif len(data["centrals"]) == 1:
+        entry = data["centrals"][0]
+    elif not data["centrals"]:
+        fail("No Central registered. Use New-Central (or Start).")
     else:
-        ask("Qual Central deve ser a padrão?", [e["nome"] for e in data["centrais"]],
-            padrao_atual=data["padrao"])
-    before = data["padrao"]
-    data["padrao"] = entry["nome"]
+        ask("Which Central should be the default?", [e["name"] for e in data["centrals"]],
+            current_default=data["default"])
+    before = data["default"]
+    data["default"] = entry["name"]
     save(path, data)
-    return {"status": "ok", "nivel": "central", "anterior": before, "padrao": entry["nome"]}
+    return {"status": "ok", "level": "central", "previous": before, "default": entry["name"]}
 
 
 def cmd_practices(data, args):
     entry = resolve(data, args.central)
     root = local_root(entry)
-    tag = resolve_language(root, args.idioma, entry["nome"])
-    base = root / "languages" / LANGUAGES[tag]
-    missions = {m["id"]: m for m in missions_in(base / "missoes")}
-    default = default_missions(root).get(tag)
+    layout = layout_of(root)
+    tag = resolve_language(root, layout, args.language, entry["name"])
+    missions = {m["id"]: m for m in _public(missions_in(root / layout.missions(tag)))}
+    default = default_missions(root, layout).get(tag)
     groups = {}
-    for practice in practices_in(base):
-        if args.missao and _key(practice["missao_id"] or "") != _key(args.missao):
+    for practice in practices_in(root, layout, tag):
+        if args.mission and _key(practice["mission_id"] or "") != _key(args.mission):
             continue
-        if args.status and _key(args.status) not in _key(practice["status"]):
+        if args.status and _key(args.status) not in (_key(practice["status"]), _key(practice["status_label"])):
             continue
-        practice = {k: v for k, v in practice.items() if k != "arquivo"}
-        groups.setdefault(practice["missao_id"], {}).setdefault(practice["status"], []).append(practice)
+        practice = {k: v for k, v in practice.items() if k != "file"}
+        groups.setdefault(practice["mission_id"], {}).setdefault(practice["status"], []).append(practice)
     order = sorted(groups, key=lambda m: (m != default, m is None, m or ""))
     result = []
     for mission_id in order:
-        info = missions.get(mission_id, {"id": mission_id, "titulo": None, "data_alvo": None, "status": None})
+        info = missions.get(mission_id, {"id": mission_id, "title": None, "target_date": None, "status": None})
         by_status = groups[mission_id]
-        statuses = sorted(by_status, key=lambda s: (s == "Concluída", s))
-        result.append({**info, "padrao": mission_id is not None and mission_id == default,
-                       "praticas": [{"status": s, "itens": by_status[s]} for s in statuses]})
-    return {"status": "ok", "central": entry["nome"], "idioma": NAMES[tag], "missoes": result,
-            "total": sum(len(i) for g in groups.values() for i in g.values())}
+        statuses = sorted(by_status, key=lambda s: (s == "completed", s))
+        result.append({**info, "default": mission_id is not None and mission_id == default,
+                       "practices": [{"status": s, "status_label": layout.status_label(s), "items": by_status[s]}
+                                     for s in statuses]})
+    return {"status": "ok", "central": entry["name"], "language": NAMES[tag], "native_language": layout.native,
+            "missions": result, "total": sum(len(i) for g in groups.values() for i in g.values())}
 
 
-def cmd_remove_mission(data, args):
-    entry = resolve(data, args.central)
-    root = local_root(entry)
-    tag = resolve_language(root, args.idioma, entry["nome"])
-    base = root / "languages" / LANGUAGES[tag]
-    missions = {m["id"]: m for m in missions_in(base / "missoes")}
-    if not missions:
-        fail(f"{NAMES[tag]} não tem missões.")
-    if not args.missao:
-        ask("Qual missão?", sorted(missions), central=entry["nome"], idioma=NAMES[tag])
-    mission = next((m for m in missions.values() if _key(m["id"]) == _key(args.missao)
-                    or _key(m["titulo"]) == _key(args.missao)), None)
-    if not mission:
-        fail(f"Missão {args.missao} não encontrada em {NAMES[tag]}.", opcoes=sorted(missions))
-    mission_file = base / "missoes" / f"{mission['id']}.md"
-    if not mission_file.is_file():
-        mission_file = next(p for p in (base / "missoes").glob("*.md") if missions_in_file(p) == mission["id"])
-    practices = [p for p in practices_in(base) if p["missao_id"] == mission["id"]]
-    ids = {p["id"] for p in practices}
-    remove = [mission_file] + [p["arquivo"] for p in practices]
-    adjust, restore = [], []
-    progress = base / "progresso" / "08-registro-progresso.md"
-    template = ASSETS / "languages" / LANGUAGES[tag] / "progresso" / "08-registro-progresso.md"
-    if ids and progress.is_file():
-        current = progress.read_text(encoding="utf-8")
-        cleaned = progress_without_practices(current, template.read_text(encoding="utf-8"), ids)
-        if cleaned != current:
-            adjust.append((progress, cleaned))
-    pointer = base / "estado" / "sessao-ativa.md"
-    if pointer.is_file() and any(i in pointer.read_text(encoding="utf-8") for i in ids):
-        restore.append((pointer, ASSETS / "languages" / LANGUAGES[tag] / "estado" / "sessao-ativa.md"))
-    rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
-    remaining = sorted(set(missions) - {mission["id"]})
-    default = default_missions(root).get(tag)
-    new_default = default if default != mission["id"] else (remaining[0] if len(remaining) == 1 else None)
-    preview = {"central": entry["nome"], "idioma": NAMES[tag], "missao": mission,
-               "remover": [rel(p) for p in remove], "ajustar": [rel(c) for c, _ in adjust],
-               "restaurar_modelo": [rel(c) for c, _ in restore], "missao_padrao_depois": new_default}
-    if _key(args.confirmar or "") != _key(mission["id"]):
-        if args.confirmar:
-            fail("A confirmação não corresponde ao missao_id.", esperado=mission["id"])
-        return {"status": "previa", **preview, "confirmacao": f"--confirmar {mission['id']}"}
-    for item in remove:
-        item.unlink()
-    for current, template_path in restore:
-        current.write_bytes(template_path.read_bytes())
-    for current, cleaned in adjust:
-        current.write_text(cleaned, encoding="utf-8")
-        if current.read_text(encoding="utf-8") != cleaned:
-            fail(f"Releitura divergente em {rel(current)}.")
-    if default != new_default:
-        set_default_mission(root, tag, new_default)
-    return {"status": "ok", **preview}
+def _check_central_root(root):
+    if root.is_symlink():
+        fail("The root is a symbolic link. Remove it by hand after checking.")
+    resolved = root.resolve()
+    package = ASSETS.parent.resolve()
+    if resolved in (Path.home().resolve(), Path(resolved.anchor)) or resolved == package \
+            or package in resolved.parents or resolved in package.parents:
+        fail(f"Refused: {resolved} cannot be used.")
+    if not (root / MANIFEST).is_file():
+        fail(f"{resolved} does not have the structure of a Central ({MANIFEST}).")
 
 
-def missions_in_file(path):
-    return fields_of(path, ("missao_id",)).get("missao_id")
+def cmd_remove(data, args, path):
+    entry = resolve(data, args.central, allow_default=False)
+    info = describe(entry, data["default"])
+    local = entry["access"] == "local-folder"
+    root = Path(entry["root"])
+    if local and root.exists() and not args.registry_only:
+        _check_central_root(root)
+        info["files"] = sum(1 for f in root.rglob("*") if f.is_file())
+    if not args.confirm:
+        steps = ("delete the folder and remove it from the registry" if local and root.exists()
+                 and not args.registry_only else "remove from the registry (the connector deletes the folder)")
+        return {"status": "preview", "action": steps, "central": info, "confirmation": f"--confirm {entry['name']}"}
+    if _key(args.confirm) != _key(entry["name"]):
+        fail("The confirmation does not match the Central name.", expected=entry["name"])
+    result = {"status": "ok", "central": entry["name"], "folder_removed": False}
+    if local and root.exists() and not args.registry_only:
+        shutil.rmtree(root)
+        if root.exists():
+            fail(f"Could not remove {root} completely.")
+        result["folder_removed"] = True
+    elif not args.registry_only and local:
+        result["note"] = "The folder no longer existed; only the registry was updated."
+    data["centrals"] = [e for e in data["centrals"] if e is not entry]
+    if data["default"] == entry["name"]:
+        data["default"] = data["centrals"][0]["name"] if len(data["centrals"]) == 1 else None
+    save(path, data)
+    result["default"] = data["default"]
+    if data["default"] is None and len(data["centrals"]) > 1:
+        result["warning"] = "There is no default Central. Use Set-Default central."
+    return result
 
 
 def cmd_backup(data, args):
-    """Copia a Central inteira para um .zip fora dela. Só roda a pedido explícito do aluno."""
+    """Copy the whole Central to a .zip outside it. Runs only when the learner asks explicitly."""
     entry = resolve(data, args.central)
     root = local_root(entry)
     if not root.is_dir():
-        fail(f"A pasta da Central não está acessível: {root}.")
+        fail(f"The Central folder is not reachable: {root}.")
     _check_central_root(root)
-    target = Path(args.destino).expanduser().resolve() if args.destino else root.resolve().parent
+    target = Path(args.destination).expanduser().resolve() if args.destination else root.resolve().parent
     if target == root.resolve() or root.resolve() in target.parents:
-        fail("O backup precisa ficar fora da Central.")
+        fail("The backup must be outside the Central.")
     if not target.is_dir():
-        fail(f"A pasta de destino não existe: {target}.")
+        fail(f"The destination folder does not exist: {target}.")
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     archive = Path(shutil.make_archive(str(target / f"{root.name}-backup-{stamp}"), "zip", root.parent, root.name))
     with zipfile.ZipFile(archive) as z:
@@ -546,60 +546,11 @@ def cmd_backup(data, args):
         copied = sum(1 for n in z.namelist() if not n.endswith("/"))
     expected = sum(1 for f in root.rglob("*") if f.is_file())
     if bad or copied != expected:
-        fail(f"Backup incompleto em {archive}: {copied} de {expected} arquivos.")
-    return {"status": "ok", "central": entry["nome"], "backup": str(archive), "arquivos": copied}
+        fail(f"Incomplete backup at {archive}: {copied} of {expected} files.")
+    return {"status": "ok", "central": entry["name"], "backup": str(archive), "files": copied}
 
 
-def _check_central_root(root):
-    if root.is_symlink():
-        fail("A raiz é um link simbólico. Remova manualmente após conferir.")
-    resolved = root.resolve()
-    package = ASSETS.parent.resolve()
-    if resolved in (Path.home().resolve(), Path(resolved.anchor)) or resolved == package \
-            or package in resolved.parents or resolved in package.parents:
-        fail(f"Recusado: {resolved} não pode ser removida.")
-    if not (root / "config" / "estado-global.md").is_file() or not (root / "languages").is_dir():
-        fail(f"{resolved} não tem a estrutura de uma Central (config/estado-global.md e languages/).")
-
-
-def cmd_remove(data, args, path):
-    entry = resolve(data, args.central, allow_default=False)
-    info = describe(entry, data["padrao"])
-    local = entry["acesso"] == "pasta-local"
-    root = Path(entry["raiz"])
-    if local and root.exists() and not args.somente_registro:
-        _check_central_root(root)
-        info["arquivos"] = sum(1 for f in root.rglob("*") if f.is_file())
-    if not args.confirmar:
-        steps = ("apagar a pasta e tirar do registro" if local and root.exists()
-                 and not args.somente_registro else "tirar do registro (a pasta é removida pelo conector)")
-        return {"status": "previa", "acao": steps, "central": info,
-                "confirmacao": f"--confirmar {entry['nome']}"}
-    if _key(args.confirmar) != _key(entry["nome"]):
-        fail("A confirmação não corresponde ao nome da Central.", esperado=entry["nome"])
-    result = {"status": "ok", "central": entry["nome"], "pasta_removida": False}
-    if local and root.exists() and not args.somente_registro:
-        shutil.rmtree(root)
-        if root.exists():
-            fail(f"Não foi possível remover {root} por completo.")
-        result["pasta_removida"] = True
-    elif not args.somente_registro and local:
-        result["observacao"] = "A pasta já não existia; só o registro foi atualizado."
-    data["centrais"] = [e for e in data["centrais"] if e is not entry]
-    if data["padrao"] == entry["nome"]:
-        data["padrao"] = data["centrais"][0]["nome"] if len(data["centrais"]) == 1 else None
-    save(path, data)
-    result["padrao"] = data["padrao"]
-    if data["padrao"] is None and len(data["centrais"]) > 1:
-        result["aviso"] = "Não há Central padrão. Use Set-Default central."
-    return result
-
-
-PRACTICE_TABLE_HEADS = {"session id", "identificador", "identifiant"}
-COUNT_ROWS = {"completed regular practices", "prácticas regulares completadas", "pratiques régulières terminées"}
-PRACTICE_SUMMARY_ROWS = {"completed regular practices", "actual observed duration", "prácticas regulares completadas",
-                         "duración real acumulada", "pratiques régulières terminées", "durée réelle cumulée"}
-
+# ---------- removing records ----------
 
 def _cells(line):
     return [c.strip() for c in line.strip().strip("|").split("|")]
@@ -609,209 +560,225 @@ def _is_row(line):
     return line.lstrip().startswith("|")
 
 
-def _is_separator(line):
-    return _is_row(line) and all(set(c) <= set("-: ") for c in _cells(line))
-
-
-def mission_without_practices(text):
-    """Tira da tabela Práticas da missão as linhas das sessões apagadas (todas as do idioma)."""
-    out, in_practices = [], False
-    for line in text.splitlines():
-        if not _is_row(line):
-            in_practices = False
-        elif not in_practices and _cells(line) and _cells(line)[0].lower() in ("prática", "pratica"):
-            in_practices = True
-        elif in_practices and not _is_separator(line):
-            continue
-        out.append(line)
+def without_session_rows(text, pattern, ids=None):
+    """Remove table rows whose first cell is a session ID (all of them, or only `ids`)."""
+    out = [line for line in text.splitlines()
+           if not (_is_row(line) and pattern.match(_cells(line)[0])
+                   and (ids is None or _cells(line)[0] in ids))]
     return "\n".join(out) + ("\n" if text.endswith("\n") else "")
 
 
-def progress_without_practices(text, template, ids=None):
-    """Tira do registro 08 as linhas das práticas (todas, ou só as de `ids`). Sem nenhuma prática
-    restante, devolve ao modelo o total de práticas e a duração real; senão, recalcula o total."""
-    model = {_cells(l)[0].lower(): l for l in template.splitlines() if _is_row(l) and len(_cells(l)) == 2}
-    kept, in_practices, remaining = [], False, 0
-    for line in text.splitlines():
-        if not _is_row(line):
-            in_practices = False
-        elif _cells(line)[0].lower() in PRACTICE_TABLE_HEADS:
-            in_practices = True
-        elif in_practices and not _is_separator(line):
-            if ids is None or _cells(line)[0] in ids:
-                continue
-            remaining += 1
-        kept.append(line)
+def progress_without_practices(text, template, layout, ids=None):
+    """Remove practice rows from the progress log. With no practice left, the completed-practices and
+    observed-duration rows go back to the template; otherwise the completed count is recomputed."""
+    pattern = session_pattern(layout, "practice")
+    cleaned = without_session_rows(text, pattern, ids)
+    remaining = sum(1 for line in cleaned.splitlines() if _is_row(line) and pattern.match(_cells(line)[0]))
+    labels = layout.m["labels"]
+    model = {_cells(l)[0]: l for l in template.splitlines() if _is_row(l) and len(_cells(l)) == 2}
     out = []
-    for line in kept:
-        label = _cells(line)[0].lower() if _is_row(line) else ""
-        if label in PRACTICE_SUMMARY_ROWS and label in model:
+    for line in cleaned.splitlines():
+        label = _cells(line)[0] if _is_row(line) else ""
+        if label in (labels["completed_practices"], labels["observed_duration"]) and label in model:
             if remaining == 0:
                 line = model[label]
-            elif label in COUNT_ROWS:
-                line = f"| {_cells(line)[0]} | {remaining} |"
+            elif label == labels["completed_practices"]:
+                line = f"| {label} | {remaining} |"
         out.append(line)
-    return "\n".join(out) + ("\n" if text.endswith("\n") else "")
+    return "\n".join(out) + ("\n" if cleaned.endswith("\n") else "")
 
 
-def _reset_scope(root, kind, tags):
-    spec = RESETS[kind]
+def _reset_scope(root, layout, kind, tags):
     remove, restore, warnings, adjust = [], [], [], []
     for tag in tags:
-        folder = LANGUAGES[tag]
-        base = root / "languages" / folder
-        sub, prefix = spec["remove"]
-        target = base / sub
-        if target.is_dir():
-            for item in sorted(target.rglob("*")):
-                if item.is_file() and item.name.startswith(prefix) and item.name not in ("MODELO.md", "README.md") \
-                        and (kind == "progresso" or item.parent == target):
-                    remove.append(item)
-        candidates = list(spec["restore"])
-        pointer = base / "estado" / "sessao-ativa.md"
-        if spec["pointer"] and pointer.is_file() and spec["pointer"] in pointer.read_text(encoding="utf-8"):
-            candidates.append("estado/sessao-ativa.md")
-        for relative in candidates:
-            current = base / relative
-            template = ASSETS / "languages" / folder / relative
-            if not current.is_file() or current.read_bytes() != template.read_bytes():
-                restore.append((current, template))
-        progress = base / "progresso" / "08-registro-progresso.md"
-        template = ASSETS / "languages" / folder / "progresso" / "08-registro-progresso.md"
-        if kind == "praticas" and remove:
+        if kind == "diagnostics":
+            remove += sessions(root / layout.diagnostics(tag), layout, "diagnostic")
+            candidates = [(layout.current_profile(tag), "current-profile")]
+            pointer_prefix = layout.prefix("diagnostic") + "-"
+        elif kind == "practices":
+            remove += sessions(root / layout.practices(tag), layout, "practice")
+            candidates = [(layout.recent_context(tag), "recent-context")]
+            pointer_prefix = layout.prefix("practice") + "-"
+        else:
+            history = root / layout.history(tag)
+            readme = root / layout.history_readme(tag)
+            remove += sorted(p for p in history.rglob("*") if p.is_file() and p != readme) if history.is_dir() else []
+            candidates = [(layout.progress_log(tag), "progress-log"), (layout.current_profile(tag), "current-profile"),
+                          (layout.recent_context(tag), "recent-context")]
+            pointer_prefix = None
+        pointer = root / layout.active_session(tag)
+        if pointer_prefix and pointer.is_file() and pointer_prefix in pointer.read_text(encoding="utf-8"):
+            candidates.append((layout.active_session(tag), "active-session"))
+        for relative, template in candidates:
+            current = root / relative
+            text = layout.render(template, tag)
+            if not current.is_file() or current.read_text(encoding="utf-8") != text:
+                restore.append((current, text))
+        progress = root / layout.progress_log(tag)
+        if kind == "practices" and remove:
             if progress.is_file():
                 current = progress.read_text(encoding="utf-8")
-                cleaned = progress_without_practices(current, template.read_text(encoding="utf-8"))
+                cleaned = progress_without_practices(current, layout.render("progress-log", tag), layout)
                 if cleaned != current:
                     adjust.append((progress, cleaned))
-            missions = base / "missoes"
-            for mission in sorted(missions.glob("*.md")) if missions.is_dir() else []:
-                if mission.name in ("MODELO.md", "README.md"):
-                    continue
-                current = mission.read_text(encoding="utf-8")
-                cleaned = mission_without_practices(current)
+            pattern = session_pattern(layout, "practice")
+            for mission in missions_in(root / layout.missions(tag)):
+                current = mission["file"].read_text(encoding="utf-8")
+                cleaned = without_session_rows(current, pattern)
                 if cleaned != current:
-                    adjust.append((mission, cleaned))
-        elif kind == "diagnostico" and progress.is_file() and progress.read_bytes() != template.read_bytes():
-            warnings.append(f"O progresso de {NAMES[tag]} foi calculado com esses registros. "
-                            "Considere também Reset-Progress.")
+                    adjust.append((mission["file"], cleaned))
+        elif kind == "diagnostics" and progress.is_file() \
+                and progress.read_text(encoding="utf-8") != layout.render("progress-log", tag):
+            warnings.append(f"The {NAMES[tag]} progress was computed with these records. Consider Reset-Progress too.")
     return remove, restore, warnings, adjust
+
+
+def _apply(root, remove, restore, adjust):
+    for item in remove:
+        item.unlink()
+    for current, text in restore + adjust:
+        _write(current, text)
 
 
 def cmd_reset(data, args):
     entry = resolve(data, args.central)
     root = local_root(entry)
     if not root.is_dir():
-        fail(f"A pasta da Central não está acessível: {root}.")
-    present = languages_in(root)
-    if args.idioma:
-        tags = present if _key(args.idioma) in ALL else [parse_language(args.idioma)]
+        fail(f"The Central folder is not reachable: {root}.")
+    layout = layout_of(root)
+    present = languages_in(root, layout)
+    if args.language:
+        tags = present if _key(args.language) in ALL else [parse_language(args.language)]
         missing = [t for t in tags if t not in present]
         if missing:
-            fail(f"A Central {entry['nome']} não tem {NAMES[missing[0]]}.", opcoes=[NAMES[t] for t in present])
+            fail(f"The Central {entry['name']} does not have {NAMES[missing[0]]}.", options=[NAMES[t] for t in present])
     elif len(present) == 1:
         tags = present
     else:
-        default = read_field(root, "idioma_padrao")
+        default = read_field(root, layout, "default_language")
         options = sorted(present, key=lambda t: t != default)
-        ask("Qual idioma?", [NAMES[t] for t in options] + ["Todos"], central=entry["nome"],
-            padrao=NAMES[default] if default in present else None)
-    remove, restore, warnings, adjust = _reset_scope(root, args.tipo, tags)
+        ask("Which language?", [NAMES[t] for t in options] + ["All"], central=entry["name"],
+            default=NAMES[default] if default in present else None)
+    remove, restore, warnings, adjust = _reset_scope(root, layout, args.kind, tags)
     rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
-    preview = {"central": entry["nome"], "padrao": entry["nome"] == data["padrao"], "tipo": args.tipo,
-               "idiomas": [NAMES[t] for t in tags], "remover": [rel(p) for p in remove],
-               "restaurar_modelo": [rel(c) for c, _ in restore], "ajustar": [rel(c) for c, _ in adjust],
-               "avisos": warnings}
+    preview = {"central": entry["name"], "default": entry["name"] == data["default"], "kind": args.kind,
+               "languages": [NAMES[t] for t in tags], "remove": [rel(p) for p in remove],
+               "restore_template": [rel(c) for c, _ in restore], "adjust": [rel(c) for c, _ in adjust],
+               "warnings": warnings}
     if not remove and not restore and not adjust:
-        return {"status": "ok", **preview, "mensagem": "Nada a zerar."}
-    if not args.confirmar:
-        return {"status": "previa", **preview, "confirmacao": "--confirmar"}
-    for item in remove:
-        item.unlink()
-    for current, template in restore:
-        current.write_bytes(template.read_bytes())
-        if current.read_bytes() != template.read_bytes():
-            fail(f"Releitura divergente em {rel(current)}.")
-    for current, cleaned in adjust:
-        current.write_text(cleaned, encoding="utf-8")
-        if current.read_text(encoding="utf-8") != cleaned:
-            fail(f"Releitura divergente em {rel(current)}.")
+        return {"status": "ok", **preview, "message": "Nothing to reset."}
+    if not args.confirm:
+        return {"status": "preview", **preview, "confirmation": "--confirm"}
+    _apply(root, remove, restore, adjust)
+    return {"status": "ok", **preview}
+
+
+def cmd_remove_mission(data, args):
+    entry = resolve(data, args.central)
+    root = local_root(entry)
+    layout = layout_of(root)
+    tag = resolve_language(root, layout, args.language, entry["name"])
+    missions = missions_in(root / layout.missions(tag))
+    if not missions:
+        fail(f"{NAMES[tag]} has no missions.")
+    if not args.mission:
+        ask("Which mission?", sorted(m["id"] for m in missions), central=entry["name"], language=NAMES[tag])
+    mission = _find_mission(missions, args.mission)
+    if not mission:
+        fail(f"Mission {args.mission} not found in {NAMES[tag]}.", options=sorted(m["id"] for m in missions))
+    practices = [p for p in practices_in(root, layout, tag) if p["mission_id"] == mission["id"]]
+    ids = {p["id"] for p in practices}
+    remove = [mission["file"]] + [p["file"] for p in practices]
+    adjust, restore = [], []
+    progress = root / layout.progress_log(tag)
+    if ids and progress.is_file():
+        current = progress.read_text(encoding="utf-8")
+        cleaned = progress_without_practices(current, layout.render("progress-log", tag), layout, ids)
+        if cleaned != current:
+            adjust.append((progress, cleaned))
+    pointer = root / layout.active_session(tag)
+    if pointer.is_file() and any(i in pointer.read_text(encoding="utf-8") for i in ids):
+        restore.append((pointer, layout.render("active-session", tag)))
+    rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
+    remaining = sorted({m["id"] for m in missions} - {mission["id"]})
+    default = default_missions(root, layout).get(tag)
+    new_default = default if default != mission["id"] else (remaining[0] if len(remaining) == 1 else None)
+    preview = {"central": entry["name"], "language": NAMES[tag], "mission": _public([mission])[0],
+               "remove": [rel(p) for p in remove], "adjust": [rel(c) for c, _ in adjust],
+               "restore_template": [rel(c) for c, _ in restore], "default_mission_after": new_default}
+    if _key(args.confirm or "") != _key(mission["id"]):
+        if args.confirm:
+            fail("The confirmation does not match the mission_id.", expected=mission["id"])
+        return {"status": "preview", **preview, "confirmation": f"--confirm {mission['id']}"}
+    _apply(root, remove, restore, adjust)
+    if default != new_default:
+        set_default_mission(root, layout, tag, new_default)
     return {"status": "ok", **preview}
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--registro", help="arquivo de registro das centrais")
-    sub = parser.add_subparsers(dest="comando", required=True)
+    parser.add_argument("--registry", help="file of the Central registry")
+    sub = parser.add_subparsers(dest="command", required=True)
     p = sub.add_parser("info")
     p.add_argument("--central")
     p = sub.add_parser("create")
-    p.add_argument("--raiz", required=True)
-    p.add_argument("--nome")
-    p.add_argument("--provedor", choices=PROVIDERS)
-    p.add_argument("idiomas", nargs="*")
+    p.add_argument("--root", required=True)
+    p.add_argument("--name")
+    p.add_argument("--provider", choices=PROVIDERS)
+    p.add_argument("--native")
+    p.add_argument("languages", nargs="*")
     p = sub.add_parser("register")
-    p.add_argument("--raiz", required=True)
-    p.add_argument("--nome", required=True)
-    p.add_argument("--provedor", choices=PROVIDERS, required=True)
-    p.add_argument("--acesso", choices=ACCESS, required=True)
-    p.add_argument("idiomas", nargs="*")
+    p.add_argument("--root", required=True)
+    p.add_argument("--name", required=True)
+    p.add_argument("--provider", choices=PROVIDERS, required=True)
+    p.add_argument("--access", choices=ACCESS, required=True)
+    p.add_argument("--native")
+    p.add_argument("languages", nargs="*")
     p = sub.add_parser("default")
-    p.add_argument("nome", nargs="?")
-    p.add_argument("--idioma")
-    p.add_argument("--missao")
+    p.add_argument("name", nargs="?")
+    p.add_argument("--language")
+    p.add_argument("--mission")
     p.add_argument("--central")
     p = sub.add_parser("practices")
-    p.add_argument("idioma", nargs="?")
-    p.add_argument("--missao")
+    p.add_argument("language", nargs="?")
+    p.add_argument("--mission")
     p.add_argument("--status")
     p.add_argument("--central")
-    p = sub.add_parser("remove-mission")
-    p.add_argument("missao", nargs="?")
-    p.add_argument("--idioma")
-    p.add_argument("--central")
-    p.add_argument("--confirmar")
     p = sub.add_parser("remove")
     p.add_argument("--central")
-    p.add_argument("--confirmar")
-    p.add_argument("--somente-registro", action="store_true")
+    p.add_argument("--confirm")
+    p.add_argument("--registry-only", action="store_true")
+    p = sub.add_parser("remove-mission")
+    p.add_argument("mission", nargs="?")
+    p.add_argument("--language")
+    p.add_argument("--central")
+    p.add_argument("--confirm")
     p = sub.add_parser("backup")
     p.add_argument("--central")
-    p.add_argument("--destino")
+    p.add_argument("--destination")
     p = sub.add_parser("reset")
-    p.add_argument("tipo", choices=sorted(RESETS))
-    p.add_argument("idioma", nargs="?")
+    p.add_argument("kind", choices=RESET_KINDS)
+    p.add_argument("language", nargs="?")
     p.add_argument("--central")
-    p.add_argument("--confirmar", action="store_true")
+    p.add_argument("--confirm", action="store_true")
     args = parser.parse_args(argv)
-    path = registry_path(args.registro)
+    path = registry_path(args.registry)
+    handlers = {"info": lambda: cmd_info(data, args), "create": lambda: cmd_create(data, args, path),
+                "register": lambda: cmd_register(data, args, path), "default": lambda: cmd_default(data, args, path),
+                "practices": lambda: cmd_practices(data, args), "remove": lambda: cmd_remove(data, args, path),
+                "remove-mission": lambda: cmd_remove_mission(data, args), "backup": lambda: cmd_backup(data, args),
+                "reset": lambda: cmd_reset(data, args)}
     try:
         data = load(path)
-        if args.comando == "info":
-            result = cmd_info(data, args)
-        elif args.comando == "create":
-            result = cmd_create(data, args, path)
-        elif args.comando == "register":
-            result = cmd_register(data, args, path)
-        elif args.comando == "default":
-            result = cmd_default(data, args, path)
-        elif args.comando == "remove":
-            result = cmd_remove(data, args, path)
-        elif args.comando == "backup":
-            result = cmd_backup(data, args)
-        elif args.comando == "practices":
-            result = cmd_practices(data, args)
-        elif args.comando == "remove-mission":
-            result = cmd_remove_mission(data, args)
-        else:
-            result = cmd_reset(data, args)
+        result = handlers[args.command]()
     except ValueError as error:
-        result = {"status": "erro", "mensagem": str(error)}
+        result = {"status": "error", "message": str(error)}
     except Outcome as outcome:
         result = outcome.payload
-    result["registro"] = str(path)
+    result["registry"] = str(path)
     print(json.dumps(result, indent=2, ensure_ascii=False))
-    return {"ok": 0, "previa": 0, "ambiguo": 2}.get(result["status"], 1)
+    return {"ok": 0, "preview": 0, "ambiguous": 2}.get(result["status"], 1)
 
 
 if __name__ == "__main__":
