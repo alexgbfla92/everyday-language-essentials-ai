@@ -73,9 +73,9 @@ When starting an activity by voice, say once, in one sentence, if saving after e
 
 `Save-Practice [pause|finish|lab] [session] [range]` writes what was left pending in the same conversation (pause, end of practice or end of Lab):
 
-1. Read the session by ID and the last confirmed revision.
+1. Read the session by ID and the last confirmed revision. If the activity is a diagnostic that has no file in the Central (it was never created, or the chat ended without saving), create it now from the template, as in SKILL.md (Diagnostic saving), and fill it from this conversation.
 2. Rebuild, from the transcript of this conversation, the turns of the given range (or all after the last saved phrase): number, speaker, mode `voice`, text and evidence. Mark the learner's turns with reliability "voice transcript"; never assess pronunciation from a transcript.
-3. Run Pause-Practice, Finish-Practice or Finish-Lab from the write step, with reread and confirmation to the learner.
+3. Run Pause-Practice, Finish-Practice or Finish-Lab from the write step, with reread and confirmation to the learner (for a diagnostic, the closing of Diagnostic saving, including results and derived records).
 4. If the transcript does not have the turns (another conversation, lost transcript), say which numbers were not recorded, ask the learner to paste the excerpt, or save only the checkpoint and mark those phrases as not recovered.
 
 Without arguments, Save-Practice uses the active session and the last action requested. When resuming a session, if the conversation or the pointer show phrase numbers above the last saved one, offer Save-Practice before going on.
