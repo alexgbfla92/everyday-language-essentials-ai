@@ -6,7 +6,7 @@
 | Sprache | {{target_name}} ({{tag}}) |
 | Status | Noch keine Diagnose und keine echten Übungen erfasst |
 | Missionen | Noch keine (jede Mission hat ihr eigenes Zieldatum) |
-| Standardübung | 20 Minuten (anpassbar) |
+| Standardübung | 30 Minuten (anpassbar, bis 35) |
 | Abgeschlossene reguläre Übungen | 0 (Tests ausgenommen) |
 | Tatsächlich beobachtete Dauer | Keine beobachtet |
 | GER Hörverstehen | Nicht bewertet |

@@ -6,7 +6,7 @@
 | Langue | {{target_name}} ({{tag}}) |
 | Statut | Aucun diagnostic ni pratique réelle enregistrés pour l'instant |
 | Missions | Aucune pour l'instant (chaque mission a sa propre date cible) |
-| Pratique par défaut | 20 minutes (personnalisable) |
+| Pratique par défaut | 30 minutes (personnalisable, jusqu'à 35) |
 | Pratiques régulières terminées | 0 (tests exclus) |
 | Durée réelle observée | Aucune observée |
 | CECRL compréhension orale | Non évalué |

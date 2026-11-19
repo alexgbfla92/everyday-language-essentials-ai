@@ -35,28 +35,28 @@ Commands: `Pause-Practice` (or "pause", "stop here" in any language) and `Finish
 
 ### Pause-Practice
 
-1. Build the checkpoint: stage and block, last exchange, last phrase (F) and dialogue (D), evidence, pending work and the exact next question.
-2. Write to the session, in a single verified write: `status: paused`, checkpoint, phrases and dialogues not yet saved and the `phrase_range`.
+1. Build the checkpoint: the seven stage states and their evidence, the current stage and block, `last_activity`, `next_activity`, `pending_items` (what is left, for example "stage 4, feedback, closing, Lab"), last exchange, last phrase (F) and dialogue (D) and the exact next question.
+2. Write to the session, in a single verified write: `status: paused`, the checkpoint with `checkpoint_seq` plus one, phrases and dialogues not yet saved and the `phrase_range`. A pause never marks a pending stage as completed and never writes `status: completed`.
 3. Update the active session (paused session, file ID, next question), the practice row in the mission (status label for `paused` from `talkgo.json`) and the counters in the central state.
-4. Reread each file. Only then say, in the native language, that the practice was paused and saved, with the session ID and the next question. If any write fails, do not say it was saved: follow the no-write mode below.
+4. Reread each file. Only then say, in the native language, that the practice was paused and saved, with the session ID, the stage where it stopped and the pending items. If any write fails, do not say it was saved: follow the no-write mode below.
 
 ### Finish-Practice
 
-Finish-Practice is stage 6 (closing) and always runs at the end of the practice, even if the learner does not ask (see the roadmap in SKILL.md). The practice becomes `completed` here; in the same message as the confirmation, suggest the Entertainment Lab already prepared (stage 7).
+Finish-Practice completes the practice **after stage 7** (see the roadmap in SKILL.md). It runs by itself right after the Entertainment Lab, and also when the learner asks to finish; if any stage is still pending, it does not complete the practice: it says which stages are pending and continues from the first one (or pauses, if the learner has to leave).
 
-1. Do the agreed closing (feedback with evidence, limitations, next task).
-2. Write to the session, in a single write: last turn, closing, `status: completed`, `closing_saved_reread: yes`, `closing_next_step`, `lab_suggested_after_closing: yes`, pending phrases and dialogues.
+1. Check the record: `python scripts/practice.py finish FILE` (or the same check by hand) must pass: stages 1 to 7 `completed`, each with evidence, `lab_result` and `lab_done_at`, `closing_next_step`, and `observed_minutes` only with `observed_minutes_source` (measured, or the learner's estimate after asking; otherwise empty).
+2. Write to the session, in a single write: last turn, `status: completed`, `finished_at`, pending phrases and dialogues.
 3. Consolidate the language's derived records as in [persistence](PERSISTENCE.md#save-resume-and-repair) (progress log, current profile, recent context) and mark the practice as completed in the Practices table of the mission ([missions](MISSIONS.md#practice-status-in-the-mission)). A test practice never changes the metrics.
 4. Update the counters and, last, the active session.
-5. Reread everything and confirm, in text or voice and in the native language, that the practice was completed and saved in the Central, with the session ID, followed by the next step and the Lab suggestion.
+5. Reread everything, write `closing_saved_reread: yes`, and confirm, in text or voice and in the native language, that the practice was completed and saved in the Central, with the session ID and the next step. If a write failed, write `save_error` when possible, say that it was **not** saved and give `/talkgo Save-Practice finish`.
 
 ### Finish-Lab
 
-When the learner does the Entertainment Lab (right after the closing or later, with `Start-Lab`):
+Finish-Lab is the end of stage 7, right before Finish-Practice (or later, with `Start-Lab`, for a practice that was paused with stage 7 pending):
 
-1. Write to the Entertainment Lab section of the session, in a single write: `lab_result` (answers, task and brief feedback) and the numbered phrases and dialogues. After the reread and the confirmation to the learner, write `lab_save_confirmed: yes`. The practice status does not change (it stays `completed`), and the Lab has no status of its own. If the learner does not do the Lab, nothing is written.
+1. Write to the Entertainment Lab section of the session, in a single write: `lab_result` (answers, task and brief feedback), `lab_done_at`, `stage_7_status: completed`, `stage_7_evidence` and the numbered phrases and dialogues.
 2. Update the phrase and dialogue counters in the central state.
-3. Reread and confirm, in text or voice, that the Lab result was saved in the Central. The Lab never changes the practice metrics.
+3. Reread and go straight on to Finish-Practice. For a practice completed by an earlier version, the Lab result is saved in the same session without changing its status.
 4. With no write available, follow the section below with `Save-Practice lab`.
 
 ### No write available (voice and other cases)

@@ -31,7 +31,7 @@ Whenever a question has a set of likely answers, the learner picks from options 
 | Mission type | single | Trip · Work meetings · Event · Other |
 | Mission situations | multiple | the situations proposed for the mission · Other |
 | Target date | single | two or three suggested dates · Other |
-| Practice length and frequency | single | 20 minutes (recommended) · 10 minutes · 30 minutes · Other; Every day · 3 times a week · Weekly · Other |
+| Practice length and frequency | single | 30 minutes (recommended) · 20 minutes · 15 minutes · Other (at most 35); Every day · 3 times a week · Weekly · Other |
 | Choose a Central, language, mission, practice or session | single | the existing ones, default first · Other |
 | Situation of the next practice | single | the suggested situation (recommended) · the other situations of the mission |
 | Start stage 1 now / resume / pause | single | Start now · Later |

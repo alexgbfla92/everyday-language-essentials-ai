@@ -7,7 +7,7 @@ mission_target_date:  # DD/MM/AAAA, obrigatória: quando o aluno quer estar prep
 mission_status: active  # active | paused | completed
 mission_language:  # en-US | es-ES | fr-FR | pt-BR | zh-CN | it-IT | ja-JP | de-DE | ko-KR | hi-IN | ar
 mission_diagnostic:  # sessão de diagnóstico regular em que a missão se baseia
-mission_practice_minutes: 20
+mission_practice_minutes: 30
 mission_frequency:  # ex.: 3 práticas por semana
 mission_next_review:  # DD/MM/AAAA (padrão: a cada 14 dias)
 mission_revision: 1

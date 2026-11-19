@@ -72,7 +72,7 @@ A new chat knows nothing about the previous one; it only finds the Central throu
 
 ## 6. First practice
 
-1. Run `Start-Practice` for the new mission ([COMMANDS.md](COMMANDS.md#start-practice)): first situation, Lab prepared and verified, seven-stage summary, practice saved as prepared.
+1. Run `Start-Practice` for the new mission ([COMMANDS.md](COMMANDS.md#start-practice)): first situation, 30 minutes by default, Lab prepared with a verified duration of at most 25% of the practice, seven-stage summary (the Lab is stage 7, before the completion), practice saved as prepared.
 2. Do not start stage 1 here. Save `setup_step: projects` and go to step 7: the practice is meant to run in its own chat, opened with the handoff message (`Resume-Practice <practice ID>` plus the context line).
 
 ## 7. Projects and chats

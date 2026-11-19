@@ -110,7 +110,7 @@ De vez en cuando también puedes pedir **un nuevo diagnóstico**. Comparar tus r
 
 ## Entertainment Lab: aprender también puede ser divertido
 
-Al final de cada práctica hay un momento ligero en el **Entertainment Lab**: una invitación a ver un **vídeo corto de YouTube, con una historia o una canción**, relacionado con lo que acabas de practicar. La idea es aprovechar **los subtítulos en tu idioma nativo y en el idioma que aprendes**, cuando existan, para reconocer palabras, expresiones y estructuras en un contexto más natural.
+La última etapa de cada práctica es un momento ligero en el **Entertainment Lab**: ves un **vídeo corto de YouTube, con una historia o una canción**, relacionado con lo que acabas de practicar (como máximo un cuarto de la práctica: 7 minutos y medio en 30), y respondes algunas preguntas de comprensión. Forma parte de la práctica: la práctica se completa después de él. La idea es aprovechar **los subtítulos en tu idioma nativo y en el idioma que aprendes**, cuando existan, para reconocer palabras, expresiones y estructuras en un contexto más natural.
 
 No es otro examen ni una lista de ejercicios. Es una oportunidad de oír el idioma fuera de la simulación, notar cómo aparecen las frases en situaciones reales y, por qué no, terminar la práctica divirtiéndote. La selección de vídeos y la disponibilidad de subtítulos dependen de los contenidos y recursos accesibles en la plataforma.
 
@@ -177,7 +177,7 @@ No descomprimas el archivo: el mismo .zip sirve para Claude y para ChatGPT.
 1. Abre [claude.ai](https://claude.ai) en el navegador y ve a **Ajustes → Personalizar → Plugins**.
 2. Haz clic en **Añadir → Subir plugin** (Upload plugin) y elige `talkgo-plugin.zip`.
 3. En **Ajustes → Personalizar → Conectores**, activa **Google Drive**, **Google Docs** y **Google Sheets** (tu Central está en Google Drive).
-4. Recomendado: en **Ajustes → Funciones**, permite los dominios `youtube.com`, `www.youtube.com`, `m.youtube.com` y `youtu.be`. Así el Entertainment Lab confirma el título, el canal y la duración del vídeo en la página de YouTube; sin eso, usa el resultado de búsqueda y avisa de lo que no pudo confirmar.
+4. Recomendado: en **Ajustes → Funciones**, permite los dominios `youtube.com`, `www.youtube.com`, `m.youtube.com` y `youtu.be`. Así el Entertainment Lab confirma el título, el canal y la duración del vídeo en la página de YouTube; sin eso, solo se pueden usar vídeos cuya duración aparezca en el resultado de búsqueda.
 5. En un chat nuevo, escribe `/talkgo` y elige la skill (por ejemplo, `/talkgo Start`).
 
 ### 3. Instálalo en ChatGPT

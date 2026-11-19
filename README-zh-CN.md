@@ -110,7 +110,7 @@ TalkGo 提供了一个有力的选择：**一个由人工智能陪练、没有�
 
 ## Entertainment Lab：学习也可以很有趣
 
-每次练习结束时，**Entertainment Lab** 会带来一个轻松的时刻：邀请你观看一段与刚才练习内容相关的**简短 YouTube 视频，可能是一个故事或一首歌**。如果有**母语和目标语言的字幕**，可以借助它们在更自然的语境中识别词语、表达和结构。
+每次练习的最后一个阶段是 **Entertainment Lab** 的轻松时刻：你观看一段与刚才练习内容相关的**简短 YouTube 视频，可能是一个故事或一首歌**（最长为练习时长的四分之一：30 分钟练习中为 7 分半），并回答几个理解问题。它是练习的一部分：完成它之后练习才算完成。如果有**母语和目标语言的字幕**，可以借助它们在更自然的语境中识别词语、表达和结构。
 
 这不是又一次考试，也不是一份练习清单。这是在模拟之外聆听这门语言的机会，留意句子在真实情境中如何出现，还能在快乐中结束练习。视频的选择和字幕的可用性取决于平台上可访问的内容和功能。
 
@@ -177,7 +177,7 @@ TalkGo 通过浏览器用一个 .zip 文件安装到 Claude 和 ChatGPT。这样
 1. 在浏览器中打开 [claude.ai](https://claude.ai)，进入 **设置 → 自定义 → 插件**（Settings → Customize → Plugins）。
 2. 点击 **添加 → 上传插件**（Add → Upload plugin），选择 `talkgo-plugin.zip`。
 3. 在 **设置 → 自定义 → 连接器**（Connectors）中，开启 **Google Drive**、**Google Docs** 和 **Google Sheets**（你的 Central 位于 Google Drive）。
-4. 建议：在 **设置 → 功能**（Capabilities）中允许域名 `youtube.com`、`www.youtube.com`、`m.youtube.com` 和 `youtu.be`。这样 Entertainment Lab 可以在 YouTube 页面上确认视频的标题、频道和时长；否则它会使用搜索结果，并说明哪些信息未能确认。
+4. 建议：在 **设置 → 功能**（Capabilities）中允许域名 `youtube.com`、`www.youtube.com`、`m.youtube.com` 和 `youtu.be`。这样 Entertainment Lab 可以在 YouTube 页面上确认视频的标题、频道和时长；否则只能使用搜索结果中显示了时长的视频。
 5. 在新对话中输入 `/talkgo` 并选择该 skill（例如 `/talkgo Start`）。
 
 ### 3. 在 ChatGPT 中安装

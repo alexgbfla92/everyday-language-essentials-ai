@@ -59,6 +59,7 @@ def build_manifest(native):
                    "observed_duration": data["text"]["label_observed_duration"]},
         "status": data["status"],
         "mission_status": data["mission_status"],
+        "stage_status": data["stage_status"],
     }
 
 
@@ -145,6 +146,11 @@ class Layout:
 
     def status_label(self, code):
         return self.m["status"].get(code, code)
+
+    def stage_status_label(self, code):
+        """Label of a practice stage state; Centrals created before stage states fall back to their locale."""
+        labels = self.m.get("stage_status") or load_locale(self.m.get("locale", "en")).get("stage_status", {})
+        return labels.get(code, code)
 
     def mission_status_label(self, code):
         return self.m["mission_status"].get(code, code)

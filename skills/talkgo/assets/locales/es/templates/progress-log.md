@@ -6,7 +6,7 @@
 | Idioma | {{target_name}} ({{tag}}) |
 | Estado | Todavía no hay diagnóstico ni prácticas reales registradas |
 | Misiones | Ninguna todavía (cada misión tiene su propia fecha objetivo) |
-| Práctica predeterminada | 20 minutos (personalizable) |
+| Práctica predeterminada | 30 minutos (personalizable, hasta 35) |
 | Prácticas regulares completadas | 0 (pruebas excluidas) |
 | Duración real observada | Ninguna observada |
 | MCER comprensión oral | No evaluado |

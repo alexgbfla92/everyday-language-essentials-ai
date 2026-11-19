@@ -7,7 +7,7 @@ mission_target_date:  # DD/MM/AAAA, obligatoria: cuándo quiere estar preparado 
 mission_status: active  # active | paused | completed
 mission_language:  # en-US | es-ES | fr-FR | pt-BR | zh-CN | it-IT | ja-JP | de-DE | ko-KR | hi-IN | ar
 mission_diagnostic:  # sesión de diagnóstico regular en la que se basa la misión
-mission_practice_minutes: 20
+mission_practice_minutes: 30
 mission_frequency:  # p. ej.: 3 prácticas por semana
 mission_next_review:  # DD/MM/AAAA (por defecto: cada 14 días)
 mission_revision: 1
