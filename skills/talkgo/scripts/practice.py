@@ -32,8 +32,12 @@ DURATION_SOURCES = ("youtube_page", "browser", "search_result_with_duration")
 TRANSCRIPT = ("obtained", "captions_indicated", "unconfirmed")
 OBSERVED_SOURCES = ("measured", "learner_estimate")
 YES = ("yes",)
-# "Pending" in the roadmap table of practices written before stage states existed (all locales).
-LEGACY_PENDING = {"", "pending", "pendente", "pendiente", "à faire", "a faire", "offen", "-", "—", "no", "não", "nao"}
+# "Pending" in the roadmap table of practices written before stage states existed: the `val_pending`
+# label of every native locale, plus empty cells and dashes.
+LOCALES = Path(__file__).resolve().parents[1] / "assets" / "locales"
+LEGACY_PENDING = {"", "pending", "-", "—", "no"} | {
+    json.loads(p.read_text(encoding="utf-8"))["text"].get("val_pending", "").lower()
+    for p in LOCALES.glob("*/locale.json")}
 
 
 def fields(text):
