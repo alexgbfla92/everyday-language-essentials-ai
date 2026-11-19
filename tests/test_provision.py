@@ -48,7 +48,7 @@ class LayoutTests(unittest.TestCase):
             layout = Layout.for_native(native)
             practice = layout.render("practice", "en-US")
             for key in ("practice_id:", "mission_id:", "situation:", "status: prepared", "closing_next_step:",
-                        "lab_url:", "lab_suggested_after_closing:"):
+                        "lab_url:", "stage_7_status: pending", "lab_video_seconds:", "checkpoint_seq:"):
                 self.assertIn(key, practice, (native, key))
             mission = layout.render("mission")
             for key in ("mission_id:", "mission_title:", "mission_description:", "mission_target_date:",
@@ -291,13 +291,18 @@ class TemplateAndModuleTests(unittest.TestCase):
             self.assertIn("current_stage:  # 1–7", text, native)
             self.assertIn("## Entertainment Lab", text, native)
             self.assertIn("https://www.youtube.com/watch?v=", text, native)
-            self.assertIn("| 7 ", text, native)
-            self.assertIn("| 0 ", text, native)
+            for n in range(1, 8):
+                self.assertIn(f"stage_{n}_status: pending", text, native)
+                self.assertIn(f"stage_{n}_evidence:", text, native)
+            self.assertIn("practice_minutes: 30", text, native)
+            self.assertIn("lab_max_video_seconds: 450", text, native)
+            self.assertNotIn("| 0 ", text, native)
 
     def test_feedback_module_hands_over_to_closing_and_lab(self):
         modules = ASSETS / "modules"
         feedback = (modules / "05-performance-evaluator.md").read_text(encoding="utf-8")
         self.assertIn("Stage 6/7 · Closing", feedback)
+        self.assertIn("completed only after stage 7", feedback)
         for name in ("01-meeting-simulator.md", "02-travel-survival.md", "03-technical-communication.md",
                      "04-listening-trainer.md"):
             self.assertIn("Entertainment Lab", (modules / name).read_text(encoding="utf-8"), name)

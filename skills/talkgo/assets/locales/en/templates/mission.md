@@ -7,7 +7,7 @@ mission_target_date:  # DD/MM/YYYY, required: when the learner wants to be ready
 mission_status: active  # active | paused | completed
 mission_language:  # en-US | es-ES | fr-FR | pt-BR | zh-CN | it-IT | ja-JP | de-DE | ko-KR | hi-IN | ar
 mission_diagnostic:  # regular diagnostic session the mission is based on
-mission_practice_minutes: 20
+mission_practice_minutes: 30
 mission_frequency:  # e.g. 3 practices per week
 mission_next_review:  # DD/MM/YYYY (default: every 14 days)
 mission_revision: 1

@@ -7,7 +7,7 @@ mission_target_date:  # JJ/MM/AAAA, obligatoire : quand l'apprenant veut être p
 mission_status: active  # active | paused | completed
 mission_language:  # en-US | es-ES | fr-FR | pt-BR | zh-CN | it-IT | ja-JP | de-DE | ko-KR | hi-IN | ar
 mission_diagnostic:  # séance de diagnostic régulière sur laquelle repose la mission
-mission_practice_minutes: 20
+mission_practice_minutes: 30
 mission_frequency:  # ex. : 3 pratiques par semaine
 mission_next_review:  # JJ/MM/AAAA (par défaut : tous les 14 jours)
 mission_revision: 1

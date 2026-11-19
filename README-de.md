@@ -110,7 +110,7 @@ Von Zeit zu Zeit kannst du auch **eine neue Einstufung** anfordern. Der Vergleic
 
 ## Entertainment Lab: Lernen darf auch Spaß machen
 
-Am Ende jeder Übung wartet ein leichter Moment im **Entertainment Lab**: die Einladung, ein **kurzes YouTube-Video mit einer Geschichte oder einem Lied** anzusehen, das zu dem passt, was du gerade geübt hast. Die Idee ist, **Untertitel in deiner Muttersprache und in der Lernsprache** zu nutzen, wenn vorhanden, um Wörter, Ausdrücke und Strukturen in einem natürlicheren Kontext zu erkennen.
+Die letzte Etappe jeder Übung ist ein leichter Moment im **Entertainment Lab**: Du siehst ein **kurzes YouTube-Video mit einer Geschichte oder einem Lied**, das zu dem passt, was du gerade geübt hast (höchstens ein Viertel der Übung: 7,5 Minuten bei 30), und beantwortest ein paar Verständnisfragen. Es gehört zur Übung: Die Übung ist erst danach abgeschlossen. Die Idee ist, **Untertitel in deiner Muttersprache und in der Lernsprache** zu nutzen, wenn vorhanden, um Wörter, Ausdrücke und Strukturen in einem natürlicheren Kontext zu erkennen.
 
 Das ist keine weitere Prüfung und keine Übungsliste. Es ist eine Gelegenheit, die Sprache außerhalb der Simulation zu hören, zu bemerken, wie Sätze in echten Situationen vorkommen, und die Übung mit etwas Spaß abzuschließen. Die Auswahl der Videos und die Verfügbarkeit von Untertiteln hängen von den Inhalten und Funktionen der Plattform ab.
 
@@ -177,7 +177,7 @@ Entpacke die Datei nicht: Dieselbe .zip-Datei funktioniert für Claude und ChatG
 1. Öffne [claude.ai](https://claude.ai) im Browser und geh zu **Einstellungen → Anpassen → Plugins**.
 2. Klick auf **Hinzufügen → Plugin hochladen** (Upload plugin) und wähle `talkgo-plugin.zip`.
 3. Aktiviere unter **Einstellungen → Anpassen → Konnektoren** **Google Drive**, **Google Docs** und **Google Sheets** (deine Central liegt in Google Drive).
-4. Empfohlen: Erlaube unter **Einstellungen → Funktionen** die Domains `youtube.com`, `www.youtube.com`, `m.youtube.com` und `youtu.be`. Dann bestätigt das Entertainment Lab Titel, Kanal und Länge des Videos auf der YouTube-Seite; ohne das nutzt es das Suchergebnis und sagt, was nicht bestätigt werden konnte.
+4. Empfohlen: Erlaube unter **Einstellungen → Funktionen** die Domains `youtube.com`, `www.youtube.com`, `m.youtube.com` und `youtu.be`. Dann bestätigt das Entertainment Lab Titel, Kanal und Länge des Videos auf der YouTube-Seite; ohne das können nur Videos genutzt werden, deren Dauer ein Suchergebnis anzeigt.
 5. Tippe in einem neuen Chat `/talkgo` und wähle die Skill (zum Beispiel `/talkgo Start`).
 
 ### 3. In ChatGPT installieren

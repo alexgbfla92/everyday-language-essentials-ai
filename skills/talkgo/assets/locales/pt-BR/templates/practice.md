@@ -6,28 +6,38 @@ situation:  # situação da missão praticada nesta sessão
 language: {{tag}}
 type: regular  # regular | test
 include_in_metrics: yes  # yes | no (no para testes)
-practice_minutes: 20  # padrão 20, ou o da missão
+practice_minutes: 30  # padrão 30, no máximo 35, ou o da missão
 status: prepared  # prepared | running | paused | completed
 current_stage:  # 1–7
+checkpoint_seq: 0  # sobe a cada ponto de retomada salvo; um menor nunca sobrescreve um maior
+last_activity:  # última atividade efetivamente realizada
+next_activity:  # próxima atividade obrigatória (onde retomar)
+pending_items:  # o que falta quando pausada
 phrase_range:  # F?–F? | D?–D?
 created_at:
 started_at:
 finished_at:
-observed_minutes:
+observed_minutes:  # só medida ou confirmada pelo aluno; senão, vazio
+observed_minutes_source:  # measured | learner_estimate
 module:
 overrides:
 
-## Roteiro (a prática está concluída com as etapas 0–6 feitas; a etapa 7 é o Lab opcional, sugerido logo depois do encerramento)
-| Etapa | Feito |
-|---|---|
-| 0 Material do Lab pronto e relido antes da etapa 1 (ou o aluno aceitou começar sem o vídeo) | pendente |
-| 1 Briefing | pendente |
-| 2 Treino guiado | pendente |
-| 3 Simulação | pendente |
-| 4 Imprevisto | pendente |
-| 5 Feedback | pendente |
-| 6 Encerramento (salvo e confirmado) | pendente |
-| 7 Entertainment Lab sugerido depois do encerramento (opcional) | pendente |
+## Etapas
+Cada etapa só é concluída com evidência de execução. A prática só é concluída depois da etapa 7 e do Finish-Practice.
+stage_1_status: pending  # 1 Briefing · pending | in_progress | completed
+stage_1_evidence:
+stage_2_status: pending  # 2 Treino guiado
+stage_2_evidence:
+stage_3_status: pending  # 3 Simulação
+stage_3_evidence:
+stage_4_status: pending  # 4 Imprevisto
+stage_4_evidence:
+stage_5_status: pending  # 5 Feedback
+stage_5_evidence:
+stage_6_status: pending  # 6 Encerramento (recapitulação, frases e próximo passo)
+stage_6_evidence:
+stage_7_status: pending  # 7 Entertainment Lab (parte da prática, antes da conclusão)
+stage_7_evidence:
 
 ## Índice de frases (números F globais deste idioma; nunca reutilizados)
 | ID | Diálogo | Quem fala | Modo (texto/voz) | Frase no idioma de estudo | Confiabilidade |
@@ -42,31 +52,28 @@ overrides:
 |---|---|---|---|---|---|
 
 ## Encerramento
-Resultado, feedback com evidências, limitações, próxima tarefa e situação da atualização do progresso.
-closing_saved_reread:  # yes depois do Finish-Practice salvo e relido
+Recapitulação, feedback com evidências, limitações e próxima tarefa. A prática só é concluída depois da etapa 7 (Entertainment Lab).
 closing_next_step:
+closing_saved_reread:  # yes depois que a gravação final do Finish-Practice foi relida
+save_error:  # o que falhou ao salvar; nunca dizer que foi salvo
 
 ## Entertainment Lab
-Preparado e verificado antes da etapa 1. O Lab não tem status próprio; ele faz parte da prática.
+Preparado e verificado antes da etapa 1. O Lab é a etapa 7: parte da prática e da sua duração.
 lab_title:
-lab_channel:  # unconfirmed só com fonte search
+lab_channel:
 lab_url:  # https://www.youtube.com/watch?v=<ID>
 lab_language_variant:
-lab_practice_minutes: 20
-lab_video_minutes:  # minutos ou mm:ss; unconfirmed só com fonte search
-lab_segment:  # whole | mm:ss-mm:ss
-lab_off_range_reason:  # obrigatório se o que será assistido ficar fora de 30–50% da prática
+lab_practice_minutes: 30
+lab_max_video_seconds: 450  # 25% da prática: practice_minutes × 60 × 0,25
+lab_video_seconds:  # duração verificada, em segundos; nunca desconhecida
+lab_duration_source:  # youtube_page | browser | search_result_with_duration
 lab_transcript:  # obtained | captions_indicated | unconfirmed
 lab_practice_items:
 lab_question_1:
 lab_question_2:
 lab_question_3:
 lab_task:
-lab_verification_source:  # youtube_page | browser | search
-lab_search_evidence:  # só com fonte search: o resultado usado (link, título, canal, duração)
 lab_verified_at:  # data e hora da releitura do registro salvo
-lab_missing_reason:
-lab_missing_accepted_by_learner:  # só se o aluno aceitou começar sem o vídeo
-lab_suggested_after_closing:  # yes quando o Lab foi sugerido logo depois do encerramento
-lab_result:  # só se o aluno fizer o Lab
-lab_save_confirmed:
+lab_blocked_reason:  # só quando nenhum vídeo válido foi encontrado; a etapa 7 fica pendente
+lab_result:  # respostas, tarefa e feedback do Lab feito
+lab_done_at:

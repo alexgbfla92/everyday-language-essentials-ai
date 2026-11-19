@@ -6,7 +6,7 @@
 | Idioma | {{target_name}} ({{tag}}) |
 | Status | Ainda não há diagnóstico nem práticas reais registradas |
 | Missões | Nenhuma ainda (cada missão tem sua própria data-alvo) |
-| Prática padrão | 20 minutos (personalizável) |
+| Prática padrão | 30 minutos (personalizável, até 35) |
 | Práticas regulares concluídas | 0 (testes excluídos) |
 | Duração real observada | Nenhuma observada |
 | CEFR compreensão oral | Não avaliado |

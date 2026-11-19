@@ -7,7 +7,7 @@ mission_target_date:  # [[c_mission_target_date]]
 mission_status: active  # active | paused | completed
 mission_language:  # en-US | es-ES | fr-FR | pt-BR | zh-CN | it-IT | ja-JP | de-DE | ko-KR | hi-IN | ar
 mission_diagnostic:  # [[c_mission_diagnostic]]
-mission_practice_minutes: 20
+mission_practice_minutes: 30
 mission_frequency:  # [[c_mission_frequency]]
 mission_next_review:  # [[c_mission_next_review]]
 mission_revision: 1

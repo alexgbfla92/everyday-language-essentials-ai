@@ -6,7 +6,7 @@
 | Language | {{target_name}} ({{tag}}) |
 | Status | No diagnostic or real practices recorded yet |
 | Missions | None yet (each mission has its own target date) |
-| Default practice | 20 minutes (customizable) |
+| Default practice | 30 minutes (customizable, up to 35) |
 | Completed regular practices | 0 (tests excluded) |
 | Actual observed duration | None observed |
 | CEFR listening | Not assessed |

@@ -15,12 +15,12 @@ everyday-language-essentials-ai/
 │   │   ├── reference/             # defaults, methodology and language catalog (read from the skill)
 │   │   ├── targets/<language>/    # notes, essentials and diagnostic roadmap of each target language
 │   │   └── modules/               # teaching modules 00–07
-│   └── scripts/                   # layout.py, provision.py, central.py, lab.py, diagnostic.py, youtube.py (no network, except youtube info)
+│   └── scripts/                   # layout.py, provision.py, central.py, practice.py, lab.py, diagnostic.py, youtube.py (no network, except youtube info)
 ├── plugin.json                    # portable manifest (Agent Plugins 1.0) with OpenAI extensions
 ├── .claude-plugin/plugin.json     # plugin manifest for Claude
 ├── tools/                         # bump_version.py, build_zip.py, render_locales.py
 ├── .github/workflows/             # ci.yml (tests, versions, rendered locales) and release.yml (release with the .zip)
-├── tests/                         # layout, provisioning, commands, Lab, YouTube and packaging tests
+├── tests/                         # layout, provisioning, commands, practice methodology (scenarios A–I), YouTube and packaging tests
 ├── docs/                          # development documentation (this folder)
 └── README.md (+ README-pt-BR/es/fr/de/zh-CN), START-HERE.md, FIRST-PROMPT.md, AGENTS.md, VERSION
 ```
@@ -36,6 +36,7 @@ Everything the skill uses at run time is inside `skills/talkgo/` and only refere
 | Start | [references/START.md](../skills/talkgo/references/START.md) is the first-setup wizard: native language, Central, languages, diagnostic, first mission, first practice, then projects and chats. Its step is saved in `setup_step` of the learner profile so it can resume. |
 | Questions | [references/CHOICES.md](../skills/talkgo/references/CHOICES.md) makes every question with likely answers a choice (single or multiple, recommended first, "Other" for free text): the platform's option card when the session has one, a numbered list otherwise. Answers in the target language stay free. |
 | Missions | [references/MISSIONS.md](../skills/talkgo/references/MISSIONS.md) and the mission template define missions per language (title, description, target date, situations, status, practices and revision history), created and changed by `New-Mission` and `Set-Mission`; `Start-Practice` picks the mission and situation and records the session in the mission's Practices table. |
+| Practice | [references/ENTERTAINMENT-LAB.md](../skills/talkgo/references/ENTERTAINMENT-LAB.md) and the practice template define the seven stages with a saved state each (`stage_N_status`, `stage_N_evidence`), the checkpoint (`checkpoint_seq`, `last_activity`, `next_activity`, `pending_items`), the 30/35-minute length and the Lab video limit (`practice_minutes × 60 × 0.25`). `scripts/practice.py` checks the state and resume point, the video, the completion (`finish`), protects newer checkpoints (`newer`) and adds stage fields to older open practices (`migrate`, additive and idempotent). |
 | Phrases and voice | [references/PHRASES-AND-VOICE.md](../skills/talkgo/references/PHRASES-AND-VOICE.md) defines the global numbering of phrases (F) and dialogues (D) per language, lookup by number and saving when pausing or finishing, with Save-Practice in text when voice mode cannot write. |
 | Provisioning | `scripts/provision.py` builds the localized tree from `Layout.specification`, classifies each path (Markdown, JSON, Google Doc or Google Sheet) and computes the Drive connector operations from verified listings and tabs or, with `--local`, creates the structure directly in a local folder without overwriting. It can run again after an interruption. |
 | Persistence | [references/PERSISTENCE.md](../skills/talkgo/references/PERSISTENCE.md) defines the adapter choice, reading and updating by ID, isolation and repair of derived records. |

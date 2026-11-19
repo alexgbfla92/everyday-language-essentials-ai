@@ -64,15 +64,17 @@ In a personal rehearsal folder, note the operations and waiting time of three or
 
 ## Practice roadmap and Entertainment Lab rehearsal
 
-The mechanical check is in `skills/talkgo/scripts/lab.py` (`ready` before stage 1, `closing` before closing) and is covered by `tests/test_lab.py`. On each platform, also rehearse the behavior:
+The mechanical checks are in `skills/talkgo/scripts/practice.py` (`state`, `lab`, `video`, `finish`, `migrate`, `newer`; `lab.py ready|closing` kept for compatibility) and are covered by `tests/test_practice.py` (scenarios A–I of the official methodology). On each platform, also rehearse the behavior:
 
-1. **Video available** (also with YouTube blocked: the confirmation comes from a youtube.com search result, with `lab_verification_source: search`). Before stage 1, the session has status `prepared` and the Lab section has a link `https://www.youtube.com/watch?v=…`, length of 30–50% of the practice (or the closest, with a reason), questions, task and `lab_verified_at`; `lab.py ready` passes; the opening roadmap shows the title.
-2. **Search failure.** Without search (or without a confirmed video), the AI says what failed and asks whether the learner accepts starting without the video **before** stage 1; stage 1 starts only after the "yes", saved in `lab_missing_accepted_by_learner`.
-3. **Start in voice.** Without search and write access, the AI states the limitation, never claims anything is ready or saved and routes to `Start-Practice <language>` in text.
-4. **Resume.** When resuming a practice without the Lab material prepared, the AI prepares it (or follows the failure path) before continuing the saved stage.
-5. **Request to stop.** "I want to stop" in the middle of the practice leads to stage 6 (save, reread, next step) and stage 7 (saved material, no new search, one single question).
-6. **Lab after the closing.** The practice becomes `completed` at the closing, with `lab_suggested_after_closing: yes`, and `lab.py closing` passes before the learner answers; the same message suggests the Lab. Declining writes nothing; doing it writes only `lab_result`. No Lab status appears. `Start-Lab` opens the same material later.
-7. **Start-Practice.** With two languages in progress, it asks which one; with a paused practice in the language, it asks to finish (or resume) it first; otherwise it creates the practice, prepares and verifies the Lab, shows the seven-stage summary with the video link, saves, confirms and asks only "Shall we start with stage 1?". With a one-off length (`Start-Practice English 5min`), the summary shows 5 minutes and proportional stages, the Lab aims at 1.5–2.5 minutes and the mission default stays 20 minutes.
+1. **New practice (A).** `Start-Practice` shows seven stages with their minutes (3 · 4 · 7 · 4 · 2 · 1 · 9 in 30 minutes), all `pending`, and the Lab video with title, link and verified duration of at most 7 min 30 s. The practice is not completed at stage 6: stage 7 follows in the same message, and only after it does Finish-Practice record `completed`.
+2. **Pause and resume (B, G).** Pause at stage 4 (`Pause-Practice`): the record keeps stages 1–3 `completed`, stage 4 `in_progress` and the pending items. In another chat (and on another device), `Resume-Practice` resumes at stage 4 with the same ID, without repeating stages 1–3.
+3. **Long video (C).** A candidate of 8 minutes for a 30-minute practice is rejected and another one is searched.
+4. **Unknown duration (D).** With YouTube blocked and a search result without the duration, the video is not approved; if nothing fits, the block is told before stage 1 and recorded in `lab_blocked_reason`, and the practice is paused after stage 6 with stage 7 pending.
+5. **Premature completion (E).** Asking `Finish-Practice` at stage 5 does not record `completed`: the AI says which stages are pending and continues (or pauses).
+6. **Drive failure (F).** With the connector off in the middle of a practice, the AI says what failed and never says it was saved; it gives `Save-Practice`.
+7. **Unmeasured time (H).** At the completion, without a measurement, the AI asks the learner for an estimate of the effective time or leaves the duration empty.
+8. **Compatibility (I).** A practice created by version 0.23 (roadmap table, no stage states) is resumed at the right stage; a completed one keeps its status; `Start-Lab`, `Get-Stage`, `Get-Progress` and `Save-Practice` keep working.
+9. **Start in voice.** Without search and write access, the AI states the limitation, never claims anything is ready or saved and routes to `Start-Practice <language>` in text.
 
 ## Missions rehearsal
 
